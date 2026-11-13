@@ -27,13 +27,33 @@ flowchart TD
 
 ## 2. Step-by-Step Installation & Configuration
 
-### Step 2.1: Re-align Dnsmasq to Port 5353
+### Step 2.1: Re-align Dnsmasq to Port 5353 & Announce DHCP Option 6
+When Dnsmasq is moved off standard port 53, OpenWrt **stops advertising DHCP Option 6 (DNS server)** automatically. You must explicitly announce your router's LAN IP as Option 6 and suppress unreachable IPv6 DNS announcements if your WAN connection is IPv4-only:
+
 ```sh
 # [Router SSH]
+# 1. Re-align Dnsmasq to port 5353
 uci set dhcp.@dnsmasq[0].port='5353'
+
+# 2. Explicitly announce AdGuard Home (router LAN IP) as DHCP Option 6
+# (Replace 192.168.1.1 with your actual LAN IP, e.g. 192.168.10.1)
+uci add_list dhcp.lan.dhcp_option='6,192.168.1.1'
+uci add_list dhcp.lan.dhcp_option='3,192.168.1.1'
+
+# 3. If WAN is IPv4-only, prevent odhcpd from advertising unroutable IPv6 DNS
+uci set dhcp.lan.ra_dns='0'
+uci set dhcp.lan.dns_service='0'
+uci -q delete dhcp.lan.ra_flags
+
+# 4. Commit and restart daemons
 uci commit dhcp
 /etc/init.d/dnsmasq restart
+/etc/init.d/odhcpd restart
 ```
+
+> [!IMPORTANT]
+> **Mandatory for Apple Devices (iOS / iPadOS):**
+> Apple devices strictly enforce RFC 2131 and RFC 8106. If Option 6 is missing and IPv6 RA advertises an unreachable ULA DNS server, Apple devices will report "No Internet Connection" under **Automatic DNS**. See the comprehensive [Apple Automatic DNS Troubleshooting Guide](DNS-TROUBLESHOOTING.md) for full forensic analysis and verification steps.
 
 ### Step 2.2: Install AdGuard Home
 ```sh

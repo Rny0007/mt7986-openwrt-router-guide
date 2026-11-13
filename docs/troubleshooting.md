@@ -17,6 +17,7 @@ This guide provides diagnostic steps and verified resolutions for common issues 
 | **Local Hostnames (*.lan) Not Resolving** | AdGuard Home not forwarding `.lan` to Dnsmasq | `nslookup openwrt.lan 127.0.0.1` | Add upstream routing rule in AdGuard: `[/lan/]127.0.0.1:5353`. |
 | **5 GHz Wi-Fi Width Stuck at 80 MHz** | Missing `HE160` configuration or regulatory limit | `iwinfo phy1-ap0 info` | Set `option htmode 'HE160'` on `radio1` with compliant country code. |
 | **Wired Speed Limited to 94 Mbps** | Client PC has Fast Ethernet (100Base-TX) NIC | Check client NIC link speed in OS | Verify using a Gigabit or 2.5 Gbps Ethernet adapter and Cat6 cable. |
+| **Apple Devices (iPhone/iPad) Fail with Automatic DNS** | Dnsmasq on port 5353 omitted DHCP Option 6; dead IPv6 RDNSS broadcast | Inspect `/etc/config/dhcp` for `dhcp_option '6,...'` | Add `list dhcp_option '6,<router-ip>'` and set `ra_dns '0'`, `dns_service '0'`. See [DNS Troubleshooting Guide](DNS-TROUBLESHOOTING.md). |
 
 ---
 
@@ -37,3 +38,23 @@ If the front-panel status LED does not illuminate:
    ```
 2. Verify pin state: `gpio-524`, `525`, `526` must be claimed by `leds-gpio`.
 3. Check trigger configuration in `/etc/config/system`. Ensure that conflicting custom trigger scripts are removed and native `netdev` / `heartbeat` triggers are assigned.
+
+### Issue C: Apple Devices Fail with Automatic DNS (AdGuard Home Setup)
+When AdGuard Home runs on port 53 and Dnsmasq is moved to port 5353:
+1. Dnsmasq automatically suppresses DHCP Option 6 (DNS server) because it is no longer bound to standard port 53.
+2. Windows and Android silently tolerate this via secondary DNS fallbacks or Private DNS, but Apple iOS/iPadOS strictly fails captive portal checks (`captive.apple.com`), reporting "No Internet Connection".
+3. Furthermore, if WAN has no native IPv6 connectivity, `odhcpd`'s default IPv6 RDNSS advertisement misleads Apple clients into attempting queries across an unroutable IPv6 path.
+
+**Permanent Resolution:**
+```sh
+# [Router SSH]
+uci add_list dhcp.lan.dhcp_option='6,192.168.10.1'
+uci add_list dhcp.lan.dhcp_option='3,192.168.10.1'
+uci set dhcp.lan.ra_dns='0'
+uci set dhcp.lan.dns_service='0'
+uci -q delete dhcp.lan.ra_flags
+uci commit dhcp
+/etc/init.d/dnsmasq restart
+/etc/init.d/odhcpd restart
+```
+Read the full forensic investigation, raw wire DHCP INFORM packet analysis, and verification benchmarks in the dedicated [DNS Troubleshooting Guide](DNS-TROUBLESHOOTING.md).

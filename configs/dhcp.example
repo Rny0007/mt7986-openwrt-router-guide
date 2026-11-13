@@ -1,3 +1,6 @@
+# Example /etc/config/dhcp for MT7986 OpenWrt with AdGuard Home
+# Configured for Split-DNS: AdGuard Home on Port 53, Dnsmasq on Port 5353.
+
 config dnsmasq
 	option domainneeded '1'
 	option boguspriv '1'
@@ -13,6 +16,12 @@ config dnsmasq
 	option readethers '1'
 	option leasefile '/tmp/dhcp.leases'
 	option resolvfile '/tmp/resolv.conf.d/resolv.conf.auto'
+	option nonwildcard '1'
+	option localservice '1'
+	option ednspacket_max '1232'
+	option filter_aaaa '0'
+	option filter_a '0'
+	# Move Dnsmasq DNS to port 5353 to allow AdGuard Home to bind port 53
 	option port '5353'
 
 config dhcp 'lan'
@@ -23,9 +32,24 @@ config dhcp 'lan'
 	option dhcpv4 'server'
 	option dhcpv6 'server'
 	option ra 'server'
-	list ra_flags 'managed-config'
-	list ra_flags 'other-config'
+	option ra_slaac '1'
+	# CRITICAL: When Dnsmasq is on port 5353, it omits Option 6 by default.
+	# You MUST explicitly announce your router's LAN IP as Option 6 (DNS) and Option 3 (Router).
+	# This ensures Apple iOS/iPadOS devices under 'Automatic DNS' receive the correct DNS resolver.
+	list dhcp_option '6,192.168.10.1'
+	list dhcp_option '3,192.168.10.1'
+	# If upstream WAN is IPv4-only, suppress unreachable IPv6 DNS (RDNSS) announcements
+	option ra_dns '0'
+	option dns_service '0'
 
 config dhcp 'wan'
 	option interface 'wan'
 	option ignore '1'
+
+config odhcpd 'odhcpd'
+	option maindhcp '0'
+	option leasefile '/tmp/odhcpd.leases'
+	option leasetrigger '/usr/sbin/odhcpd-update'
+	option loglevel '4'
+	option piodir '/tmp/odhcpd-piodir'
+	option hostsdir '/tmp/hosts'

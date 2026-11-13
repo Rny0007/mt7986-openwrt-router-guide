@@ -257,10 +257,15 @@ Read complete wireless tuning steps in [Wi-Fi 6 Configuration Guide](docs/wifi-c
 
 Deploy a lightweight, high-performance privacy stack directly on the router by re-aligning DNS port bindings:
 
-1. **Move Dnsmasq to Port 5353**: Dnsmasq continues serving local DHCP leases and `.lan` hostname resolution.
+1. **Move Dnsmasq to Port 5353 & Announce DHCP Option 6**: Dnsmasq continues serving local DHCP leases and `.lan` hostname resolution. Explicitly declare Option 6 (DNS) and Option 3 (Gateway) so Apple iOS/iPadOS clients under **Automatic DNS** receive the AdGuard resolver:
    ```sh
    uci set dhcp.@dnsmasq[0].port='5353'
-   uci commit dhcp && /etc/init.d/dnsmasq restart
+   uci add_list dhcp.lan.dhcp_option='6,192.168.10.1'
+   uci add_list dhcp.lan.dhcp_option='3,192.168.10.1'
+   uci set dhcp.lan.ra_dns='0'
+   uci set dhcp.lan.dns_service='0'
+   uci -q delete dhcp.lan.ra_flags
+   uci commit dhcp && /etc/init.d/dnsmasq restart && /etc/init.d/odhcpd restart
    ```
 2. **Install AdGuard Home**:
    ```sh
@@ -279,6 +284,9 @@ Deploy a lightweight, high-performance privacy stack directly on the router by r
    https://149.112.112.112/dns-query
    ```
 6. **Enable DNSSEC**: Authenticate cryptographic DNS signatures to prevent spoofing.
+
+> [!TIP]
+> **Apple Automatic DNS Note:** If iPhone or iPad devices display "No Internet Connection" while Windows/Android work, Dnsmasq is omitting DHCP Option 6. See the full forensic analysis and fix in [DNS Troubleshooting Guide](docs/DNS-TROUBLESHOOTING.md).
 
 Detailed walkthroughs and rule configurations are in [AdGuard Home Guide](docs/adguard-home.md) and [DNS-over-HTTPS Guide](docs/dns-over-https.md).
 
@@ -393,6 +401,7 @@ Read complete recovery steps in [Recovery & Unbrick Guide](docs/recovery-unbrick
 | **Status LED Remains Dark** | `cat /etc/config/system` | LuCI action ordering conflict | Re-align triggers: `red` -> `none`, `blue` -> `netdev`, `green` -> `heartbeat`. |
 | **External DNS Queries Fail** | `netstat -tulpn | grep :53` | Dnsmasq and AdGuard port conflict | Re-align Dnsmasq to port 5353 (`dhcp.@dnsmasq[0].port='5353'`). |
 | **Local .lan Hostnames Fail** | `nslookup openwrt.lan 127.0.0.1` | AdGuard not routing `.lan` domain | Add upstream rule in AdGuard: `[/lan/]127.0.0.1:5353`. |
+| **Apple Devices Fail (Automatic DNS)** | Inspect `/etc/config/dhcp` | Dnsmasq on port 5353 omitted Option 6 | Add `list dhcp_option '6,<ip>'` and set `ra_dns '0'`. See [DNS Troubleshooting](docs/DNS-TROUBLESHOOTING.md). |
 
 See comprehensive diagnostic trees in [Troubleshooting Guide](docs/troubleshooting.md).
 
