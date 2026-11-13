@@ -5,6 +5,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.1] - 2026-11-13
+
+### Added
+- Comprehensive DNS troubleshooting guide (`docs/DNS-TROUBLESHOOTING.md`) documenting the Apple iOS/iPadOS Automatic DNS failure under split-DNS architectures (AdGuard Home on port 53 + Dnsmasq on port 5353).
+- Wire-level empirical verification capturing pre-fix and post-fix DHCP INFORM packets proving DHCP Option 6 delivery.
+- Updated `configs/dhcp.example` with explicit DHCP Option 6 (`6,192.168.10.1`) and Option 3 declarations alongside IPv6 RDNSS suppression (`ra_dns '0'`, `dns_service '0'`).
+
+### Fixed
+- Documented Dnsmasq port 5353 relocation behavior where DHCP Option 6 (DNS server) is omitted by default, stranding Apple clients adhering strictly to RFC 2131.
+- Documented `odhcpd` dead IPv6 DNS announcement resolution when WAN lacks native IPv6 routing.
+
 ## [1.0.0] - 2026-11-13
 
 ### Added
