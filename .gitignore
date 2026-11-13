@@ -1,0 +1,49 @@
+# Secrets, Private Keys and Credentials
+.env
+.env.*
+*.key
+*.pem
+*.p12
+*.pfx
+id_rsa*
+id_ed25519*
+authorized_keys
+secrets/
+credentials/
+
+# Backups, Firmware Images and Dumps
+backups/
+backup/
+*.tar.gz
+*.tgz
+*.bin
+*.img
+*.ubi
+*.dump
+*.dts
+*.dtb
+
+# Logs and Diagnostics
+*.log
+*.telemetry.json
+test_results/
+
+# Operating System and Editor Artifacts
+.DS_Store
+Thumbs.db
+desktop.ini
+*.swp
+*.swo
+*~
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Python Artifacts
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+venv/
+.venv/

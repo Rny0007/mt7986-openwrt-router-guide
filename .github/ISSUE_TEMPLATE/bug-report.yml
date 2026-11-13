@@ -1,0 +1,38 @@
+name: "Bug Report"
+description: "Report a factual error, broken instruction, or issue with this guide"
+title: "[Bug]: "
+labels: ["bug", "triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ### Safety Warning
+        **NEVER include passwords, tokens, SSH private keys, Wi-Fi passwords, router serial numbers, personal MAC addresses, or raw partition dumps in this issue.**
+  - type: input
+    id: router-model
+    attributes:
+      label: "Router Model & Hardware Revision"
+      placeholder: "e.g., JIDU6101 (Board: 6j01) or GL-MT6000"
+    validations:
+      required: true
+  - type: input
+    id: openwrt-version
+    attributes:
+      label: "OpenWrt Version"
+      placeholder: "e.g., OpenWrt 25.12.6"
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: "Description of the Bug"
+      description: "Explain clearly what part of the documentation is inaccurate or what failed."
+    validations:
+      required: true
+  - type: textarea
+    id: steps-to-reproduce
+    attributes:
+      label: "Steps to Reproduce"
+      description: "Describe the exact commands or LuCI steps followed."
+    validations:
+      required: true

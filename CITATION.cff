@@ -1,0 +1,18 @@
+cff-version: 1.2.0
+message: "If you use or reference this guide in your research, networking lab, or firmware projects, please cite it as below."
+authors:
+  - name: "Rny0007"
+title: "MT7986 OpenWrt Router Guide: Install & Configure OpenWrt on Filogic Wi-Fi 6 Routers"
+version: 1.0.0
+date-released: 2026-11-13
+url: "https://github.com/Rny0007/mt7986-openwrt-router-guide"
+keywords:
+  - openwrt
+  - mt7986
+  - mediatek
+  - filogic-830
+  - wifi-6
+  - jidu6101
+  - adguard-home
+  - router-firmware
+license: CC-BY-4.0

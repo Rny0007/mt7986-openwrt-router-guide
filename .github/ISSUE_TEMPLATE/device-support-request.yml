@@ -1,0 +1,38 @@
+name: "Device Support Request / Hardware Verification"
+description: "Submit hardware verification evidence or request documentation for an MT7986 router model"
+title: "[Device]: "
+labels: ["device-support", "hardware-verification"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ### Safety Warning
+        **NEVER include passwords, tokens, SSH keys, Wi-Fi credentials, serial numbers, MAC addresses, or flash dumps.**
+  - type: input
+    id: device-model
+    attributes:
+      label: "Device Manufacturer & Model"
+      placeholder: "e.g., Arcadyan JIDU6201, Acer Predator W6"
+    validations:
+      required: true
+  - type: input
+    id: soc-specs
+    attributes:
+      label: "SoC & Wireless Chipset"
+      placeholder: "e.g., MT7986A / MT7976C / MT7975N"
+    validations:
+      required: true
+  - type: input
+    id: openwrt-target
+    attributes:
+      label: "OpenWrt Target & Profile"
+      placeholder: "e.g., mediatek/filogic"
+    validations:
+      required: true
+  - type: textarea
+    id: support-status
+    attributes:
+      label: "Known Support Status & Upstream Links"
+      description: "Provide links to official OpenWrt commits, device tree sources, or commit IDs."
+    validations:
+      required: true

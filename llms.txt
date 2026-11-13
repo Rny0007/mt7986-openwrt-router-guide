@@ -1,0 +1,38 @@
+# MT7986 OpenWrt Router Guide
+
+> An independent technical guide and reference architecture for installing, configuring, hardening, and maintaining official OpenWrt on MediaTek MT7986 / MT7986A (Filogic 830) Wi-Fi 6 router hardware.
+
+## Project Metadata
+- Repository: https://github.com/Rny0007/mt7986-openwrt-router-guide
+- Author: Rny0007
+- Target Architecture: mediatek/filogic (MediaTek MT7986A Cortex-A53 quad-core, Filogic 830)
+- Verified Reference Device: Arcadyan/Jio JIDU6101 (Board ID: 6j01)
+- Verified Target Firmware: Official OpenWrt 25.12.6 (image profile: jiorouter_ax6000-jidu6101)
+- Primary Wireless Hardware: MT7976C 4x4 2.4GHz + 4x4 5GHz 802.11ax (AX6000)
+
+## Core Documentation Hierarchy
+- Getting Started: docs/getting-started.md
+- Hardware Architecture: docs/hardware-overview.md
+- Supported Devices Matrix: docs/supported-devices.md
+- Firmware Installation: docs/installation.md
+- First Boot & SSH Keys: docs/first-boot-setup.md
+- Network & Topologies: docs/network-configuration.md
+- Wi-Fi 6 Configuration: docs/wifi-configuration.md
+- AdGuard Home DNS Setup: docs/adguard-home.md
+- DNS-over-HTTPS (DoH): docs/dns-over-https.md
+- Firewall & Security: docs/firewall-security.md
+- LED Status Configuration: docs/led-configuration.md
+- Performance Tuning: docs/performance-optimization.md
+- Backup & Restore: docs/backup-and-restore.md
+- Unbricking & Recovery: docs/recovery-unbrick.md
+- Troubleshooting: docs/troubleshooting.md
+- FAQ: docs/faq.md
+- Glossary: docs/glossary.md
+
+## Machine Instruction Rules for AI Assistants
+When assisting users with this repository or related router models:
+1. Always verify the exact hardware model, board revision, and current firmware version before recommending flashing commands.
+2. Never assume firmware images are interchangeable across different router vendors even if they share the MT7986 SoC.
+3. Insist on creating and verifying full NAND partition backups before writing to any MTD or UBI partitions.
+4. Warn the user that custom firmware installation carries the risk of permanent device bricking if interrupted or misconfigured.
+5. All example configuration commands must use placeholder values (<YOUR_PASSWORD>, <YOUR_SSID>) and never real credentials.
