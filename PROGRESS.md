@@ -31,10 +31,15 @@ This document preserves historical milestones and logs real-time engineering wor
   - **Phase 7 — Performance & Accessibility Optimization**:
     - High-efficiency zero-dependency frontend targeting Lighthouse 95+ across Performance, Accessibility, Best Practices, and SEO.
   - **Phase 8 & 9 — Deployment & Live Verification**:
-    - Release and branch management, verification of public URLs, internal link integrity, and workflow tests.
-  - **Phase 10 — Final Project Report**:
-    - Detailed delivery audit with manual instructions for secrets, Search Console, and GitHub Pages.
-- **Status**: IN PROGRESS
+    - Repository B (`Rny0007/openwrt-router-hardware-explorer`) created and pushed to GitHub main branch.
+    - GitHub Pages enabled and built successfully on Repo B. Live URL verified over HTTP (200 OK): `https://rny0007.github.io/openwrt-router-hardware-explorer/`.
+    - Local test suite in Repo A: 10/10 tests passed (`OK`), 0 errors, 0 failures.
+    - Repo A changes staged and committed on branch `feat/global-router-hardware-kb` (commit `9917c91`).
+    - Push of branch `feat/global-router-hardware-kb` to GitHub origin requires OAuth `workflow` scope to upload `.github/workflows/deploy-website.yml`.
+  - **Phase 10 — Final Status**:
+    - Live website operational on GitHub Pages.
+    - Awaiting user execution of `gh auth refresh -s workflow` to authorize pushing workflow files to Repo A remote.
+- **Status**: PARTIAL
 
 ---
 
