@@ -1,0 +1,26 @@
+name: "Hardware Specification Correction"
+description: "Report an inaccurate RAM capacity, flash part number, switch IC, or SoC model in data/devices/"
+title: "[Correction]: "
+labels: ["data-correction", "schema-update"]
+body:
+  - type: input
+    id: device_id
+    attributes:
+      label: "Device ID in Knowledge Base"
+      placeholder: "e.g. jio-jidu6101"
+    validations:
+      required: true
+  - type: textarea
+    id: inaccurate_fields
+    attributes:
+      label: "Inaccurate Field(s) & Proposed Correction"
+      placeholder: "e.g. Flash capacity is listed as 128MB, but actual PCB teardown shows Winbond W25N02GV (256MB SPI-NAND)."
+    validations:
+      required: true
+  - type: textarea
+    id: photographic_or_dmesg_evidence
+    attributes:
+      label: "Verifiable Evidence"
+      description: "Link to teardown photo, FCC filing page, or sanitized dmesg output."
+    validations:
+      required: true

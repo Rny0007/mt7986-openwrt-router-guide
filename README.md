@@ -1,115 +1,172 @@
-# MT7986 OpenWrt Router Guide: Install & Configure OpenWrt on Filogic Wi-Fi 6 Routers
+# OpenWrt Router Hardware Knowledge Base & Installation Guide
 
-![AI-generated illustration of a modern Wi-Fi 6 router, MediaTek-style network chipset and connected devices.](images/hero-mt7986-openwrt.png)
+![AI-generated illustration of a modern Wi-Fi 6/7 router, network chipsets and connected devices.](images/hero-mt7986-openwrt.png)
 
-An independent, end-to-end technical reference and operational guide for installing, configuring, hardening, and maintaining official community **OpenWrt** on routers powered by the **MediaTek MT7986 / MT7986A (Filogic 830)** system-on-chip. This guide features the **Arcadyan / Jio JIDU6101** (`6j01`) and **JIDU6201** Wi-Fi 6 platforms as verified hardware reference implementations, while providing compatibility architectures for the broader MT7986 ecosystem.
+An independent, evidence-based global hardware knowledge base, multi-vendor silicon reference, and operational installation guide for **OpenWrt**-compatible routers, switches, and embedded network appliances. 
 
-[![Documentation License: CC BY 4.0](https://img.shields.io/badge/docs-CC%20BY%204.0-blue.svg)](LICENSE-DOCS.md)
-[![Code License: MIT](https://img.shields.io/badge/code-MIT-green.svg)](LICENSE)
-[![Release: v1.0.0](https://img.shields.io/badge/release-v1.0.0-cyan.svg)](https://github.com/Rny0007/mt7986-openwrt-router-guide/releases/tag/v1.0.0)
-[![Target: mediatek/filogic](https://img.shields.io/badge/OpenWrt%20Target-mediatek%2Ffilogic-orange.svg)](https://openwrt.org)
-[![Arch: aarch64_cortex-a53](https://img.shields.io/badge/CPU-Quad--Core%20ARM64-purple.svg)](docs/hardware-overview.md)
+This repository bridges deep low-level hardware architecture (MediaTek Filogic, Qualcomm IPQ, Rockchip, Realtek, Broadcom, and x86_64) with production-grade OpenWrt deployment guides, featuring the **Arcadyan / Jio JIDU6101** (`6j01`) Wi-Fi 6 router and dual-WAN automatic failover systems as verified reference implementations.
 
 ---
 
-## Support the Project
+## Repository Badges & Status
 
-> If this guide helped you liberate, configure, or optimize OpenWrt on your router, please support the project by giving this repository a ⭐ **star on GitHub**. Your support helps other network engineers, privacy advocates, and open-source enthusiasts discover this independent documentation.
+[![Live Website](https://img.shields.io/badge/Live%20Website-GitHub%20Pages-blue.svg)](https://rny0007.github.io/openwrt-router-hardware-explorer/)
+[![Website Repo](https://img.shields.io/badge/Website%20Repo-openwrt--router--hardware--explorer-purple.svg)](https://github.com/Rny0007/openwrt-router-hardware-explorer)
+[![Documentation License: CC BY 4.0](https://img.shields.io/badge/docs-CC%20BY%204.0-blue.svg)](LICENSE-DOCS.md)
+[![Code License: MIT](https://img.shields.io/badge/code-MIT-green.svg)](LICENSE)
+[![Release: v2.0.0](https://img.shields.io/badge/release-v2.0.0-cyan.svg)](https://github.com/Rny0007/mt7986-openwrt-router-guide/releases)
+[![Hardware Database: 18 Devices](https://img.shields.io/badge/hardware%20database-18%20devices-emerald.svg)](data/devices/)
+[![Silicon Profiles: 11 Chipsets](https://img.shields.io/badge/silicon%20profiles-11%20chipsets-purple.svg)](data/chipsets/)
+[![OpenWrt Targets: Multi--Arch](https://img.shields.io/badge/OpenWrt%20Targets-Filogic%20%7C%20IPQ%20%7C%20Rockchip%20%7C%20x86-orange.svg)](https://openwrt.org)
+[![Data Validation: Passing](https://img.shields.io/badge/CI%20data%20validation-passing-brightgreen.svg)](tests/)
+
+---
+
+## 🌐 Public Website & Interactive Explorer
+
+This project powers a dedicated public technical website and client-side device explorer:
+
+- 🌐 **Live Website:** [https://rny0007.github.io/openwrt-router-hardware-explorer/](https://rny0007.github.io/openwrt-router-hardware-explorer/)
+- 📦 **Website Repository:** [Rny0007/openwrt-router-hardware-explorer](https://github.com/Rny0007/openwrt-router-hardware-explorer)
+- ⚡ **Local Standalone Explorer:** Open [`explorer/index.html`](explorer/index.html) directly in any browser with zero dependencies.
+
+### Dual-Repository Architecture
+1. **Repository A (This Repository — Complete Source of Truth):** Contains all schemas, raw JSON device and chipset records, unbricking guides, recovery trees, and GitHub Actions CI pipelines.
+2. **Repository B (`openwrt-router-hardware-explorer`):** Hosts the static website build output published automatically via GitHub Actions upon validated merges into `main`.
+
+- **Live Faceted Search:** Filter across 18+ verified router models by vendor, SoC family, Wi-Fi standard, and official support status.
+- **Side-by-Side Comparison:** Compare up to 3 routers simultaneously across RAM, storage, Ethernet ports, switch architecture, and recovery methods.
+- **Hardware & Recovery Modals:** Inspect direct FCC teardown links, upstream OpenWrt target profiles, serial UART baud rates, and default bootloader IPs.
+- **How to Use:** Open [`explorer/index.html`](explorer/index.html) directly in any modern desktop or mobile web browser. No web server, node, or build process required.
 
 ---
 
 ## Table of Contents
 
-- [Quick Facts](#quick-facts)
-- [Supported Devices Matrix](#supported-devices-matrix)
-- [Hardware Architecture Overview](#hardware-architecture-overview)
+- [Supported Silicon Architecture Matrix](#supported-silicon-architecture-matrix)
+- [Multi-Vendor Device Catalog](#multi-vendor-device-catalog)
+- [Reference Implementation: Arcadyan / Jio JIDU6101](#reference-implementation-arcadyan--jio-jidu6101)
+- [Production Architecture: Dual-WAN Automatic Failover](#production-architecture-dual-wan-automatic-failover)
+- [Hardware Identification & Teardown Analysis](#hardware-identification--teardown-analysis)
 - [Prerequisites & Safety Protocol](#prerequisites--safety-protocol)
 - [Mandatory Backup Before Installation](#mandatory-backup-before-installation)
 - [Two-Stage Firmware Installation](#two-stage-firmware-installation)
-- [First Boot & Initial Setup](#first-boot--initial-setup)
-- [Network Topologies: Gateway vs Repeater](#network-topologies-gateway-vs-repeater)
 - [Wi-Fi 6 Configuration (HE160 & Regulatory Domain)](#wi-fi-6-configuration-he160--regulatory-domain)
 - [AdGuard Home & DNS-over-HTTPS (DoH)](#adguard-home--dns-over-https-doh)
 - [Firewall Hardening & Flow Offload](#firewall-hardening--flow-offload)
-- [Physical Status LED Configuration](#physical-status-led-configuration)
-- [Performance Optimization & Benchmarks](#performance-optimization--benchmarks)
-- [Disaster Recovery & Unbricking](#disaster-recovery--unbricking)
-- [Troubleshooting Table](#troubleshooting-table)
+- [Physical Status LED Automation](#physical-status-led-automation)
+- [Empirical Benchmarks & Latency Data](#empirical-benchmarks--latency-data)
+- [Disaster Recovery & Unbricking Hierarchy](#disaster-recovery--unbricking-hierarchy)
+- [Global Contributor Program & Roadmap](#global-contributor-program--roadmap)
 - [Frequently Asked Questions (FAQ)](#frequently-asked-questions-faq)
-- [Technical Glossary](#technical-glossary)
-- [Using this Repository with AI Assistants](#using-this-repository-with-ai-assistants)
-- [Contributing & Community Support](#contributing--community-support)
 - [Legal Disclaimer & Licensing](#legal-disclaimer--licensing)
 
 ---
 
-## Quick Facts
+## Supported Silicon Architecture Matrix
 
-| Property | Specification / Guidance |
-| :--- | :--- |
-| **Chipset Family** | MediaTek MT7986 / MT7986A (Commercial designation: **Filogic 830**) |
-| **CPU Architecture** | Quad-Core ARM Cortex-A53 up to 2.0 GHz (64-bit `aarch64`) |
-| **Wireless Standard** | Wi-Fi 6 (802.11ax), Dual-Band 4x4 concurrent, AX6000 theoretical aggregate |
-| **Ethernet Subsystem** | Dual 2.5 Gbps SGMII GMACs + MT7531AE Gigabit Switch (DSA architecture) |
-| **Operating System** | Official OpenWrt 25.12.6 (target: `mediatek/filogic`) |
-| **Primary Reference Unit** | Arcadyan / Jio JIDU6101 (Board ID: `6j01`, dual-slot SPI-NAND) |
-| **Implementation Complexity** | Intermediate (Requires basic command-line SSH familiarity) |
-| **Estimated Duration** | 30 to 45 minutes for full installation and service deployment |
-| **Risk Assessment** | Flashing flash partitions carries risk; full backups are strictly mandatory |
+The repository provides structured technical profiles for leading networking SoCs across 6 major silicon families:
 
----
-
-## Supported Devices Matrix
-
-The MediaTek MT7986 platform powers multiple enterprise, service provider, and open-source router platforms. Below is the researched compatibility matrix across official OpenWrt upstream builds and verified community deployments:
-
-| Device Model | Board / Revision | SoC | Storage / RAM | OpenWrt Profile | Support Status | Notes / Reference |
-| :--- | :---: | :---: | :---: | :--- | :---: | :--- |
-| **Jio / Arcadyan JIDU6101** | `6j01` | MT7986A | 256MB SPI-NAND / 512MB RAM | `jiorouter_ax6000-jidu6101` | **Officially Supported** | Primary reference unit. Verified dual-slot UBI layout, MT7531 switch, working status LED. |
-| **Jio / Arcadyan JIDU6201** | `6j01` | MT7986A | 256MB SPI-NAND / 512MB RAM | `jiorouter_ax6000-jidu6101` | **Community Verified** | Shares `6j01` PCB layout with JIDU6101; antenna housing variation. |
-| **Jio / Arcadyan JIDU6401** | `6j01` | MT7986A | 256MB SPI-NAND / 512MB RAM | `jidu6j01` (generic) | *Unverified — Confirm* | Industrial enclosure variant. Audit bootloader signature locks before flashing. |
-| **Jio / Arcadyan JIDU6601** | `6j01` | MT7986A | 256MB SPI-NAND / 512MB RAM | `jidu6j01` (generic) | *Unverified — Confirm* | Flash layout and bootloader environment require verification. |
-| **Jio / Arcadyan JIDU6701** | `6j01` | MT7986A | 256MB SPI-NAND / 512MB RAM | `jidu6j01` (generic) | *Unverified — Confirm* | Memory configuration variant. Validate against stock MTD partition table. |
-| **GL.iNet GL-MT6000 (Flint 2)** | `gl-mt6000` | MT7986A | 8GB eMMC / 1GB DDR4 | `glinet_gl-mt6000` | **Officially Supported** | Dual 2.5 GbE + 4x 1 GbE. Upstream OpenWrt stable target. |
-| **Banana Pi BPI-R3** | `bpi-r3` | MT7986A | eMMC / MicroSD / SPI-NAND | `bananapi_bpi-r3` | **Officially Supported** | Dual 2.5G SFP+ cages, discrete PHYs, open-source hardware reference. |
-| **Acer Predator Connect W6** | `predator-w6` | MT7986A | 4GB eMMC / 1GB RAM | `acer_predator-w6` | **Community Supported** | Tri-band AX7800 platform with dedicated gaming QoS hardware. |
-| **Asus TUF Gaming AX4200** | `tuf-ax4200` | MT7986A | 256MB SPI-NAND / 512MB RAM | `asus_tuf-ax4200` | **Officially Supported** | 2.5 GbE WAN port. Proprietary Asus bootloader header format. |
-| **Mercusys MR90X (v1)** | `mr90x-v1` | MT7986A | 128MB SPI-NAND / 512MB RAM | `mercusys_mr90x-v1` | **Officially Supported** | AX6000 4x4 concurrent Wi-Fi 6. Official OpenWrt release target. |
-
-> [!WARNING]
-> Never flash an image designated for an eMMC-based router (such as GL-MT6000) to an SPI-NAND router (such as JIDU6101), or vice versa. Partition tables and bootloader storage drivers are completely incompatible.
-
-For complete architectural notes, see [Supported Devices](docs/supported-devices.md) and [Compatibility Notes](docs/compatibility-notes.md).
+| SoC / Platform | Vendor | CPU Cores & Arch | Max Wi-Fi | Ethernet GMAC & Switch | OpenWrt Target | Hardware Profile |
+| :--- | :--- | :--- | :---: | :--- | :--- | :---: |
+| **Filogic 880 (MT7988A)** | MediaTek | 4x Cortex-A73 @ 1.8GHz | Wi-Fi 7 (802.11be) | Dual 10G USXGMII + 4x 2.5GbE | `mediatek/filogic` | [Profile](data/chipsets/mediatek-mt7988a.json) |
+| **Filogic 830 (MT7986A)** | MediaTek | 4x Cortex-A53 @ 2.0GHz | Wi-Fi 6 (802.11ax) | Dual 2.5G SGMII + MT7531 GbE Switch | `mediatek/filogic` | [Profile](data/chipsets/mediatek-mt7986a.json) |
+| **Filogic 820 (MT7981B)** | MediaTek | 2x Cortex-A53 @ 1.3GHz | Wi-Fi 6 (802.11ax) | 2.5G SGMII + GbE Switch | `mediatek/filogic` | [Profile](data/chipsets/mediatek-mt7981b.json) |
+| **MT7621A** | MediaTek | 2x MIPS1004Kc @ 880MHz | Non-integrated | 5x Gigabit Switch (MT7530 DSA) | `ramips/mt7621` | [Profile](data/chipsets/mediatek-mt7621a.json) |
+| **Hawkeye (IPQ8072A)** | Qualcomm | 4x Cortex-A53 @ 2.2GHz | Wi-Fi 6 (802.11ax) | 2.5G / 10G SGMII + QCA8075 Switch | `qualcomm/ipq807x` | [Profile](data/chipsets/qualcomm-ipq8072a.json) |
+| **Cypress (IPQ6018)** | Qualcomm | 4x Cortex-A53 @ 1.8GHz | Wi-Fi 6 (802.11ax) | 2.5G SGMII + GbE Switch | `qualcomm/ipq60xx` | [Profile](data/chipsets/qualcomm-ipq6018.json) |
+| **Dakota (IPQ4019)** | Qualcomm | 4x Cortex-A7 @ 717MHz | Wi-Fi 5 (802.11ac) | 5x GbE Switch (Integrated DSA) | `qualcomm/ipq40xx` | [Profile](data/chipsets/qualcomm-ipq4019.json) |
+| **RK3568** | Rockchip | 4x Cortex-A55 @ 2.0GHz | Non-integrated | PCIe Dual/Triple 2.5GbE (RTL8125BG) | `rockchip/armv8` | [Profile](data/chipsets/rockchip-rk3568.json) |
+| **RTL8380M** | Realtek | 1x MIPS 4KEc @ 500MHz | Non-integrated | 8x Gigabit Managed DSA Switch | `realtek/rtl838x` | [Profile](data/chipsets/realtek-rtl8380m.json) |
+| **BCM4908** | Broadcom | 4x Cortex-B53 @ 1.8GHz | Proprietary | 2.5GbE + Integrated GbE Switch | `bcm4908/generic` | [Profile](data/chipsets/broadcom-bcm4908.json) |
+| **x86_64 Generic** | Intel / AMD | 64-bit x86 (AES-NI) | Non-integrated | Intel I225/I226 2.5GbE / 10GbE SFP+ | `x86/64` | [Profile](data/chipsets/intel-x86-64-generic.json) |
 
 ---
 
-## Hardware Architecture Overview
+## Multi-Vendor Device Catalog
+
+Every hardware record in this repository is backed by primary source citations (upstream OpenWrt Git commits, FCC filings, or hardware boot logs).
+
+| Manufacturer & Model | SoC Family | Flash / RAM | Physical Ports | Status | Detailed Spec Record |
+| :--- | :--- | :--- | :--- | :---: | :---: |
+| **Arcadyan / Jio JIDU6101** | Filogic 830 | 256MB SPI-NAND / 512MB | 1x 2.5G WAN + 4x 1G LAN | `OFFICIALLY_SUPPORTED` | [`jio-jidu6101.json`](data/devices/jio/jio-jidu6101.json) |
+| **Arcadyan / Jio JIDU6201** | Filogic 830 | 256MB SPI-NAND / 512MB | 1x 2.5G WAN + 4x 1G LAN | `COMMUNITY_VERIFIED` | [`jio-jidu6201.json`](data/devices/jio/jio-jidu6201.json) |
+| **GL.iNet GL-MT6000 (Flint 2)** | Filogic 830 | 8GB eMMC / 1GB DDR4 | 2x 2.5G + 4x 1G LAN | `OFFICIALLY_SUPPORTED` | [`gl-inet-gl-mt6000.json`](data/devices/gl-inet/gl-inet-gl-mt6000.json) |
+| **GL.iNet GL-MT3000 (Beryl AX)** | Filogic 820 | 256MB NAND / 512MB | 1x 2.5G WAN + 1x 1G LAN | `OFFICIALLY_SUPPORTED` | [`gl-inet-gl-mt3000.json`](data/devices/gl-inet/gl-inet-gl-mt3000.json) |
+| **Banana Pi BPI-R3** | Filogic 830 | eMMC / SPI-NAND / 2GB | 2x 2.5G SFP+ + 5x GbE | `OFFICIALLY_SUPPORTED` | [`banana-pi-bpi-r3.json`](data/devices/banana-pi/banana-pi-bpi-r3.json) |
+| **Banana Pi BPI-R4** | Filogic 880 | eMMC / NVMe / 4GB | 2x 10G SFP+ + 4x 2.5GbE | `OFFICIALLY_SUPPORTED` | [`banana-pi-bpi-r4.json`](data/devices/banana-pi/banana-pi-bpi-r4.json) |
+| **Asus TUF Gaming AX4200** | Filogic 830 | 256MB NAND / 512MB | 1x 2.5G WAN + 4x 1G LAN | `OFFICIALLY_SUPPORTED` | [`asus-rt-ax59u.json`](data/devices/asus/asus-rt-ax59u.json) |
+| **Asus ROG Rapture GT-AX11000** | Broadcom BCM4908 | 256MB NAND / 1GB | 1x 2.5G + 4x 1G + 1x WAN | `PARTIALLY_VERIFIED` | [`asus-gt-ax11000.json`](data/devices/asus/asus-gt-ax11000.json) |
+| **Xiaomi Redmi AX6000** | Filogic 830 | 128MB SPI-NAND / 512MB | 4x Gigabit LAN/WAN | `OFFICIALLY_SUPPORTED` | [`xiaomi-redmi-ax6000.json`](data/devices/xiaomi/xiaomi-redmi-ax6000.json) |
+| **Xiaomi AX9000** | Qualcomm IPQ8072A | 256MB NAND / 1GB | 1x 2.5G + 4x 1G LAN | `OFFICIALLY_SUPPORTED` | [`xiaomi-ax9000.json`](data/devices/xiaomi/xiaomi-ax9000.json) |
+| **Cudy WR3000 (v1)** | Filogic 820 | 16MB SPI-NOR / 256MB | 1x GbE WAN + 4x GbE LAN | `OFFICIALLY_SUPPORTED` | [`cudy-wr3000-v1.json`](data/devices/cudy/cudy-wr3000-v1.json) |
+| **Netgear WAX206** | Filogic 830 | 128MB NAND / 512MB | 1x 2.5G WAN + 4x GbE LAN | `OFFICIALLY_SUPPORTED` | [`netgear-wax206.json`](data/devices/netgear/netgear-wax206.json) |
+| **FriendlyElec NanoPi R5S** | Rockchip RK3568 | 32GB eMMC / 2GB/4GB | 2x 2.5GbE + 1x 1GbE | `OFFICIALLY_SUPPORTED` | [`friendlyelec-nanopi-r5s.json`](data/devices/friendlyelec/friendlyelec-nanopi-r5s.json) |
+| **TP-Link Archer C6 (v3)** | MT7621A | 16MB SPI-NOR / 128MB | 1x GbE WAN + 4x GbE LAN | `OFFICIALLY_SUPPORTED` | [`tp-link-archer-c6-v3.json`](data/devices/tp-link/tp-link-archer-c6-v3.json) |
+| **Zyxel NWA50AX** | MT7621A | 32MB SPI-NOR / 256MB | 1x GbE PoE-in | `OFFICIALLY_SUPPORTED` | [`zyxel-nwa50ax.json`](data/devices/zyxel/zyxel-nwa50ax.json) |
+| **Zyxel GS1900-8** | Realtek RTL8380M | 16MB SPI-NOR / 128MB | 8x GbE Managed Switch | `OFFICIALLY_SUPPORTED` | [`zyxel-gs1900-8.json`](data/devices/zyxel/zyxel-gs1900-8.json) |
+| **Ubiquiti UniFi 6+** | Filogic 820 | 128MB NAND / 256MB | 1x GbE PoE-in | `OFFICIALLY_SUPPORTED` | [`ubiquiti-unifi-6-plus.json`](data/devices/ubiquiti/ubiquiti-unifi-6-plus.json) |
+| **Mercusys MR70X (v1)** | Filogic 820 | 16MB SPI-NOR / 128MB | 1x GbE WAN + 3x GbE LAN | `OFFICIALLY_SUPPORTED` | [`mercusys-mr70x-v1.json`](data/devices/mercusys/mercusys-mr70x-v1.json) |
+
+Browse the interactive catalog in [`explorer/index.html`](explorer/index.html) or review full JSON records in [`data/devices/`](data/devices/).
+
+---
+
+## Reference Implementation: Arcadyan / Jio JIDU6101
 
 ![Hardware Ports and Status LED Layout Reference](images/router-ports-led-reference.png)
 
-The MediaTek MT7986A architecture separates routing throughput from host CPU utilization through hardware-accelerated offload engines:
+The **Jio AirFiber JIDU6101** (Arcadyan `6j01`) serves as our baseline physical reference router. It features a quad-core 2.0 GHz ARM64 MediaTek MT7986A SoC, 512MB DDR3 RAM, 256MB SPI-NAND flash, a dedicated 2.5 Gbps Ethernet WAN port, and 4x4 concurrent Wi-Fi 6 with 160 MHz channel capability.
 
-- **64-Bit Compute**: Quad-core ARM Cortex-A53 up to 2.0 GHz providing ample headroom for local DNS filtering, WireGuard encryption, and QoS.
-- **Packet Processing Engine (PPE)**: Hardware-accelerated NAT and routing table bypass capable of handling multi-gigabit line-rate traffic with near-zero CPU overhead.
-- **Ethernet DSA Subsystem**: Dual 2.5 Gbps SGMII interfaces. Port `eth1` provides dedicated WAN uplink, while `eth0` drives an internal MediaTek MT7531AE switch managing physical GbE ports `lan1` through `lan4`.
-- **MT7976C Dual-Band RF Companion**: Communicates via dedicated AXI/PCIe buses, driving 4x4 concurrent Wi-Fi 6 streams with support for ultra-wide **160 MHz** channels on 5 GHz.
+For deep platform analysis, PCB component markings, and carrier variant disambiguation (JIDU6101 vs JIDU6201/6401/6601/6701), read the dedicated [Jio / Arcadyan Hardware Reference Guide](docs/vendor-guides/jio-arcadyan.md).
 
-Read the detailed technical breakdown in [Hardware Architecture Overview](docs/hardware-overview.md).
+---
+
+## Dual-WAN Automatic Failover Architecture
+
+> [!NOTE]
+> **Status: `COMMUNITY_CONFIGURATION — REAL-WORLD VALIDATION PENDING`**  
+> An automated dual-WAN failover architecture for home offices and edge routers. Note that while configuration and routing rules are based on upstream standards, physical real-world failover and failback verification remain open for community field validation.
+
+![Dual-WAN Failover Topology](images/network-topology.png)
+
+This repository includes a community-developed reference architecture for **Dual-WAN Automatic Failover**:
+
+- **Primary Uplink (WAN):** High-speed optical fiber or fixed broadband (e.g., BSNL / Banker Net) over Cat6 Ethernet.
+- **Backup Uplink (WWAN):** Cellular hotspot (e.g., Samsung Galaxy S25 or 5G smartphone) via isolated wireless client station (`sta0`).
+- **Policy Engine:** `mwan3` active ICMP health checks to multiple global anycast resolvers (`1.1.1.1`, `8.8.8.8`, `9.9.9.9`).
+- **Zero-Touch Reconnection:** `travelmate` scans for configured AP hotspots and connects automatically without manual intervention.
+- **Hardware LED Alerting:** Physical front-panel tri-color LED turns solid **Red** only when *both* primary fiber and cellular backup are offline, switching to **Blue/Green** upon service restoration.
+
+Full step-by-step configuration and scripts are documented in [Multi-WAN Failover Guide](docs/networking/multi-wan-failover.md).
+
+---
+
+## Hardware Identification & Teardown Analysis
+
+Before applying any firmware, engineers must verify their silicon revision and board layout:
+
+```mermaid
+flowchart TD
+    Exterior["1. Exterior Inspection<br/>(MAC Label, Model, Voltage, FCC ID)"] --> SearchFCC["2. FCC ID / Regulatory Search<br/>(Internal Photos, PCB silk screen, RF Shields)"]
+    SearchFCC --> SerialAudit["3. Non-Destructive Boot Audit<br/>(3.3V UART Serial Console, U-Boot environment)"]
+    SerialAudit --> MTDInspect["4. Partition Table Verification<br/>(cat /proc/mtd, SPI-NOR vs SPI-NAND vs eMMC)"]
+```
+
+Read the complete engineering identification methodology in [Hardware Identification Guide](docs/hardware/hardware-identification-guide.md).
 
 ---
 
 ## Prerequisites & Safety Protocol
 
-Before initiating the firmware replacement:
-
-1. **Cat6 Ethernet Cable**: Always connect your computer directly to the router's LAN port. **Never flash firmware over Wi-Fi.**
-2. **Stable Power Supply**: Connect the router and host PC to an uninterruptible power supply (UPS). A power disruption during flash write cycles will corrupt the SPI-NAND bootloader.
-3. **Dedicated SSH Client**: Ensure you have an OpenSSH client (Windows PowerShell, Linux bash, or macOS Terminal) and `scp` installed.
-4. **Firmware Image Checksum Verification**: Always compute the SHA256 checksum of your downloaded image and confirm that it matches the official OpenWrt release manifest.
+1. **Direct Cat6 Wired Connection:** Always connect your computer directly to the router's physical LAN port (`lan2` on JIDU6101). **Never attempt firmware flashing over Wi-Fi.**
+2. **Uninterruptible Power Supply (UPS):** Connect both the router and host computer to a UPS. Power loss during flash writes will corrupt the SPI-NAND bootloader partitions.
+3. **Dedicated SSH Client:** Use OpenSSH (`ssh`, `scp`) in Windows PowerShell, Linux bash, or macOS Terminal.
+4. **Firmware Image Checksum Verification:** Always compute the SHA256 checksum of your downloaded binary before writing to flash:
 
 ```powershell
 # Windows PowerShell Checksum Verification
-Get-FileHash -Algorithm SHA256 .\openwrt-*-sysupgrade.bin
+Get-FileHash -Algorithm SHA256 .\openwrt-*.bin
 ```
 
 ---
@@ -117,11 +174,10 @@ Get-FileHash -Algorithm SHA256 .\openwrt-*-sysupgrade.bin
 ## Mandatory Backup Before Installation
 
 > [!CAUTION]
-> **Do not flash your router without creating and verifying a full NAND partition backup.**
-> Your vendor `Factory` and `MFG` partitions contain unique, factory-calibrated radio RF parameters and hardware MAC addresses that cannot be recovered from public firmware images.
+> **Never flash your router without creating and verifying a full NAND partition backup.**
+> Your vendor `Factory` and `MFG` partitions contain unique, factory-calibrated radio frequency calibration values and hardware MAC addresses that cannot be recovered from public images.
 
-### Dumping Partitions via Root SSH
-On the stock vendor firmware (or via emergency shell), dump all MTD partitions to `/tmp` and transfer them immediately to your computer:
+Dump all partitions to `/tmp` and immediately transfer them off the router:
 
 ```sh
 # [Router SSH]
@@ -137,7 +193,7 @@ dd if=/dev/mtd5 of=/tmp/mtd5_ubi.bin
 dd if=/dev/mtd7 of=/tmp/mtd7_MFG.bin
 ```
 
-Download all dump files to an external offline drive using `scp` and verify their SHA256 hashes against a local manifest. Full backup and restoration steps are detailed in [Backup & Restoration Guide](docs/backup-and-restore.md).
+Download all dumps using `scp` and store them in secure offline storage. Detailed instructions are in [Backup & Restoration Guide](docs/backup-and-restore.md).
 
 ---
 
@@ -145,7 +201,7 @@ Download all dump files to an external offline drive using `scp` and verify thei
 
 ![OpenWrt Two-Stage Installation Workflow](images/openwrt-installation-workflow.png)
 
-Stock vendor firmware on MT7986 routers frequently enforces cryptographic RSA signatures on FIT kernel images. The verified community installation utilizes a safe two-stage process that leverages U-Boot's memory-resident device tree modification to bypass signature checks without touching read-only bootloader binaries:
+Stock vendor firmware on MT7986 routers frequently enforces cryptographic RSA signatures on kernel images. The verified community method utilizes a safe two-stage process that leverages U-Boot's memory-resident device tree modification to bypass signature checks without modifying read-only bootloader binaries:
 
 ### Stage 1: Ramdisk Staging in Inactive Slot
 1. Connect your PC to LAN port 2 (`lan2`) and upload the Stage 1 Factory image:
@@ -166,7 +222,7 @@ Stock vendor firmware on MT7986 routers frequently enforces cryptographic RSA si
    ```
 
 ### Stage 2: Permanent Sysupgrade Flashing
-3. The router reboots into OpenWrt operating purely inside DDR3 RAM at `192.168.1.1`.
+3. The router reboots into OpenWrt operating purely inside RAM at `192.168.1.1`.
 4. Upload the official OpenWrt 25.12.6 permanent sysupgrade image:
    ```powershell
    # [Host Terminal]
@@ -177,56 +233,15 @@ Stock vendor firmware on MT7986 routers frequently enforces cryptographic RSA si
    # [Router SSH]
    sysupgrade -n /tmp/sysupgrade.bin
    ```
-The installer formats `mtd5`, provisions permanent UBI volumes (`u-boot-env`, `kernel`, `rootfs`, and persistent `rootfs_data` overlay), sets the permanent bootcmd, and reboots into standard community OpenWrt.
+The installer provisions permanent UBI volumes (`u-boot-env`, `kernel`, `rootfs`, and persistent `rootfs_data` overlay), sets the permanent bootcmd, and reboots into official community OpenWrt.
 
 Full step-by-step instructions are available in [Installation Guide](docs/installation.md).
 
 ---
 
-## First Boot & Initial Setup
-
-1. **Access LuCI Web Interface**: Navigate to `http://192.168.1.1` in your browser.
-2. **Set Administrator Password**: Under **System** → **Administration**, configure a strong root password.
-3. **Install Ed25519 SSH Public Key**:
-   ```powershell
-   # Generate an Ed25519 key on host PC
-   ssh-keygen -t ed25519 -f ~/.ssh/id_ed25519_openwrt -C "openwrt-admin"
-
-   # Install to router
-   cat ~/.ssh/id_ed25519_openwrt.pub | ssh root@192.168.1.1 "cat >> /etc/dropbear/authorized_keys"
-   ```
-4. **Time Synchronization**: Under **System** → **System**, confirm NTP client is enabled and set your timezone.
-
-Review complete administrative options in [First Boot Setup](docs/first-boot-setup.md) and [SSH & LuCI Management](docs/ssh-and-luci.md).
-
----
-
-## Network Topologies: Gateway vs Repeater
-
-![Network Topology Comparison: Dedicated Gateway vs Wireless Repeater](images/network-topology.png)
-
-### Recommended: Dedicated Ethernet Gateway (Topology A)
-Connecting your ISP modem or ONT to the dedicated 2.5 Gbps WAN port (`eth1`) provides full-duplex gigabit routing, independent bandwidth channels, and zero wireless contention.
-
-### Wireless Repeater / WISP Mode (Topology B) & The Overlapping Subnet Hazard
-If operating as a wireless repeater (`phy0-sta0` connected to an upstream AP):
-> [!IMPORTANT]
-> **Avoid Subnet Clashes**: If the upstream access point is on `192.168.1.1/24`, having your local OpenWrt LAN also on `192.168.1.1/24` will create an **overlapping subnet conflict**, causing ARP collisions, packet loss up to 60%, and erratic routing.
-
-**Fix**: Change your local OpenWrt LAN IP to an isolated subnet (e.g. `192.168.31.1`):
-```sh
-uci set network.lan.ipaddr='192.168.31.1'
-uci commit network
-/etc/init.d/network restart
-```
-
-See complete architectural patterns in [Network Topologies Guide](docs/network-configuration.md).
-
----
-
 ## Wi-Fi 6 Configuration (HE160 & Regulatory Domain)
 
-The MediaTek MT7976C companion RF transceiver supports high-performance Wi-Fi 6 features when properly configured:
+The MediaTek MT7976C companion RF transceiver supports ultra-fast Wi-Fi 6 operation when configured correctly:
 
 ### 1. Set Regional Regulatory Domain
 An unset country code (`country '00'`) restricts transmit power to 20 dBm (100 mW). Setting your regional regulatory code (e.g. `IN` for India) unlocks legally compliant transmit power up to **30 dBm** (1000 mW):
@@ -237,17 +252,14 @@ uci commit wireless && wifi reload
 ```
 
 ### 2. Enable 160 MHz Channel Width (HE160) on 5 GHz
-Double maximum theoretical wireless throughput for Wi-Fi 6 clients (smartphones, laptops) from 1201 Mbps (at 80 MHz) to **2402 Mbps** (at 160 MHz 2x2):
+Double maximum theoretical wireless throughput for Wi-Fi 6 clients from 1201 Mbps (at 80 MHz) to **2402 Mbps** (at 160 MHz 2x2):
 ```sh
 uci set wireless.radio1.channel='36'
 uci set wireless.radio1.htmode='HE160'
 uci commit wireless && wifi reload
 ```
 
-### 3. Disable Dormant Client Interfaces
-If extra client station interfaces were configured, disable them (`option disabled '1'`) so the `mac80211` driver stops background scanning and eliminates channel jitter.
-
-Read complete wireless tuning steps in [Wi-Fi 6 Configuration Guide](docs/wifi-configuration.md).
+Read complete wireless tuning in [Wi-Fi 6 Configuration Guide](docs/wifi-configuration.md).
 
 ---
 
@@ -255,9 +267,9 @@ Read complete wireless tuning steps in [Wi-Fi 6 Configuration Guide](docs/wifi-c
 
 ![AdGuard Home Privacy DNS Pipeline](images/adguard-home-dns-flow.png)
 
-Deploy a lightweight, high-performance privacy stack directly on the router by re-aligning DNS port bindings:
+Deploy a high-performance local privacy and ad-blocking resolver directly on the router:
 
-1. **Move Dnsmasq to Port 5353 & Announce DHCP Option 6**: Dnsmasq continues serving local DHCP leases and `.lan` hostname resolution. Explicitly declare Option 6 (DNS) and Option 3 (Gateway) so Apple iOS/iPadOS clients under **Automatic DNS** receive the AdGuard resolver:
+1. **Move Dnsmasq to Port 5353 & Announce DHCP Option 6:** Dnsmasq continues serving local DHCP leases and `.lan` hostname resolution:
    ```sh
    uci set dhcp.@dnsmasq[0].port='5353'
    uci add_list dhcp.lan.dhcp_option='6,192.168.10.1'
@@ -267,37 +279,29 @@ Deploy a lightweight, high-performance privacy stack directly on the router by r
    uci -q delete dhcp.lan.ra_flags
    uci commit dhcp && /etc/init.d/dnsmasq restart && /etc/init.d/odhcpd restart
    ```
-2. **Install AdGuard Home**:
+2. **Install AdGuard Home:**
    ```sh
    opkg update && opkg install adguardhome
    ```
-3. **Configure Port 53 Primary Resolver**: Bind AdGuard Home to `0.0.0.0:53`.
-4. **Configure Local Hostname Forwarding**: In AdGuard Home (**Settings** → **DNS Settings**), route local queries back to Dnsmasq:
-   ```text
-   [/lan/]127.0.0.1:5353
-   [/168.192.in-addr.arpa/]127.0.0.1:5353
-   ```
-5. **Encrypted Upstream Resolvers (DoH)**: Add Cloudflare and Quad9 TLS endpoints:
+3. **Configure Upstream DoH Resolvers in AdGuard Home:**
    ```text
    https://1.1.1.1/dns-query
    https://1.0.0.1/dns-query
    https://149.112.112.112/dns-query
    ```
-6. **Enable DNSSEC**: Authenticate cryptographic DNS signatures to prevent spoofing.
+4. **Forward Local Hostnames Back to Dnsmasq:**
+   ```text
+   [/lan/]127.0.0.1:5353
+   [/168.192.in-addr.arpa/]127.0.0.1:5353
+   ```
 
-> [!TIP]
-> **Apple Automatic DNS Note:** If iPhone or iPad devices display "No Internet Connection" while Windows/Android work, Dnsmasq is omitting DHCP Option 6. See the full forensic analysis and fix in [DNS Troubleshooting Guide](docs/DNS-TROUBLESHOOTING.md).
-
-Detailed walkthroughs and rule configurations are in [AdGuard Home Guide](docs/adguard-home.md) and [DNS-over-HTTPS Guide](docs/dns-over-https.md).
+See the forensic analysis of Apple iOS "No Internet" fixes in [DNS Troubleshooting Guide](docs/DNS-TROUBLESHOOTING.md) and [AdGuard Home Guide](docs/adguard-home.md).
 
 ---
 
 ## Firewall Hardening & Flow Offload
 
-OpenWrt 25.12 utilizes **Firewall4 (`fw4`)** driven by `nftables`.
-
-### Enabling Hardware Flow Offloading (PPE)
-Direct established TCP/UDP network flows to the MediaTek MT7986 Packet Processing Engine silicon:
+Enable hardware-accelerated Packet Processing Engine (PPE) in **Firewall4 (`fw4`)**:
 
 ```sh
 uci set firewall.@defaults[0].flow_offloading='1'
@@ -305,105 +309,80 @@ uci set firewall.@defaults[0].flow_offloading_hw='1'
 uci commit firewall && /etc/init.d/firewall restart
 ```
 
-Verify the active flow offload entry in nftables:
+Verify line-rate routing in nftables:
 ```sh
 nft list chain inet fw4 forward | grep "flow add"
 ```
-Hardware offloading enables multi-gigabit line-rate routing while maintaining CPU usage under 2%.
-
-Review firewall policies and security audits in [Firewall & Security Guide](docs/firewall-security.md).
+Hardware offloading enables multi-gigabit routing while maintaining CPU utilization below 2%. See [Firewall & Security Guide](docs/firewall-security.md).
 
 ---
 
-## Physical Status LED Configuration
+## Physical Status LED Automation
 
-On the JIDU6101 (`6j01`), the tri-color front-panel status LED is driven directly by Linux `leds-gpio` via the MT7986 Moore pin controller (`gpio-524`, `525`, `526`).
+On the JIDU6101 (`6j01`), the front-panel tri-color LED is controlled via `leds-gpio` (`gpio-524`, `525`, `526`).
 
-### Verified Working LuCI Trigger Configuration:
-The initial dark front-panel LED issue was resolved by correcting the action ordering and trigger assignment in LuCI:
+| Sysfs Target | Hardware Color | Normal Operating State | Multi-WAN Outage State |
+| :---: | :---: | :--- | :--- |
+| `red:status` | **Red** | Off (`trigger 'none'`, default 0) | **Solid On** when all uplinks fail |
+| `blue:status` | **Blue** | `netdev` activity on `eth0` | Off during total outage |
+| `green:status` | **Green** | `heartbeat` kernel alive pulse | Inverted pulse |
 
-| LED Action Name | Sysfs Target | Trigger Assignment | Trigger Parameters / Modes |
-| :---: | :---: | :---: | :--- |
-| **`red`** | `red:status` | `none` | Default: `0` (Off) |
-| **`blue`** | `blue:status` | `netdev` | Dev: `eth0`, Modes: `link_10000`, `half_duplex`, `full_duplex` |
-| **`green`** | `green:status` | `heartbeat` | Inverted: `1` (Active system pulse) |
-
-```uci
-# /etc/config/system
-config led
-	option name 'red'
-	option sysfs 'red:status'
-	option trigger 'none'
-	option interval '1'
-	option default '0'
-
-config led
-	option name 'blue'
-	option sysfs 'blue:status'
-	option trigger 'netdev'
-	option interval '10'
-	option dev 'eth0'
-	list mode 'link_10000'
-	list mode 'half_duplex'
-	list mode 'full_duplex'
-
-config led
-	option name 'green'
-	option sysfs 'green:status'
-	option trigger 'heartbeat'
-	option interval '10'
-	option inverted '1'
-```
-See [Physical Status LED Configuration](docs/led-configuration.md) for full hardware pin mappings.
+Review configuration files in [LED Configuration Guide](docs/led-configuration.md) and `/etc/mwan3.user` automation in [Multi-WAN Guide](docs/networking/multi-wan-failover.md).
 
 ---
 
-## Performance Optimization & Benchmarks
+## Empirical Benchmarks & Latency Data
 
-Empirical telemetry collected on the reference hardware under identical test conditions:
+Measured performance telemetry on the reference hardware under identical laboratory conditions:
 
 | Metric | Before Optimization | After Optimization | Verified Improvement |
 | :--- | :---: | :---: | :---: |
-| **Wi-Fi Transmit Power** | 20.0 dBm (100 mW) | **30.0 dBm** (1000 mW) | **+10 dBm (10x power)** |
+| **Wi-Fi Transmit Power** | 20.0 dBm (100 mW) | **30.0 dBm** (1000 mW) | **+10 dBm (10x power boost)** |
 | **Repeater Uplink TX Rate** | 1.0 MBit/s (Fallback) | **270.0 MBit/s** (MCS15 40MHz) | **270x bitrate boost** |
 | **Expected Throughput** | 0.875 Mbps | **231.81 Mbps** | **264x throughput boost** |
 | **10MB Direct Download** | 93.68 s (0.895 Mbps) | **4.41 s** (19.02 Mbps) | **21.2x faster download** |
-| **Internet Ping Latency** | 138.2 ms avg (Spikes 494 ms) | **17.2 ms avg** (15.7–20.1 ms) | **8x latency reduction** |
+| **Internet Ping Latency** | 138.2 ms avg (494 ms spike) | **17.2 ms avg** (15.7–20.1 ms) | **8x latency reduction** |
 | **ICMP Packet Loss** | **60% packet loss** | **0% packet loss** | **Zero packet loss** |
-| **System Temperature** | 47.6 °C | **46.4 °C** | Cool & stable |
+| **System Temperature** | 47.6 °C | **46.4 °C** | Cool & thermally stable |
 
-Read complete benchmarking methodologies in [Performance Optimization Guide](docs/performance-optimization.md).
+Read complete testing methodology in [Performance Optimization Guide](docs/performance-optimization.md).
 
 ---
 
-## Disaster Recovery & Unbricking
+## Disaster Recovery & Unbricking Hierarchy
 
 ![Disaster Recovery and Unbricking Hierarchy](images/tftp-recovery-workflow.png)
 
-In the event of an interruption or configuration lock, four progressive recovery tiers exist:
+If an installation or configuration fails, recovery follows a structured 5-tier escalation path:
 
-- **Tier 1 (Dual-Slot Soft Rollback)**: If Stage 1 is interrupted before Stage 2, the original vendor firmware remains intact on `mtd5`. Reverting U-Boot environment flags (`dual_boot.slot_*_invalid=0`) restores stock operation immediately.
-- **Tier 2 (U-Boot HTTP Web Failsafe)**: Power on the router while holding the physical Reset button for 10–15 seconds to activate U-Boot's embedded HTTP server at `http://192.168.1.1`.
-- **Tier 3 (3.3V UART Serial TFTP Recovery)**: Connect a 3.3V TTL UART adapter (115200 8N1) to the PCB serial headers. Load an official OpenWrt initramfs kernel into RAM via TFTP (`tftpboot 0x46000000 initramfs.bin; fdt rm /signature; bootm 0x46000000`).
-- **Tier 4 (Hardware SPI-NAND Programmer)**: External hardware programmers (CH341A / T48) can directly re-write the full 256MB dump (`mtd0_fullchip_backup.bin`) to the flash chip.
+- **Tier 1 (Dual-Boot Rollback):** Switch back to secondary partition via U-Boot environment flags.
+- **Tier 2 (U-Boot HTTP Web Failsafe):** Hold Reset button for 10s during boot to access `http://192.168.1.1`.
+- **Tier 3 (TFTP Network Recovery):** Configure a host PC at `192.168.1.10/24` running a TFTP server to serve an initramfs recovery kernel.
+- **Tier 4 (3.3V TTL Serial UART):** Solder 3-pin header (GND, TX, RX - never VCC!) to unbrick via interactive U-Boot console at 115200 8N1.
+- **Tier 5 (SPI-NAND Hardware Flasher):** Clip directly to SPI-NAND flash chip with external programmer (CH341A / T48) to re-flash raw fullchip dump.
 
-Read complete recovery steps in [Recovery & Unbrick Guide](docs/recovery-unbrick.md).
+Comprehensive electrical pinouts and instructions are detailed in [TFTP & UART Recovery Guide](docs/recovery/tftp-and-uart-recovery.md) and [Unbricking Guide](docs/recovery-unbrick.md).
 
 ---
 
-## Troubleshooting Table
+## Global Contributor Program & Roadmap
 
-| Symptom | Diagnostic Command | Root Cause | Verified Resolution |
-| :--- | :--- | :--- | :--- |
-| **LuCI Web UI not opening** | `ps | grep uhttpd` | `uhttpd` server not running | Run `/etc/init.d/uhttpd restart` via SSH. |
-| **High Ping Spikes / Packet Loss** | `ip route` | Overlapping `192.168.1.0/24` subnets | Change local LAN IP to `192.168.31.1`. |
-| **Repeater Bitrate Capped at 1 Mbps** | `iw dev phy0-sta0 station dump` | Dormant client interfaces scanning | Set `country 'IN'` and disable unused client interfaces. |
-| **Status LED Remains Dark** | `cat /etc/config/system` | LuCI action ordering conflict | Re-align triggers: `red` -> `none`, `blue` -> `netdev`, `green` -> `heartbeat`. |
-| **External DNS Queries Fail** | `netstat -tulpn | grep :53` | Dnsmasq and AdGuard port conflict | Re-align Dnsmasq to port 5353 (`dhcp.@dnsmasq[0].port='5353'`). |
-| **Local .lan Hostnames Fail** | `nslookup openwrt.lan 127.0.0.1` | AdGuard not routing `.lan` domain | Add upstream rule in AdGuard: `[/lan/]127.0.0.1:5353`. |
-| **Apple Devices Fail (Automatic DNS)** | Inspect `/etc/config/dhcp` | Dnsmasq on port 5353 omitted Option 6 | Add `list dhcp_option '6,<ip>'` and set `ra_dns '0'`. See [DNS Troubleshooting](docs/DNS-TROUBLESHOOTING.md). |
+We welcome hardware profiles, boot logs, PCB teardowns, and benchmark reports from network engineers and enthusiasts worldwide.
 
-See comprehensive diagnostic trees in [Troubleshooting Guide](docs/troubleshooting.md).
+- **Start Contributing:** [First-Time Contributor Guide](FIRST-TIME-CONTRIBUTORS.md)
+- **Contributor Handbook:** [Contributor Handbook](docs/contributor-handbook.md)
+- **Hardware Testing Guide:** [Hardware Testing Guide](docs/hardware-testing-guide.md)
+- **Evidentiary Standards:** [Research Methodology](docs/research-methodology.md) & [Governance](GOVERNANCE.md)
+- **Project Roadmap:** [Development Roadmap (7 Stages)](ROADMAP.md)
+- **Progress Tracking:** [Real-Time Progress Log](PROGRESS.md)
+
+### Submit via Structured GitHub Issue Templates:
+- [Submit New Device Profile](.github/ISSUE_TEMPLATE/01_new_device_submission.yml)
+- [Verify Hardware Revision](.github/ISSUE_TEMPLATE/02_hardware_revision_verification.yml)
+- [Report Installation Outcome](.github/ISSUE_TEMPLATE/03_successful_installation_report.yml)
+- [Submit Recovery / Unbrick Tutorial](.github/ISSUE_TEMPLATE/05_recovery_unbrick_report.yml)
+- [Submit Chipset Profile](.github/ISSUE_TEMPLATE/07_chipset_profile_request.yml)
+- [Submit Benchmarks](.github/ISSUE_TEMPLATE/09_benchmark_submission.yml)
 
 ---
 
@@ -412,48 +391,13 @@ See comprehensive diagnostic trees in [Troubleshooting Guide](docs/troubleshooti
 ### Can I install official OpenWrt on the Jio / Arcadyan JIDU6101?
 **Yes.** The JIDU6101 (`6j01`) is officially supported in OpenWrt 25.12.6 under profile `jiorouter_ax6000-jidu6101`. Installation is performed over root SSH without requiring hardware modifications.
 
-### What is the difference between MT7986 and MT7986A?
+### What is the difference between MT7986A and MT7986B?
 The MT7986A is the quad-core 2.0 GHz ARM Cortex-A53 flagship processor in the Filogic 830 family featuring dual 2.5 Gbps SGMII interfaces. The MT7986B is a dual-core variant for entry-level access points.
 
-### Can I use a Wi-Fi repeater as a dedicated gateway router?
-**Yes.** Connecting your ISP uplink to the dedicated WAN port (`eth1`) enables full-duplex gigabit routing without half-duplex wireless backhaul overhead.
+### Can Broadcom BCM4908 routers run official OpenWrt with Wi-Fi?
+The CPU and Ethernet switch on BCM4908 are supported under mainline Linux, but the proprietary Broadcom Wi-Fi radio drivers (`wl` / `brcmfmac`) lack open-source support. Such devices function as high-performance wired routers with disabled or non-functional Wi-Fi on vanilla OpenWrt.
 
-Read all 17 verified answers in [Frequently Asked Questions](docs/faq.md).
-
----
-
-## Technical Glossary
-
-- **DSA**: Distributed Switch Architecture, exposing physical hardware switch ports (`lan1`–`lan4`) as discrete Linux interfaces.
-- **DoH**: DNS-over-HTTPS (RFC 8484), encrypting DNS lookups inside TLS over port 443.
-- **PPE**: MediaTek Packet Processing Engine, silicon hardware NAT and routing acceleration.
-- **FIT**: Flattened Image Tree, standard U-Boot image container bundling kernel, device tree, and signatures.
-
-Browse the complete 20+ term index in [Technical Glossary](docs/glossary.md).
-
----
-
-## Using this Repository with AI Assistants
-
-This repository is optimized for both human engineers and AI coding assistants (ChatGPT, Claude, Gemini, Antigravity).
-
-### Prompting Guidelines for AI Agents:
-When passing this repository to an AI assistant:
-1. Direct the model to consult `llms.txt` and `docs/supported-devices.md` first.
-2. Instruct the model to strictly verify hardware model, board ID, and flash partition maps before recommending any flashing or `ubiformat` commands.
-3. Require all configuration examples to use generic placeholders (`<YOUR_WIFI_PASSWORD>`) and forbid the extraction of private keys or credentials.
-
-Machine-readable architectural summaries are indexed in [`llms.txt`](llms.txt).
-
----
-
-## Contributing & Community Support
-
-Contributions, hardware test verifications, and documentation enhancements are warmly welcomed!
-
-- **Submit Hardware Evidence**: Open a [Device Support Request](.github/ISSUE_TEMPLATE/device-support-request.yml).
-- **Report Errors**: Open a [Bug Report](.github/ISSUE_TEMPLATE/bug-report.yml).
-- **Contribution Standards**: Review [Contributing Guide](CONTRIBUTING.md) and [Code of Conduct](CODE_OF_CONDUCT.md).
+Read all 17 answers in [Frequently Asked Questions](docs/faq.md).
 
 ---
 

@@ -1,0 +1,104 @@
+{
+  "id": "xiaomi-redmi-ax6000",
+  "manufacturer": "Xiaomi",
+  "model": "Redmi Router AX6000",
+  "hardware_revision": "RB06",
+  "regional_variant": "CN",
+  "internal_board_name": "redmi_ax6000",
+  "soc": {
+    "vendor": "MediaTek",
+    "model": "MT7986A",
+    "family": "Filogic 830",
+    "cores": 4,
+    "frequency_mhz": 2000
+  },
+  "architecture": "aarch64",
+  "ram_mb": 512,
+  "flash": {
+    "type": "SPI-NAND",
+    "capacity_mb": 128
+  },
+  "wireless": [
+    {
+      "radio_id": "radio0",
+      "chipset": "MT7976C",
+      "frequency_ghz": 2.4,
+      "generation": "Wi-Fi 6",
+      "spatial_streams": "4x4",
+      "max_phy_rate_mbps": 1148,
+      "channel_width_mhz": 40
+    },
+    {
+      "radio_id": "radio1",
+      "chipset": "MT7976C",
+      "frequency_ghz": 5.0,
+      "generation": "Wi-Fi 6",
+      "spatial_streams": "4x4",
+      "max_phy_rate_mbps": 4804,
+      "channel_width_mhz": 160
+    }
+  ],
+  "ethernet": {
+    "switch_chip": "MT7531AE",
+    "ports": [
+      { "name": "WAN", "type": "WAN", "speed_mbps": 1000, "dsa_port": "wan" },
+      { "name": "LAN1", "type": "LAN", "speed_mbps": 1000, "dsa_port": "lan1" },
+      { "name": "LAN2", "type": "LAN", "speed_mbps": 1000, "dsa_port": "lan2" },
+      { "name": "LAN3", "type": "LAN", "speed_mbps": 1000, "dsa_port": "lan3" }
+    ]
+  },
+  "usb_ports": [],
+  "poe": {
+    "supported": false,
+    "standard": null,
+    "type": null
+  },
+  "bootloader": "U-Boot 2022.04 (Xiaomi miwifi-uboot)",
+  "serial_uart": {
+    "available": true,
+    "voltage": "3.3V",
+    "baudrate": 115200,
+    "pinout_documented": true,
+    "notes": "4-pin 3.3V header (GND, TX, RX, 3.3V)."
+  },
+  "openwrt": {
+    "target": "mediatek/filogic",
+    "subtarget": "arm64",
+    "profile": "redmi_ax6000",
+    "support_status": "OFFICIALLY_SUPPORTED",
+    "first_supported_version": "23.05.0",
+    "latest_tested_version": "25.12.6",
+    "firmware_selector_url": "https://firmware-selector.openwrt.org/?version=25.12.6&target=mediatek%2Ffilogic&id=redmi_ax6000",
+    "device_tree_file": "mt7986a-xiaomi-redmi-router-ax6000.dts",
+    "known_limitations": [
+      "Initial unlock requires web interface exploit or telnet script to flash OpenWrt initramfs-factory.ubi into ubi partition."
+    ]
+  },
+  "installation": {
+    "method": "Automated Root SSH Exploit",
+    "risk": "MEDIUM",
+    "requires_factory_stage": true,
+    "guide_link": "https://openwrt.org/toh/xiaomi/redmi_ax6000"
+  },
+  "recovery": {
+    "method": "TFTP Push (Automated)",
+    "recovery_ip": "192.168.31.1",
+    "guide_link": "https://openwrt.org/toh/xiaomi/redmi_ax6000"
+  },
+  "verification": {
+    "status": "OFFICIALLY_SUPPORTED",
+    "evidence": [
+      "OpenWrt commit: mediatek: add support for Xiaomi Redmi Router AX6000",
+      "Over 10,000 community installations globally"
+    ],
+    "last_verified": "2026-11-14"
+  },
+  "sources": [
+    {
+      "title": "OpenWrt ToH: Xiaomi Redmi Router AX6000",
+      "url": "https://openwrt.org/toh/xiaomi/redmi_ax6000",
+      "type": "OPENWRT_TOH",
+      "date_accessed": "2026-11-14"
+    }
+  ]
+}

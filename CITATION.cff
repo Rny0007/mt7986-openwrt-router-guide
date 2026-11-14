@@ -1,18 +1,25 @@
 cff-version: 1.2.0
-message: "If you use or reference this guide in your research, networking lab, or firmware projects, please cite it as below."
+message: "If you use or reference this knowledge base in your research, networking lab, or firmware projects, please cite it as below."
 authors:
   - name: "Rny0007"
-title: "MT7986 OpenWrt Router Guide: Install & Configure OpenWrt on Filogic Wi-Fi 6 Routers"
-version: 1.0.0
-date-released: 2026-11-13
+title: "OpenWrt Router Hardware Knowledge Base: Multi-Vendor Silicon Profiles, Device Database & Reference Architectures"
+version: 2.0.0
+date-released: 2026-11-14
 url: "https://github.com/Rny0007/mt7986-openwrt-router-guide"
 keywords:
   - openwrt
-  - mt7986
+  - router-hardware
+  - hardware-knowledge-base
   - mediatek
   - filogic-830
+  - filogic-880
+  - filogic-820
+  - mt7986
+  - qualcomm-ipq
+  - rockchip-rk3568
+  - realtek-rtl838x
   - wifi-6
-  - jidu6101
-  - adguard-home
-  - router-firmware
+  - wifi-7
+  - multi-wan
+  - network-security
 license: CC-BY-4.0

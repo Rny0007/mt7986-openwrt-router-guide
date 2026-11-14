@@ -1,0 +1,107 @@
+{
+  "id": "banana-pi-bpi-r3",
+  "manufacturer": "Banana Pi",
+  "model": "BPI-R3",
+  "hardware_revision": "v1.2",
+  "regional_variant": "Global",
+  "internal_board_name": "bananapi_bpi-r3",
+  "soc": {
+    "vendor": "MediaTek",
+    "model": "MT7986A",
+    "family": "Filogic 830",
+    "cores": 4,
+    "frequency_mhz": 2000
+  },
+  "architecture": "aarch64",
+  "ram_mb": 2048,
+  "flash": {
+    "type": "eMMC",
+    "capacity_mb": 8192
+  },
+  "wireless": [
+    {
+      "radio_id": "radio0",
+      "chipset": "MT7976C",
+      "frequency_ghz": 2.4,
+      "generation": "Wi-Fi 6",
+      "spatial_streams": "4x4",
+      "max_phy_rate_mbps": 1148,
+      "channel_width_mhz": 40
+    },
+    {
+      "radio_id": "radio1",
+      "chipset": "MT7976C",
+      "frequency_ghz": 5.0,
+      "generation": "Wi-Fi 6",
+      "spatial_streams": "4x4",
+      "max_phy_rate_mbps": 4804,
+      "channel_width_mhz": 160
+    }
+  ],
+  "ethernet": {
+    "switch_chip": "MT7531AE",
+    "ports": [
+      { "name": "SFP+ 1", "type": "SFP+", "speed_mbps": 2500, "dsa_port": "sfp1" },
+      { "name": "SFP+ 2", "type": "SFP+", "speed_mbps": 2500, "dsa_port": "sfp2" },
+      { "name": "WAN", "type": "WAN", "speed_mbps": 1000, "dsa_port": "wan" },
+      { "name": "LAN1", "type": "LAN", "speed_mbps": 1000, "dsa_port": "lan1" },
+      { "name": "LAN2", "type": "LAN", "speed_mbps": 1000, "dsa_port": "lan2" },
+      { "name": "LAN3", "type": "LAN", "speed_mbps": 1000, "dsa_port": "lan3" },
+      { "name": "LAN4", "type": "LAN", "speed_mbps": 1000, "dsa_port": "lan4" }
+    ]
+  },
+  "usb_ports": [
+    { "type": "USB 3.0 Type-A", "count": 1 }
+  ],
+  "poe": {
+    "supported": true,
+    "standard": "802.3at (PoE+)",
+    "type": "PoE-In"
+  },
+  "bootloader": "U-Boot 2023.07 (ATF/FIP via SD/NAND/eMMC selector switch)",
+  "serial_uart": {
+    "available": true,
+    "voltage": "3.3V",
+    "baudrate": 115200,
+    "pinout_documented": true,
+    "notes": "Dedicated 3-pin standard header (GND, RX, TX)."
+  },
+  "openwrt": {
+    "target": "mediatek/filogic",
+    "subtarget": "arm64",
+    "profile": "bananapi_bpi-r3",
+    "support_status": "OFFICIALLY_SUPPORTED",
+    "first_supported_version": "23.05.0",
+    "latest_tested_version": "25.12.6",
+    "firmware_selector_url": "https://firmware-selector.openwrt.org/?version=25.12.6&target=mediatek%2Ffilogic&id=bananapi_bpi-r3",
+    "device_tree_file": "mt7986a-bananapi-bpi-r3.dts",
+    "known_limitations": []
+  },
+  "installation": {
+    "method": "U-Boot Web Fail-Safe",
+    "risk": "LOW",
+    "requires_factory_stage": false,
+    "guide_link": "https://openwrt.org/toh/sinovoip/banana_pi_bpi-r3"
+  },
+  "recovery": {
+    "method": "TFTP Push (Automated)",
+    "recovery_ip": "192.168.1.1",
+    "guide_link": "https://openwrt.org/toh/sinovoip/banana_pi_bpi-r3"
+  },
+  "verification": {
+    "status": "OFFICIALLY_SUPPORTED",
+    "evidence": [
+      "Official OpenWrt reference board for Filogic 830",
+      "Upstream DTS maintained directly by Daniel Golle"
+    ],
+    "last_verified": "2026-11-14"
+  },
+  "sources": [
+    {
+      "title": "OpenWrt ToH: Banana Pi BPI-R3",
+      "url": "https://openwrt.org/toh/sinovoip/banana_pi_bpi-r3",
+      "type": "OPENWRT_TOH",
+      "date_accessed": "2026-11-14"
+    }
+  ]
+}

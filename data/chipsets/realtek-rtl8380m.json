@@ -1,0 +1,39 @@
+{
+  "id": "realtek-rtl8380m",
+  "vendor": "Realtek",
+  "part_number": "RTL8380M / RTL8382M",
+  "marketing_name": "RTL838x Managed Switch Platform",
+  "cpu": {
+    "architecture": "mips_24kc",
+    "core_type": "MIPS 4KEc / 24Kc",
+    "cores": 1,
+    "max_clock_mhz": 500
+  },
+  "process_node_nm": 40,
+  "openwrt_target": "realtek",
+  "openwrt_subtarget": "rtl838x",
+  "linux_driver": {
+    "wireless_mac80211": null,
+    "ethernet_driver": "rtl838x_eth",
+    "switch_driver": "rtl838x (DSA)"
+  },
+  "wireless_subsystem": {
+    "integrated": false,
+    "accompanying_rf_chips": [],
+    "wi_fi_generation": "None (Dedicated Ethernet Switch)",
+    "mimo_capabilities": "N/A"
+  },
+  "hardware_acceleration": {
+    "flow_offload": "Supported (Hardware L2/L3 ASIC Switch Engine)",
+    "crypto_engine": false,
+    "wireless_ethernet_dispatch": false
+  },
+  "openwrt_support_tier": "TIER_2_STABLE",
+  "notes": "Dedicated managed switch platform powering 8-port to 24-port Gigabit smart switches (e.g. Zyxel GS1900-8, D-Link DGS-1210). Fully supported via upstream OpenWrt realtek/rtl838x target with Linux DSA switch fabric integration.",
+  "sources": [
+    {
+      "title": "OpenWrt Target Definition: realtek/rtl838x",
+      "url": "https://git.openwrt.org/?p=openwrt/openwrt.git;a=tree;f=target/linux/realtek"
+    }
+  ]
+}

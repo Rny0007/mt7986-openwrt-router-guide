@@ -1,0 +1,19 @@
+name: "Documentation Improvement"
+description: "Suggest a correction, clarification, or new tutorial for docs/"
+title: "[Docs]: "
+labels: ["documentation", "enhancement"]
+body:
+  - type: input
+    id: page_url
+    attributes:
+      label: "Target Documentation File or Page"
+      placeholder: "e.g. docs/networking/multi-wan-failover.md"
+    validations:
+      required: true
+  - type: textarea
+    id: suggested_changes
+    attributes:
+      label: "Suggested Improvements"
+      description: "Describe what should be added, clarified, or reformatted."
+    validations:
+      required: true

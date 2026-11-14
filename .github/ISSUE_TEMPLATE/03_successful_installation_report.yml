@@ -1,0 +1,37 @@
+name: "Successful Installation Report"
+description: "Document a working installation method for a specific router model"
+title: "[Install Report]: "
+labels: ["installation-guide", "community-verified"]
+body:
+  - type: input
+    id: router_model
+    attributes:
+      label: "Router Model & Exact Revision"
+      placeholder: "e.g. Jio JIDU6101 6j01, Cudy WR3000 v1"
+    validations:
+      required: true
+  - type: dropdown
+    id: method
+    attributes:
+      label: "Installation Method Used"
+      options:
+        - "OEM Web GUI Direct Flash"
+        - "Two-Stage Sysupgrade (Factory Stage in RAM -> Sysupgrade)"
+        - "U-Boot Web Failsafe Recovery Interface"
+        - "Automated Root SSH Exploit"
+        - "TFTP Push"
+        - "UART Serial Console Command"
+    validations:
+      required: true
+  - type: textarea
+    id: step_by_step
+    attributes:
+      label: "Reproducible Step-by-Step Instructions"
+      description: "Describe exact steps, IP addresses used, and pre-flash precautions."
+    validations:
+      required: true
+  - type: textarea
+    id: pitfalls
+    attributes:
+      label: "Known Pitfalls & Critical Warnings"
+      description: "Any downgrade protections, special image headers, or power cycle risks."

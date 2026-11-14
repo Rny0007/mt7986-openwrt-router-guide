@@ -1,0 +1,67 @@
+name: "New Router Device Submission"
+description: "Submit a new OpenWrt-compatible router hardware profile to data/devices/"
+title: "[Device]: "
+labels: ["device-submission", "needs-verification"]
+body:
+  - type: markdown
+    attributes:
+      value: "Thank you for contributing a new router profile! Please ensure all fields are backed by verifiable sources."
+  - type: input
+    id: manufacturer
+    attributes:
+      label: "Manufacturer / Brand"
+      placeholder: "e.g. Cudy, GL.iNet, Xiaomi, ASUS"
+    validations:
+      required: true
+  - type: input
+    id: model
+    attributes:
+      label: "Commercial Model"
+      placeholder: "e.g. WR3000, GL-MT6000, RT-AX59U"
+    validations:
+      required: true
+  - type: input
+    id: revision
+    attributes:
+      label: "Hardware Revision"
+      placeholder: "e.g. v1.0, A1, 6j01"
+    validations:
+      required: true
+  - type: input
+    id: soc
+    attributes:
+      label: "SoC / Chipset"
+      placeholder: "e.g. MediaTek MT7986A Filogic 830"
+    validations:
+      required: true
+  - type: input
+    id: ram_flash
+    attributes:
+      label: "RAM & Flash Capacity"
+      placeholder: "e.g. 512 MB RAM, 128 MB SPI-NAND"
+    validations:
+      required: true
+  - type: dropdown
+    id: support_status
+    attributes:
+      label: "OpenWrt Support Status"
+      options:
+        - "OFFICIALLY_SUPPORTED (Merged in upstream OpenWrt Git)"
+        - "COMMUNITY_VERIFIED (Community fork / tested build)"
+        - "PARTIALLY_VERIFIED (Wi-Fi or specific PHY incomplete)"
+        - "EXPERIMENTAL (WIP porting effort)"
+    validations:
+      required: true
+  - type: textarea
+    id: upstream_sources
+    attributes:
+      label: "Primary Upstream Sources & Evidence"
+      description: "Provide links to OpenWrt Git commits, device trees (.dts), ToH pages, or FCC filings."
+      placeholder: "https://git.openwrt.org/?p=openwrt/openwrt.git;a=blob;f=target/linux/..."
+    validations:
+      required: true
+  - type: textarea
+    id: sanitized_logs
+    attributes:
+      label: "Sanitized Boot Telemetry (dmesg, /proc/cpuinfo)"
+      description: "Paste sanitized output. Remove all MAC addresses, serial numbers, and private passwords."

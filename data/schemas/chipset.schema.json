@@ -1,0 +1,81 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/Rny0007/mt7986-openwrt-router-guide/main/data/schemas/chipset.schema.json",
+  "title": "NetworkSoCChipsetProfile",
+  "description": "Architectural and OpenWrt driver profile for router Systems-on-Chip (SoC) and wireless chipsets.",
+  "type": "object",
+  "required": [
+    "id",
+    "vendor",
+    "part_number",
+    "marketing_name",
+    "cpu",
+    "process_node_nm",
+    "openwrt_target",
+    "wireless_subsystem",
+    "hardware_acceleration",
+    "openwrt_support_tier",
+    "sources"
+  ],
+  "properties": {
+    "id": { "type": "string", "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$" },
+    "vendor": { "type": "string", "enum": ["MediaTek", "Qualcomm", "Broadcom", "Realtek", "Rockchip", "Intel/x86", "Marvell", "NXP"] },
+    "part_number": { "type": "string" },
+    "marketing_name": { "type": "string" },
+    "cpu": {
+      "type": "object",
+      "required": ["architecture", "cores", "max_clock_mhz"],
+      "properties": {
+        "architecture": { "type": "string" },
+        "core_type": { "type": "string" },
+        "cores": { "type": "integer", "minimum": 1 },
+        "max_clock_mhz": { "type": "integer" }
+      }
+    },
+    "process_node_nm": { "type": ["integer", "null"] },
+    "openwrt_target": { "type": "string" },
+    "openwrt_subtarget": { "type": ["string", "null"] },
+    "linux_driver": {
+      "type": "object",
+      "properties": {
+        "wireless_mac80211": { "type": ["string", "null"], "description": "Upstream mac80211 kernel driver module (e.g. 'mt76', 'ath11k', 'ath10k', 'b43')." },
+        "ethernet_driver": { "type": ["string", "null"], "description": "Ethernet MAC driver (e.g. 'mtk_eth_soc', 'qca_nss_dp')." },
+        "switch_driver": { "type": ["string", "null"], "description": "DSA or switch driver module (e.g. 'mt7530', 'qca8k')." }
+      }
+    },
+    "wireless_subsystem": {
+      "type": "object",
+      "properties": {
+        "integrated": { "type": "boolean" },
+        "accompanying_rf_chips": { "type": "array", "items": { "type": "string" } },
+        "wi_fi_generation": { "type": "string" },
+        "mimo_capabilities": { "type": "string" }
+      }
+    },
+    "hardware_acceleration": {
+      "type": "object",
+      "properties": {
+        "flow_offload": { "type": "string", "enum": ["Supported (Hardware PPE / WED)", "Supported (NSS / PPE)", "Software Only", "Unsupported"] },
+        "crypto_engine": { "type": "boolean" },
+        "wireless_ethernet_dispatch": { "type": "boolean" }
+      }
+    },
+    "openwrt_support_tier": {
+      "type": "string",
+      "enum": ["TIER_1_MAINSTREAM", "TIER_2_STABLE", "TIER_3_COMMUNITY_ONLY", "TIER_4_UNSUPPORTED_PROPRIETARY"]
+    },
+    "notes": { "type": "string" },
+    "sources": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["title", "url"],
+        "properties": {
+          "title": { "type": "string" },
+          "url": { "type": "string", "format": "uri" }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,42 @@
+name: "Validate Hardware Database & Schemas"
+
+on:
+  push:
+    branches: [ "main" ]
+    paths:
+      - "data/**"
+      - "scripts/**"
+      - "tests/**"
+      - ".github/workflows/validate-data.yml"
+  pull_request:
+    branches: [ "main" ]
+    paths:
+      - "data/**"
+      - "scripts/**"
+      - "tests/**"
+
+permissions:
+  contents: read
+
+jobs:
+  validate-schemas:
+    name: "Validate Device & Chipset Schemas"
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Checkout repository"
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+
+      - name: "Set up Python 3.12"
+        uses: actions/setup-python@0b93645e9dc71a7c6b91c0da1d054e287a932599 # v5.1.0
+        with:
+          python-version: "3.12"
+
+      - name: "Run Build Index & Schema Check"
+        run: |
+          python scripts/build-index.py
+
+      - name: "Execute Unit Test Suite"
+        run: |
+          python tests/run_tests.py

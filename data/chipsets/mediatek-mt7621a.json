@@ -1,0 +1,39 @@
+{
+  "id": "mediatek-mt7621a",
+  "vendor": "MediaTek",
+  "part_number": "MT7621A / MT7621AT",
+  "marketing_name": "MT7621",
+  "cpu": {
+    "architecture": "mips_1004kc",
+    "core_type": "MIPS 1004Kc (Dual-Core / 4 Threads via VPE)",
+    "cores": 2,
+    "max_clock_mhz": 880
+  },
+  "process_node_nm": 65,
+  "openwrt_target": "ramips",
+  "openwrt_subtarget": "mt7621",
+  "linux_driver": {
+    "wireless_mac80211": "mt76 (mt7603e / mt7612e / mt7615e / mt7915e)",
+    "ethernet_driver": "mtk_eth_soc",
+    "switch_driver": "mt7530 (DSA)"
+  },
+  "wireless_subsystem": {
+    "integrated": false,
+    "accompanying_rf_chips": ["MT7603E", "MT7612E", "MT7615E"],
+    "wi_fi_generation": "Wi-Fi 5 (802.11ac)",
+    "mimo_capabilities": "Varies by companion PCIe RF chip (typically 2x2 or 4x4)"
+  },
+  "hardware_acceleration": {
+    "flow_offload": "Supported (Hardware PPE / WED)",
+    "crypto_engine": false,
+    "wireless_ethernet_dispatch": false
+  },
+  "openwrt_support_tier": "TIER_1_MAINSTREAM",
+  "notes": "The ubiquitous historical workhorse of budget Gigabit OpenWrt routers (e.g. TP-Link Archer C6 v3, Xiaomi Mi Router 4A Gigabit, D-Link DIR-882). Highly mature Linux target with hardware NAT flow offloading.",
+  "sources": [
+    {
+      "title": "OpenWrt Target Definition: ramips/mt7621",
+      "url": "https://git.openwrt.org/?p=openwrt/openwrt.git;a=tree;f=target/linux/ramips/mt7621"
+    }
+  ]
+}

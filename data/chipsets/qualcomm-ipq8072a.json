@@ -1,0 +1,39 @@
+{
+  "id": "qualcomm-ipq8072a",
+  "vendor": "Qualcomm",
+  "part_number": "IPQ8072A / IPQ8074",
+  "marketing_name": "Networking Pro 1200 / Hawkeye",
+  "cpu": {
+    "architecture": "aarch64",
+    "core_type": "ARM Cortex-A53",
+    "cores": 4,
+    "max_clock_mhz": 2200
+  },
+  "process_node_nm": 14,
+  "openwrt_target": "qualcommax",
+  "openwrt_subtarget": "ipq807x",
+  "linux_driver": {
+    "wireless_mac80211": "ath11k",
+    "ethernet_driver": "qca_nss_dp",
+    "switch_driver": "qca8k (DSA)"
+  },
+  "wireless_subsystem": {
+    "integrated": true,
+    "accompanying_rf_chips": ["QCN5024", "QCN5054"],
+    "wi_fi_generation": "Wi-Fi 6 (802.11ax)",
+    "mimo_capabilities": "4x4:4 (2.4 GHz) + 8x8:8 (5.0 GHz)"
+  },
+  "hardware_acceleration": {
+    "flow_offload": "Supported (NSS / PPE)",
+    "crypto_engine": true,
+    "wireless_ethernet_dispatch": false
+  },
+  "openwrt_support_tier": "TIER_1_MAINSTREAM",
+  "notes": "High-performance enterprise and prosumer Wi-Fi 6 platform powering routers such as Xiaomi AX9000, GL.iNet GL-AXT1800, and Netgear WAX218. Features dedicated Network Subsystem (NSS) coprocessors.",
+  "sources": [
+    {
+      "title": "OpenWrt Target Definition: qualcommax/ipq807x",
+      "url": "https://git.openwrt.org/?p=openwrt/openwrt.git;a=tree;f=target/linux/qualcommax/ipq807x"
+    }
+  ]
+}

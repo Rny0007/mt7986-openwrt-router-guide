@@ -1,0 +1,82 @@
+name: Build and Deploy Website to Repo B
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'data/**'
+      - 'explorer/**'
+      - 'scripts/build-website.py'
+      - 'scripts/build-index.py'
+      - 'tests/**'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Source Repository (Repo A)
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+
+      - name: Validate Data Index
+        run: |
+          python scripts/build-index.py
+
+      - name: Run Test Suite
+        run: |
+          python tests/run_tests.py
+
+      - name: Compile Static Production Website
+        run: |
+          python scripts/build-website.py
+
+      - name: Check for Deploy Secret
+        id: check-secret
+        run: |
+          if [ -n "${{ secrets.EXPLORER_DEPLOY_TOKEN }}" ]; then
+            echo "has_token=true" >> $GITHUB_OUTPUT
+          else
+            echo "has_token=false" >> $GITHUB_OUTPUT
+            echo "::warning::EXPLORER_DEPLOY_TOKEN secret is not set. Built site is ready in site/ but cannot be pushed to Repo B automatically."
+          fi
+
+      - name: Deploy to Website Repository (Repo B)
+        if: steps.check-secret.outputs.has_token == 'true'
+        env:
+          DEPLOY_TOKEN: ${{ secrets.EXPLORER_DEPLOY_TOKEN }}
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          
+          # Clone target repo B
+          git clone "https://x-access-token:${DEPLOY_TOKEN}@github.com/Rny0007/openwrt-router-hardware-explorer.git" target-repo
+          cd target-repo
+          git checkout main || git checkout -b main
+          
+          # Remove existing files except .git
+          find . -mindepth 1 -not -path './.git*' -delete
+          
+          # Copy fresh built website
+          cp -r ../site/* .
+          
+          # Check for changes
+          if [ -n "$(git status --porcelain)" ]; then
+            git add -A
+            git commit -m "deploy: automated website build from Rny0007/mt7986-openwrt-router-guide@${{ github.sha }}"
+            git push origin main
+            echo "Successfully deployed website to Rny0007/openwrt-router-hardware-explorer"
+          else
+            echo "No changes detected. Website is already up to date."
+          fi

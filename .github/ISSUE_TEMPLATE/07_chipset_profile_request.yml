@@ -1,0 +1,26 @@
+name: "New Chipset Profile Proposal"
+description: "Propose a new SoC silicon or wireless platform profile for data/chipsets/"
+title: "[Chipset]: "
+labels: ["chipset-profile", "research-needed"]
+body:
+  - type: input
+    id: part_number
+    attributes:
+      label: "SoC Part Number & Silicon Vendor"
+      placeholder: "e.g. MediaTek MT7988A, Qualcomm IPQ9574"
+    validations:
+      required: true
+  - type: input
+    id: openwrt_target
+    attributes:
+      label: "OpenWrt Linux Target"
+      placeholder: "e.g. mediatek/filogic, qualcommax"
+    validations:
+      required: true
+  - type: textarea
+    id: architecture_summary
+    attributes:
+      label: "Architecture & Driver Details"
+      description: "CPU cores, clock speed, hardware offload support (PPE/WED/NSS), and mac80211 driver status."
+    validations:
+      required: true

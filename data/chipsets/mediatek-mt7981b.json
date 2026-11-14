@@ -1,0 +1,39 @@
+{
+  "id": "mediatek-mt7981b",
+  "vendor": "MediaTek",
+  "part_number": "MT7981B",
+  "marketing_name": "Filogic 820",
+  "cpu": {
+    "architecture": "aarch64",
+    "core_type": "ARM Cortex-A53",
+    "cores": 2,
+    "max_clock_mhz": 1300
+  },
+  "process_node_nm": 12,
+  "openwrt_target": "mediatek",
+  "openwrt_subtarget": "filogic",
+  "linux_driver": {
+    "wireless_mac80211": "mt76 (mt7981)",
+    "ethernet_driver": "mtk_eth_soc",
+    "switch_driver": "mt7531 (DSA)"
+  },
+  "wireless_subsystem": {
+    "integrated": true,
+    "accompanying_rf_chips": ["MT7976CN"],
+    "wi_fi_generation": "Wi-Fi 6 (802.11ax)",
+    "mimo_capabilities": "2x2:2 (2.4 GHz) + 3x3:2 (5.0 GHz)"
+  },
+  "hardware_acceleration": {
+    "flow_offload": "Supported (Hardware PPE / WED)",
+    "crypto_engine": true,
+    "wireless_ethernet_dispatch": true
+  },
+  "openwrt_support_tier": "TIER_1_MAINSTREAM",
+  "notes": "Cost-effective, highly efficient Wi-Fi 6 SoC prevalent in compact travel routers (e.g. GL-MT3000) and entry-to-midrange wireless access points.",
+  "sources": [
+    {
+      "title": "OpenWrt Target Definition: mediatek/filogic",
+      "url": "https://git.openwrt.org/?p=openwrt/openwrt.git;a=tree;f=target/linux/mediatek/filogic"
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "id": "rockchip-rk3568",
+  "vendor": "Rockchip",
+  "part_number": "RK3568 / RK3568B2",
+  "marketing_name": "RK3568",
+  "cpu": {
+    "architecture": "aarch64",
+    "core_type": "ARM Cortex-A55",
+    "cores": 4,
+    "max_clock_mhz": 2000
+  },
+  "process_node_nm": 22,
+  "openwrt_target": "rockchip",
+  "openwrt_subtarget": "armv8",
+  "linux_driver": {
+    "wireless_mac80211": null,
+    "ethernet_driver": "r8125 / stmmac",
+    "switch_driver": null
+  },
+  "wireless_subsystem": {
+    "integrated": false,
+    "accompanying_rf_chips": [],
+    "wi_fi_generation": "Varies by M.2 / PCIe Wi-Fi card",
+    "mimo_capabilities": "Optional M.2 E-key slot"
+  },
+  "hardware_acceleration": {
+    "flow_offload": "Software Only",
+    "crypto_engine": true,
+    "wireless_ethernet_dispatch": false
+  },
+  "openwrt_support_tier": "TIER_1_MAINSTREAM",
+  "notes": "Workhorse of modern multi-gigabit SBC routers (e.g. FriendlyElec NanoPi R5S / R5C, Radxa E25). Features native dual PCIe 2.5GbE PHYs (Realtek RTL8125BG) delivering full 2.5 Gbps wire speed under OpenWrt.",
+  "sources": [
+    {
+      "title": "OpenWrt Target Definition: rockchip/armv8",
+      "url": "https://git.openwrt.org/?p=openwrt/openwrt.git;a=tree;f=target/linux/rockchip"
+    }
+  ]
+}

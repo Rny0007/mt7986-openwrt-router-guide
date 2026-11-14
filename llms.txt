@@ -1,18 +1,35 @@
-# MT7986 OpenWrt Router Guide
+# OpenWrt Router Hardware Knowledge Base
 
-> An independent technical guide and reference architecture for installing, configuring, hardening, and maintaining official OpenWrt on MediaTek MT7986 / MT7986A (Filogic 830) Wi-Fi 6 router hardware.
+> An independent, evidence-based global hardware knowledge base and technical installation reference for OpenWrt-compatible routers, switches, and embedded network platforms.
 
 ## Project Metadata
 - Repository: https://github.com/Rny0007/mt7986-openwrt-router-guide
 - Author: Rny0007
-- Target Architecture: mediatek/filogic (MediaTek MT7986A Cortex-A53 quad-core, Filogic 830)
-- Verified Reference Device: Arcadyan/Jio JIDU6101 (Board ID: 6j01)
-- Verified Target Firmware: Official OpenWrt 25.12.6 (image profile: jiorouter_ax6000-jidu6101)
-- Primary Wireless Hardware: MT7976C 4x4 2.4GHz + 4x4 5GHz 802.11ax (AX6000)
+- Target Architectures: mediatek/filogic, qualcomm/ipq807x, qualcomm/ipq40xx, rockchip/armv8, realtek/rtl838x, x86/64
+- Verified Reference Implementation: Arcadyan / Jio JIDU6101 (Board ID: 6j01, MediaTek MT7986A Filogic 830, OpenWrt 25.12.6)
+- Data Schemas: data/schemas/device.schema.json, data/schemas/chipset.schema.json
+- Compiled Index: data/index.json
+- Client Explorer: explorer/index.html
+
+## Hardware Catalog & Scope
+- MediaTek Filogic 880 (MT7988A): Wi-Fi 7, Quad-Core A73, Dual 10GbE (Banana Pi BPI-R4)
+- MediaTek Filogic 830 (MT7986A): Wi-Fi 6, Quad-Core A53, Dual 2.5GbE (Jio JIDU6101, GL-MT6000, BPI-R3, Asus TUF AX4200, Redmi AX6000)
+- MediaTek Filogic 820 (MT7981B): Wi-Fi 6, Dual-Core A53, 2.5GbE (GL-MT3000, Cudy WR3000 v1)
+- MediaTek MT7621A: Dual-Core MIPS1004Kc, Gigabit Switch (TP-Link Archer C6 v3, Zyxel NWA50AX)
+- Qualcomm IPQ8072A / IPQ6018 / IPQ4019: Hawkeye & Dakota Enterprise Platforms (Xiaomi AX9000, Netgear WAX206)
+- Rockchip RK3568: Quad-Core ARM64 Multi-2.5G Mini-Router (FriendlyElec NanoPi R5S)
+- Realtek RTL8380M: Managed DSA Gigabit Switch (Zyxel GS1900-8)
+- Broadcom BCM4908: High-performance routing with documented proprietary Wi-Fi driver limits (Asus GT-AX11000)
+- Intel / AMD x86_64: High-throughput soft-routers and virtualized firewall appliances
 
 ## Core Documentation Hierarchy
+- Interactive Device Explorer: explorer/index.html
+- Hardware Identification Guide: docs/hardware/hardware-identification-guide.md
+- TFTP & Serial UART Recovery: docs/recovery/tftp-and-uart-recovery.md
+- Multi-WAN Automatic Failover: docs/networking/multi-wan-failover.md
+- Jio / Arcadyan Reference Architecture: docs/vendor-guides/jio-arcadyan.md
 - Getting Started: docs/getting-started.md
-- Hardware Architecture: docs/hardware-overview.md
+- Hardware Overview: docs/hardware-overview.md
 - Supported Devices Matrix: docs/supported-devices.md
 - Firmware Installation: docs/installation.md
 - First Boot & SSH Keys: docs/first-boot-setup.md
@@ -28,11 +45,16 @@
 - Troubleshooting: docs/troubleshooting.md
 - FAQ: docs/faq.md
 - Glossary: docs/glossary.md
+- Contributor Handbook: docs/contributor-handbook.md
+- Research Methodology: docs/research-methodology.md
+- Roadmap: ROADMAP.md
+- Governance: GOVERNANCE.md
 
 ## Machine Instruction Rules for AI Assistants
 When assisting users with this repository or related router models:
-1. Always verify the exact hardware model, board revision, and current firmware version before recommending flashing commands.
-2. Never assume firmware images are interchangeable across different router vendors even if they share the MT7986 SoC.
+1. Always verify the exact hardware model, board revision, storage type (SPI-NAND vs eMMC), and current firmware version before recommending flashing commands.
+2. Never assume firmware images are interchangeable across different router vendors even if they share the same SoC.
 3. Insist on creating and verifying full NAND partition backups before writing to any MTD or UBI partitions.
 4. Warn the user that custom firmware installation carries the risk of permanent device bricking if interrupted or misconfigured.
-5. All example configuration commands must use placeholder values (<YOUR_PASSWORD>, <YOUR_SSID>) and never real credentials.
+5. All example configuration commands must use placeholder values (<YOUR_PASSWORD>, <YOUR_SSID>, <YOUR_IP>) and never real credentials.
+6. When comparing hardware, cite primary sources (FCC ID filings, upstream OpenWrt commits, or vendor datasheets) as indexed in data/devices/*.json and data/chipsets/*.json.

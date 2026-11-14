@@ -1,0 +1,12 @@
+{
+  "CRITICAL": [],
+  "HIGH": [],
+  "MEDIUM": [],
+  "LOW": [],
+  "INFORMATIONAL": [
+    "Zyxel GS1900-8 verified as dedicated managed switch",
+    "Audited 18 device records across data/devices/",
+    "Audited 11 chipset records across data/chipsets/",
+    "Scanned 87 files for secrets, tokens, personal paths, and file:// links"
+  ]
+}

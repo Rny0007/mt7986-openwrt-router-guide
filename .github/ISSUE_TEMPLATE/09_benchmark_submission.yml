@@ -1,0 +1,33 @@
+name: "Benchmark & Performance Submission"
+description: "Submit reproducible routing throughput, VPN (WireGuard), or Wi-Fi transfer benchmarks"
+title: "[Benchmark]: "
+labels: ["benchmarks", "performance"]
+body:
+  - type: input
+    id: router_model
+    attributes:
+      label: "Router Model & Hardware Revision"
+    validations:
+      required: true
+  - type: input
+    id: openwrt_version
+    attributes:
+      label: "OpenWrt Release & Kernel Version"
+    validations:
+      required: true
+  - type: checkboxes
+    id: offload_status
+    attributes:
+      label: "Acceleration Features Enabled"
+      options:
+        - label: "Software Flow Offloading (nftables)"
+        - label: "Hardware Flow Offloading (PPE / NSS)"
+        - label: "Wireless Ethernet Dispatch (WED)"
+        - label: "SQM CAKE Traffic Shaping Active"
+  - type: textarea
+    id: iperf_results
+    attributes:
+      label: "iPerf3 / Throughput Metrics"
+      description: "Paste command line, bitrate, and CPU usage (`top` or `mpstat`)."
+    validations:
+      required: true

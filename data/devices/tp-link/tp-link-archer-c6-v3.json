@@ -1,0 +1,105 @@
+{
+  "id": "tp-link-archer-c6-v3",
+  "manufacturer": "TP-Link",
+  "model": "Archer C6",
+  "hardware_revision": "v3.2",
+  "regional_variant": "Global",
+  "internal_board_name": "archer-c6-v3",
+  "soc": {
+    "vendor": "MediaTek",
+    "model": "MT7621AT",
+    "family": "MT7621",
+    "cores": 2,
+    "frequency_mhz": 880
+  },
+  "architecture": "mips_1004kc",
+  "ram_mb": 128,
+  "flash": {
+    "type": "SPI-NOR",
+    "capacity_mb": 16
+  },
+  "wireless": [
+    {
+      "radio_id": "radio0",
+      "chipset": "MT7603E",
+      "frequency_ghz": 2.4,
+      "generation": "Wi-Fi 4",
+      "spatial_streams": "2x2",
+      "max_phy_rate_mbps": 300,
+      "channel_width_mhz": 40
+    },
+    {
+      "radio_id": "radio1",
+      "chipset": "MT7613BE",
+      "frequency_ghz": 5.0,
+      "generation": "Wi-Fi 5",
+      "spatial_streams": "2x2",
+      "max_phy_rate_mbps": 867,
+      "channel_width_mhz": 80
+    }
+  ],
+  "ethernet": {
+    "switch_chip": "MT7530",
+    "ports": [
+      { "name": "WAN", "type": "WAN", "speed_mbps": 1000, "dsa_port": "wan" },
+      { "name": "LAN1", "type": "LAN", "speed_mbps": 1000, "dsa_port": "lan1" },
+      { "name": "LAN2", "type": "LAN", "speed_mbps": 1000, "dsa_port": "lan2" },
+      { "name": "LAN3", "type": "LAN", "speed_mbps": 1000, "dsa_port": "lan3" },
+      { "name": "LAN4", "type": "LAN", "speed_mbps": 1000, "dsa_port": "lan4" }
+    ]
+  },
+  "usb_ports": [],
+  "poe": {
+    "supported": false,
+    "standard": null,
+    "type": null
+  },
+  "bootloader": "U-Boot 2014.04 (TP-Link safe boot)",
+  "serial_uart": {
+    "available": true,
+    "voltage": "3.3V",
+    "baudrate": 115200,
+    "pinout_documented": true,
+    "notes": "4-pin 3.3V header (VCC, RX, TX, GND)."
+  },
+  "openwrt": {
+    "target": "ramips/mt7621",
+    "subtarget": "generic",
+    "profile": "tplink_archer-c6-v3",
+    "support_status": "OFFICIALLY_SUPPORTED",
+    "first_supported_version": "21.02.0",
+    "latest_tested_version": "25.12.6",
+    "firmware_selector_url": "https://firmware-selector.openwrt.org/?version=25.12.6&target=ramips%2Fmt7621&id=tplink_archer-c6-v3",
+    "device_tree_file": "mt7621-tplink-archer-c6-v3.dts",
+    "known_limitations": [
+      "16MB flash requires lightweight package footprints."
+    ]
+  },
+  "installation": {
+    "method": "OEM Web GUI Flash",
+    "risk": "LOW",
+    "requires_factory_stage": false,
+    "guide_link": "https://openwrt.org/toh/tp-link/archer_c6_v3"
+  },
+  "recovery": {
+    "method": "TFTP Push (Automated)",
+    "recovery_ip": "192.168.0.66",
+    "guide_link": "https://openwrt.org/toh/tp-link/archer_c6_v3"
+  },
+  "verification": {
+    "status": "OFFICIALLY_SUPPORTED",
+    "evidence": [
+      "Mainline ramips target commit in OpenWrt Git",
+      "Millions of devices in active community service"
+    ],
+    "last_verified": "2026-11-14"
+  },
+  "sources": [
+    {
+      "title": "OpenWrt ToH: TP-Link Archer C6 v3",
+      "url": "https://openwrt.org/toh/tp-link/archer_c6_v3",
+      "type": "OPENWRT_TOH",
+      "date_accessed": "2026-11-14"
+    }
+  ]
+}

@@ -1,0 +1,102 @@
+{
+  "id": "gl-inet-gl-mt3000",
+  "manufacturer": "GL.iNet",
+  "model": "GL-MT3000",
+  "hardware_revision": "Beryl AX",
+  "regional_variant": "Global",
+  "internal_board_name": "glinet_gl-mt3000",
+  "soc": {
+    "vendor": "MediaTek",
+    "model": "MT7981B",
+    "family": "Filogic 820",
+    "cores": 2,
+    "frequency_mhz": 1300
+  },
+  "architecture": "aarch64",
+  "ram_mb": 512,
+  "flash": {
+    "type": "SPI-NAND",
+    "capacity_mb": 256
+  },
+  "wireless": [
+    {
+      "radio_id": "radio0",
+      "chipset": "MT7976CN",
+      "frequency_ghz": 2.4,
+      "generation": "Wi-Fi 6",
+      "spatial_streams": "2x2",
+      "max_phy_rate_mbps": 574,
+      "channel_width_mhz": 40
+    },
+    {
+      "radio_id": "radio1",
+      "chipset": "MT7976CN",
+      "frequency_ghz": 5.0,
+      "generation": "Wi-Fi 6",
+      "spatial_streams": "3x3",
+      "max_phy_rate_mbps": 2402,
+      "channel_width_mhz": 160
+    }
+  ],
+  "ethernet": {
+    "switch_chip": null,
+    "ports": [
+      { "name": "2.5G WAN", "type": "WAN", "speed_mbps": 2500, "dsa_port": "eth0" },
+      { "name": "1G LAN", "type": "LAN", "speed_mbps": 1000, "dsa_port": "eth1" }
+    ]
+  },
+  "usb_ports": [
+    { "type": "USB 3.0 Type-A", "count": 1 }
+  ],
+  "poe": {
+    "supported": false,
+    "standard": null,
+    "type": null
+  },
+  "bootloader": "U-Boot 2022.04 with Web Fail-Safe",
+  "serial_uart": {
+    "available": true,
+    "voltage": "3.3V",
+    "baudrate": 115200,
+    "pinout_documented": true,
+    "notes": "Internal 3.3V UART pins behind bottom rubber feet."
+  },
+  "openwrt": {
+    "target": "mediatek/filogic",
+    "subtarget": "arm64",
+    "profile": "glinet_gl-mt3000",
+    "support_status": "OFFICIALLY_SUPPORTED",
+    "first_supported_version": "23.05.0",
+    "latest_tested_version": "25.12.6",
+    "firmware_selector_url": "https://firmware-selector.openwrt.org/?version=25.12.6&target=mediatek%2Ffilogic&id=glinet_gl-mt3000",
+    "device_tree_file": "mt7981b-glinet-gl-mt3000.dts",
+    "known_limitations": []
+  },
+  "installation": {
+    "method": "U-Boot Web Fail-Safe",
+    "risk": "LOW",
+    "requires_factory_stage": false,
+    "guide_link": "https://docs.gl-inet.com/router/en/4/faq/debrick/"
+  },
+  "recovery": {
+    "method": "U-Boot Recovery Webpage",
+    "recovery_ip": "192.168.1.1",
+    "guide_link": "https://docs.gl-inet.com/router/en/4/faq/debrick/"
+  },
+  "verification": {
+    "status": "OFFICIALLY_SUPPORTED",
+    "evidence": [
+      "Upstream commit in openwrt/openwrt master: mediatek: add support for GL.iNet GL-MT3000",
+      "Widely deployed community pocket router"
+    ],
+    "last_verified": "2026-11-14"
+  },
+  "sources": [
+    {
+      "title": "OpenWrt Firmware Selector: GL-MT3000",
+      "url": "https://firmware-selector.openwrt.org/?version=25.12.6&target=mediatek%2Ffilogic&id=glinet_gl-mt3000",
+      "type": "OPENWRT_GIT",
+      "date_accessed": "2026-11-14"
+    }
+  ]
+}

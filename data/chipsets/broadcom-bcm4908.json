@@ -1,0 +1,43 @@
+{
+  "id": "broadcom-bcm4908",
+  "vendor": "Broadcom",
+  "part_number": "BCM4908 / BCM4906",
+  "marketing_name": "StrataGX BCM4908",
+  "cpu": {
+    "architecture": "aarch64",
+    "core_type": "ARM Cortex-A53",
+    "cores": 4,
+    "max_clock_mhz": 1800
+  },
+  "process_node_nm": 28,
+  "openwrt_target": "bcm4908",
+  "openwrt_subtarget": "generic",
+  "linux_driver": {
+    "wireless_mac80211": "brcmfmac / b43 (Proprietary Broadcom SDK required for full Wi-Fi 6 operation)",
+    "ethernet_driver": "bcm4908_enet",
+    "switch_driver": "b53 (DSA)"
+  },
+  "wireless_subsystem": {
+    "integrated": false,
+    "accompanying_rf_chips": ["BCM43684"],
+    "wi_fi_generation": "Wi-Fi 6 (802.11ax)",
+    "mimo_capabilities": "4x4:4 (Dual or Tri-band via external PCIe)"
+  },
+  "hardware_acceleration": {
+    "flow_offload": "Software Only",
+    "crypto_engine": true,
+    "wireless_ethernet_dispatch": false
+  },
+  "openwrt_support_tier": "TIER_4_UNSUPPORTED_PROPRIETARY",
+  "notes": "Powers high-end consumer routers like ASUS GT-AX11000 and Netgear RAX80. While the Linux CPU and DSA Ethernet switch work under OpenWrt bcm4908, the wireless transceivers require closed-source proprietary Broadcom binary blobs ('wl.ko') not redistributable in mainline OpenWrt, leaving wireless non-functional or severely degraded on pure open-source builds.",
+  "sources": [
+    {
+      "title": "OpenWrt Target Definition: bcm4908",
+      "url": "https://git.openwrt.org/?p=openwrt/openwrt.git;a=tree;f=target/linux/bcm4908"
+    },
+    {
+      "title": "OpenWrt Broadcom Wi-Fi Driver Limitations",
+      "url": "https://openwrt.org/docs/techref/instructionset/broadcom_bcm47xx#broadcom_wireless"
+    }
+  ]
+}
