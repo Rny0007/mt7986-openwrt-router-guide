@@ -646,6 +646,8 @@ a:hover { color: var(--primary-hover); text-decoration: underline; }
 .badge-warning { background: var(--warning-bg); color: var(--warning); border: 1px solid rgba(245, 158, 11, 0.3); }
 .badge-danger { background: var(--danger-bg); color: var(--danger); border: 1px solid rgba(239, 68, 68, 0.3); }
 .badge-info { background: var(--info-bg); color: var(--info); border: 1px solid rgba(59, 130, 246, 0.3); }
+.badge-secondary { background: rgba(139, 92, 246, 0.15); color: #a78bfa; border: 1px solid rgba(139, 92, 246, 0.3); }
+.badge-muted { background: rgba(148, 163, 184, 0.15); color: #94a3b8; border: 1px solid rgba(148, 163, 184, 0.3); }
 
 /* Specs Table */
 .table-container {
@@ -969,8 +971,21 @@ def build_manifest():
         ]
     }, indent=2)
 
+def get_badge_class(status):
+    mapping = {
+        "OFFICIALLY_SUPPORTED": "badge-success",
+        "COMMUNITY_VERIFIED": "badge-warning",
+        "PARTIALLY_VERIFIED": "badge-info",
+        "POTENTIALLY_COMPATIBLE": "badge-secondary",
+        "EXPERIMENTAL": "badge-warning",
+        "UNSUPPORTED": "badge-danger",
+        "UNKNOWN": "badge-muted"
+    }
+    return mapping.get(status, "badge-info")
+
 def generate_homepage(devices, chipsets):
     official_count = sum(1 for d in devices if d.get("openwrt", {}).get("support_status") == "OFFICIALLY_SUPPORTED")
+    manufacturers = len(set(d.get("manufacturer") for d in devices if d.get("manufacturer")))
     featured_devices = devices[:6]
     featured_chipsets = chipsets[:6]
 
@@ -978,10 +993,11 @@ def generate_homepage(devices, chipsets):
     for d in featured_devices:
         dev_id = d["id"]
         status = d.get("openwrt", {}).get("support_status", "UNKNOWN")
-        badge_cls = "badge-success" if status == "OFFICIALLY_SUPPORTED" else ("badge-warning" if status == "COMMUNITY_VERIFIED" else "badge-info")
+        badge_cls = get_badge_class(status)
         soc = f"{d.get('soc', {}).get('vendor', '')} {d.get('soc', {}).get('model', '')}"
         ram = d.get("ram_mb", "N/A")
-        flash = f"{d.get('flash', {}).get('capacity_mb', 'N/A')} MB {d.get('flash', {}).get('type', '')}"
+        flash_cap = d.get('flash', {}).get('capacity_mb') or d.get('flash', {}).get('mb') or 'N/A'
+        flash = f"{flash_cap} MB {d.get('flash', {}).get('type', '')}"
 
         device_cards += f"""
         <div class="card filter-card">
@@ -1042,8 +1058,8 @@ def generate_homepage(devices, chipsets):
         <div class="stat-label">Officially Supported</div>
       </div>
       <div class="stat-card">
-        <div class="stat-val">100%</div>
-        <div class="stat-label">Citations Verified</div>
+        <div class="stat-val">{manufacturers}</div>
+        <div class="stat-label">Global Manufacturers</div>
       </div>
     </section>
 
@@ -1089,10 +1105,11 @@ def generate_device_directory(devices):
     for d in devices:
         dev_id = d["id"]
         status = d.get("openwrt", {}).get("support_status", "UNKNOWN")
-        badge_cls = "badge-success" if status == "OFFICIALLY_SUPPORTED" else ("badge-warning" if status == "COMMUNITY_VERIFIED" else "badge-info")
+        badge_cls = get_badge_class(status)
         soc = f"{d.get('soc', {}).get('vendor', '')} {d.get('soc', {}).get('model', '')}"
-        ports = len(d.get("ethernet", {}).get("ports", []))
-        flash = f"{d.get('flash', {}).get('capacity_mb', 'N/A')} MB {d.get('flash', {}).get('type', '')}"
+        ports = len(d.get("ethernet_ports") or d.get("ethernet", {}).get("ports") or [])
+        flash_cap = d.get('flash', {}).get('capacity_mb') or d.get('flash', {}).get('mb') or 'N/A'
+        flash = f"{flash_cap} MB {d.get('flash', {}).get('type', '')}"
 
         rows += f"""
         <tr class="filter-card">
@@ -1111,7 +1128,7 @@ def generate_device_directory(devices):
     <div class="section-header">
       <div>
         <h1>OpenWrt Supported Devices Directory</h1>
-        <p>Comprehensive catalog of 18 verified router, access point, switch, and SBC platforms.</p>
+        <p>Comprehensive catalog of {len(devices)} verified router, access point, switch, and SBC platforms.</p>
       </div>
       <div>
         <input type="text" id="search-input" placeholder="Search devices by name, SoC, target..." style="padding: 0.5rem 1rem; border-radius: var(--radius-sm); border: 1px solid var(--border); background: var(--bg-card); color: var(--text); min-width: 280px;">
@@ -1138,24 +1155,46 @@ def generate_device_directory(devices):
       </table>
     </div>
     """
-    desc = "Complete catalog of 18 OpenWrt-compatible routers, switches, and access points with verified hardware specifications and targets."
+    desc = f"Complete catalog of {len(devices)} OpenWrt-compatible routers, switches, and access points with verified hardware specifications and targets."
     return get_header("Device Directory", rel_root="..", current_nav="devices", description=desc, canonical_path="devices/") + content + get_footer(rel_root="..")
 
 def generate_device_page(d):
     dev_id = d["id"]
     status = d.get("openwrt", {}).get("support_status", "UNKNOWN")
-    badge_cls = "badge-success" if status == "OFFICIALLY_SUPPORTED" else ("badge-warning" if status == "COMMUNITY_VERIFIED" else "badge-info")
+    badge_cls = get_badge_class(status)
     soc = d.get("soc", {})
     flash = d.get("flash", {})
     openwrt = d.get("openwrt", {})
-    ports = d.get("ethernet", {}).get("ports", [])
-    wireless = d.get("wireless", [])
+    ports = d.get("ethernet_ports") or d.get("ethernet", {}).get("ports") or []
+    wireless = d.get("wifi") or d.get("wireless") or []
     sources = d.get("sources", [])
 
-    ports_html = "".join([f"<li><strong>{p.get('name')}</strong> ({p.get('type')}): {p.get('speed_mbps')} Mbps — Interface <code>{p.get('dsa_port', 'eth0')}</code></li>" for p in ports])
-    wireless_html = "".join([f"<li><strong>{w.get('generation')} ({w.get('frequency_ghz')} GHz)</strong>: Chipset <code>{w.get('chipset')}</code>, Streams: {w.get('spatial_streams')}, Max Rate: {w.get('max_phy_rate_mbps')} Mbps</li>" for w in wireless])
+    ports_li = []
+    for p in ports:
+        pname = p.get('label') or p.get('name') or p.get('port_id') or 'Port'
+        ptype = p.get('connector') or p.get('type') or 'Ethernet'
+        speed = p.get('speed_mbps', 'N/A')
+        dsa = p.get('dsa_port') or p.get('port_id') or 'eth0'
+        poe = f" ({p['poe']})" if p.get('poe') else ""
+        ports_li.append(f"<li><strong>{pname}</strong> ({ptype}{poe}): {speed} Mbps — Interface <code>{dsa}</code></li>")
+    ports_html = "".join(ports_li) or "<li>No physical Ethernet ports documented.</li>"
+
+    wireless_li = []
+    for w in wireless:
+        gen = w.get('generation') or w.get('standard') or 'Wi-Fi'
+        band = w.get('band') or (f"{w.get('frequency_ghz')} GHz" if w.get('frequency_ghz') else "Wi-Fi")
+        chip = w.get('chipset') or 'Integrated'
+        streams = w.get('mimo') or w.get('spatial_streams') or 'N/A'
+        rate = f", Max Rate: {w['max_phy_rate_mbps']} Mbps" if w.get('max_phy_rate_mbps') else ""
+        wireless_li.append(f"<li><strong>{gen} ({band})</strong>: Chipset <code>{chip}</code>, MIMO/Streams: {streams}{rate}</li>")
+    wireless_html = "".join(wireless_li)
+
     limitations_html = "".join([f"<li>{lim}</li>" for lim in openwrt.get("known_limitations", [])]) or "<li>No critical hardware limitations reported.</li>"
     sources_html = "".join([f"<li><a href='{s.get('url')}' target='_blank' rel='noopener'>{s.get('title')}</a> ({s.get('type')})</li>" for s in sources])
+
+    flash_cap = flash.get('capacity_mb') or flash.get('mb') or 'N/A'
+    switch_model = d.get('switch', {}).get('model') or d.get('ethernet', {}).get('switch_chip') or 'Integrated SoC MAC / DSA'
+    serial_uart = d.get('serial_uart', {}) or d.get('recovery', {})
 
     canonical_url = f"{BASE_URL}/devices/{dev_id}/"
 
@@ -1191,10 +1230,10 @@ def generate_device_page(d):
           <h2 style="color: var(--text-heading); font-size: 1.25rem; margin-bottom: 1rem;">Core Silicon & Processing Specifications</h2>
           <table class="spec-table">
             <tr><th>SoC Vendor & Model</th><td>{soc.get('vendor')} {soc.get('model')} ({soc.get('family', 'Embedded')})</td></tr>
-            <tr><th>CPU Architecture</th><td>{d.get('architecture')} ({soc.get('cores')} Cores @ {soc.get('frequency_mhz')} MHz)</td></tr>
-            <tr><th>RAM Memory</th><td>{d.get('ram_mb')} MB</td></tr>
-            <tr><th>Flash Memory</th><td>{flash.get('capacity_mb')} MB ({flash.get('type')})</td></tr>
-            <tr><th>Switch ASIC</th><td>{d.get('ethernet', {}).get('switch_chip') or 'Integrated SoC MAC / DSA'}</td></tr>
+            <tr><th>CPU Architecture</th><td>{d.get('architecture')} ({soc.get('cores', 'N/A')} Cores @ {soc.get('frequency_mhz', 'N/A')} MHz)</td></tr>
+            <tr><th>RAM Memory</th><td>{d.get('ram_mb', 'N/A')} MB</td></tr>
+            <tr><th>Flash Memory</th><td>{flash_cap} MB ({flash.get('type', 'N/A')})</td></tr>
+            <tr><th>Switch ASIC</th><td>{switch_model}</td></tr>
           </table>
         </div>
 
@@ -1228,16 +1267,18 @@ def generate_device_page(d):
             <tr><th>First Supported</th><td>{openwrt.get('first_supported_version', 'N/A')}</td></tr>
             <tr><th>Device Tree File</th><td><code>{openwrt.get('device_tree_file', 'N/A')}</code></td></tr>
           </table>
-          <div style="margin-top: 1.25rem;">
-            <a href="{openwrt.get('firmware_selector_url') or 'https://firmware-selector.openwrt.org'}" target="_blank" rel="noopener" class="btn btn-sm btn-primary" style="width: 100%; justify-content: center;">Download Official Firmware &rarr;</a>
+          <div style="margin-top: 1.25rem; display: flex; flex-direction: column; gap: 0.5rem;">
+            <a href="{openwrt.get('firmware_selector_url') or 'https://firmware-selector.openwrt.org'}" target="_blank" rel="noopener" class="btn btn-sm btn-primary" style="justify-content: center;">Download Official Firmware &rarr;</a>
+            <a href="../../guides/install/{dev_id}/index.html" class="btn btn-sm btn-outline" style="justify-content: center;">View Installation Guide &rarr;</a>
+            <a href="../../guides/recovery/{dev_id}/index.html" class="btn btn-sm btn-outline" style="justify-content: center;">View Recovery Guide &rarr;</a>
           </div>
         </div>
 
         <div class="card" style="margin-bottom: 2rem;">
           <h2 style="color: var(--text-heading); font-size: 1.25rem; margin-bottom: 1rem;">Installation & Recovery</h2>
           <p style="font-size: 0.9rem; margin-bottom: 0.5rem;"><strong>Flashing Method:</strong> {d.get('installation', {}).get('method', 'Standard')}</p>
-          <p style="font-size: 0.9rem; margin-bottom: 0.5rem;"><strong>Installation Risk:</strong> <span class="badge { 'badge-danger' if d.get('installation', {}).get('risk') == 'HIGH' else 'badge-warning' }">{d.get('installation', {}).get('risk', 'MEDIUM')}</span></p>
-          <p style="font-size: 0.9rem; margin-bottom: 0.5rem;"><strong>Serial UART:</strong> { 'Available (3.3V TTL)' if d.get('serial_uart', {}).get('available') else 'Not populated' }</p>
+          <p style="font-size: 0.9rem; margin-bottom: 0.5rem;"><strong>Installation Risk:</strong> <span class="badge { 'badge-danger' if d.get('installation', {}).get('risk') == 'HIGH' else ('badge-warning' if d.get('installation', {}).get('risk') == 'MEDIUM' else 'badge-success') }">{d.get('installation', {}).get('risk', 'MEDIUM')}</span></p>
+          <p style="font-size: 0.9rem; margin-bottom: 0.5rem;"><strong>Serial UART:</strong> { 'Available (3.3V TTL)' if serial_uart.get('available') else 'Not populated' }</p>
           <p style="font-size: 0.9rem;"><strong>Recovery Method:</strong> {d.get('recovery', {}).get('method', 'TFTP Push')}</p>
         </div>
 
@@ -1254,6 +1295,387 @@ def generate_device_page(d):
     """
     desc = f"Verified OpenWrt hardware profile for {d.get('manufacturer')} {d.get('model')}. CPU, RAM, flash layout, Ethernet, Wi-Fi, and flashing instructions."
     return get_header(f"{d.get('manufacturer')} {d.get('model')}", rel_root="../..", current_nav="devices", description=desc, canonical_path=f"devices/{dev_id}/", json_ld=json_ld) + content + get_footer(rel_root="../..")
+
+def generate_device_install_guide(d):
+    dev_id = d["id"]
+    status = d.get("openwrt", {}).get("support_status", "UNKNOWN")
+    badge_cls = get_badge_class(status)
+    soc = d.get("soc", {})
+    flash = d.get("flash", {})
+    openwrt = d.get("openwrt", {})
+    inst = d.get("installation", {})
+    method = inst.get("method", "OEM Web Interface / Firmware Upload")
+    risk = inst.get("risk", "MEDIUM")
+    risk_badge = "badge-danger" if risk == "HIGH" else ("badge-warning" if risk == "MEDIUM" else "badge-success")
+    
+    flash_cap = flash.get('capacity_mb') or flash.get('mb') or 'N/A'
+    fw_url = openwrt.get("firmware_selector_url") or "https://firmware-selector.openwrt.org"
+
+    if "Direct Image Flash" in method:
+        method_steps = f"""
+        <ol style="margin-left: 1.5rem; line-height: 1.8;">
+          <li><strong>Download Official Image:</strong> Obtain the official OpenWrt raw disk image (<code>openwrt-{openwrt.get('target', 'target')}-{openwrt.get('subtarget', 'generic')}-{dev_id}-ext4-factory.img.gz</code>) from <a href="{fw_url}" target="_blank" rel="noopener">OpenWrt Firmware Selector</a>.</li>
+          <li><strong>Decompress Image:</strong> Gunzip the downloaded file: <code>gunzip openwrt-*.img.gz</code>.</li>
+          <li><strong>Flash to Storage Media:</strong> Use BalenaEtcher, Raspberry Pi Imager, or <code>dd</code> to write the image directly to your microSD card, eMMC module, or NVMe drive:
+            <pre><code># Linux/macOS write command (verify correct drive target!)
+sudo dd if=openwrt-*.img of=/dev/sdX bs=4M status=progress conv=fsync</code></pre>
+          </li>
+          <li><strong>Insert Media and Boot:</strong> Insert the microSD card into the device, connect an Ethernet cable between LAN port and your PC, and connect power.</li>
+          <li><strong>Access First Boot:</strong> Wait 45-60 seconds for partition expansion and initial service startup. Open browser to <code>http://192.168.1.1</code>.</li>
+        </ol>
+        """
+    elif "Two-Stage" in method:
+        method_steps = f"""
+        <ol style="margin-left: 1.5rem; line-height: 1.8;">
+          <li><strong>Pre-installation Flash Backup:</strong> SSH into the OEM firmware shell and dump factory calibration partitions (<code>Factory</code>, <code>MFG</code>) via <code>dd</code> to preserve RF calibration.</li>
+          <li><strong>Stage 1 (Ramdisk Boot):</strong> Transfer <code>openwrt-{openwrt.get('target', 'target')}-initramfs-factory.ubi</code> to <code>/tmp</code> and write to secondary boot partition. Configure temporary U-Boot bootargs:
+            <pre><code>ubiformat /dev/mtd6 -y -f /tmp/openwrt-factory.ubi
+fw_setenv bootcmd "ubi detach; ubi part ubi2; ubi read 46000000 kernel; bootm 0x46000000"
+sync && reboot</code></pre>
+          </li>
+          <li><strong>Stage 2 (Permanent Sysupgrade):</strong> Upon boot into OpenWrt RAM at <code>192.168.1.1</code>, upload the permanent sysupgrade image and flash permanently:
+            <pre><code>sysupgrade -n /tmp/openwrt-sysupgrade.bin</code></pre>
+          </li>
+        </ol>
+        """
+    elif "TFTP" in method:
+        recovery = d.get("recovery", {})
+        tftp_ip = recovery.get("tftp_ip", "192.168.1.1")
+        server_ip = recovery.get("tftp_server_ip", "192.168.1.2")
+        filename = recovery.get("tftp_filename", f"{dev_id}.bin")
+        method_steps = f"""
+        <ol style="margin-left: 1.5rem; line-height: 1.8;">
+          <li><strong>Configure Host PC:</strong> Connect Ethernet cable to router LAN Port 1. Assign static IP <code>{server_ip}</code>, subnet mask <code>255.255.255.0</code> to host PC interface.</li>
+          <li><strong>Prepare TFTP Server:</strong> Place the OpenWrt factory image renamed as <code>{filename}</code> into your TFTP root directory. Start TFTP server (e.g. <code>dnsmasq</code>, <code>tftpd32</code>, or <code>atftpd</code>).</li>
+          <li><strong>Trigger Bootloader TFTP Recovery:</strong> Power off the router. Press and hold the Reset / WPS button, then apply power. Maintain button hold for 10-15 seconds until power/status LED starts pulsing rapidly.</li>
+          <li><strong>Monitor Transfer & Flash:</strong> Verify in TFTP server log that router requests <code>{filename}</code>. Allow 3 to 5 minutes for automated writing to flash. <strong>Do not disconnect power!</strong></li>
+          <li><strong>Access OpenWrt:</strong> Restore host PC to DHCP. Router will reboot into OpenWrt at <code>192.168.1.1</code>.</li>
+        </ol>
+        """
+    elif "Vendor CLI" in method:
+        method_steps = f"""
+        <ol style="margin-left: 1.5rem; line-height: 1.8;">
+          <li><strong>Access Vendor Debug Shell:</strong> Connect via Telnet or SSH using vendor administrative or engineering credentials.</li>
+          <li><strong>Transfer OpenWrt Firmware:</strong> Transfer OpenWrt factory image to <code>/tmp</code> using SCP, TFTP, or curl:
+            <pre><code>cd /tmp
+tftp -g -r openwrt-factory.bin {d.get('recovery', {}).get('tftp_server_ip', '192.168.1.2')}</code></pre>
+          </li>
+          <li><strong>Write to Flash Partition:</strong> Identify active kernel/rootfs partition and write firmware:
+            <pre><code>mtd -r write openwrt-factory.bin firmware</code></pre>
+          </li>
+          <li><strong>Reboot into OpenWrt:</strong> Allow router to complete writing and automatically reboot. Access LuCI web interface at <code>http://192.168.1.1</code>.</li>
+        </ol>
+        """
+    elif "Serial UART" in method:
+        method_steps = f"""
+        <ol style="margin-left: 1.5rem; line-height: 1.8;">
+          <li><strong>Hardware Preparation:</strong> Connect a 3.3V USB-to-UART adapter to router TX, RX, GND pins. <strong>DO NOT CONNECT VCC</strong>.</li>
+          <li><strong>Open Terminal Console:</strong> Run <code>screen /dev/ttyUSB0 115200</code> or PuTTY at 115200 8-N-1.</li>
+          <li><strong>Interrupt Bootloader:</strong> Power on router and strike Enter or spacebar to interrupt U-Boot countdown.</li>
+          <li><strong>Transfer and Boot Image:</strong> Configure U-Boot network parameters, download factory ramdisk or UBI via TFTP, and write to flash partitions.</li>
+        </ol>
+        """
+    else:
+        method_steps = f"""
+        <ol style="margin-left: 1.5rem; line-height: 1.8;">
+          <li><strong>Download Official Image:</strong> Download the official OpenWrt <strong>factory</strong> image (e.g. <code>openwrt-{openwrt.get('target', 'target')}-{openwrt.get('subtarget', 'generic')}-{dev_id}-squashfs-factory.bin</code>) from <a href="{fw_url}" target="_blank" rel="noopener">OpenWrt Firmware Selector</a>.</li>
+          <li><strong>Verify Checksum:</strong> Verify SHA256 checksum of downloaded firmware image against official release manifests before proceeding.</li>
+          <li><strong>Log into OEM Web Interface:</strong> Connect PC via Ethernet cable to LAN port. Open browser to vendor gateway (e.g. <code>http://192.168.1.1</code> or <code>http://192.168.0.1</code>) and log into management portal.</li>
+          <li><strong>Upload OpenWrt Factory Image:</strong> Navigate to <em>System Tools &rarr; Firmware Upgrade</em>. Select the OpenWrt <code>factory.bin</code> file and initiate upgrade.</li>
+          <li><strong>Flash Process & Wait:</strong> The router will verify the image, flash internal storage, and reboot. This takes 2 to 4 minutes. <strong>Do not unplug power or disconnect Ethernet during this process!</strong></li>
+          <li><strong>Access OpenWrt:</strong> Once status LED stabilizes, navigate to <code>http://192.168.1.1</code> to access LuCI web interface.</li>
+        </ol>
+        """
+
+    canonical_url = f"{BASE_URL}/guides/install/{dev_id}/"
+
+    json_ld = {
+        "@context": "https://schema.org",
+        "@type": "HowTo",
+        "name": f"How to Install OpenWrt on {d.get('manufacturer')} {d.get('model')}",
+        "description": f"Verified step-by-step instructions to install and configure OpenWrt on {d.get('manufacturer')} {d.get('model')}.",
+        "url": canonical_url
+    }
+
+    content = f"""
+    <div class="breadcrumbs">
+      <a href="../../../index.html">Home</a> <span>/</span>
+      <a href="../../installation/index.html">Guides</a> <span>/</span>
+      <a href="../../../devices/{dev_id}/index.html">{d.get('manufacturer')} {d.get('model')}</a> <span>/</span>
+      <strong>Installation Guide</strong>
+    </div>
+
+    <div class="section-header">
+      <div>
+        <div style="display: flex; gap: 0.5rem; align-items: center; margin-bottom: 0.5rem;">
+          <span class="badge {badge_cls}">{status.replace('_', ' ')}</span>
+          <span class="badge {risk_badge}">Installation Risk: {risk}</span>
+        </div>
+        <h1 style="font-size: 2.2rem; color: var(--text-heading);">{d.get('manufacturer')} {d.get('model')} OpenWrt Installation Guide</h1>
+        <p style="color: var(--text-muted);">Architecture: <code>{d.get('architecture')}</code> | Target: <code>{openwrt.get('target', 'N/A')}/{openwrt.get('subtarget', 'generic')}</code> | Profile: <code>{openwrt.get('profile', 'generic')}</code></p>
+      </div>
+    </div>
+
+    <div class="callout callout-warning">
+      <strong>MANDATORY FACTORY CALIBRATION BACKUP:</strong>
+      Before installing OpenWrt, backup all factory partition data (including ART, Factory, and EEPROM partitions). These contain factory RF calibration parameters, Wi-Fi MAC addresses, and regulatory domain constraints unique to your unit.
+    </div>
+
+    <div class="card" style="margin-bottom: 2rem;">
+      <h2 style="color: var(--text-heading); font-size: 1.25rem; margin-bottom: 1rem;">1. Hardware & Platform Prerequisites</h2>
+      <table class="spec-table">
+        <tr><th>Device Model</th><td>{d.get('manufacturer')} {d.get('model')} (Rev: <code>{d.get('hardware_revision', 'v1')}</code>)</td></tr>
+        <tr><th>Processor (SoC)</th><td>{soc.get('vendor')} {soc.get('model')} ({soc.get('cores', 'N/A')} Cores @ {soc.get('frequency_mhz', 'N/A')} MHz)</td></tr>
+        <tr><th>RAM / Flash Storage</th><td>{d.get('ram_mb', 'N/A')} MB RAM / {flash_cap} MB {flash.get('type', '')} Flash</td></tr>
+        <tr><th>OpenWrt Target</th><td><code>{openwrt.get('target', 'N/A')}/{openwrt.get('subtarget', 'generic')}</code></td></tr>
+        <tr><th>Target Profile</th><td><code>{openwrt.get('profile', 'generic')}</code></td></tr>
+        <tr><th>First Supported Version</th><td>{openwrt.get('first_supported_version', 'Mainline')}</td></tr>
+        <tr><th>Flashing Method</th><td><strong>{method}</strong></td></tr>
+      </table>
+      <div style="margin-top: 1.25rem;">
+        <a href="{fw_url}" target="_blank" rel="noopener" class="btn btn-primary">Download Official Firmware from OpenWrt &rarr;</a>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom: 2rem;">
+      <h2 style="color: var(--text-heading); font-size: 1.25rem; margin-bottom: 1rem;">2. Step-by-Step Installation Procedure</h2>
+      {method_steps}
+    </div>
+
+    <div class="card" style="margin-bottom: 2rem;">
+      <h2 style="color: var(--text-heading); font-size: 1.25rem; margin-bottom: 1rem;">3. First Boot & Initial Configuration</h2>
+      <ol style="margin-left: 1.5rem; line-height: 1.8;">
+        <li>Connect your computer to LAN Port 1 using a Cat6 Ethernet patch cable.</li>
+        <li>Verify computer receives IP address in subnet <code>192.168.1.0/24</code> via DHCP (e.g. <code>192.168.1.150</code>).</li>
+        <li>Open terminal and verify ping to router gateway: <code>ping 192.168.1.1</code>.</li>
+        <li>SSH into router: <code>ssh root@192.168.1.1</code> (no password initially required).</li>
+        <li>Set secure administrator password immediately:
+          <pre><code>passwd</code></pre>
+        </li>
+        <li>Open web browser and navigate to <code>http://192.168.1.1</code> to log into LuCI Web Interface.</li>
+      </ol>
+    </div>
+
+    <div class="card" style="margin-bottom: 2rem;">
+      <h2 style="color: var(--text-heading); font-size: 1.25rem; margin-bottom: 1rem;">4. Post-Installation Verification & Troubleshooting</h2>
+      <table class="spec-table">
+        <thead>
+          <tr><th>Symptom / Check</th><th>Probable Cause</th><th>Resolution Action</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>No DHCP lease on computer</td>
+            <td>Computer connected to WAN port instead of LAN port</td>
+            <td>Connect cable to LAN Port 1; assign static IP <code>192.168.1.50</code> on host PC.</td>
+          </tr>
+          <tr>
+            <td>Status LED pulsing continuously</td>
+            <td>Router booting into failsafe or storage expanding</td>
+            <td>Wait up to 3 minutes; if still pulsing, power cycle while holding reset for 2 sec to trigger failsafe.</td>
+          </tr>
+          <tr>
+            <td>LuCI web interface not loading</td>
+            <td>Minimal image installed without uhttpd/luci packages</td>
+            <td>Connect WAN port to upstream internet, SSH in, and run: <code>opkg update && opkg install luci</code>.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="guide-pagination">
+      <a href="../../../devices/{dev_id}/index.html" class="guide-nav-link">
+        <span>&larr; Hardware Profile</span>
+        <strong>{d.get('manufacturer')} {d.get('model')} Profile</strong>
+      </a>
+      <a href="../../recovery/{dev_id}/index.html" class="guide-nav-link" style="text-align: right;">
+        <span>Recovery Guide &rarr;</span>
+        <strong>Disaster Recovery for {d.get('model')}</strong>
+      </a>
+    </div>
+
+    {get_contribution_panel(f"data/devices/{d.get('id').split('-')[0]}/{dev_id}.json", f"{d.get('manufacturer')} {d.get('model')} Installation Guide", rel_root="../../..")}
+    """
+    desc = f"Step-by-step OpenWrt installation guide for {d.get('manufacturer')} {d.get('model')}. Flashing instructions, prerequisites, sysupgrade, and initial network configuration."
+    return get_header(f"{d.get('manufacturer')} {d.get('model')} Installation Guide", rel_root="../../..", current_nav="installation", description=desc, canonical_path=f"guides/install/{dev_id}/", json_ld=json_ld) + content + get_footer(rel_root="../../..")
+
+def generate_device_recovery_guide(d):
+    dev_id = d["id"]
+    status = d.get("openwrt", {}).get("support_status", "UNKNOWN")
+    badge_cls = get_badge_class(status)
+    soc = d.get("soc", {})
+    flash = d.get("flash", {})
+    openwrt = d.get("openwrt", {})
+    recovery = d.get("recovery", {})
+    serial_uart = d.get("serial_uart", {}) or recovery
+    
+    rec_method = recovery.get("method", "TFTP Boot / Push Recovery")
+    tftp_ip = recovery.get("tftp_ip", "192.168.1.1")
+    server_ip = recovery.get("tftp_server_ip", "192.168.1.2")
+    tftp_file = recovery.get("tftp_filename", f"{dev_id}.bin")
+    baud_rate = serial_uart.get("baud_rate") or recovery.get("uart_baud") or 115200
+    uart_avail = "Available" if (serial_uart.get("available") or serial_uart.get("populated")) else "Unpopulated / Header Pads"
+
+    canonical_url = f"{BASE_URL}/guides/recovery/{dev_id}/"
+
+    json_ld = {
+        "@context": "https://schema.org",
+        "@type": "HowTo",
+        "name": f"Disaster Recovery & Unbricking Guide for {d.get('manufacturer')} {d.get('model')}",
+        "description": f"Verified unbricking procedure, TFTP restoration, and 3.3V UART serial recovery for {d.get('manufacturer')} {d.get('model')}.",
+        "url": canonical_url
+    }
+
+    content = f"""
+    <div class="breadcrumbs">
+      <a href="../../../index.html">Home</a> <span>/</span>
+      <a href="../../recovery/index.html">Guides</a> <span>/</span>
+      <a href="../../../devices/{dev_id}/index.html">{d.get('manufacturer')} {d.get('model')}</a> <span>/</span>
+      <strong>Disaster Recovery</strong>
+    </div>
+
+    <div class="section-header">
+      <div>
+        <div style="display: flex; gap: 0.5rem; align-items: center; margin-bottom: 0.5rem;">
+          <span class="badge {badge_cls}">{status.replace('_', ' ')}</span>
+          <span class="badge badge-danger">High Risk Hardware Operations</span>
+        </div>
+        <h1 style="font-size: 2.2rem; color: var(--text-heading);">{d.get('manufacturer')} {d.get('model')} Disaster Recovery & Unbricking</h1>
+        <p style="color: var(--text-muted);">Primary Recovery Protocol: <strong>{rec_method}</strong> | UART Serial: <strong>{uart_avail}</strong> @ {baud_rate} baud</p>
+      </div>
+    </div>
+
+    <!-- CRITICAL ELECTRICAL WARNING -->
+    <div class="callout callout-danger">
+      <strong>CRITICAL SAFETY MANDATE — NEVER CONNECT VCC (RED WIRE):</strong>
+      When connecting a USB-to-TTL serial adapter to the {d.get('model')} PCB, connect <strong>ONLY GND, TX, and RX</strong>.
+      The router provides its own 3.3V/1.8V power rail when plugged into its AC adapter. Connecting the red VCC wire from your USB adapter will backfeed voltage into the power management IC and <strong>permanently destroy the SoC and flash chips</strong>!
+      Ensure your USB adapter logic level is set to <strong>3.3V TTL</strong> (never 5V, never RS-232 +/-12V).
+    </div>
+
+    <div class="card" style="margin-bottom: 2rem;">
+      <h2 style="color: var(--text-heading); font-size: 1.25rem; margin-bottom: 1rem;">1. Recovery Escalation Hierarchy</h2>
+      <p style="color: var(--text-muted); margin-bottom: 1rem;">Always attempt recovery in order of increasing intervention. Do not disassemble the enclosure until software fail-safes are exhausted.</p>
+      <table class="spec-table">
+        <thead>
+          <tr><th>Tier</th><th>Method</th><th>When to Use</th><th>Hardware Required</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Tier 1</strong></td>
+            <td>OpenWrt Failsafe Mode</td>
+            <td>Kernel boots, network config broken, forgotten root password</td>
+            <td>Ethernet cable, computer set to DHCP or static <code>192.168.1.2</code></td>
+          </tr>
+          <tr>
+            <td><strong>Tier 2</strong></td>
+            <td>TFTP Automated Bootloader Push</td>
+            <td>Bootloader intact, corrupted kernel / rootfs, boot loop</td>
+            <td>Ethernet cable, TFTP server utility (e.g. <code>dnsmasq</code> / <code>tftpd32</code>)</td>
+          </tr>
+          <tr>
+            <td><strong>Tier 3</strong></td>
+            <td>3.3V TTL Serial UART Console</td>
+            <td>Bootloader prompt accessible, TFTP fails, diagnose boot failure</td>
+            <td>3.3V USB-UART adapter (CP2102/FTDI), jumper wires, soldering iron (if pads unpopulated)</td>
+          </tr>
+          <tr>
+            <td><strong>Tier 4</strong></td>
+            <td>External SPI Flash Programmer</td>
+            <td>Bootloader erased/corrupted (hard brick), no serial output</td>
+            <td>CH341A programmer, SOIC-8 / SOIC-16 test clip, full mtd0 raw flash dump</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="card" style="margin-bottom: 2rem;">
+      <h2 style="color: var(--text-heading); font-size: 1.25rem; margin-bottom: 1rem;">2. Tier 1: OpenWrt Failsafe Mode</h2>
+      <ol style="margin-left: 1.5rem; line-height: 1.8;">
+        <li>Disconnect all cables from router except power and LAN Port 1 to your computer.</li>
+        <li>Set computer network interface to static IP: <code>192.168.1.2</code>, netmask: <code>255.255.255.0</code>, gateway: <code>192.168.1.1</code>.</li>
+        <li>Power on the router. As soon as the status or power LED begins blinking, press the <strong>WPS / Reset</strong> button repeatedly.</li>
+        <li>The status LED will begin blinking extremely rapidly (10 Hz), indicating Failsafe mode is active.</li>
+        <li>Connect via Telnet: <code>telnet 192.168.1.1</code>. No password is required.</li>
+        <li>Reset configuration to factory defaults:
+          <pre><code>mount_root
+firstboot -y
+sync && reboot</code></pre>
+        </li>
+      </ol>
+    </div>
+
+    <div class="card" style="margin-bottom: 2rem;">
+      <h2 style="color: var(--text-heading); font-size: 1.25rem; margin-bottom: 1rem;">3. Tier 2: Bootloader TFTP Restoration</h2>
+      <table class="spec-table" style="margin-bottom: 1rem;">
+        <tr><th>Router Recovery IP</th><td><code>{tftp_ip}</code></td></tr>
+        <tr><th>Host PC TFTP Server IP</th><td><code>{server_ip}</code></td></tr>
+        <tr><th>Subnet Mask</th><td><code>255.255.255.0</code></td></tr>
+        <tr><th>Expected TFTP Filename</th><td><code>{tftp_file}</code></td></tr>
+      </table>
+      <ol style="margin-left: 1.5rem; line-height: 1.8;">
+        <li>Download official OpenWrt factory firmware image from the repository.</li>
+        <li>Rename image file to <code>{tftp_file}</code> and place in TFTP server root directory.</li>
+        <li>Configure host PC Ethernet to static IP <code>{server_ip}</code>.</li>
+        <li>Power off router. Hold Reset button down and power on. Hold for 10-15 seconds until TFTP request is detected.</li>
+        <li>Observe file transfer in TFTP server logs. Allow 3-5 minutes for flash write and reboot.</li>
+      </ol>
+    </div>
+
+    <div class="card" style="margin-bottom: 2rem;">
+      <h2 style="color: var(--text-heading); font-size: 1.25rem; margin-bottom: 1rem;">4. Tier 3: 3.3V TTL Serial UART Console</h2>
+      <table class="spec-table" style="margin-bottom: 1rem;">
+        <thead>
+          <tr><th>Adapter Pin</th><th>Router Header</th><th>Mandatory Instruction</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>GND (Black)</strong></td><td>GND Pad / Pin</td><td>Connect securely to establish common ground reference.</td></tr>
+          <tr><td><strong>RX (White)</strong></td><td>TX Pad / Pin</td><td>Connect adapter RX to router TX.</td></tr>
+          <tr><td><strong>TX (Green)</strong></td><td>RX Pad / Pin</td><td>Connect adapter TX to router RX.</td></tr>
+          <tr><td><strong>VCC (Red)</strong></td><td><span style="color: var(--danger); font-weight: bold;">DISCONNECTED</span></td><td><strong>DO NOT CONNECT!</strong> Router powers itself from AC barrel jack.</td></tr>
+        </tbody>
+      </table>
+      <p style="font-size: 0.92rem; margin-bottom: 1rem;">Configure your terminal emulator (PuTTY, Minicom, Picocom, or Screen):</p>
+      <pre><code># Linux / macOS screen command
+screen /dev/ttyUSB0 {baud_rate} 8N1
+
+# Picocom command
+picocom -b {baud_rate} -d 8 -p n -f n /dev/ttyUSB0</code></pre>
+      <p style="font-size: 0.92rem; margin-top: 1rem;">Power on router and observe U-Boot bootlog. Press Enter/Space to enter U-Boot shell:</p>
+      <pre><code># Check environment variables
+printenv
+
+# Boot kernel via TFTP
+setenv ipaddr {tftp_ip}
+setenv serverip {server_ip}
+tftpboot 0x46000000 {tftp_file}
+bootm 0x46000000</code></pre>
+    </div>
+
+    <div class="card" style="margin-bottom: 2rem;">
+      <h2 style="color: var(--text-heading); font-size: 1.25rem; margin-bottom: 1rem;">5. Calibration & Partition Preservation</h2>
+      <div class="callout callout-note">
+        If you previously dumped your <code>Factory</code>, <code>ART</code>, or <code>MFG</code> partitions prior to bricking, you can restore them via serial console or OpenWrt shell:
+        <pre><code>mtd write /tmp/mtd_Factory.bin Factory
+mtd write /tmp/mtd_ART.bin art</code></pre>
+        <strong>Never flash another router's calibration partition!</strong> Each contains unique physical RF power calibration values and factory MAC addresses.
+      </div>
+    </div>
+
+    <div class="guide-pagination">
+      <a href="../../install/{dev_id}/index.html" class="guide-nav-link">
+        <span>&larr; Installation Guide</span>
+        <strong>Install OpenWrt on {d.get('model')}</strong>
+      </a>
+      <a href="../../../devices/{dev_id}/index.html" class="guide-nav-link" style="text-align: right;">
+        <span>Hardware Profile &rarr;</span>
+        <strong>{d.get('manufacturer')} {d.get('model')} Specifications</strong>
+      </a>
+    </div>
+
+    {get_contribution_panel(f"data/devices/{d.get('id').split('-')[0]}/{dev_id}.json", f"{d.get('manufacturer')} {d.get('model')} Recovery Guide", rel_root="../../..")}
+    """
+    desc = f"Complete disaster recovery and unbricking instructions for {d.get('manufacturer')} {d.get('model')}. TFTP recovery, 3.3V UART serial unbricking, and bootloader restoration."
+    return get_header(f"{d.get('manufacturer')} {d.get('model')} Disaster Recovery Guide", rel_root="../../..", current_nav="recovery", description=desc, canonical_path=f"guides/recovery/{dev_id}/", json_ld=json_ld) + content + get_footer(rel_root="../../..")
 
 def generate_chipset_directory(chipsets):
     cards = ""
@@ -2373,6 +2795,8 @@ def generate_sitemap(devices, chipsets):
     ]
     for d in devices:
         urls.append(f"{BASE_URL}/devices/{d['id']}/")
+        urls.append(f"{BASE_URL}/guides/install/{d['id']}/")
+        urls.append(f"{BASE_URL}/guides/recovery/{d['id']}/")
     for c in chipsets:
         urls.append(f"{BASE_URL}/chipsets/{c['id']}/")
 
@@ -2400,6 +2824,7 @@ def build_all():
     os.makedirs(os.path.join(SITE_DIR, "chipsets"), exist_ok=True)
     os.makedirs(os.path.join(SITE_DIR, "explorer"), exist_ok=True)
     os.makedirs(os.path.join(SITE_DIR, "diagrams"), exist_ok=True)
+    os.makedirs(os.path.join(SITE_DIR, "guides", "install"), exist_ok=True)
     os.makedirs(os.path.join(SITE_DIR, "guides", "installation"), exist_ok=True)
     os.makedirs(os.path.join(SITE_DIR, "guides", "recovery"), exist_ok=True)
     os.makedirs(os.path.join(SITE_DIR, "guides", "multi-wan"), exist_ok=True)
@@ -2435,7 +2860,7 @@ def build_all():
             exp_content = fp.read()
         with open(os.path.join(DATA_DIR, "index.json"), "r", encoding="utf-8") as fp:
             index_json = fp.read()
-        embedded_tag = f'<script id="embedded-data" type="application/json">\\n{index_json}\\n</script>\\n  <script>'
+        embedded_tag = f'<script id="embedded-data" type="application/json">\n{index_json}\n</script>\n  <script>'
         exp_content = exp_content.replace("<script>", embedded_tag, 1)
         with open(os.path.join(SITE_DIR, "explorer", "index.html"), "w", encoding="utf-8") as fp:
             fp.write(exp_content)
@@ -2466,12 +2891,25 @@ def build_all():
     with open(os.path.join(SITE_DIR, "404.html"), "w", encoding="utf-8") as fp:
         fp.write(generate_404_page())
 
-    # Static Device Pages
+    # Static Device Pages & Dedicated Installation and Recovery Guides
     for d in devices:
-        dev_dir = os.path.join(SITE_DIR, "devices", d["id"])
+        dev_id = d["id"]
+        dev_dir = os.path.join(SITE_DIR, "devices", dev_id)
         os.makedirs(dev_dir, exist_ok=True)
         with open(os.path.join(dev_dir, "index.html"), "w", encoding="utf-8") as fp:
             fp.write(generate_device_page(d))
+
+        # Device Installation Guide (/guides/install/<dev_id>/)
+        inst_dir = os.path.join(SITE_DIR, "guides", "install", dev_id)
+        os.makedirs(inst_dir, exist_ok=True)
+        with open(os.path.join(inst_dir, "index.html"), "w", encoding="utf-8") as fp:
+            fp.write(generate_device_install_guide(d))
+
+        # Device Recovery Guide (/guides/recovery/<dev_id>/)
+        rec_dir = os.path.join(SITE_DIR, "guides", "recovery", dev_id)
+        os.makedirs(rec_dir, exist_ok=True)
+        with open(os.path.join(rec_dir, "index.html"), "w", encoding="utf-8") as fp:
+            fp.write(generate_device_recovery_guide(d))
 
     # Static Chipset Pages
     for c in chipsets:
@@ -2508,7 +2946,7 @@ Please submit all pull requests, hardware submissions, bug reports, and correcti
     with open(os.path.join(SITE_DIR, "README.md"), "w", encoding="utf-8") as fp:
         fp.write(repo_b_readme)
 
-    print(f"[SUCCESS] Website build complete! Generated {len(devices)} device pages, {len(chipsets)} chipset pages, diagrams, and full sitemap in site/")
+    print(f"[SUCCESS] Website build complete! Generated {len(devices)} device profiles, {len(devices)} install guides, {len(devices)} recovery guides, {len(chipsets)} chipset pages, and full sitemap in site/")
 
 if __name__ == "__main__":
     build_all()

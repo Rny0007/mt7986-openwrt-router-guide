@@ -1,0 +1,158 @@
+{
+  "$schema": "../../schemas/device.schema.json",
+  "id": "reyee-rg-ew3200gx-pro",
+  "manufacturer": "Reyee / Ruijie",
+  "model": "RG-EW3200GX PRO",
+  "hardware_revision": "v1.0",
+  "regional_variant": "Global / CN",
+  "internal_board_name": "reyee_rg-ew3200gx-pro",
+  "soc": {
+    "vendor": "MediaTek",
+    "model": "MT7622BV",
+    "family": "MT7622",
+    "cores": 2,
+    "frequency_mhz": 1350
+  },
+  "architecture": "aarch64",
+  "ram_mb": 256,
+  "flash": {
+    "mb": 16,
+    "type": "SPI-NOR",
+    "ubi_support": false,
+    "dual_boot": false,
+    "partitions": [
+      {
+        "name": "bootloader",
+        "size_kb": 512,
+        "read_only": true
+      },
+      {
+        "name": "factory",
+        "size_kb": 256,
+        "read_only": true
+      },
+      {
+        "name": "firmware",
+        "size_kb": 15360,
+        "read_only": false
+      }
+    ],
+    "capacity_mb": 16
+  },
+  "ethernet_ports": [
+    {
+      "speed_mbps": 1000,
+      "type": "WAN",
+      "label": "WAN (Yellow)",
+      "dsa_interface": "wan"
+    },
+    {
+      "speed_mbps": 1000,
+      "type": "LAN",
+      "label": "LAN 1",
+      "dsa_interface": "lan1"
+    },
+    {
+      "speed_mbps": 1000,
+      "type": "LAN",
+      "label": "LAN 2",
+      "dsa_interface": "lan2"
+    },
+    {
+      "speed_mbps": 1000,
+      "type": "LAN",
+      "label": "LAN 3",
+      "dsa_interface": "lan3"
+    },
+    {
+      "speed_mbps": 1000,
+      "type": "LAN",
+      "label": "LAN 4",
+      "dsa_interface": "lan4"
+    }
+  ],
+  "switch": {
+    "integrated": false,
+    "model": "MediaTek MT7531AE",
+    "dsa_driver": "mt7530",
+    "hardware_vlan": true
+  },
+  "wifi": [
+    {
+      "band": "2.4 GHz",
+      "standard": "802.11ax",
+      "streams": "4x4",
+      "max_phy_mbps": 800,
+      "chipset": "MediaTek MT7915A + MT7975DN"
+    },
+    {
+      "band": "5 GHz",
+      "standard": "802.11ax",
+      "streams": "4x4",
+      "max_phy_mbps": 2402,
+      "chipset": "MediaTek MT7915A + MT7975DN"
+    }
+  ],
+  "usb_ports": [],
+  "poe": {
+    "supported": false,
+    "standard": null,
+    "type": null
+  },
+  "bootloader": "U-Boot (Ruijie customized)",
+  "serial_uart": {
+    "available": true,
+    "voltage": "3.3V",
+    "baudrate": 115200,
+    "pinout_documented": true,
+    "notes": "4 unpopulated test pads J2: Pin 1 = 3.3V (do not connect), Pin 2 = TX, Pin 3 = RX, Pin 4 = GND."
+  },
+  "openwrt": {
+    "target": "mediatek/mt7622",
+    "subtarget": "generic",
+    "profile": "reyee_rg-ew3200gx-pro",
+    "support_status": "COMMUNITY_VERIFIED",
+    "first_supported_version": null,
+    "latest_tested_version": "23.05 (Community Build)",
+    "firmware_selector_url": null,
+    "device_tree_file": "mt7622-reyee-rg-ew3200gx-pro.dts",
+    "known_limitations": [
+      "Flashing requires obtaining root shell on Reyee OS via backup configuration decrypt exploit or serial console U-Boot interruption.",
+      "16MB SPI-NOR flash requires a compact OpenWrt image; mt76 wireless driver operates with full AX3200 4x4 speeds."
+    ]
+  },
+  "installation": {
+    "method": "Automated Root SSH Exploit",
+    "risk": "HIGH",
+    "requires_factory_stage": true,
+    "guide_link": "https://forum.openwrt.org/t/reyee-rg-ew3200gx-pro-support/139820"
+  },
+  "recovery": {
+    "method": "TFTP Push (Automated)",
+    "recovery_ip": "192.168.110.1",
+    "guide_link": "https://forum.openwrt.org/t/reyee-rg-ew3200gx-pro-support/139820"
+  },
+  "verification": {
+    "status": "COMMUNITY_VERIFIED",
+    "evidence": [
+      "OpenWrt community reverse-engineering thread with PCB photography and pinouts",
+      "Confirmed working community OpenWrt 23.05 build booting via mt7622 kernel target",
+      "Functional 4x4 Wi-Fi 6 verified on 2.4GHz and 5GHz bands"
+    ],
+    "last_verified": "2026-11-15"
+  },
+  "sources": [
+    {
+      "title": "OpenWrt Forum: Reyee RG-EW3200GX PRO Hardware Teardown & Port",
+      "url": "https://forum.openwrt.org/t/reyee-rg-ew3200gx-pro-support/139820",
+      "type": "OPENWRT_FORUM",
+      "date_accessed": "2026-11-15"
+    },
+    {
+      "title": "Reyee Official RG-EW3200GX PRO Specifications",
+      "url": "https://www.ruijienetworks.com/products/reyee-wireless/reyee-home-wifi/rg-ew3200gx-pro",
+      "type": "OEM_SPEC",
+      "date_accessed": "2026-11-15"
+    }
+  ]
+}

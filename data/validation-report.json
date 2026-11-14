@@ -1,16 +1,17 @@
 {
-  "timestamp": "2026-11-14T18:12:52Z",
-  "total_device_records": 18,
-  "total_chipset_records": 11,
+  "timestamp": "2026-11-14T23:08:44Z",
+  "total_device_records": 48,
+  "total_chipset_records": 15,
   "status_breakdown": {
-    "OFFICIALLY_SUPPORTED": 15,
-    "COMMUNITY_VERIFIED": 2,
-    "PARTIALLY_VERIFIED": 1,
+    "OFFICIALLY_SUPPORTED": 35,
+    "COMMUNITY_VERIFIED": 5,
+    "PARTIALLY_VERIFIED": 4,
     "EXPERIMENTAL": 0,
-    "UNSUPPORTED": 0,
+    "POTENTIALLY_COMPATIBLE": 1,
+    "UNSUPPORTED": 3,
     "UNKNOWN": 0
   },
-  "total_sources_cited": 19,
+  "total_sources_cited": 79,
   "validation_passed": true,
   "errors": []
 }

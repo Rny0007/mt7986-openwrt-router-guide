@@ -1,0 +1,163 @@
+{
+  "$schema": "../../schemas/device.schema.json",
+  "id": "sercomm-airtel-a622g",
+  "manufacturer": "Sercomm / Airtel",
+  "model": "A-622G (Airtel Xstream Fiber ONT)",
+  "hardware_revision": "v1.0 (GPON ONT)",
+  "regional_variant": "IN",
+  "internal_board_name": "sercomm_a622g",
+  "soc": {
+    "vendor": "Realtek",
+    "model": "RTL9607C",
+    "family": "RTL960x",
+    "cores": 2,
+    "frequency_mhz": 900
+  },
+  "architecture": "mips_34kc",
+  "ram_mb": 256,
+  "flash": {
+    "mb": 128,
+    "type": "SPI-NAND",
+    "ubi_support": false,
+    "dual_boot": true,
+    "partitions": [
+      {
+        "name": "bootloader",
+        "size_kb": 512,
+        "read_only": true
+      },
+      {
+        "name": "telecom_cfg",
+        "size_kb": 2048,
+        "read_only": true
+      },
+      {
+        "name": "firmware_a",
+        "size_kb": 61440,
+        "read_only": false
+      },
+      {
+        "name": "firmware_b",
+        "size_kb": 61440,
+        "read_only": false
+      }
+    ],
+    "capacity_mb": 128
+  },
+  "ethernet_ports": [
+    {
+      "speed_mbps": 1000,
+      "type": "LAN",
+      "label": "GE 1",
+      "dsa_interface": "lan1"
+    },
+    {
+      "speed_mbps": 1000,
+      "type": "LAN",
+      "label": "GE 2",
+      "dsa_interface": "lan2"
+    },
+    {
+      "speed_mbps": 1000,
+      "type": "LAN",
+      "label": "GE 3",
+      "dsa_interface": "lan3"
+    },
+    {
+      "speed_mbps": 1000,
+      "type": "LAN",
+      "label": "GE 4",
+      "dsa_interface": "lan4"
+    }
+  ],
+  "switch": {
+    "integrated": true,
+    "model": "Realtek RTL9607C Integrated Switch",
+    "dsa_driver": null,
+    "hardware_vlan": true
+  },
+  "wifi": [
+    {
+      "band": "2.4 GHz",
+      "standard": "802.11n",
+      "streams": "2x2",
+      "max_phy_mbps": 300,
+      "chipset": "Realtek RTL8192FR"
+    },
+    {
+      "band": "5 GHz",
+      "standard": "802.11ac",
+      "streams": "2x2",
+      "max_phy_mbps": 867,
+      "chipset": "Realtek RTL8812FR"
+    }
+  ],
+  "usb_ports": [
+    {
+      "type": "USB 2.0 Type-A",
+      "count": 1
+    }
+  ],
+  "poe": {
+    "supported": false,
+    "standard": null,
+    "type": null
+  },
+  "bootloader": "CFE / Realtek U-Boot with carrier TR-069 provisioning lockdown",
+  "serial_uart": {
+    "available": true,
+    "voltage": "3.3V",
+    "baudrate": 115200,
+    "pinout_documented": true,
+    "notes": "4 unpopulated pads labeled J1: Pin 1 = 3.3V (do not connect), Pin 2 = RX, Pin 3 = TX, Pin 4 = GND."
+  },
+  "openwrt": {
+    "target": "realtek/rtl960x",
+    "subtarget": null,
+    "profile": "sercomm_airtel-a622g",
+    "support_status": "UNSUPPORTED",
+    "first_supported_version": null,
+    "latest_tested_version": null,
+    "firmware_selector_url": null,
+    "device_tree_file": null,
+    "known_limitations": [
+      "CARRIER GPON LOCK & PROPRIETARY OMCI: The optical GPON transceiver and BOSA assembly are driven by closed-source Realtek optical MAC firmware.",
+      "Flashing non-OEM firmware breaks carrier OLT authentication (SLID / LOID / OMCI), rendering the fiber connection completely inoperable.",
+      "Recommendation for users: Put the A-622G into Bridge Mode (VLAN 100) and connect a supported OpenWrt router (e.g. Jio JIDU6101 or GL-MT6000) for PPPoE dialing and routing."
+    ]
+  },
+  "installation": {
+    "method": "OEM Web GUI Flash",
+    "risk": "CRITICAL",
+    "requires_factory_stage": true,
+    "guide_link": null
+  },
+  "recovery": {
+    "method": "None Known",
+    "recovery_ip": null,
+    "guide_link": null
+  },
+  "verification": {
+    "status": "UNSUPPORTED",
+    "evidence": [
+      "Realtek RTL9607C GPON SoC has no open-source OMCI stack in upstream Linux kernel",
+      "Carrier firmware cryptographically signed by Sercomm / Airtel",
+      "Hardware teardown confirms closed BOSA optic module requiring proprietary Realtek optical registers"
+    ],
+    "last_verified": "2026-11-15"
+  },
+  "sources": [
+    {
+      "title": "Airtel Broadband Community Forum: Sercomm A-622G Bridge Mode Guide",
+      "url": "https://broadbandforum.co/threads/sercomm-a-622g-airtel-xstream-fiber-bridge-mode.205120/",
+      "type": "FORUM",
+      "date_accessed": "2026-11-15"
+    },
+    {
+      "title": "OpenWrt Forum: Realtek RTL960x GPON ONT Architecture",
+      "url": "https://forum.openwrt.org/t/realtek-rtl960x-gpon-support/118230",
+      "type": "OPENWRT_FORUM",
+      "date_accessed": "2026-11-15"
+    }
+  ]
+}

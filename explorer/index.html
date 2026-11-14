@@ -322,6 +322,9 @@
       <option value="OFFICIALLY_SUPPORTED">Officially Supported</option>
       <option value="COMMUNITY_VERIFIED">Community Verified</option>
       <option value="PARTIALLY_VERIFIED">Partially Verified</option>
+      <option value="EXPERIMENTAL">Experimental</option>
+      <option value="POTENTIALLY_COMPATIBLE">Potentially Compatible</option>
+      <option value="UNSUPPORTED">Unsupported</option>
     </select>
 
     <select id="wifi-filter">
@@ -329,6 +332,7 @@
       <option value="Wi-Fi 7">Wi-Fi 7 (802.11be)</option>
       <option value="Wi-Fi 6">Wi-Fi 6 (802.11ax)</option>
       <option value="Wi-Fi 5">Wi-Fi 5 (802.11ac)</option>
+      <option value="Wi-Fi 4">Wi-Fi 4 (802.11n)</option>
       <option value="Ethernet Only">Ethernet / Soft-Router Only</option>
     </select>
 
@@ -338,6 +342,13 @@
       <option value="Filogic 820">MediaTek Filogic 820 (MT7981B)</option>
       <option value="Filogic 880">MediaTek Filogic 880 (MT7988A)</option>
       <option value="MT7621">MediaTek MT7621</option>
+      <option value="MT7622">MediaTek MT7622</option>
+      <option value="Qualcomm">Qualcomm Atheros (IPQ/QCA)</option>
+      <option value="Broadcom">Broadcom (BCM)</option>
+      <option value="Rockchip">Rockchip (RK3399/RK3568/RK3588)</option>
+      <option value="Realtek">Realtek (RTL)</option>
+      <option value="Intel/x86">Intel x86_64</option>
+    </select>
       <option value="Qualcomm">Qualcomm (IPQ807x / IPQ60xx)</option>
       <option value="Rockchip">Rockchip (RK3568)</option>
       <option value="Broadcom">Broadcom (BCM4908)</option>
@@ -413,11 +424,13 @@
       }
 
       grid.innerHTML = devices.map(d => {
-        const wifiGen = d.wireless && d.wireless.length > 0 
-          ? [...new Set(d.wireless.map(w => w.generation))].join(', ')
+        const wifiList = d.wifi || d.wireless || [];
+        const wifiGen = wifiList.length > 0 
+          ? [...new Set(wifiList.map(w => w.standard || w.generation))].join(', ')
           : 'None (Ethernet Only)';
 
         const isComparing = compareList.includes(d.id);
+        const flashCap = d.flash.mb || d.flash.capacity_mb || 'N/A';
 
         return `
           <article class="card">
@@ -435,7 +448,7 @@
                 <div class="spec-val">${escapeHtml(d.soc.vendor)} ${escapeHtml(d.soc.model)}</div>
                 
                 <div><span class="spec-label">RAM / Flash:</span></div>
-                <div class="spec-val">${d.ram_mb}MB / ${d.flash.capacity_mb}MB ${escapeHtml(d.flash.type)}</div>
+                <div class="spec-val">${d.ram_mb}MB / ${flashCap}MB ${escapeHtml(d.flash.type || '')}</div>
 
                 <div><span class="spec-label">Wi-Fi:</span></div>
                 <div class="spec-val">${escapeHtml(wifiGen)}</div>
@@ -473,12 +486,16 @@
 
         const matchesStatus = statusFilter === 'ALL' || d.openwrt.support_status === statusFilter;
 
-        const hasWifi = d.wireless && d.wireless.length > 0;
+        const wifiList = d.wifi || d.wireless || [];
+        const hasWifi = wifiList.length > 0;
         let matchesWifi = true;
         if (wifiFilter === 'Ethernet Only') {
           matchesWifi = !hasWifi;
         } else if (wifiFilter !== 'ALL') {
-          matchesWifi = hasWifi && d.wireless.some(w => w.generation === wifiFilter);
+          matchesWifi = hasWifi && wifiList.some(w => {
+            const gen = w.generation || (w.standard === '802.11be' ? 'Wi-Fi 7' : (w.standard === '802.11ax' ? 'Wi-Fi 6' : (w.standard === '802.11ac' ? 'Wi-Fi 5' : (w.standard === '802.11n' ? 'Wi-Fi 4' : ''))));
+            return gen.includes(wifiFilter) || (w.standard && w.standard.includes(wifiFilter));
+          });
         }
 
         let matchesSoc = true;
@@ -583,7 +600,7 @@
             </tr>
             <tr>
               <td><strong>Flash Storage</strong></td>
-              ${devices.map(d => `<td>${d.flash.capacity_mb} MB (${escapeHtml(d.flash.type)})</td>`).join('')}
+              ${devices.map(d => `<td>${d.flash.mb || d.flash.capacity_mb || 'N/A'} MB (${escapeHtml(d.flash.type || '')})</td>`).join('')}
             </tr>
             <tr>
               <td><strong>OpenWrt Target</strong></td>
@@ -591,11 +608,17 @@
             </tr>
             <tr>
               <td><strong>Ethernet Switch / Ports</strong></td>
-              ${devices.map(d => `<td>${d.ethernet.ports.map(p => `${p.name} (${p.speed_mbps}M)`).join(', ')}</td>`).join('')}
+              ${devices.map(d => {
+                const ports = d.ethernet_ports || (d.ethernet && d.ethernet.ports) || [];
+                return `<td>${ports.map(p => `${p.label || p.name || 'Port'} (${p.speed_mbps}M)`).join(', ') || 'N/A'}</td>`;
+              }).join('')}
             </tr>
             <tr>
               <td><strong>Wi-Fi Capabilities</strong></td>
-              ${devices.map(d => `<td>${(d.wireless || []).map(w => `${w.frequency_ghz}G: ${w.generation} ${w.spatial_streams}`).join('<br>') || 'None'}</td>`).join('')}
+              ${devices.map(d => {
+                const wlist = d.wifi || d.wireless || [];
+                return `<td>${wlist.map(w => `${w.band || (w.frequency_ghz + 'G')}: ${w.standard || w.generation} ${w.streams || w.spatial_streams || ''}`).join('<br>') || 'None (Ethernet Only)'}</td>`;
+              }).join('')}
             </tr>
             <tr>
               <td><strong>Installation Method</strong></td>
@@ -631,8 +654,8 @@
               <li><strong>SoC:</strong> ${escapeHtml(d.soc.vendor)} ${escapeHtml(d.soc.model)} (${escapeHtml(d.soc.family)})</li>
               <li><strong>CPU:</strong> ${d.soc.cores} Cores @ ${d.soc.frequency_mhz} MHz (${escapeHtml(d.architecture)})</li>
               <li><strong>RAM:</strong> ${d.ram_mb} MB</li>
-              <li><strong>Flash:</strong> ${d.flash.capacity_mb} MB ${escapeHtml(d.flash.type)}</li>
-              <li><strong>Switch IC:</strong> ${escapeHtml(d.ethernet.switch_chip || 'Direct SoC MAC / None')}</li>
+              <li><strong>Flash:</strong> ${d.flash.mb || d.flash.capacity_mb || 'N/A'} MB ${escapeHtml(d.flash.type || '')}</li>
+              <li><strong>Switch IC:</strong> ${escapeHtml((d.switch && d.switch.model) || (d.ethernet && d.ethernet.switch_chip) || 'Direct SoC MAC / None')}</li>
               <li><strong>Bootloader:</strong> ${escapeHtml(d.bootloader || 'Unknown')}</li>
               <li><strong>UART Serial:</strong> ${d.serial_uart && d.serial_uart.available ? `Available (${d.serial_uart.voltage || '3.3V'}, ${d.serial_uart.baudrate || 115200} baud)` : 'No / Unverified'}</li>
             </ul>
@@ -654,23 +677,23 @@
         <div style="margin-bottom:1.5rem;">
           <h3 style="color:var(--text-bright); font-size:1.05rem; margin-bottom:0.6rem;">Ethernet Port Mapping</h3>
           <div style="display:flex; gap:0.5rem; flex-wrap:wrap;">
-            ${d.ethernet.ports.map(p => `
+            ${(d.ethernet_ports || (d.ethernet && d.ethernet.ports) || []).map(p => `
               <div style="background:#0d1117; border:1px solid var(--card-border); padding:0.4rem 0.8rem; border-radius:6px; font-size:0.85rem;">
-                <strong>${escapeHtml(p.name)}</strong> (${p.speed_mbps} Mbps)
-                ${p.dsa_port ? `<br><code style="font-size:0.75rem; color:var(--text-muted)">dsa: ${p.dsa_port}</code>` : ''}
+                <strong>${escapeHtml(p.label || p.name || 'Port')}</strong> (${p.speed_mbps} Mbps)
+                ${p.dsa_interface || p.dsa_port ? `<br><code style="font-size:0.75rem; color:var(--text-muted)">dsa: ${p.dsa_interface || p.dsa_port}</code>` : ''}
               </div>
             `).join('')}
           </div>
         </div>
 
-        ${d.wireless && d.wireless.length > 0 ? `
+        ${((d.wifi || d.wireless || []).length > 0) ? `
           <div style="margin-bottom:1.5rem;">
             <h3 style="color:var(--text-bright); font-size:1.05rem; margin-bottom:0.6rem;">Wireless Subsystem</h3>
             <div style="display:flex; gap:0.5rem; flex-wrap:wrap;">
-              ${d.wireless.map(w => `
+              ${(d.wifi || d.wireless || []).map(w => `
                 <div style="background:#0d1117; border:1px solid var(--card-border); padding:0.4rem 0.8rem; border-radius:6px; font-size:0.85rem;">
-                  <strong>${w.frequency_ghz} GHz</strong>: ${w.generation} (${w.spatial_streams})
-                  <br><span style="font-size:0.75rem; color:var(--text-muted)">Chipset: ${escapeHtml(w.chipset)} | Max: ${w.max_phy_rate_mbps} Mbps (${w.channel_width_mhz} MHz)</span>
+                  <strong>${w.band || (w.frequency_ghz + ' GHz')}</strong>: ${w.standard || w.generation} (${w.streams || w.spatial_streams || ''})
+                  <br><span style="font-size:0.75rem; color:var(--text-muted)">Chipset: ${escapeHtml(w.chipset || 'Integrated')} | Max: ${w.max_phy_mbps || w.max_phy_rate_mbps || 'N/A'} Mbps</span>
                 </div>
               `).join('')}
             </div>

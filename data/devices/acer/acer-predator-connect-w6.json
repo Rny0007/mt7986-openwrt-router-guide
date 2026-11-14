@@ -1,0 +1,176 @@
+{
+  "$schema": "../../schemas/device.schema.json",
+  "id": "acer-predator-connect-w6",
+  "manufacturer": "Acer",
+  "model": "Predator Connect W6 (FF.G22TA.001)",
+  "hardware_revision": "v1 (Standard W6)",
+  "regional_variant": "Global",
+  "internal_board_name": "acer_predator-w6",
+  "soc": {
+    "vendor": "MediaTek",
+    "model": "MT7986A",
+    "family": "Filogic 830",
+    "cores": 4,
+    "frequency_mhz": 2000
+  },
+  "architecture": "aarch64",
+  "ram_mb": 1024,
+  "flash": {
+    "mb": 4096,
+    "type": "eMMC",
+    "ubi_support": false,
+    "dual_boot": true,
+    "partitions": [
+      {
+        "name": "boot0",
+        "size_kb": 4096,
+        "read_only": true
+      },
+      {
+        "name": "boot1",
+        "size_kb": 4096,
+        "read_only": true
+      },
+      {
+        "name": "fip",
+        "size_kb": 4096,
+        "read_only": true
+      },
+      {
+        "name": "rootfs",
+        "size_kb": 4082688,
+        "read_only": false
+      }
+    ],
+    "capacity_mb": 4096
+  },
+  "ethernet_ports": [
+    {
+      "speed_mbps": 2500,
+      "type": "WAN",
+      "label": "2.5GbE Game Port (WAN)",
+      "dsa_interface": "eth1"
+    },
+    {
+      "speed_mbps": 1000,
+      "type": "LAN",
+      "label": "LAN 1",
+      "dsa_interface": "lan1"
+    },
+    {
+      "speed_mbps": 1000,
+      "type": "LAN",
+      "label": "LAN 2",
+      "dsa_interface": "lan2"
+    },
+    {
+      "speed_mbps": 1000,
+      "type": "LAN",
+      "label": "LAN 3",
+      "dsa_interface": "lan3"
+    },
+    {
+      "speed_mbps": 1000,
+      "type": "LAN",
+      "label": "LAN 4",
+      "dsa_interface": "lan4"
+    }
+  ],
+  "switch": {
+    "integrated": false,
+    "model": "MediaTek MT7531AE",
+    "dsa_driver": "mt7530",
+    "hardware_vlan": true
+  },
+  "wifi": [
+    {
+      "band": "2.4 GHz",
+      "standard": "802.11ax",
+      "streams": "4x4",
+      "max_phy_mbps": 1148,
+      "chipset": "MediaTek MT7975N"
+    },
+    {
+      "band": "5 GHz",
+      "standard": "802.11ax",
+      "streams": "4x4",
+      "max_phy_mbps": 4804,
+      "chipset": "MediaTek MT7975P"
+    },
+    {
+      "band": "6 GHz",
+      "standard": "802.11ax",
+      "streams": "4x4",
+      "max_phy_mbps": 2402,
+      "chipset": "MediaTek MT7976GN (Wi-Fi 6E)"
+    }
+  ],
+  "usb_ports": [
+    {
+      "type": "USB 3.0 Type-A",
+      "count": 1
+    }
+  ],
+  "poe": {
+    "supported": false,
+    "standard": null,
+    "type": null
+  },
+  "bootloader": "U-Boot (MediaTek ATF with Acer RSA-4096 Secure BootROM)",
+  "serial_uart": {
+    "available": true,
+    "voltage": "3.3V",
+    "baudrate": 115200,
+    "pinout_documented": true,
+    "notes": "4-pin header near heatsink: Pin 1 = 3.3V (do not connect), Pin 2 = TX, Pin 3 = RX, Pin 4 = GND."
+  },
+  "openwrt": {
+    "target": "mediatek/filogic",
+    "subtarget": "generic",
+    "profile": "acer_predator-w6",
+    "support_status": "PARTIALLY_VERIFIED",
+    "first_supported_version": null,
+    "latest_tested_version": "SNAPSHOT (Community Port)",
+    "firmware_selector_url": null,
+    "device_tree_file": "mt7986a-acer-predator-w6.dts",
+    "known_limitations": [
+      "CRITICAL BOOTROM RESTRICTION: The standard retail Acer Predator Connect W6 implements cryptographic signature verification in on-die SoC BootROM that rejects unverified BL2/FIP partitions on cold boot.",
+      "Requires UART serial console interrupt or booting via verified vendor chainloader to load community OpenWrt kernel images.",
+      "The related W6x model features an unlocked bootloader and is more straightforward to flash."
+    ]
+  },
+  "installation": {
+    "method": "UART Serial Command",
+    "risk": "HIGH",
+    "requires_factory_stage": true,
+    "guide_link": "https://forum.openwrt.org/t/acer-predator-connect-w6-wi-fi-6e-mt7986a-support/163820"
+  },
+  "recovery": {
+    "method": "UART Serial Kernel Boot",
+    "recovery_ip": "192.168.1.1",
+    "guide_link": "https://forum.openwrt.org/t/acer-predator-connect-w6-wi-fi-6e-mt7986a-support/163820"
+  },
+  "verification": {
+    "status": "PARTIALLY_VERIFIED",
+    "evidence": [
+      "OpenWrt community developer thread documenting MT7986A Filogic 830 hardware teardown and tri-band Wi-Fi 6E radios",
+      "Confirmed BootROM signature enforcement on stock BL2 image preventing persistent mainline installation without serial interrupt",
+      "Working prototype OpenWrt initramfs kernel booted via UART serial tftpboot"
+    ],
+    "last_verified": "2026-11-15"
+  },
+  "sources": [
+    {
+      "title": "OpenWrt Forum: Acer Predator Connect W6 (MT7986A) Support Thread",
+      "url": "https://forum.openwrt.org/t/acer-predator-connect-w6-wi-fi-6e-mt7986a-support/163820",
+      "type": "OPENWRT_FORUM",
+      "date_accessed": "2026-11-15"
+    },
+    {
+      "title": "FCC Filing Teardown: Acer Predator Connect W6 (FCC ID: HLZW6)",
+      "url": "https://fccid.io/HLZW6",
+      "type": "FCC_FILING",
+      "date_accessed": "2026-11-15"
+    }
+  ]
+}

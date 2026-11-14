@@ -16,7 +16,8 @@
   "ram_mb": 256,
   "flash": {
     "type": "SPI-NAND",
-    "capacity_mb": 128
+    "capacity_mb": 128,
+    "mb": 128
   },
   "wireless": [
     {
@@ -41,7 +42,12 @@
   "ethernet": {
     "switch_chip": null,
     "ports": [
-      { "name": "LAN / PoE", "type": "LAN", "speed_mbps": 1000, "dsa_port": "eth0" }
+      {
+        "name": "LAN / PoE",
+        "type": "LAN",
+        "speed_mbps": 1000,
+        "dsa_port": "eth0"
+      }
     ]
   },
   "usb_ports": [],

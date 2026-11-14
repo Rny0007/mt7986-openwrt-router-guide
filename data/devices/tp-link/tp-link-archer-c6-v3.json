@@ -16,7 +16,8 @@
   "ram_mb": 128,
   "flash": {
     "type": "SPI-NOR",
-    "capacity_mb": 16
+    "capacity_mb": 16,
+    "mb": 16
   },
   "wireless": [
     {
@@ -41,11 +42,36 @@
   "ethernet": {
     "switch_chip": "MT7530",
     "ports": [
-      { "name": "WAN", "type": "WAN", "speed_mbps": 1000, "dsa_port": "wan" },
-      { "name": "LAN1", "type": "LAN", "speed_mbps": 1000, "dsa_port": "lan1" },
-      { "name": "LAN2", "type": "LAN", "speed_mbps": 1000, "dsa_port": "lan2" },
-      { "name": "LAN3", "type": "LAN", "speed_mbps": 1000, "dsa_port": "lan3" },
-      { "name": "LAN4", "type": "LAN", "speed_mbps": 1000, "dsa_port": "lan4" }
+      {
+        "name": "WAN",
+        "type": "WAN",
+        "speed_mbps": 1000,
+        "dsa_port": "wan"
+      },
+      {
+        "name": "LAN1",
+        "type": "LAN",
+        "speed_mbps": 1000,
+        "dsa_port": "lan1"
+      },
+      {
+        "name": "LAN2",
+        "type": "LAN",
+        "speed_mbps": 1000,
+        "dsa_port": "lan2"
+      },
+      {
+        "name": "LAN3",
+        "type": "LAN",
+        "speed_mbps": 1000,
+        "dsa_port": "lan3"
+      },
+      {
+        "name": "LAN4",
+        "type": "LAN",
+        "speed_mbps": 1000,
+        "dsa_port": "lan4"
+      }
     ]
   },
   "usb_ports": [],

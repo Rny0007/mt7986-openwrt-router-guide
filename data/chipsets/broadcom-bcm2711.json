@@ -1,0 +1,48 @@
+{
+  "$schema": "../schemas/chipset.schema.json",
+  "id": "broadcom-bcm2711",
+  "vendor": "Broadcom",
+  "part_number": "BCM2711",
+  "marketing_name": "Broadcom BCM2711 (Raspberry Pi 4)",
+  "cpu": {
+    "architecture": "aarch64",
+    "core_type": "ARM Cortex-A72",
+    "cores": 4,
+    "max_clock_mhz": 1500
+  },
+  "process_node_nm": 28,
+  "openwrt_target": "bcm27xx",
+  "openwrt_subtarget": "bcm2711",
+  "linux_driver": {
+    "wireless_mac80211": "brcmfmac",
+    "ethernet_driver": "bcmgenet",
+    "switch_driver": null
+  },
+  "wireless_subsystem": {
+    "integrated": true,
+    "accompanying_rf_chips": ["CYW43455"],
+    "wi_fi_generation": "Wi-Fi 5 (802.11ac)",
+    "mimo_capabilities": "1x1 SISO"
+  },
+  "hardware_acceleration": {
+    "flow_offload": "Software Only",
+    "crypto_engine": true,
+    "wireless_ethernet_dispatch": false
+  },
+  "openwrt_support_tier": "TIER_1_MAINSTREAM",
+  "notes": "Quad-core 64-bit ARM processor widely deployed globally as a gigabit OpenWrt router/gateway via USB 3.0 NICs or Compute Module 4 dual-Ethernet carrier boards.",
+  "sources": [
+    {
+      "title": "OpenWrt Target: Broadcom BCM27xx",
+      "url": "https://git.openwrt.org/?p=openwrt/openwrt.git;a=tree;f=target/linux/bcm27xx",
+      "type": "OPENWRT_GIT",
+      "date_accessed": "2026-11-15"
+    },
+    {
+      "title": "Raspberry Pi 4 Documentation",
+      "url": "https://openwrt.org/toh/raspberry_pi_foundation/raspberry_pi",
+      "type": "OPENWRT_TOH",
+      "date_accessed": "2026-11-15"
+    }
+  ]
+}

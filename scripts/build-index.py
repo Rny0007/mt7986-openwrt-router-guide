@@ -32,7 +32,7 @@ def validate_minimal(record, schema_name):
                 errors.append(f"Missing required field: {req}")
         
         status = record.get("openwrt", {}).get("support_status")
-        valid_statuses = ["OFFICIALLY_SUPPORTED", "COMMUNITY_VERIFIED", "PARTIALLY_VERIFIED", "EXPERIMENTAL", "UNSUPPORTED", "UNKNOWN"]
+        valid_statuses = ["OFFICIALLY_SUPPORTED", "COMMUNITY_VERIFIED", "PARTIALLY_VERIFIED", "EXPERIMENTAL", "POTENTIALLY_COMPATIBLE", "UNSUPPORTED", "UNKNOWN"]
         if status not in valid_statuses:
             errors.append(f"Invalid openwrt.support_status: {status}")
             
@@ -87,6 +87,7 @@ def main():
         "COMMUNITY_VERIFIED": 0,
         "PARTIALLY_VERIFIED": 0,
         "EXPERIMENTAL": 0,
+        "POTENTIALLY_COMPATIBLE": 0,
         "UNSUPPORTED": 0,
         "UNKNOWN": 0
     }

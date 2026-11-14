@@ -1,0 +1,158 @@
+{
+  "$schema": "../../schemas/device.schema.json",
+  "id": "tp-link-archer-ax23-v1",
+  "manufacturer": "TP-Link",
+  "model": "Archer AX23",
+  "hardware_revision": "v1",
+  "regional_variant": "Global",
+  "internal_board_name": "tplink_archer-ax23-v1",
+  "soc": {
+    "vendor": "MediaTek",
+    "model": "MT7621DAT",
+    "family": "MT7621",
+    "cores": 2,
+    "frequency_mhz": 880
+  },
+  "architecture": "mips_1004kc",
+  "ram_mb": 128,
+  "flash": {
+    "mb": 16,
+    "type": "SPI-NOR",
+    "ubi_support": false,
+    "dual_boot": false,
+    "partitions": [
+      {
+        "name": "u-boot",
+        "size_kb": 128,
+        "read_only": true
+      },
+      {
+        "name": "factory",
+        "size_kb": 128,
+        "read_only": true
+      },
+      {
+        "name": "firmware",
+        "size_kb": 15872,
+        "read_only": false
+      }
+    ],
+    "capacity_mb": 16
+  },
+  "ethernet_ports": [
+    {
+      "speed_mbps": 1000,
+      "type": "WAN",
+      "label": "WAN",
+      "dsa_interface": "wan"
+    },
+    {
+      "speed_mbps": 1000,
+      "type": "LAN",
+      "label": "LAN 1",
+      "dsa_interface": "lan1"
+    },
+    {
+      "speed_mbps": 1000,
+      "type": "LAN",
+      "label": "LAN 2",
+      "dsa_interface": "lan2"
+    },
+    {
+      "speed_mbps": 1000,
+      "type": "LAN",
+      "label": "LAN 3",
+      "dsa_interface": "lan3"
+    },
+    {
+      "speed_mbps": 1000,
+      "type": "LAN",
+      "label": "LAN 4",
+      "dsa_interface": "lan4"
+    }
+  ],
+  "switch": {
+    "integrated": true,
+    "model": "MediaTek MT7530",
+    "dsa_driver": "mt7530",
+    "hardware_vlan": true
+  },
+  "wifi": [
+    {
+      "band": "2.4 GHz",
+      "standard": "802.11ax",
+      "streams": "2x2",
+      "max_phy_mbps": 574,
+      "chipset": "MediaTek MT7905DAN + MT7975DN"
+    },
+    {
+      "band": "5 GHz",
+      "standard": "802.11ax",
+      "streams": "2x2",
+      "max_phy_mbps": 1201,
+      "chipset": "MediaTek MT7905DAN + MT7975DN"
+    }
+  ],
+  "usb_ports": [],
+  "poe": {
+    "supported": false,
+    "standard": null,
+    "type": null
+  },
+  "bootloader": "U-Boot (TP-Link SafeLoader)",
+  "serial_uart": {
+    "available": true,
+    "voltage": "3.3V",
+    "baudrate": 115200,
+    "pinout_documented": true,
+    "notes": "4-pin unpopulated header J1. Pin 1 = 3.3V (do not connect), Pin 2 = RX, Pin 3 = TX, Pin 4 = GND."
+  },
+  "openwrt": {
+    "target": "ramips/mt7621",
+    "subtarget": "generic",
+    "profile": "tplink_archer-ax23-v1",
+    "support_status": "OFFICIALLY_SUPPORTED",
+    "first_supported_version": "23.05.0",
+    "latest_tested_version": "25.12.6",
+    "firmware_selector_url": "https://firmware-selector.openwrt.org/?target=ramips%2Fmt7621&id=tplink_archer-ax23-v1",
+    "device_tree_file": "mt7621_tplink_archer-ax23-v1.dts",
+    "known_limitations": [
+      "128MB integrated DDR3 RAM in MT7621DAT means SQM and Adblock work well, but large software sets should be kept lean.",
+      "Requires factory image flashed via TP-Link recovery TFTP or OEM web interface with verified TP-Link MD5 header."
+    ]
+  },
+  "installation": {
+    "method": "OEM Web GUI Flash",
+    "risk": "LOW",
+    "requires_factory_stage": true,
+    "guide_link": "https://openwrt.org/toh/tp-link/archer_ax23_v1"
+  },
+  "recovery": {
+    "method": "TFTP Push (Automated)",
+    "recovery_ip": "192.168.0.66",
+    "guide_link": "https://openwrt.org/toh/tp-link/archer_ax23_v1#recovery"
+  },
+  "verification": {
+    "status": "OFFICIALLY_SUPPORTED",
+    "evidence": [
+      "Merged into OpenWrt upstream in target/linux/ramips/mt7621",
+      "Full mt76 wireless driver support for MT7905DAN/MT7975DN Wi-Fi 6 transceivers",
+      "Verified factory firmware upgrade header compatible with TP-Link European and US models"
+    ],
+    "last_verified": "2026-11-15"
+  },
+  "sources": [
+    {
+      "title": "OpenWrt Table of Hardware: TP-Link Archer AX23 v1",
+      "url": "https://openwrt.org/toh/tp-link/archer_ax23_v1",
+      "type": "OPENWRT_TOH",
+      "date_accessed": "2026-11-15"
+    },
+    {
+      "title": "OpenWrt ramips Git Profile",
+      "url": "https://git.openwrt.org/?p=openwrt/openwrt.git;a=tree;f=target/linux/ramips/dts",
+      "type": "OPENWRT_GIT",
+      "date_accessed": "2026-11-15"
+    }
+  ]
+}

@@ -16,22 +16,56 @@
   "ram_mb": 4096,
   "flash": {
     "type": "eMMC",
-    "capacity_mb": 8192
+    "capacity_mb": 8192,
+    "mb": 8192
   },
   "wireless": [],
   "ethernet": {
     "switch_chip": "MT7531AE",
     "ports": [
-      { "name": "10G SFP+ 1", "type": "SFP+", "speed_mbps": 10000, "dsa_port": "eth1" },
-      { "name": "10G SFP+ 2", "type": "SFP+", "speed_mbps": 10000, "dsa_port": "eth2" },
-      { "name": "WAN", "type": "WAN", "speed_mbps": 2500, "dsa_port": "wan" },
-      { "name": "LAN1", "type": "LAN", "speed_mbps": 1000, "dsa_port": "lan1" },
-      { "name": "LAN2", "type": "LAN", "speed_mbps": 1000, "dsa_port": "lan2" },
-      { "name": "LAN3", "type": "LAN", "speed_mbps": 1000, "dsa_port": "lan3" }
+      {
+        "name": "10G SFP+ 1",
+        "type": "SFP+",
+        "speed_mbps": 10000,
+        "dsa_port": "eth1"
+      },
+      {
+        "name": "10G SFP+ 2",
+        "type": "SFP+",
+        "speed_mbps": 10000,
+        "dsa_port": "eth2"
+      },
+      {
+        "name": "WAN",
+        "type": "WAN",
+        "speed_mbps": 2500,
+        "dsa_port": "wan"
+      },
+      {
+        "name": "LAN1",
+        "type": "LAN",
+        "speed_mbps": 1000,
+        "dsa_port": "lan1"
+      },
+      {
+        "name": "LAN2",
+        "type": "LAN",
+        "speed_mbps": 1000,
+        "dsa_port": "lan2"
+      },
+      {
+        "name": "LAN3",
+        "type": "LAN",
+        "speed_mbps": 1000,
+        "dsa_port": "lan3"
+      }
     ]
   },
   "usb_ports": [
-    { "type": "USB 3.0 Type-A", "count": 2 }
+    {
+      "type": "USB 3.0 Type-A",
+      "count": 2
+    }
   ],
   "poe": {
     "supported": true,

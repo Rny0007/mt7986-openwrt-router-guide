@@ -16,7 +16,8 @@
   "ram_mb": 1024,
   "flash": {
     "type": "eMMC",
-    "capacity_mb": 4096
+    "capacity_mb": 4096,
+    "mb": 4096
   },
   "wireless": [
     {
@@ -50,15 +51,43 @@
   "ethernet": {
     "switch_chip": "QCA8075",
     "ports": [
-      { "name": "2.5G Gaming Port", "type": "WAN/LAN", "speed_mbps": 2500, "dsa_port": "eth1" },
-      { "name": "LAN1", "type": "LAN", "speed_mbps": 1000, "dsa_port": "lan1" },
-      { "name": "LAN2", "type": "LAN", "speed_mbps": 1000, "dsa_port": "lan2" },
-      { "name": "LAN3", "type": "LAN", "speed_mbps": 1000, "dsa_port": "lan3" },
-      { "name": "LAN4", "type": "LAN", "speed_mbps": 1000, "dsa_port": "lan4" }
+      {
+        "name": "2.5G Gaming Port",
+        "type": "WAN/LAN",
+        "speed_mbps": 2500,
+        "dsa_port": "eth1"
+      },
+      {
+        "name": "LAN1",
+        "type": "LAN",
+        "speed_mbps": 1000,
+        "dsa_port": "lan1"
+      },
+      {
+        "name": "LAN2",
+        "type": "LAN",
+        "speed_mbps": 1000,
+        "dsa_port": "lan2"
+      },
+      {
+        "name": "LAN3",
+        "type": "LAN",
+        "speed_mbps": 1000,
+        "dsa_port": "lan3"
+      },
+      {
+        "name": "LAN4",
+        "type": "LAN",
+        "speed_mbps": 1000,
+        "dsa_port": "lan4"
+      }
     ]
   },
   "usb_ports": [
-    { "type": "USB 3.0 Type-A", "count": 1 }
+    {
+      "type": "USB 3.0 Type-A",
+      "count": 1
+    }
   ],
   "poe": {
     "supported": false,

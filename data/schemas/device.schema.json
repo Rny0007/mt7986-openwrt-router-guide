@@ -163,6 +163,7 @@
             "COMMUNITY_VERIFIED",
             "PARTIALLY_VERIFIED",
             "EXPERIMENTAL",
+            "POTENTIALLY_COMPATIBLE",
             "UNSUPPORTED",
             "UNKNOWN"
           ],
@@ -185,7 +186,7 @@
       "properties": {
         "method": {
           "type": "string",
-          "enum": ["OEM Web GUI Flash", "TFTP Boot / Recovery", "U-Boot Web Fail-Safe", "Automated Root SSH Exploit", "UART Serial Command", "NAND Clip / External Programmer"]
+          "enum": ["OEM Web GUI Flash", "TFTP Boot / Recovery", "U-Boot Web Fail-Safe", "Automated Root SSH Exploit", "UART Serial Command", "NAND Clip / External Programmer", "Direct Image Flash (SBC / SD Card)", "OpenWrt Sysupgrade", "Vendor CLI / Telnet / SSH"]
         },
         "risk": { "type": "string", "enum": ["LOW", "MEDIUM", "HIGH", "CRITICAL"] },
         "requires_factory_stage": { "type": "boolean" },
@@ -196,7 +197,7 @@
       "type": "object",
       "required": ["method"],
       "properties": {
-        "method": { "type": "string", "enum": ["TFTP Push (Automated)", "U-Boot Recovery Webpage", "UART Serial Kernel Boot", "Hardware Programmer (SPI/eMMC)", "None Known"] },
+        "method": { "type": "string", "enum": ["TFTP Push (Automated)", "U-Boot Recovery Webpage", "UART Serial Kernel Boot", "Hardware Programmer (SPI/eMMC)", "SD Card Re-flash (SBC)", "None Known"] },
         "recovery_ip": { "type": ["string", "null"] },
         "guide_link": { "type": ["string", "null"] }
       }
@@ -207,7 +208,7 @@
       "properties": {
         "status": {
           "type": "string",
-          "enum": ["OFFICIALLY_SUPPORTED", "COMMUNITY_VERIFIED", "PARTIALLY_VERIFIED", "EXPERIMENTAL", "UNSUPPORTED", "UNKNOWN"]
+          "enum": ["OFFICIALLY_SUPPORTED", "COMMUNITY_VERIFIED", "PARTIALLY_VERIFIED", "EXPERIMENTAL", "POTENTIALLY_COMPATIBLE", "UNSUPPORTED", "UNKNOWN"]
         },
         "evidence": {
           "type": "array",
@@ -226,7 +227,7 @@
         "properties": {
           "title": { "type": "string" },
           "url": { "type": "string", "format": "uri" },
-          "type": { "type": "string", "enum": ["OPENWRT_GIT", "OPENWRT_TOH", "OPENWRT_FORUM", "FCC_FILING", "OEM_SPEC", "COMMUNITY_REPO", "TEARDOWN"] },
+          "type": { "type": "string", "enum": ["OPENWRT_GIT", "OPENWRT_TOH", "OPENWRT_FORUM", "FCC_FILING", "OEM_SPEC", "COMMUNITY_REPO", "TEARDOWN", "OFFICIAL_OPENWRT", "UPSTREAM_GITHUB", "MANUFACTURER", "LINUX_KERNEL", "COMMUNITY_GITHUB", "REDDIT", "FORUM", "TECHNICAL_ARTICLE", "HARDWARE_TEARDOWN", "OTHER"] },
           "date_accessed": { "type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}$" }
         }
       }

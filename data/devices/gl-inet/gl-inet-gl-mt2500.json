@@ -1,0 +1,144 @@
+{
+  "$schema": "../../schemas/device.schema.json",
+  "id": "gl-inet-gl-mt2500",
+  "manufacturer": "GL.iNet",
+  "model": "GL-MT2500 / GL-MT2500A (Brume 2)",
+  "hardware_revision": "v1",
+  "regional_variant": "Global",
+  "internal_board_name": "glinet_gl-mt2500",
+  "soc": {
+    "vendor": "MediaTek",
+    "model": "MT7981B",
+    "family": "Filogic 820",
+    "cores": 2,
+    "frequency_mhz": 1300
+  },
+  "architecture": "aarch64",
+  "ram_mb": 1024,
+  "flash": {
+    "mb": 8192,
+    "type": "eMMC",
+    "ubi_support": false,
+    "dual_boot": false,
+    "partitions": [
+      {
+        "name": "boot0",
+        "size_kb": 4096,
+        "read_only": true
+      },
+      {
+        "name": "boot1",
+        "size_kb": 4096,
+        "read_only": true
+      },
+      {
+        "name": "gpt",
+        "size_kb": 1024,
+        "read_only": true
+      },
+      {
+        "name": "fip",
+        "size_kb": 4096,
+        "read_only": true
+      },
+      {
+        "name": "rootfs",
+        "size_kb": 8182784,
+        "read_only": false
+      }
+    ],
+    "capacity_mb": 8192
+  },
+  "ethernet_ports": [
+    {
+      "speed_mbps": 2500,
+      "type": "WAN",
+      "label": "2.5GbE WAN",
+      "dsa_interface": "eth1"
+    },
+    {
+      "speed_mbps": 1000,
+      "type": "LAN",
+      "label": "1GbE LAN",
+      "dsa_interface": "lan1"
+    }
+  ],
+  "switch": {
+    "integrated": false,
+    "model": "MaxLinear GPY211 (2.5G PHY)",
+    "dsa_driver": "phylink",
+    "hardware_vlan": true
+  },
+  "wifi": [],
+  "usb_ports": [
+    {
+      "type": "USB 3.0 Type-A",
+      "count": 1
+    },
+    {
+      "type": "USB-C",
+      "count": 1
+    }
+  ],
+  "poe": {
+    "supported": false,
+    "standard": null,
+    "type": null
+  },
+  "bootloader": "U-Boot (GL.iNet ATF/FIP eMMC with Web Fail-Safe)",
+  "serial_uart": {
+    "available": true,
+    "voltage": "3.3V",
+    "baudrate": 115200,
+    "pinout_documented": true,
+    "notes": "4-pin internal header: Pin 1 = 3.3V (do not connect), Pin 2 = GND, Pin 3 = TX, Pin 4 = RX."
+  },
+  "openwrt": {
+    "target": "mediatek/filogic",
+    "subtarget": "generic",
+    "profile": "glinet_gl-mt2500",
+    "support_status": "OFFICIALLY_SUPPORTED",
+    "first_supported_version": "23.05.0",
+    "latest_tested_version": "25.12.6",
+    "firmware_selector_url": "https://firmware-selector.openwrt.org/?target=mediatek%2Ffilogic&id=glinet_gl-mt2500",
+    "device_tree_file": "mt7981b-glinet-gl-mt2500.dts",
+    "known_limitations": [
+      "Pure security gateway with 8GB eMMC flash and no onboard Wi-Fi transceivers.",
+      "Supports Docker containers, AdGuard Home, and multi-gigabit WireGuard routing directly on the flash filesystem."
+    ]
+  },
+  "installation": {
+    "method": "OEM Web GUI Flash",
+    "risk": "LOW",
+    "requires_factory_stage": false,
+    "guide_link": "https://openwrt.org/toh/gl.inet/gl-mt2500"
+  },
+  "recovery": {
+    "method": "U-Boot Recovery Webpage",
+    "recovery_ip": "192.168.1.1",
+    "guide_link": "https://docs.gl-inet.com/router/en/4/faq/debrick/"
+  },
+  "verification": {
+    "status": "OFFICIALLY_SUPPORTED",
+    "evidence": [
+      "Upstream OpenWrt target: target/linux/mediatek/filogic",
+      "DTS profile: mt7981b-glinet-gl-mt2500.dts",
+      "Native GL.iNet U-Boot web failsafe allows effortless reflashing"
+    ],
+    "last_verified": "2026-11-15"
+  },
+  "sources": [
+    {
+      "title": "OpenWrt Table of Hardware: GL.iNet GL-MT2500",
+      "url": "https://openwrt.org/toh/gl.inet/gl-mt2500",
+      "type": "OPENWRT_TOH",
+      "date_accessed": "2026-11-15"
+    },
+    {
+      "title": "GL.iNet Brume 2 Product Specification",
+      "url": "https://www.gl-inet.com/products/gl-mt2500/",
+      "type": "OEM_SPEC",
+      "date_accessed": "2026-11-15"
+    }
+  ]
+}

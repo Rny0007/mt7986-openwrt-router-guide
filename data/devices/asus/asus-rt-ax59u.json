@@ -16,7 +16,8 @@
   "ram_mb": 512,
   "flash": {
     "type": "SPI-NAND",
-    "capacity_mb": 128
+    "capacity_mb": 128,
+    "mb": 128
   },
   "wireless": [
     {
@@ -41,15 +42,41 @@
   "ethernet": {
     "switch_chip": "MT7531AE",
     "ports": [
-      { "name": "WAN", "type": "WAN", "speed_mbps": 1000, "dsa_port": "wan" },
-      { "name": "LAN1", "type": "LAN", "speed_mbps": 1000, "dsa_port": "lan1" },
-      { "name": "LAN2", "type": "LAN", "speed_mbps": 1000, "dsa_port": "lan2" },
-      { "name": "LAN3", "type": "LAN", "speed_mbps": 1000, "dsa_port": "lan3" }
+      {
+        "name": "WAN",
+        "type": "WAN",
+        "speed_mbps": 1000,
+        "dsa_port": "wan"
+      },
+      {
+        "name": "LAN1",
+        "type": "LAN",
+        "speed_mbps": 1000,
+        "dsa_port": "lan1"
+      },
+      {
+        "name": "LAN2",
+        "type": "LAN",
+        "speed_mbps": 1000,
+        "dsa_port": "lan2"
+      },
+      {
+        "name": "LAN3",
+        "type": "LAN",
+        "speed_mbps": 1000,
+        "dsa_port": "lan3"
+      }
     ]
   },
   "usb_ports": [
-    { "type": "USB 3.0 Type-A", "count": 1 },
-    { "type": "USB 2.0 Type-A", "count": 1 }
+    {
+      "type": "USB 3.0 Type-A",
+      "count": 1
+    },
+    {
+      "type": "USB 2.0 Type-A",
+      "count": 1
+    }
   ],
   "poe": {
     "supported": false,

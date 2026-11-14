@@ -1,0 +1,147 @@
+{
+  "$schema": "../../schemas/device.schema.json",
+  "id": "raspberry-pi-5",
+  "manufacturer": "Raspberry Pi",
+  "model": "Raspberry Pi 5",
+  "hardware_revision": "v1.0",
+  "regional_variant": "Global",
+  "internal_board_name": "rpi-5",
+  "soc": {
+    "vendor": "Broadcom",
+    "model": "BCM2712",
+    "family": "BCM2712",
+    "cores": 4,
+    "frequency_mhz": 2400
+  },
+  "architecture": "aarch64",
+  "ram_mb": 8192,
+  "flash": {
+    "mb": 64,
+    "type": "SPI-NOR (Bootloader EEPROM) + MicroSD / PCIe NVMe",
+    "ubi_support": false,
+    "dual_boot": false,
+    "partitions": [
+      {
+        "name": "bootloader",
+        "size_kb": 512,
+        "read_only": true
+      },
+      {
+        "name": "boot",
+        "size_kb": 65536,
+        "read_only": false
+      },
+      {
+        "name": "rootfs",
+        "size_kb": 2097152,
+        "read_only": false
+      }
+    ],
+    "capacity_mb": 64
+  },
+  "ethernet_ports": [
+    {
+      "speed_mbps": 1000,
+      "type": "LAN",
+      "label": "Gigabit Ethernet (macb / RP1)",
+      "dsa_interface": "eth0"
+    }
+  ],
+  "switch": {
+    "integrated": false,
+    "model": "Broadcom BCM54213PE Gigabit PHY via RP1 Southbridge",
+    "dsa_driver": null,
+    "hardware_vlan": false
+  },
+  "wifi": [
+    {
+      "band": "2.4 GHz",
+      "standard": "802.11n",
+      "streams": "1x1",
+      "max_phy_mbps": 72,
+      "chipset": "Infineon CYW43455 (brcmfmac)"
+    },
+    {
+      "band": "5 GHz",
+      "standard": "802.11ac",
+      "streams": "1x1",
+      "max_phy_mbps": 433,
+      "chipset": "Infineon CYW43455 (brcmfmac)"
+    }
+  ],
+  "usb_ports": [
+    {
+      "type": "USB 3.0 Type-A",
+      "count": 2
+    },
+    {
+      "type": "USB 2.0 Type-A",
+      "count": 2
+    },
+    {
+      "type": "USB-C",
+      "count": 1
+    }
+  ],
+  "poe": {
+    "supported": true,
+    "standard": "802.3at (PoE+)",
+    "type": "PoE-In"
+  },
+  "bootloader": "Raspberry Pi EEPROM Bootloader / U-Boot",
+  "serial_uart": {
+    "available": true,
+    "voltage": "3.3V",
+    "baudrate": 115200,
+    "pinout_documented": true,
+    "notes": "Dedicated 3-pin JST-SH UART connector between micro-HDMI ports: GND, TX, RX."
+  },
+  "openwrt": {
+    "target": "bcm27xx/bcm2712",
+    "subtarget": "bcm2712",
+    "profile": "rpi-5",
+    "support_status": "OFFICIALLY_SUPPORTED",
+    "first_supported_version": "24.10.0",
+    "latest_tested_version": "25.12.6",
+    "firmware_selector_url": "https://firmware-selector.openwrt.org/?target=bcm27xx%2Fbcm2712&id=rpi-5",
+    "device_tree_file": "bcm2712-rpi-5-b.dts",
+    "known_limitations": [
+      "Features a dedicated PCIe 2.0 1-lane FPC header supporting high-speed dual-2.5GbE HATs or NVMe SSD carrier boards.",
+      "Outperforms most consumer routers with 2.4 GHz Cortex-A76 cores capable of 2.5Gbps routing and high-throughput IPSec/WireGuard processing."
+    ]
+  },
+  "installation": {
+    "method": "Direct Image Flash (SBC / SD Card)",
+    "risk": "LOW",
+    "requires_factory_stage": false,
+    "guide_link": "https://openwrt.org/toh/raspberry_pi_foundation/raspberry_pi"
+  },
+  "recovery": {
+    "method": "SD Card Re-flash (SBC)",
+    "recovery_ip": "192.168.1.1",
+    "guide_link": "https://openwrt.org/toh/raspberry_pi_foundation/raspberry_pi#recovery"
+  },
+  "verification": {
+    "status": "OFFICIALLY_SUPPORTED",
+    "evidence": [
+      "Official OpenWrt target: target/linux/bcm27xx/bcm2712",
+      "Upstream DTS: bcm2712-rpi-5-b.dts",
+      "RP1 southbridge driver support integrated in 6.6 kernel series"
+    ],
+    "last_verified": "2026-11-15"
+  },
+  "sources": [
+    {
+      "title": "OpenWrt Target: Broadcom BCM2712",
+      "url": "https://git.openwrt.org/?p=openwrt/openwrt.git;a=tree;f=target/linux/bcm27xx/bcm2712",
+      "type": "OPENWRT_GIT",
+      "date_accessed": "2026-11-15"
+    },
+    {
+      "title": "Raspberry Pi 5 Documentation",
+      "url": "https://www.raspberrypi.com/documentation/computers/raspberry-pi-5.html",
+      "type": "OEM_SPEC",
+      "date_accessed": "2026-11-15"
+    }
+  ]
+}

@@ -1,0 +1,156 @@
+{
+  "$schema": "../../schemas/device.schema.json",
+  "id": "nokia-fastmile-5g-gateway-3-2",
+  "manufacturer": "Nokia",
+  "model": "FastMile 5G Gateway 3.2 (5G14-B)",
+  "hardware_revision": "v3.2",
+  "regional_variant": "Global / US / IN",
+  "internal_board_name": "nokia_fastmile-5g-3-2",
+  "soc": {
+    "vendor": "MediaTek",
+    "model": "T750 (MT6890)",
+    "family": "MediaTek T750",
+    "cores": 4,
+    "frequency_mhz": 2000
+  },
+  "architecture": "aarch64",
+  "ram_mb": 4096,
+  "flash": {
+    "mb": 8192,
+    "type": "eMMC",
+    "ubi_support": false,
+    "dual_boot": true,
+    "partitions": [
+      {
+        "name": "boot0",
+        "size_kb": 4096,
+        "read_only": true
+      },
+      {
+        "name": "boot1",
+        "size_kb": 4096,
+        "read_only": true
+      },
+      {
+        "name": "fip",
+        "size_kb": 8192,
+        "read_only": true
+      },
+      {
+        "name": "system_a",
+        "size_kb": 4096000,
+        "read_only": true
+      },
+      {
+        "name": "system_b",
+        "size_kb": 4096000,
+        "read_only": true
+      }
+    ],
+    "capacity_mb": 8192
+  },
+  "ethernet_ports": [
+    {
+      "speed_mbps": 2500,
+      "type": "LAN",
+      "label": "2.5GbE LAN 1",
+      "dsa_interface": "eth0"
+    },
+    {
+      "speed_mbps": 1000,
+      "type": "LAN",
+      "label": "1GbE LAN 2",
+      "dsa_interface": "eth1"
+    }
+  ],
+  "switch": {
+    "integrated": false,
+    "model": "MediaTek MT7531AE",
+    "dsa_driver": "mt7530",
+    "hardware_vlan": true
+  },
+  "wifi": [
+    {
+      "band": "2.4 GHz",
+      "standard": "802.11ax",
+      "streams": "4x4",
+      "max_phy_mbps": 1148,
+      "chipset": "MediaTek MT7915A + MT7975N"
+    },
+    {
+      "band": "5 GHz",
+      "standard": "802.11ax",
+      "streams": "4x4",
+      "max_phy_mbps": 2402,
+      "chipset": "MediaTek MT7915A + MT7975A"
+    }
+  ],
+  "usb_ports": [
+    {
+      "type": "USB-C",
+      "count": 1
+    }
+  ],
+  "poe": {
+    "supported": false,
+    "standard": null,
+    "type": null
+  },
+  "bootloader": "U-Boot (Nokia Secure Boot with RSA-4096 signature check)",
+  "serial_uart": {
+    "available": true,
+    "voltage": "1.8V",
+    "baudrate": 115200,
+    "pinout_documented": true,
+    "notes": "1.8V logic level serial test pads near SIM card tray. Warning: 3.3V or 5V serial adapters will destroy the MediaTek T750 baseband silicon."
+  },
+  "openwrt": {
+    "target": "mediatek/t750",
+    "subtarget": null,
+    "profile": "nokia_fastmile-5g-3-2",
+    "support_status": "POTENTIALLY_COMPATIBLE",
+    "first_supported_version": null,
+    "latest_tested_version": null,
+    "firmware_selector_url": null,
+    "device_tree_file": null,
+    "known_limitations": [
+      "CARRIER LOCK & SECURE BOOT: While the MediaTek T750 SoC shares architecture with Filogic 830 and runs standard Linux 5.4 OEM kernel, Nokia enables hardware cryptographic eFuse signature verification in BootROM.",
+      "Unsigned OpenWrt kernels cannot be loaded unless a verified bootloader vulnerability or carrier unlock key is obtained.",
+      "The integrated Sub-6GHz 5G NR modem requires proprietary MediaTek ccmni cellular daemon."
+    ]
+  },
+  "installation": {
+    "method": "UART Serial Command",
+    "risk": "CRITICAL",
+    "requires_factory_stage": true,
+    "guide_link": null
+  },
+  "recovery": {
+    "method": "None Known",
+    "recovery_ip": null,
+    "guide_link": null
+  },
+  "verification": {
+    "status": "POTENTIALLY_COMPATIBLE",
+    "evidence": [
+      "Teardown and FCC filing (FCC ID: 2ADZR5G14B) confirms MediaTek T750 SoC, MT7915 Wi-Fi 6 transceivers, and 4GB RAM",
+      "Underlying silicon supported by Linux kernel; carrier secure boot currently blocks unsigned firmware loading",
+      "Active community reverse-engineering in progress"
+    ],
+    "last_verified": "2026-11-15"
+  },
+  "sources": [
+    {
+      "title": "FCC Filing & Teardown: Nokia FastMile 5G Gateway (FCC ID: 2ADZR5G14B)",
+      "url": "https://fccid.io/2ADZR5G14B",
+      "type": "FCC_FILING",
+      "date_accessed": "2026-11-15"
+    },
+    {
+      "title": "OpenWrt Forum: Nokia FastMile 5G Gateway Reverse Engineering",
+      "url": "https://forum.openwrt.org/t/nokia-fastmile-5g-gateway-mediatek-t750/142981",
+      "type": "OPENWRT_FORUM",
+      "date_accessed": "2026-11-15"
+    }
+  ]
+}

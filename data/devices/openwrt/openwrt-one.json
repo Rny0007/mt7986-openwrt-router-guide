@@ -1,0 +1,160 @@
+{
+  "$schema": "../../schemas/device.schema.json",
+  "id": "openwrt-one",
+  "manufacturer": "OpenWrt / Banana Pi",
+  "model": "OpenWrt One / AP-24.XY",
+  "hardware_revision": "v1 (20th Anniversary Edition)",
+  "regional_variant": "Global",
+  "internal_board_name": "openwrt_one",
+  "soc": {
+    "vendor": "MediaTek",
+    "model": "MT7981B",
+    "family": "Filogic 820",
+    "cores": 2,
+    "frequency_mhz": 1300
+  },
+  "architecture": "aarch64",
+  "ram_mb": 1024,
+  "flash": {
+    "mb": 144,
+    "type": "dual-flash (128MB SPI-NAND + 16MB SPI-NOR)",
+    "ubi_support": true,
+    "dual_boot": true,
+    "partitions": [
+      {
+        "name": "BL2",
+        "size_kb": 512,
+        "read_only": true
+      },
+      {
+        "name": "u-boot-env",
+        "size_kb": 256,
+        "read_only": false
+      },
+      {
+        "name": "Factory",
+        "size_kb": 2048,
+        "read_only": true
+      },
+      {
+        "name": "FIP",
+        "size_kb": 2048,
+        "read_only": true
+      },
+      {
+        "name": "ubi",
+        "size_kb": 125952,
+        "read_only": false
+      }
+    ],
+    "capacity_mb": 144
+  },
+  "ethernet_ports": [
+    {
+      "speed_mbps": 2500,
+      "type": "WAN",
+      "label": "2.5GbE WAN",
+      "dsa_interface": "eth1"
+    },
+    {
+      "speed_mbps": 1000,
+      "type": "LAN",
+      "label": "1GbE LAN",
+      "dsa_interface": "lan1"
+    }
+  ],
+  "switch": {
+    "integrated": false,
+    "model": "MaxLinear GPY211 / Realtek RTL8221B (2.5G PHY)",
+    "dsa_driver": "phylink",
+    "hardware_vlan": true
+  },
+  "wifi": [
+    {
+      "band": "2.4 GHz",
+      "standard": "802.11ax",
+      "streams": "2x2",
+      "max_phy_mbps": 574,
+      "chipset": "MediaTek MT7976C"
+    },
+    {
+      "band": "5 GHz",
+      "standard": "802.11ax",
+      "streams": "3x3",
+      "max_phy_mbps": 2402,
+      "chipset": "MediaTek MT7976C"
+    }
+  ],
+  "usb_ports": [
+    {
+      "type": "USB 2.0 Type-A",
+      "count": 1
+    },
+    {
+      "type": "USB-C",
+      "count": 1
+    }
+  ],
+  "poe": {
+    "supported": true,
+    "standard": "802.3at (PoE+)",
+    "type": "PoE-In"
+  },
+  "bootloader": "U-Boot (Mainline OpenWrt ATF/FIP with dual-flash hardware selector switch)",
+  "serial_uart": {
+    "available": true,
+    "voltage": "3.3V",
+    "baudrate": 115200,
+    "pinout_documented": true,
+    "notes": "Dedicated onboard USB-C console port with onboard CP2102N USB-UART bridge. Direct plug-and-play serial console via standard USB-C cable."
+  },
+  "openwrt": {
+    "target": "mediatek/filogic",
+    "subtarget": "generic",
+    "profile": "openwrt_one",
+    "support_status": "OFFICIALLY_SUPPORTED",
+    "first_supported_version": "24.10.0",
+    "latest_tested_version": "25.12.6",
+    "firmware_selector_url": "https://firmware-selector.openwrt.org/?target=mediatek%2Ffilogic&id=openwrt_one",
+    "device_tree_file": "mt7981b-openwrt-one.dts",
+    "known_limitations": [
+      "Hardware switch allows selecting between unbrickable recovery SPI-NOR (16MB) and primary high-capacity SPI-NAND (128MB).",
+      "Features M.2 2230/2242 PCIe NVMe slot for high-speed SSD storage.",
+      "Onboard EM2030 battery-backed hardware RTC for accurate offline timekeeping without NTP."
+    ]
+  },
+  "installation": {
+    "method": "Direct Image Flash (SBC / SD Card)",
+    "risk": "LOW",
+    "requires_factory_stage": false,
+    "guide_link": "https://openwrt.org/toh/openwrt/one"
+  },
+  "recovery": {
+    "method": "U-Boot Recovery Webpage",
+    "recovery_ip": "192.168.1.1",
+    "guide_link": "https://openwrt.org/toh/openwrt/one#recovery_switch"
+  },
+  "verification": {
+    "status": "OFFICIALLY_SUPPORTED",
+    "evidence": [
+      "Official OpenWrt Foundation reference hardware design",
+      "Upstream DTS: target/linux/mediatek/dts/mt7981b-openwrt-one.dts",
+      "Native out-of-the-box mainline OpenWrt support with no proprietary blobs required"
+    ],
+    "last_verified": "2026-11-15"
+  },
+  "sources": [
+    {
+      "title": "OpenWrt One Project Announcement",
+      "url": "https://openwrt.org/openwrt-one",
+      "type": "OFFICIAL_OPENWRT",
+      "date_accessed": "2026-11-15"
+    },
+    {
+      "title": "OpenWrt Upstream Tree: OpenWrt One DTS",
+      "url": "https://git.openwrt.org/?p=openwrt/openwrt.git;a=tree;f=target/linux/mediatek/filogic",
+      "type": "OPENWRT_GIT",
+      "date_accessed": "2026-11-15"
+    }
+  ]
+}

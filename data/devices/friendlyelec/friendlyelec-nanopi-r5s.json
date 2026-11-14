@@ -16,19 +16,38 @@
   "ram_mb": 2048,
   "flash": {
     "type": "eMMC",
-    "capacity_mb": 8192
+    "capacity_mb": 8192,
+    "mb": 8192
   },
   "wireless": [],
   "ethernet": {
     "switch_chip": null,
     "ports": [
-      { "name": "2.5G WAN", "type": "WAN", "speed_mbps": 2500, "dsa_port": "eth1" },
-      { "name": "2.5G LAN", "type": "LAN", "speed_mbps": 2500, "dsa_port": "eth2" },
-      { "name": "1G LAN", "type": "LAN", "speed_mbps": 1000, "dsa_port": "eth0" }
+      {
+        "name": "2.5G WAN",
+        "type": "WAN",
+        "speed_mbps": 2500,
+        "dsa_port": "eth1"
+      },
+      {
+        "name": "2.5G LAN",
+        "type": "LAN",
+        "speed_mbps": 2500,
+        "dsa_port": "eth2"
+      },
+      {
+        "name": "1G LAN",
+        "type": "LAN",
+        "speed_mbps": 1000,
+        "dsa_port": "eth0"
+      }
     ]
   },
   "usb_ports": [
-    { "type": "USB 3.0 Type-A", "count": 2 }
+    {
+      "type": "USB 3.0 Type-A",
+      "count": 2
+    }
   ],
   "poe": {
     "supported": false,

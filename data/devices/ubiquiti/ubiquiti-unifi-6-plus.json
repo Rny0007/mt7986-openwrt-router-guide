@@ -16,7 +16,8 @@
   "ram_mb": 256,
   "flash": {
     "type": "SPI-NOR + eMMC",
-    "capacity_mb": 4096
+    "capacity_mb": 4096,
+    "mb": 4096
   },
   "wireless": [
     {
@@ -41,7 +42,12 @@
   "ethernet": {
     "switch_chip": null,
     "ports": [
-      { "name": "PoE LAN", "type": "LAN", "speed_mbps": 1000, "dsa_port": "eth0" }
+      {
+        "name": "PoE LAN",
+        "type": "LAN",
+        "speed_mbps": 1000,
+        "dsa_port": "eth0"
+      }
     ]
   },
   "usb_ports": [],

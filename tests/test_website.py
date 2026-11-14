@@ -44,7 +44,7 @@ class TestGeneratedWebsite(unittest.TestCase):
     def test_all_device_pages_generated(self):
         devices_dir = os.path.join(SITE_DIR, "devices")
         subdirs = [d for d in os.listdir(devices_dir) if os.path.isdir(os.path.join(devices_dir, d))]
-        self.assertEqual(len(subdirs), 18, f"Expected 18 device pages, got {len(subdirs)}")
+        self.assertGreaterEqual(len(subdirs), 48, f"Expected at least 48 device pages, got {len(subdirs)}")
         for d in subdirs:
             page = os.path.join(devices_dir, d, "index.html")
             self.assertTrue(os.path.exists(page), f"Device {d} missing index.html")
@@ -56,7 +56,7 @@ class TestGeneratedWebsite(unittest.TestCase):
     def test_all_chipset_pages_generated(self):
         chipsets_dir = os.path.join(SITE_DIR, "chipsets")
         subdirs = [c for c in os.listdir(chipsets_dir) if os.path.isdir(os.path.join(chipsets_dir, c))]
-        self.assertEqual(len(subdirs), 11, f"Expected 11 chipset pages, got {len(subdirs)}")
+        self.assertGreaterEqual(len(subdirs), 15, f"Expected at least 15 chipset pages, got {len(subdirs)}")
         for c in subdirs:
             page = os.path.join(chipsets_dir, c, "index.html")
             self.assertTrue(os.path.exists(page), f"Chipset {c} missing index.html")

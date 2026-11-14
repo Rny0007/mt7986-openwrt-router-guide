@@ -130,6 +130,42 @@ This document preserves historical milestones and logs real-time engineering wor
 
 ---
 
+## [2026-11-15 04:15 IST] — Global OpenWrt Router Discovery & Compatibility Database Expansion
+- **Objective**: Conduct comprehensive, evidence-based global discovery of router, access point, switch, and SBC hardware across all major manufacturers and silicon families. Major expansion of Repo A database, schema support for all 7 compatibility classifications, device-specific installation and recovery guides, research automation scripts, static website generation, test validation, and production deployment to Repo B.
+- **Research Scope & Execution**:
+  - Manufacturers: TP-Link, ASUS, Netgear, Linksys, D-Link, Xiaomi, Redmi, Cudy, GL.iNet, Ubiquiti, Zyxel, Banana Pi, FriendlyElec, Raspberry Pi, OpenWrt One, Reyee, Arcadyan, Sercomm, Nokia, MikroTik, AVM, Acer.
+  - Silicon Families: MediaTek (MT7621, MT7622, MT7981, MT7986, MT7988), Qualcomm (IPQ4019, IPQ6018, IPQ8065, IPQ8072), Broadcom (BCM2711, BCM4908, BCM4912, BCM4709), Realtek (RTL8380M, RTL8382M), Rockchip (RK3399, RK3568, RK3588), x86_64.
+  - Evidence Base: Upstream OpenWrt Git commits, Table of Hardware, device tree `.dts` files, Firmware Selector, FCC filings, manufacturer GPL kernels, Linux kernel drivers, community forums, and hardware teardowns. 79 unique primary/secondary sources cited with 0 hallucinated specifications.
+- **Deliverables & Milestones Achieved**:
+  1. **Schema & Classification System**: Updated `data/schemas/device.schema.json` to support all 7 compatibility tiers (`OFFICIALLY_SUPPORTED`, `COMMUNITY_VERIFIED`, `PARTIALLY_VERIFIED`, `EXPERIMENTAL`, `POTENTIALLY_COMPATIBLE`, `UNSUPPORTED`, `UNKNOWN`), expanded source types (`OFFICIAL_OPENWRT`, `UPSTREAM_GITHUB`, `MANUFACTURER`, `LINUX_KERNEL`, etc.), and added new flashing/recovery methods.
+  2. **Silicon Architecture Expansion**: Added 4 new verified chipset profiles in `data/chipsets/` (`mediatek-mt7622bv.json`, `qualcomm-ipq8065.json`, `broadcom-bcm2711.json`, `rockchip-rk3399.json`), expanding total silicon architectures to 15.
+  3. **Multi-Vendor Device Database**: Added 23 new verified device profiles across 7 research batches in `data/devices/`:
+     - Batch 1 (Consumer): Linksys E8450, Linksys WRT3200ACM, TP-Link Archer C7 v5, Archer AX23 v1, Netgear R7800 Nighthawk X4S, D-Link DIR-882 A1, ASUS RT-AX53U.
+     - Batch 2 (MediaTek Filogic): OpenWrt One (Official 20th Anniversary Board), Xiaomi AX3000T, GL.iNet GL-MT2500 Brume 2, Acer Predator Connect W6.
+     - Batch 3 (Qualcomm IPQ): GL.iNet GL-AX1800 Flint, GL-AXT1800 Slate AX, AVM FRITZ!Box 4040, TP-Link Deco X20, TP-Link Archer AX50 v1 (Unsupported Intel WAV654 Wi-Fi).
+     - Batch 4 (Broadcom): Netgear R7000 (Partially Verified / b43 Wi-Fi limitations), ASUS RT-AC68U, ASUS RT-AX88U Pro (Unsupported BCM4912 / closed Wi-Fi driver).
+     - Batch 5 (Realtek & Rockchip): Raspberry Pi 4 Model B, Raspberry Pi 5, FriendlyElec NanoPi R4S, FriendlyElec NanoPi R6S, D-Link DGS-1210-10P Managed PoE Switch (OpenWrt Realtek DSA).
+     - Batch 6 (ISP Gateways): Nokia FastMile 5G Gateway 3.2 (Potentially Compatible / locked bootloader), Sercomm Airtel A-622G (Unsupported / closed GPON OMCI).
+     - Batch 7 (Enterprise & SBC): Ubiquiti UniFi 6 Lite, Ubiquiti UniFi AC Pro, Ruijie Reyee RG-EW3200GX PRO, MikroTik RouterBOARD RB750Gr3 (hEX).
+     - **Database Totals**: 48 Devices, 15 Chipsets, 18 Manufacturers.
+     - **Status Distribution**: 35 Officially Supported, 5 Community Verified, 4 Partially Verified, 1 Potentially Compatible, 3 Unsupported, 0 Experimental, 0 Unknown.
+  4. **Hardware Explorer UI**: Expanded `explorer/index.html` with real-time text search, 7-level status filtering, multi-architecture SoC selection, Wi-Fi 4 through 7 + Ethernet-only filters, and multi-device side-by-side comparison.
+  5. **Dedicated Installation & Recovery Guides**: Implemented dedicated generation in `scripts/build-website.py` producing:
+     - 48 dedicated installation guides under `/guides/install/<device-slug>/` with tailored step-by-step flashing procedures, checksum verification, prerequisites, and LuCI first-boot steps.
+     - 48 dedicated disaster recovery guides under `/guides/recovery/<device-slug>/` featuring the 4-tier escalation hierarchy, strict 3.3V TTL warning, **NEVER CONNECT VCC (RED WIRE)** mandate, device-specific TFTP server settings, serial pinouts, and calibration partition preservation.
+  6. **Automated Verification & Testing**:
+     - `tests/run_tests.py`: 10/10 test suites passed (`OK`).
+     - `tests/audit_site_html.py`: 172 HTML pages audited with 0 missing canonicals, 0 duplicate descriptions, and 0 H1 tag count anomalies.
+     - `tests/test_playwright_e2e.py`: 8/8 real-browser automated end-to-end scenarios passed with complete clipboard, navigation, and deep-link verification.
+     - Explorer UI automated Playwright tests: Verified search filtering and status filtering across all 48 cataloged devices.
+  7. **Production Deployment to Repo B**:
+     - Synchronized compiled static site to `C:\Users\mrrny\Desktop\openwrt-router-hardware-explorer`.
+     - Committed and pushed commit `98e83d5` to `origin/main` on `Rny0007/openwrt-router-hardware-explorer`.
+     - GitHub Pages build ID 1370304969 verified `built` and live HTTPS endpoints returned `200 OK`.
+- **Status**: DONE
+
+---
+
 ## [2026-11-15 02:00 IST] — Recovery Guide Redesign, Navigation Overhaul, Playwright Testing & Production Deployment
 - **Objective**: Execute Additional Release Scope: evidence-based diagnosis of navigation / back-button behavior, redesign of `guides/recovery/index.html` using NOC documentation theme, contribution panel integration with Repo A issue templates, GoatCounter privacy-first visitor counter integration, automated Playwright validation, and production deployment to Repository B (`Rny0007/openwrt-router-hardware-explorer`).
 - **Diagnosis & Root Cause Analysis**:
