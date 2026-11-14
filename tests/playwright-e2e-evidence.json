@@ -1,0 +1,72 @@
+{
+  "timestamp": "2026-11-14T20:27:38Z",
+  "base_url": "http://127.0.0.1:52475",
+  "scenarios": {
+    "nav_home_to_recovery": {
+      "status": "PASSED",
+      "details": {
+        "navigated_url": "http://127.0.0.1:52475/guides/recovery/index.html",
+        "title": "Disaster Recovery & Unbricking \u2014 OpenWrt Router Hardware Knowledge Base"
+      }
+    },
+    "browser_back_forward_navigation": {
+      "status": "PASSED",
+      "details": {
+        "back_url": "http://127.0.0.1:52475/index.html",
+        "forward_url": "http://127.0.0.1:52475/guides/recovery/index.html",
+        "history_length": 3
+      }
+    },
+    "deep_link_preservation": {
+      "status": "PASSED",
+      "details": {
+        "target_url": "http://127.0.0.1:52475/guides/recovery/index.html#sec-5-tiers",
+        "resolved_hash": "#sec-5-tiers",
+        "header_text": "5. The Five Recovery Tiers\nTier 1: OpenWrt Failsafe Mode\n\nIf OpenWrt boots but custom firewall rules or network settings lock out web/SSH access, enter failsafe mode:\n\nSet PC Static IP: 192.168.1.2 (Subnet 255.255.255.0). Connect cable to router LAN1.\nPower cycle router. When the front LED flashes rapidly, press the physical RESET button once.\nOpen terminal and execute:\nssh -o StrictHostKeyChecking=no root@192.168.1.1\nmount_root\nfirstboot -y\nreboot -f\nCopy\nTier 2: OEM Web Failsafe Interface\n\nMediaTek Filogic and GL.iNet bootloaders feature an embedded HTTP server in U-Boot:\n\nSet PC static IP to 192.168.1.2. Connect to LAN1.\nPower on the router while holding down the RESET button for 8 to 10 seconds.\nNavigate to http://192.168.1.1 in your web browser. Upload the official OpenWrt sysupgrade binary.\nTier 3: Automated Bootloader TFTP Client Mode\n\nWhen rootfs cannot mount, the bootloader broadcasts TFTP requests to predefined IP addresses:\n\nPlatform / Vendor\tRouter Target IP\tHost PC TFTP Server IP\tRequired Image Filename\nMediaTek Filogic (U-Boot)\t192.168.1.1\t192.168.1.254 (or 192.168.1.10)\topenwrt.bin / recovery.bin\nTP-Link MediaTek\t192.168.0.1\t192.168.0.66\tArcherC6v3_tp_recovery.bin\nXiaomi / Redmi\t192.168.31.1\t192.168.31.100\ttest.bin\nNetgear WAX206\t192.168.1.1\t192.168.1.10\twax206.img\n# Linux TFTP Server Setup\nsudo apt install tftpd-hpa\nsudo cp openwrt-*-initramfs.bin /var/lib/tftpboot/openwrt.bin\nsudo systemctl restart tftpd-hpa\nCopy\nTier 4: Hardware 3.3V TTL Serial UART Console\nCRITICAL ELECTRICAL RULE:\nConnect ONLY GND, TX, and RX.\nNEVER CONNECT THE VCC PIN\nfrom your USB-UART adapter. Doing so causes power back-feeding and can permanently destroy the SoC.\nUSB-UART Adapter                Router PCB Serial Header\n[ GND ] ------------------------ [ GND ] (Ground reference)\n[ RX  ] ------------------------ [ TX  ] (Crossover transmit)\n[ TX  ] ------------------------ [ RX  ] (Crossover receive)\n[ VCC ] (DISCONNECTED)           [ VCC ] (STRICTLY DISCONNECTED)\nCopy\n\nOpen PuTTY (Windows) or picocom (Linux) at 115200 baud, 8 data bits, 1 stop bit, no parity (8N1). Power cycle the router and repeatedly press Space or Enter to interrupt autoboot into the U-Boot console:\n\n# Configure network inside U-Boot\nsetenv ipaddr 192.168.1.1\nsetenv serverip 192.168.1.254\nping 192.168.1.254\n\n# Load initramfs recovery kernel into DDR RAM\ntftpboot 0x46000000 openwrt-initramfs.bin\nfdt addr \\$(fdtcontroladdr)\nfdt rm /signature\nbootm 0x46000000\nCopy\nTier 5: External Hardware Flash Programmer\n\nWhen the SPI-NAND bootloader partitions (`BL2`, `FIP`) are completely erased or corrupted, attach a CH341A or T48 external hardware programmer with a SOIC8/WSON clip directly to the flash chip:\n\n# Flash raw fullchip dump to SPI chip\nflashrom -p ch341a_spi -w mtd0_fullchip_backup.bin\nCopy"
+      }
+    },
+    "toc_navigation_interactivity": {
+      "status": "PASSED",
+      "details": {
+        "toc_links_count": 10,
+        "clicked_hash": "#sec-6-device-notes"
+      }
+    },
+    "code_copy_button_interactivity": {
+      "status": "PASSED",
+      "details": {
+        "buttons_count": 6,
+        "label_after_click": "Copied!",
+        "sample_code_snippet": "# [Router Terminal]\ncat /proc/mtd\ndd if=/dev/mtd0 of=/tmp/mt..."
+      }
+    },
+    "contribution_panel_repo_a_mapping": {
+      "status": "PASSED",
+      "details": {
+        "edit_source_url": "https://github.com/Rny0007/mt7986-openwrt-router-guide/blob/main/docs/recovery/tftp-and-uart-recovery.md",
+        "issue_template_url": "https://github.com/Rny0007/mt7986-openwrt-router-guide/issues/new?template=08_documentation_improvement.yml&page_url=docs/recovery/tftp-and-uart-recovery.md&title=%5BDocs%5D%3A%20Feedback%20on%20Disaster%20Recovery%20Guide&labels=documentation,enhancement",
+        "unbrick_template_url": "https://github.com/Rny0007/mt7986-openwrt-router-guide/issues/new?template=05_recovery_unbrick_report.yml&title=%5BRecovery%5D%3A%20Unbrick%20Verification%20for%20Disaster%20Recovery%20Guide&labels=recovery-guide,unbrick-verified"
+      }
+    },
+    "goatcounter_privacy_fallback": {
+      "status": "PASSED",
+      "details": {
+        "badge_text": "Cookie-Free Analytics:\nPrivacy-First / No Trackers Active",
+        "third_party_scripts_loaded": 0
+      }
+    },
+    "diagram_and_callouts_verification": {
+      "status": "PASSED",
+      "details": {
+        "flowchart_svg_present": true,
+        "danger_callouts_count": 2,
+        "warning_callouts_count": 2
+      }
+    }
+  },
+  "summary": {
+    "passed": 8,
+    "failed": 0,
+    "total": 8
+  }
+}

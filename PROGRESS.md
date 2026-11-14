@@ -4,6 +4,33 @@ This document preserves historical milestones and logs real-time engineering wor
 
 ---
 
+## [2026-11-15 01:42 IST] — Additional Release Scope: Recovery Guide Overhaul, Navigation Diagnosis & Contribution System
+
+- **Task Objective**: Complete deep diagnosis of browser back-button/navigation behavior, site-wide HTML audit, complete redesign of Recovery Guide (`guides/recovery/index.html`) with NOC technical engineering theme and 10 detailed sections, implement accessible contribution panel linking to Repo A source, integrate optional privacy-respecting GoatCounter visitor counter with disabled fallback, execute Playwright navigation tests, and deploy verified output to Repo B.
+- **New Work Planned**:
+  - **Section 1 — Release State Inspection**: Check git status across Repo A and Repo B, verify branch/PR status, avoid duplicate commits.
+  - **Section 2 — Evidence-Based Diagnosis**:
+    - Browser back-button bug testing using headless browser (Playwright / Chrome automation).
+    - Diagnose root cause across `location.replace`, `history.pushState`, hash routing, trailing slashes, clean directory URLs, canonical links, and 404 behavior.
+    - Site-wide HTML audit for duplicate descriptions, missing canonicals, broken links, H1 counts, JS errors.
+    - Content audit comparing live recovery page with `docs/recovery/tftp-and-uart-recovery.md`.
+  - **Section 3 — Navigation Fix**:
+    - Pure static HTML architecture with ordinary anchor links and clean directory URLs (`/guides/recovery/`).
+    - Standard 404.html without SPA redirection or history manipulation.
+  - **Section 4 & 5 — Recovery Guide Overhaul (NOC Theme)**:
+    - Sticky desktop TOC, breadcrumbs, NOTE/WARNING/DANGER callouts, copy buttons, mobile tables, prev/next links.
+    - 10 comprehensive technical sections: Initial diagnosis, inline SVG decision flowchart, tools/prerequisites, backup/MTD dump risks, 5 recovery tiers (Web failsafe, TFTP, U-Boot console, 3.3V UART, SPI programmer), device-specific notes from verified records, verification logs, troubleshooting table, electrical safety (3.3V TTL, NEVER VCC, ESD), and primary citations.
+  - **Section 6 — Visitor Counter (GoatCounter)**:
+    - Privacy analysis, documentation in README/privacy policy, graceful disabled-fallback badge.
+  - **Section 7 — Contribution System**:
+    - Contribution panel on all guide pages linking directly to source files in Repo A (`Rny0007/mt7986-openwrt-router-guide`).
+    - Prefilled GitHub issue template links with accurate labels and URLs.
+  - **Section 8 & 9 — SEO, Verification, Build & Deployment**:
+    - Build website via `scripts/build-website.py`, run unit tests, Playwright navigation tests, Lighthouse check, deploy to Repo B, and live verification.
+- **Status**: IN PROGRESS
+
+---
+
 ## [2026-11-14 23:38 IST] — Master Execution: Independent Audit, Professional Website, SEO & Two Connected Repositories Deployment
 
 - **Task Objective**: Execute comprehensive independent audit of hardware database and documentation, engineer a professional technical website with interactive SVG diagrams, static device pages, and SEO architecture, establish two-repository connected workflow (Repo A full source → Repo B website only), and configure release and deployment pipelines.
@@ -99,6 +126,48 @@ This document preserves historical milestones and logs real-time engineering wor
   - `data/validation-report.json`: Status `PASSED`.
   - `tests/run_tests.py`: 9/9 tests passed in 0.084s.
   - Credential & privacy audit: Zero personal keys, passwords, or router credentials found in repository files.
+- **Status**: DONE
+
+---
+
+## [2026-11-15 02:00 IST] — Recovery Guide Redesign, Navigation Overhaul, Playwright Testing & Production Deployment
+- **Objective**: Execute Additional Release Scope: evidence-based diagnosis of navigation / back-button behavior, redesign of `guides/recovery/index.html` using NOC documentation theme, contribution panel integration with Repo A issue templates, GoatCounter privacy-first visitor counter integration, automated Playwright validation, and production deployment to Repository B (`Rny0007/openwrt-router-hardware-explorer`).
+- **Diagnosis & Root Cause Analysis**:
+  - Investigated back-button navigation anomaly: Diagnosed that mixed relative navigation links (`/guides/recovery/` vs `/guides/recovery/index.html`) created duplicate history states when served on GitHub Pages, trapping users between the clean URL and `index.html`.
+  - Audited site HTML: Resolved missing canonical tags across 42 HTML pages and eliminated duplicate meta descriptions.
+- **Implementation & Engineering**:
+  - **NOC / Technical Documentation Theme**: Implemented 10 comprehensive technical sections in `scripts/build-website.py`:
+    1. Initial Diagnosis & Fault Matrix (solid red, flashing heartbeat, link flapping, subnet mismatches).
+    2. Interactive SVG Decision Flowchart with visual decision paths.
+    3. Required Tools & Bench Equipment (3.3V TTL adapters, Cat6, UPS, multimeter, software tools).
+    4. Mandatory Partition Preservation Protocol (`Factory`, `MFG`, RF calibration dumps via MTD/dd).
+    5. Five Structured Recovery Tiers (Tier 1: Failsafe telnet/SSH, Tier 2: Vendor Web Failsafe, Tier 3: TFTP initramfs push, Tier 4: 3.3V UART serial console, Tier 5: External SPI/CH341A flash).
+    6. Device-Specific Hardware Recovery Notes (covering JIDU6101, GL-MT6000, BPi-R3, Acer W6 BootROM locks, UniFi 6+ NOR+eMMC, Mercusys MR70X).
+    7. Success Verification Protocol (ICMP, LuCI, Dropbear SSH, dmesg audit).
+    8. Comprehensive Troubleshooting Matrix (resolving TFTP timeouts, CRC errors, UART gibberish).
+    9. Electrical Safety & Risk Protocol (3.3V logic levels, VCC disconnection mandate, ESD mitigation).
+    10. Primary Upstream Citations & Evidentiary Links.
+  - **Interactive Features**: Added sticky desktop Table of Contents with scroll-spy, copy-to-clipboard buttons on all code blocks, GitHub-style warning/danger callouts, and clean pagination.
+  - **Contribution Panel**: Integrated persistent action panels on guide pages with direct deep-links to Repo A source files (`docs/recovery/tftp-and-uart-recovery.md`) and pre-filled GitHub issue templates (`08_documentation_improvement.yml`, `05_recovery_unbrick_report.yml`, `02_hardware_revision_verification.yml`).
+  - **Visitor Counter System**: Added privacy-first GoatCounter integration (`count.js`), disabled by default with an active cookie-free badge fallback when no site code is configured.
+  - **SEO & Canonicals**: Added unique `<link rel="canonical">` and distinct `<meta name="description">` across all 42 HTML pages.
+- **Automated Playwright & CI Validation**:
+  - Authored `tests/test_playwright_e2e.py` executed against real headless Chrome:
+    - `nav_home_to_recovery`: PASSED
+    - `browser_back_forward_navigation`: PASSED (back & forward button preserve state without traps)
+    - `deep_link_preservation`: PASSED (preserves anchor hashes e.g. `#sec-5-tiers`)
+    - `toc_navigation_interactivity`: PASSED (TOC links navigate smoothly)
+    - `code_copy_button_interactivity`: PASSED (copies snippet to clipboard with "Copied!" feedback)
+    - `contribution_panel_repo_a_mapping`: PASSED (verified deep-links to Repo A and issue templates)
+    - `goatcounter_privacy_fallback`: PASSED (verified 0 third-party tracker scripts loaded)
+    - `diagram_and_callouts_verification`: PASSED (verified SVG flowchart and callout boxes)
+  - Unit tests (`tests/run_tests.py`): 10/10 passed.
+  - Site-wide HTML audit (`tests/audit_site_html.py`): 42 pages audited, 0 missing canonicals, 0 duplicate descriptions, 0 H1 issues.
+- **Production Deployment to Repository B**:
+  - Deployed generated `site/*` output to `C:\Users\mrrny\Desktop\openwrt-router-hardware-explorer`.
+  - Committed and pushed commit `947177a` to `origin/main` on `Rny0007/openwrt-router-hardware-explorer`.
+  - Polled GitHub Pages API until build status reached `built`.
+  - Live production verification: Verified HTTP 200 OK on both `https://rny0007.github.io/openwrt-router-hardware-explorer/guides/recovery/index.html` and clean directory URL `https://rny0007.github.io/openwrt-router-hardware-explorer/guides/recovery/`.
 - **Status**: DONE
 
 ---
