@@ -2146,86 +2146,196 @@ def generate_device_install_guide(d):
     flash = d.get("flash", {})
     openwrt = d.get("openwrt", {})
     inst = d.get("installation", {})
-    method = inst.get("method", "OEM Web Interface / Firmware Upload")
+    method = inst.get("method", "OEM Web GUI Flash")
     risk = inst.get("risk", "MEDIUM")
-    risk_badge = "badge-danger" if risk == "HIGH" else ("badge-warning" if risk == "MEDIUM" else "badge-success")
+    risk_badge = "badge-danger" if risk in ["HIGH", "CRITICAL"] else ("badge-warning" if risk == "MEDIUM" else "badge-success")
     
     flash_cap = flash.get('capacity_mb') or flash.get('mb') or 'N/A'
     fw_url = openwrt.get("firmware_selector_url") or "https://firmware-selector.openwrt.org"
+    limitations = openwrt.get("known_limitations", [])
+    limitations_html = "".join([f"<li>{k}</li>" for k in limitations]) if limitations else "<li>None documented in current release.</li>"
 
-    if "Direct Image Flash" in method:
+    # CASE 1: UNSUPPORTED HARDWARE — NO FABRICATED INSTALLATION INSTRUCTIONS
+    if status == "UNSUPPORTED":
         method_steps = f"""
-        <ol style="margin-left: 1.5rem; line-height: 1.8;">
-          <li><strong>Download Official Image:</strong> Obtain the official OpenWrt raw disk image (<code>openwrt-{openwrt.get('target', 'target')}-{openwrt.get('subtarget', 'generic')}-{dev_id}-ext4-factory.img.gz</code>) from <a href="{fw_url}" target="_blank" rel="noopener">OpenWrt Firmware Selector</a>.</li>
-          <li><strong>Decompress Image:</strong> Gunzip the downloaded file: <code>gunzip openwrt-*.img.gz</code>.</li>
-          <li><strong>Flash to Storage Media:</strong> Use BalenaEtcher, Raspberry Pi Imager, or <code>dd</code> to write the image directly to your microSD card, eMMC module, or NVMe drive:
-            <pre><code># Linux/macOS write command (verify correct drive target!)
-sudo dd if=openwrt-*.img of=/dev/sdX bs=4M status=progress conv=fsync</code></pre>
-          </li>
-          <li><strong>Insert Media and Boot:</strong> Insert the microSD card into the device, connect an Ethernet cable between LAN port and your PC, and connect power.</li>
-          <li><strong>Access First Boot:</strong> Wait 45-60 seconds for partition expansion and initial service startup. Open browser to <code>http://192.168.1.1</code>.</li>
-        </ol>
+        <div class="callout callout-danger" style="margin-bottom: 2rem;">
+          <h3 style="color: var(--danger); font-size: 1.15rem; margin-bottom: 0.5rem;">⚠️ HARDWARE INCOMPATIBLE — OPENWRT NOT SUPPORTED</h3>
+          <p style="margin-bottom: 0.75rem;">
+            The <strong>{d.get('manufacturer')} {d.get('model')} ({d.get('hardware_revision')})</strong> is classified as <strong>UNSUPPORTED</strong> by OpenWrt.
+          </p>
+          <strong>Documented Silicon Barriers & Technical Incompatibilities:</strong>
+          <ul style="margin: 0.5rem 0 1rem 1.5rem; line-height: 1.7;">
+            {limitations_html}
+          </ul>
+          <p style="font-weight: 700; color: var(--danger); line-height: 1.6;">
+            CRITICAL SAFETY WARNING: There is no official or community OpenWrt firmware binary for this model. Do NOT attempt to flash images built for other routers via OEM web interface or emergency recovery modes — doing so will permanently and unrecoverably brick the hardware.
+          </p>
+        </div>
+        <div class="card" style="margin-bottom: 2rem;">
+          <h2 style="color: var(--text-heading); font-size: 1.2rem; margin-bottom: 0.75rem;">Recommended Alternatives</h2>
+          <p style="color: var(--text-muted); line-height: 1.7;">
+            For this hardware platform, users should utilize the manufacturer's official firmware updates or verified vendor-specific community forks (e.g. Asuswrt-Merlin for supported Broadcom models) rather than OpenWrt.
+          </p>
+        </div>
         """
-    elif "Two-Stage" in method:
+
+    # CASE 2: POTENTIALLY COMPATIBLE — INVESTIGATIVE RESEARCH ONLY
+    elif status == "POTENTIALLY_COMPATIBLE":
         method_steps = f"""
+        <div class="callout callout-warning" style="margin-bottom: 2rem;">
+          <h3 style="color: var(--warning); font-size: 1.15rem; margin-bottom: 0.5rem;">⚠️ POTENTIALLY COMPATIBLE — RESEARCH HARDWARE ONLY</h3>
+          <p style="margin-bottom: 0.75rem;">
+            The <strong>{d.get('manufacturer')} {d.get('model')}</strong> is classified as <strong>POTENTIALLY COMPATIBLE</strong>.
+            While the underlying SoC shares architectural lineage with supported chipsets, installation is blocked by vendor cryptographic signature verification in on-die BootROM or locked carrier bootloaders.
+          </p>
+          <strong>Documented Hardware Barriers:</strong>
+          <ul style="margin: 0.5rem 0 1rem 1.5rem; line-height: 1.7;">
+            {limitations_html}
+          </ul>
+          <p style="font-weight: 700; line-height: 1.6;">
+            NOTICE: No end-user installation binary or turnkey flashing guide exists. Serial access via 3.3V UART console is restricted to firmware developers and reverse-engineering researchers.
+          </p>
+        </div>
+        """
+
+    # CASE 3: SPECIFIC DEVICE JIO JIDU6101 TWO-STAGE UBI INSTALLATION
+    elif dev_id == "jio-jidu6101":
+        method_steps = f"""
+        <div class="callout callout-warning" style="margin-bottom: 1.5rem;">
+          <strong>VERIFIED DEVICE-SPECIFIC PROCEDURE (JIDU6101 / 6j01):</strong>
+          This router utilizes MediaTek Filogic 830 (MT7986A) with SPI-NAND dual-slot UBI flash. Installation requires a verified two-stage process (RAM initramfs boot &rarr; sysupgrade) to avoid bootrom signature rejection.
+        </div>
         <ol style="margin-left: 1.5rem; line-height: 1.8;">
-          <li><strong>Pre-installation Flash Backup:</strong> SSH into the OEM firmware shell and dump factory calibration partitions (<code>Factory</code>, <code>MFG</code>) via <code>dd</code> to preserve RF calibration.</li>
-          <li><strong>Stage 1 (Ramdisk Boot):</strong> Transfer <code>openwrt-{openwrt.get('target', 'target')}-initramfs-factory.ubi</code> to <code>/tmp</code> and write to secondary boot partition. Configure temporary U-Boot bootargs:
-            <pre><code>ubiformat /dev/mtd6 -y -f /tmp/openwrt-factory.ubi
+          <li><strong>Pre-installation Calibration Backup:</strong> Access the stock OEM engineering shell via SSH/Telnet. Dump the factory RF calibration and bootloader partitions:
+            <pre><code># Backup critical RF calibration and board partitions
+cat /proc/mtd
+dd if=/dev/mtd1 of=/tmp/BL2.bin
+dd if=/dev/mtd2 of=/tmp/u-boot-env.bin
+dd if=/dev/mtd3 of=/tmp/Factory.bin
+# Transfer backups off the router via SCP / TFTP before flashing!</code></pre>
+          </li>
+          <li><strong>Stage 1 (Initramfs Kernel Flash to Secondary Slot):</strong> Transfer the official <code>openwrt-mediatek-filogic-jio_jidu6101-initramfs-factory.ubi</code> to <code>/tmp</code>. Flash to the secondary kernel partition:
+            <pre><code>ubiformat /dev/mtd6 -y -f /tmp/openwrt-mediatek-filogic-jio_jidu6101-initramfs-factory.ubi
 fw_setenv bootcmd "ubi detach; ubi part ubi2; ubi read 46000000 kernel; bootm 0x46000000"
 sync && reboot</code></pre>
           </li>
-          <li><strong>Stage 2 (Permanent Sysupgrade):</strong> Upon boot into OpenWrt RAM at <code>192.168.1.1</code>, upload the permanent sysupgrade image and flash permanently:
+          <li><strong>Stage 2 (Permanent Sysupgrade):</strong> Upon reboot, router will boot OpenWrt in RAM at <code>192.168.1.1</code>. Access LuCI or SSH, transfer the permanent sysupgrade image, and flash:
+            <pre><code>sysupgrade -n /tmp/openwrt-mediatek-filogic-jio_jidu6101-squashfs-sysupgrade.bin</code></pre>
+          </li>
+          <li><strong>Verification & First Boot:</strong> Router reboots into permanent OpenWrt with MT7531 switch DSA networking active at <code>http://192.168.1.1</code>.</li>
+        </ol>
+        """
+
+    # CASE 4: DIRECT RAW IMAGE FLASH (SBC / SD / eMMC / USB)
+    elif "Direct Image Flash" in method:
+        method_steps = f"""
+        <ol style="margin-left: 1.5rem; line-height: 1.8;">
+          <li><strong>Download Official OpenWrt Image:</strong> Download the raw storage image (e.g. <code>openwrt-{openwrt.get('target', 'target')}-{openwrt.get('subtarget', 'generic')}-{dev_id}-ext4-factory.img.gz</code> or <code>squashfs-factory.img.gz</code>) from <a href="{fw_url}" target="_blank" rel="noopener">OpenWrt Firmware Selector</a>.</li>
+          <li><strong>Decompress Image:</strong> Gunzip the downloaded archive:
+            <pre><code>gunzip openwrt-*.img.gz</code></pre>
+          </li>
+          <li><strong>Write to Storage Media:</strong> Connect your microSD card, eMMC reader, or USB drive to your host PC. Write using <code>dd</code> or Raspberry Pi Imager:
+            <pre><code># Linux / macOS (Ensure /dev/sdX matches your exact target drive!)
+sudo dd if=openwrt-*.img of=/dev/sdX bs=4M status=progress conv=fsync</code></pre>
+          </li>
+          <li><strong>Insert Media and Boot:</strong> Insert the microSD/eMMC into the board, connect Ethernet from LAN port to PC, and connect verified 5V/12V DC power.</li>
+          <li><strong>First Boot Partition Expansion:</strong> Allow 45-60 seconds on initial boot for automated rootfs partition expansion. Access web interface at <code>http://192.168.1.1</code>.</li>
+        </ol>
+        """
+
+    # CASE 5: AUTOMATED ROOT SSH EXPLOIT / TWO-STAGE CONVERSION (Xiaomi, Reyee, etc.)
+    elif "Automated Root SSH Exploit" in method:
+        method_steps = f"""
+        <div class="callout callout-warning" style="margin-bottom: 1.5rem;">
+          <strong>TWO-STAGE EXPLOIT UNLOCK & CALIBRATION BACKUP:</strong>
+          This device runs OEM vendor firmware with locked SSH. Installation requires obtaining temporary root access via web command injection or vendor debug utility, backing up RF calibration partitions, and flashing an initramfs staging kernel.
+        </div>
+        <ol style="margin-left: 1.5rem; line-height: 1.8;">
+          <li><strong>Obtain Root Shell:</strong> Follow the community-verified root exploit procedure (e.g. OpenWrt Inception, vendor web GUI token exploit, or telnet unlock script) to establish an SSH root session on the stock firmware.</li>
+          <li><strong>Mandatory RF Calibration Backup:</strong> Identify device partition layout and dump factory wireless calibration before touching flash:
+            <pre><code>cat /proc/mtd
+# Identify Factory, ART, or Bdata partition numbers
+dd if=/dev/mtdX of=/tmp/Factory_backup.bin
+# Verify file size and transfer to PC via SCP!</code></pre>
+          </li>
+          <li><strong>Flash OpenWrt Factory Staging Kernel:</strong> Transfer <code>openwrt-{openwrt.get('target', 'target')}-initramfs-factory.ubi</code> (or <code>factory.bin</code>) to <code>/tmp</code> and write to the designated firmware/kernel partition.</li>
+          <li><strong>Reboot into OpenWrt RAM:</strong> Reboot router and wait for status LED to stabilize. Access OpenWrt in RAM at <code>http://192.168.1.1</code>.</li>
+          <li><strong>Final Sysupgrade:</strong> Perform permanent sysupgrade to commit OpenWrt to flash:
             <pre><code>sysupgrade -n /tmp/openwrt-sysupgrade.bin</code></pre>
           </li>
         </ol>
         """
-    elif "TFTP" in method:
-        recovery = d.get("recovery", {})
-        tftp_ip = recovery.get("tftp_ip", "192.168.1.1")
-        server_ip = recovery.get("tftp_server_ip", "192.168.1.2")
-        filename = recovery.get("tftp_filename", f"{dev_id}.bin")
-        method_steps = f"""
-        <ol style="margin-left: 1.5rem; line-height: 1.8;">
-          <li><strong>Configure Host PC:</strong> Connect Ethernet cable to router LAN Port 1. Assign static IP <code>{server_ip}</code>, subnet mask <code>255.255.255.0</code> to host PC interface.</li>
-          <li><strong>Prepare TFTP Server:</strong> Place the OpenWrt factory image renamed as <code>{filename}</code> into your TFTP root directory. Start TFTP server (e.g. <code>dnsmasq</code>, <code>tftpd32</code>, or <code>atftpd</code>).</li>
-          <li><strong>Trigger Bootloader TFTP Recovery:</strong> Power off the router. Press and hold the Reset / WPS button, then apply power. Maintain button hold for 10-15 seconds until power/status LED starts pulsing rapidly.</li>
-          <li><strong>Monitor Transfer & Flash:</strong> Verify in TFTP server log that router requests <code>{filename}</code>. Allow 3 to 5 minutes for automated writing to flash. <strong>Do not disconnect power!</strong></li>
-          <li><strong>Access OpenWrt:</strong> Restore host PC to DHCP. Router will reboot into OpenWrt at <code>192.168.1.1</code>.</li>
-        </ol>
-        """
+
+    # CASE 6: VENDOR CLI / SSH FLASHING (Ubiquiti UniFi, MikroTik, etc.)
     elif "Vendor CLI" in method:
         method_steps = f"""
         <ol style="margin-left: 1.5rem; line-height: 1.8;">
-          <li><strong>Access Vendor Debug Shell:</strong> Connect via Telnet or SSH using vendor administrative or engineering credentials.</li>
-          <li><strong>Transfer OpenWrt Firmware:</strong> Transfer OpenWrt factory image to <code>/tmp</code> using SCP, TFTP, or curl:
+          <li><strong>Access Vendor Shell:</strong> Connect via SSH using administrative credentials (e.g. <code>ssh ubnt@192.168.1.20</code>).</li>
+          <li><strong>Download OpenWrt Factory Image:</strong> Transfer the official OpenWrt factory image to router <code>/tmp</code> directory:
             <pre><code>cd /tmp
-tftp -g -r openwrt-factory.bin {d.get('recovery', {}).get('tftp_server_ip', '192.168.1.2')}</code></pre>
+curl -O {fw_url}
+# Or transfer via SCP from your PC</code></pre>
           </li>
-          <li><strong>Write to Flash Partition:</strong> Identify active kernel/rootfs partition and write firmware:
-            <pre><code>mtd -r write openwrt-factory.bin firmware</code></pre>
+          <li><strong>Verify Partition & Write:</strong> Inspect <code>cat /proc/mtd</code> to confirm kernel partition mapping. Execute flash write:
+            <pre><code>mtd write /tmp/openwrt-factory.bin kernel0
+sync && reboot</code></pre>
           </li>
-          <li><strong>Reboot into OpenWrt:</strong> Allow router to complete writing and automatically reboot. Access LuCI web interface at <code>http://192.168.1.1</code>.</li>
+          <li><strong>First Boot:</strong> Allow 2 minutes for initial flash formatting. Access LuCI web portal at <code>http://192.168.1.1</code>.</li>
         </ol>
         """
-    elif "Serial UART" in method:
+
+    # CASE 7: TFTP BOOTLOADER RECOVERY FLASH
+    elif "TFTP" in method:
+        recovery = d.get("recovery", {})
+        tftp_ip = recovery.get("recovery_ip") or recovery.get("tftp_ip") or "192.168.1.1"
+        server_ip = recovery.get("tftp_server_ip") or "192.168.1.2"
+        filename = recovery.get("tftp_filename") or "openwrt-factory.bin"
         method_steps = f"""
         <ol style="margin-left: 1.5rem; line-height: 1.8;">
-          <li><strong>Hardware Preparation:</strong> Connect a 3.3V USB-to-UART adapter to router TX, RX, GND pins. <strong>DO NOT CONNECT VCC</strong>.</li>
-          <li><strong>Open Terminal Console:</strong> Run <code>screen /dev/ttyUSB0 115200</code> or PuTTY at 115200 8-N-1.</li>
-          <li><strong>Interrupt Bootloader:</strong> Power on router and strike Enter or spacebar to interrupt U-Boot countdown.</li>
-          <li><strong>Transfer and Boot Image:</strong> Configure U-Boot network parameters, download factory ramdisk or UBI via TFTP, and write to flash partitions.</li>
+          <li><strong>Configure Host PC Static IP:</strong> Assign static IP <code>{server_ip}</code> with netmask <code>255.255.255.0</code> to your PC Ethernet port. Connect Ethernet cable directly to router LAN Port 1.</li>
+          <li><strong>Prepare TFTP Server:</strong> Place the official OpenWrt factory firmware (renamed to expected bootloader filename: <code>{filename}</code>) in TFTP root folder. Launch TFTP server (e.g. <code>dnsmasq</code>, <code>tftpd64</code>, or <code>atftpd</code>).</li>
+          <li><strong>Trigger Bootloader TFTP Mode:</strong> Power off router. Hold the <strong>Reset / WPS</strong> button, connect power, and maintain button hold for 10-15 seconds until power/status LED blinks in recovery pattern.</li>
+          <li><strong>Monitor Automated Flash:</strong> Observe TFTP server log. The router bootloader will download <code>{filename}</code> and write to flash. <strong>Do not interrupt power for at least 5 minutes!</strong></li>
+          <li><strong>Access OpenWrt:</strong> Restore host PC Ethernet to DHCP. Router will reboot into OpenWrt at <code>http://192.168.1.1</code>.</li>
         </ol>
         """
+
+    # CASE 8: UART SERIAL COMMAND FLASH
+    elif "UART Serial Command" in method:
+        method_steps = f"""
+        <div class="callout callout-danger" style="margin-bottom: 1.5rem;">
+          <strong>CRITICAL ELECTRICAL SAFETY — NEVER CONNECT VCC (RED WIRE):</strong>
+          Connect ONLY <strong>GND, TX, and RX</strong>. Connecting VCC backfeeds USB voltage and permanently destroys the SoC. Use 3.3V TTL logic level only.
+        </div>
+        <ol style="margin-left: 1.5rem; line-height: 1.8;">
+          <li><strong>Hardware Connection:</strong> Attach 3.3V USB-TTL adapter to router GND, TX, RX serial header pads.</li>
+          <li><strong>Open Terminal Console:</strong> Launch serial terminal (PuTTY or <code>screen /dev/ttyUSB0 115200</code>) at 115200 8-N-1.</li>
+          <li><strong>Interrupt Boot Countdown:</strong> Power on router and strike spacebar or Enter repeatedly to access U-Boot prompt.</li>
+          <li><strong>Load Firmware via TFTP:</strong> Set bootloader environment IPs and download factory image into RAM:
+            <pre><code>setenv ipaddr 192.168.1.1
+setenv serverip 192.168.1.2
+tftpboot 0x46000000 openwrt-factory.bin
+bootm 0x46000000</code></pre>
+          </li>
+          <li><strong>Commit to Flash:</strong> Once booted into OpenWrt RAM, perform permanent sysupgrade to write flash.</li>
+        </ol>
+        """
+
+    # CASE 9: STANDARD OEM WEB GUI FIRMWARE FLASH
     else:
         method_steps = f"""
+        <div class="callout callout-warning" style="margin-bottom: 1.5rem;">
+          <strong>IMPORTANT IMAGE SELECTION NOTICE:</strong>
+          Always download the <strong>factory</strong> image (e.g. <code>...-factory.bin</code>) for initial conversion from OEM vendor firmware.
+          <strong>NEVER attempt to flash a <code>sysupgrade</code> image from OEM web interface</strong> — sysupgrade images lack the OEM header required by vendor bootloaders and will be rejected or cause boot loops.
+        </div>
         <ol style="margin-left: 1.5rem; line-height: 1.8;">
-          <li><strong>Download Official Image:</strong> Download the official OpenWrt <strong>factory</strong> image (e.g. <code>openwrt-{openwrt.get('target', 'target')}-{openwrt.get('subtarget', 'generic')}-{dev_id}-squashfs-factory.bin</code>) from <a href="{fw_url}" target="_blank" rel="noopener">OpenWrt Firmware Selector</a>.</li>
-          <li><strong>Verify Checksum:</strong> Verify SHA256 checksum of downloaded firmware image against official release manifests before proceeding.</li>
-          <li><strong>Log into OEM Web Interface:</strong> Connect PC via Ethernet cable to LAN port. Open browser to vendor gateway (e.g. <code>http://192.168.1.1</code> or <code>http://192.168.0.1</code>) and log into management portal.</li>
-          <li><strong>Upload OpenWrt Factory Image:</strong> Navigate to <em>System Tools &rarr; Firmware Upgrade</em>. Select the OpenWrt <code>factory.bin</code> file and initiate upgrade.</li>
-          <li><strong>Flash Process & Wait:</strong> The router will verify the image, flash internal storage, and reboot. This takes 2 to 4 minutes. <strong>Do not unplug power or disconnect Ethernet during this process!</strong></li>
-          <li><strong>Access OpenWrt:</strong> Once status LED stabilizes, navigate to <code>http://192.168.1.1</code> to access LuCI web interface.</li>
+          <li><strong>Download Official Factory Image:</strong> Download the official OpenWrt <strong>factory</strong> binary from the <a href="{fw_url}" target="_blank" rel="noopener">OpenWrt Firmware Selector</a>.</li>
+          <li><strong>Verify SHA256 Checksum:</strong> Calculate the SHA256 hash of your downloaded file and confirm it matches the official OpenWrt release manifest.</li>
+          <li><strong>Connect via Wired Ethernet:</strong> Connect your PC via Cat5e/Cat6 cable to LAN Port 1. <strong>Do NOT flash over Wi-Fi.</strong></li>
+          <li><strong>Log into OEM Management Interface:</strong> Open browser to vendor gateway (e.g. <code>http://192.168.1.1</code> or <code>http://192.168.0.1</code>) and log in.</li>
+          <li><strong>Upload Factory Image:</strong> Navigate to <em>System Tools &rarr; Firmware Upgrade</em>. Browse to select your downloaded <code>factory.bin</code> file and proceed.</li>
+          <li><strong>Flashing Duration & First Boot:</strong> Flash write and automated reboot takes 2 to 4 minutes. <strong>Do not disconnect power or Ethernet!</strong> Once the power LED turns solid, navigate to <code>http://192.168.1.1</code> to access LuCI.</li>
         </ol>
         """
 
@@ -2251,32 +2361,22 @@ tftp -g -r openwrt-factory.bin {d.get('recovery', {}).get('tftp_server_ip', '192
       <div>
         <div style="display: flex; gap: 0.5rem; align-items: center; margin-bottom: 0.5rem;">
           <span class="badge {badge_cls}">{status.replace('_', ' ')}</span>
-          <span class="badge {risk_badge}">Installation Risk: {risk}</span>
+          <span class="badge {risk_badge}">Risk: {risk}</span>
         </div>
-        <h1 style="font-size: 2.2rem; color: var(--text-heading);">{d.get('manufacturer')} {d.get('model')} OpenWrt Installation Guide</h1>
-        <p style="color: var(--text-muted);">Architecture: <code>{d.get('architecture')}</code> | Target: <code>{openwrt.get('target', 'N/A')}/{openwrt.get('subtarget', 'generic')}</code> | Profile: <code>{openwrt.get('profile', 'generic')}</code></p>
+        <h1 style="font-size: 2.2rem; color: var(--text-heading);">{d.get('manufacturer')} {d.get('model')} Installation Guide</h1>
+        <p style="color: var(--text-muted);">Method: <strong>{method}</strong> | Target Architecture: <code>{openwrt.get('target', 'Unknown')}</code></p>
       </div>
-    </div>
-
-    <div class="callout callout-warning">
-      <strong>MANDATORY FACTORY CALIBRATION BACKUP:</strong>
-      Before installing OpenWrt, backup all factory partition data (including ART, Factory, and EEPROM partitions). These contain factory RF calibration parameters, Wi-Fi MAC addresses, and regulatory domain constraints unique to your unit.
     </div>
 
     <div class="card" style="margin-bottom: 2rem;">
-      <h2 style="color: var(--text-heading); font-size: 1.25rem; margin-bottom: 1rem;">1. Hardware & Platform Prerequisites</h2>
+      <h2 style="color: var(--text-heading); font-size: 1.25rem; margin-bottom: 1rem;">1. Hardware Profile Summary</h2>
       <table class="spec-table">
-        <tr><th>Device Model</th><td>{d.get('manufacturer')} {d.get('model')} (Rev: <code>{d.get('hardware_revision', 'v1')}</code>)</td></tr>
-        <tr><th>Processor (SoC)</th><td>{soc.get('vendor')} {soc.get('model')} ({soc.get('cores', 'N/A')} Cores @ {soc.get('frequency_mhz', 'N/A')} MHz)</td></tr>
-        <tr><th>RAM / Flash Storage</th><td>{d.get('ram_mb', 'N/A')} MB RAM / {flash_cap} MB {flash.get('type', '')} Flash</td></tr>
-        <tr><th>OpenWrt Target</th><td><code>{openwrt.get('target', 'N/A')}/{openwrt.get('subtarget', 'generic')}</code></td></tr>
-        <tr><th>Target Profile</th><td><code>{openwrt.get('profile', 'generic')}</code></td></tr>
-        <tr><th>First Supported Version</th><td>{openwrt.get('first_supported_version', 'Mainline')}</td></tr>
-        <tr><th>Flashing Method</th><td><strong>{method}</strong></td></tr>
+        <tr><th>Device Model</th><td>{d.get('manufacturer')} {d.get('model')} ({d.get('hardware_revision')})</td></tr>
+        <tr><th>SoC Platform</th><td>{soc.get('vendor')} {soc.get('model')} ({soc.get('family')})</td></tr>
+        <tr><th>RAM / Flash</th><td>{d.get('ram_mb')} MB DDR / {flash_cap} MB {flash.get('type', '')}</td></tr>
+        <tr><th>OpenWrt Target</th><td><code>{openwrt.get('target', 'N/A')}</code> ({openwrt.get('profile', 'N/A')})</td></tr>
+        <tr><th>First Supported Version</th><td>{openwrt.get('first_supported_version', 'None / Incompatible')}</td></tr>
       </table>
-      <div style="margin-top: 1.25rem;">
-        <a href="{fw_url}" target="_blank" rel="noopener" class="btn btn-primary">Download Official Firmware from OpenWrt &rarr;</a>
-      </div>
     </div>
 
     <div class="card" style="margin-bottom: 2rem;">
@@ -2285,60 +2385,22 @@ tftp -g -r openwrt-factory.bin {d.get('recovery', {}).get('tftp_server_ip', '192
     </div>
 
     <div class="card" style="margin-bottom: 2rem;">
-      <h2 style="color: var(--text-heading); font-size: 1.25rem; margin-bottom: 1rem;">3. First Boot & Initial Configuration</h2>
+      <h2 style="color: var(--text-heading); font-size: 1.25rem; margin-bottom: 1rem;">3. Post-Installation Initial Configuration</h2>
+      <p style="color: var(--text-muted); margin-bottom: 1rem;">After successfully flashing OpenWrt, complete these essential configuration steps:</p>
       <ol style="margin-left: 1.5rem; line-height: 1.8;">
-        <li>Connect your computer to LAN Port 1 using a Cat6 Ethernet patch cable.</li>
-        <li>Verify computer receives IP address in subnet <code>192.168.1.0/24</code> via DHCP (e.g. <code>192.168.1.150</code>).</li>
-        <li>Open terminal and verify ping to router gateway: <code>ping 192.168.1.1</code>.</li>
-        <li>SSH into router: <code>ssh root@192.168.1.1</code> (no password initially required).</li>
-        <li>Set secure administrator password immediately:
-          <pre><code>passwd</code></pre>
-        </li>
-        <li>Open web browser and navigate to <code>http://192.168.1.1</code> to log into LuCI Web Interface.</li>
+        <li>Connect your PC to any LAN port. Verify IP assignment via DHCP in subnet <code>192.168.1.0/24</code>.</li>
+        <li>Open browser to <code>http://192.168.1.1</code>. Stock OpenWrt boots with username <code>root</code> and <strong>no password set</strong>.</li>
+        <li>Immediately assign a strong root administrative password under <em>System &rarr; Administration</em>.</li>
+        <li>Connect WAN port to upstream ISP or modem. Navigate to <em>Network &rarr; Interfaces &rarr; WAN</em> to confirm DHCP or PPPoE connection.</li>
+        <li>Enable wireless radios under <em>Network &rarr; Wireless</em>. (Wi-Fi radios boot disabled by default for regulatory compliance).</li>
       </ol>
     </div>
 
-    <div class="card" style="margin-bottom: 2rem;">
-      <h2 style="color: var(--text-heading); font-size: 1.25rem; margin-bottom: 1rem;">4. Post-Installation Verification & Troubleshooting</h2>
-      <table class="spec-table">
-        <thead>
-          <tr><th>Symptom / Check</th><th>Probable Cause</th><th>Resolution Action</th></tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>No DHCP lease on computer</td>
-            <td>Computer connected to WAN port instead of LAN port</td>
-            <td>Connect cable to LAN Port 1; assign static IP <code>192.168.1.50</code> on host PC.</td>
-          </tr>
-          <tr>
-            <td>Status LED pulsing continuously</td>
-            <td>Router booting into failsafe or storage expanding</td>
-            <td>Wait up to 3 minutes; if still pulsing, power cycle while holding reset for 2 sec to trigger failsafe.</td>
-          </tr>
-          <tr>
-            <td>LuCI web interface not loading</td>
-            <td>Minimal image installed without uhttpd/luci packages</td>
-            <td>Connect WAN port to upstream internet, SSH in, and run: <code>opkg update && opkg install luci</code>.</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-
-    <div class="guide-pagination">
-      <a href="../../../devices/{dev_id}/index.html" class="guide-nav-link">
-        <span>&larr; Hardware Profile</span>
-        <strong>{d.get('manufacturer')} {d.get('model')} Profile</strong>
-      </a>
-      <a href="../../recovery/{dev_id}/index.html" class="guide-nav-link" style="text-align: right;">
-        <span>Recovery Guide &rarr;</span>
-        <strong>Disaster Recovery for {d.get('model')}</strong>
-      </a>
-    </div>
-
-    {get_contribution_panel(f"data/devices/{d.get('id').split('-')[0]}/{dev_id}.json", f"{d.get('manufacturer')} {d.get('model')} Installation Guide", rel_root="../../..")}
+    {get_contribution_panel(f"data/devices/{d.get('manufacturer', '').lower()}/{dev_id}.json", f"{d.get('manufacturer')} {d.get('model')} Installation Guide", rel_root="../../..")}
     """
-    desc = f"Step-by-step OpenWrt installation guide for {d.get('manufacturer')} {d.get('model')}. Flashing instructions, prerequisites, sysupgrade, and initial network configuration."
-    return get_header(f"{d.get('manufacturer')} {d.get('model')} Installation Guide", rel_root="../../..", current_nav="installation", description=desc, canonical_path=f"guides/install/{dev_id}/", json_ld=json_ld) + content + get_footer(rel_root="../../..")
+
+    return get_header(f"{d.get('manufacturer')} {d.get('model')} Installation Guide", rel_root="../../..", current_nav="installation", description=f"Verified OpenWrt installation guide, flashing instructions, and prerequisites for {d.get('manufacturer')} {d.get('model')}.", canonical_path=f"guides/install/{dev_id}/", json_ld=json_ld) + content + get_footer(rel_root="../../..", goatcounter_code=GOATCOUNTER_CODE)
+
 
 def generate_device_recovery_guide(d):
     dev_id = d["id"]
@@ -2350,12 +2412,12 @@ def generate_device_recovery_guide(d):
     recovery = d.get("recovery", {})
     serial_uart = d.get("serial_uart", {}) or recovery
     
-    rec_method = recovery.get("method", "TFTP Boot / Push Recovery")
-    tftp_ip = recovery.get("tftp_ip", "192.168.1.1")
-    server_ip = recovery.get("tftp_server_ip", "192.168.1.2")
-    tftp_file = recovery.get("tftp_filename", f"{dev_id}.bin")
-    baud_rate = serial_uart.get("baud_rate") or recovery.get("uart_baud") or 115200
-    uart_avail = "Available" if (serial_uart.get("available") or serial_uart.get("populated")) else "Unpopulated / Header Pads"
+    rec_method = recovery.get("method", "TFTP Push (Automated)")
+    tftp_ip = recovery.get("recovery_ip") or recovery.get("tftp_ip") or "192.168.1.1"
+    server_ip = recovery.get("tftp_server_ip") or "192.168.1.2"
+    tftp_file = recovery.get("tftp_filename") or f"{dev_id}.bin"
+    baud_rate = serial_uart.get("baudrate") or serial_uart.get("baud_rate") or recovery.get("uart_baud") or 115200
+    uart_avail = "Available / Header Present" if (serial_uart.get("available") or serial_uart.get("populated")) else "Unpopulated / Unverified"
 
     canonical_url = f"{BASE_URL}/guides/recovery/{dev_id}/"
 
@@ -2366,6 +2428,65 @@ def generate_device_recovery_guide(d):
         "description": f"Verified unbricking procedure, TFTP restoration, and 3.3V UART serial recovery for {d.get('manufacturer')} {d.get('model')}.",
         "url": canonical_url
     }
+
+    # RECOVERY SECTION CONTENT
+    if status == "UNSUPPORTED" or rec_method == "None Known":
+        recovery_body = f"""
+        <div class="callout callout-warning" style="margin-bottom: 2rem;">
+          <h3 style="color: var(--warning); font-size: 1.15rem; margin-bottom: 0.5rem;">⚠️ NO DOCUMENTED OPENWRT RECOVERY PROTOCOL</h3>
+          <p style="margin-bottom: 0.75rem;">
+            There is no documented or verified OpenWrt-specific bootloader recovery procedure for the <strong>{d.get('manufacturer')} {d.get('model')}</strong>.
+          </p>
+          <p style="color: var(--text-muted); line-height: 1.7;">
+            If this router is unbootable or enters a boot loop, you must utilize the manufacturer's original factory recovery tools (such as OEM emergency firmware restoration utilities, vendor emergency TFTP mode, or direct JTAG/SPI programming using an OEM factory firmware dump).
+          </p>
+        </div>
+        """
+    elif rec_method == "SD Card Re-flash (SBC)":
+        recovery_body = f"""
+        <div class="card" style="margin-bottom: 2rem;">
+          <h2 style="color: var(--text-heading); font-size: 1.25rem; margin-bottom: 1rem;">Storage Media Re-Flash Procedure (SBC)</h2>
+          <ol style="margin-left: 1.5rem; line-height: 1.8;">
+            <li>Power off the board and remove the microSD card or eMMC storage module.</li>
+            <li>Insert storage media into PC card reader.</li>
+            <li>Re-flash clean OpenWrt image using <code>dd</code> or Raspberry Pi Imager.</li>
+            <li>Re-insert storage media and power on. Board will perform clean first-boot initialization.</li>
+          </ol>
+        </div>
+        """
+    elif rec_method == "U-Boot Recovery Webpage":
+        recovery_body = f"""
+        <div class="card" style="margin-bottom: 2rem;">
+          <h2 style="color: var(--text-heading); font-size: 1.25rem; margin-bottom: 1rem;">U-Boot Web Fail-Safe Recovery</h2>
+          <ol style="margin-left: 1.5rem; line-height: 1.8;">
+            <li>Disconnect all cables except LAN Port 1 to your host PC.</li>
+            <li>Assign static IP <code>{server_ip}</code> (netmask <code>255.255.255.0</code>) to PC Ethernet interface.</li>
+            <li>Hold the <strong>Reset / WPS</strong> button while plugging in power. Maintain hold for 8-12 seconds until power LED blinks rapidly.</li>
+            <li>Open browser to <code>http://{tftp_ip}</code>. U-Boot emergency web interface will appear.</li>
+            <li>Upload official OpenWrt factory firmware binary. Wait 3 minutes for automated writing and reboot.</li>
+          </ol>
+        </div>
+        """
+    else:
+        # Default TFTP Push
+        filename_notice = f"<code>{tftp_file}</code>" if recovery.get("tftp_filename") else "Device-specific filename (observe UART serial console or consult vendor manual)"
+        recovery_body = f"""
+        <div class="card" style="margin-bottom: 2rem;">
+          <h2 style="color: var(--text-heading); font-size: 1.25rem; margin-bottom: 1rem;">Bootloader TFTP Recovery Settings</h2>
+          <table class="spec-table" style="margin-bottom: 1rem;">
+            <tr><th>Router Recovery IP</th><td><code>{tftp_ip}</code></td></tr>
+            <tr><th>Host PC TFTP Server IP</th><td><code>{server_ip}</code></td></tr>
+            <tr><th>Subnet Mask</th><td><code>255.255.255.0</code></td></tr>
+            <tr><th>Expected TFTP Filename</th><td>{filename_notice}</td></tr>
+          </table>
+          <ol style="margin-left: 1.5rem; line-height: 1.8;">
+            <li>Download official OpenWrt factory firmware image from the repository.</li>
+            <li>Configure TFTP server on host PC with static IP <code>{server_ip}</code>.</li>
+            <li>Hold Reset button while powering on router to trigger bootloader recovery request.</li>
+            <li>Monitor TFTP server logs to verify firmware transfer. Allow 3 to 5 minutes for automated flash write. <strong>Never interrupt power!</strong></li>
+          </ol>
+        </div>
+        """
 
     content = f"""
     <div class="breadcrumbs">
@@ -2387,11 +2508,13 @@ def generate_device_recovery_guide(d):
     </div>
 
     <!-- CRITICAL ELECTRICAL WARNING -->
-    <div class="callout callout-danger">
-      <strong>CRITICAL SAFETY MANDATE — NEVER CONNECT VCC (RED WIRE):</strong>
-      When connecting a USB-to-TTL serial adapter to the {d.get('model')} PCB, connect <strong>ONLY GND, TX, and RX</strong>.
-      The router provides its own 3.3V/1.8V power rail when plugged into its AC adapter. Connecting the red VCC wire from your USB adapter will backfeed voltage into the power management IC and <strong>permanently destroy the SoC and flash chips</strong>!
-      Ensure your USB adapter logic level is set to <strong>3.3V TTL</strong> (never 5V, never RS-232 +/-12V).
+    <div class="callout callout-danger" style="margin-bottom: 2rem;">
+      <h3 style="color: var(--danger); font-size: 1.15rem; margin-bottom: 0.5rem;">CRITICAL SAFETY MANDATE — NEVER CONNECT VCC (RED WIRE)</h3>
+      <p style="line-height: 1.7;">
+        When connecting a USB-to-TTL serial adapter to the {d.get('model')} PCB, connect <strong>ONLY GND, TX, and RX</strong>.
+        The router provides its own power rail when plugged into its AC adapter. Connecting the red VCC wire from your USB adapter backfeeds 5V/3.3V into the power management IC and <strong>permanently destroys the SoC and flash chips</strong>!
+        Ensure your USB adapter logic level is strictly set to <strong>3.3V TTL</strong> (never 5V, never RS-232 +/-12V).
+      </p>
     </div>
 
     <div class="card" style="margin-bottom: 2rem;">
@@ -2430,95 +2553,22 @@ def generate_device_recovery_guide(d):
       </table>
     </div>
 
-    <div class="card" style="margin-bottom: 2rem;">
-      <h2 style="color: var(--text-heading); font-size: 1.25rem; margin-bottom: 1rem;">2. Tier 1: OpenWrt Failsafe Mode</h2>
-      <ol style="margin-left: 1.5rem; line-height: 1.8;">
-        <li>Disconnect all cables from router except power and LAN Port 1 to your computer.</li>
-        <li>Set computer network interface to static IP: <code>192.168.1.2</code>, netmask: <code>255.255.255.0</code>, gateway: <code>192.168.1.1</code>.</li>
-        <li>Power on the router. As soon as the status or power LED begins blinking, press the <strong>WPS / Reset</strong> button repeatedly.</li>
-        <li>The status LED will begin blinking extremely rapidly (10 Hz), indicating Failsafe mode is active.</li>
-        <li>Connect via Telnet: <code>telnet 192.168.1.1</code>. No password is required.</li>
-        <li>Reset configuration to factory defaults:
-          <pre><code>mount_root
-firstboot -y
-sync && reboot</code></pre>
-        </li>
-      </ol>
-    </div>
+    {recovery_body}
 
     <div class="card" style="margin-bottom: 2rem;">
-      <h2 style="color: var(--text-heading); font-size: 1.25rem; margin-bottom: 1rem;">3. Tier 2: Bootloader TFTP Restoration</h2>
-      <table class="spec-table" style="margin-bottom: 1rem;">
-        <tr><th>Router Recovery IP</th><td><code>{tftp_ip}</code></td></tr>
-        <tr><th>Host PC TFTP Server IP</th><td><code>{server_ip}</code></td></tr>
-        <tr><th>Subnet Mask</th><td><code>255.255.255.0</code></td></tr>
-        <tr><th>Expected TFTP Filename</th><td><code>{tftp_file}</code></td></tr>
+      <h2 style="color: var(--text-heading); font-size: 1.25rem; margin-bottom: 1rem;">UART Serial Console Pinout & Baudrate</h2>
+      <table class="spec-table">
+        <tr><th>Serial Availability</th><td>{uart_avail}</td></tr>
+        <tr><th>Logic Voltage</th><td><strong>3.3V TTL</strong> (Do NOT use 5V or RS-232)</td></tr>
+        <tr><th>Baud Rate</th><td><code>{baud_rate}</code> 8-N-1</td></tr>
+        <tr><th>Wiring Rules</th><td>Connect <strong>GND &rarr; GND</strong>, <strong>TX &rarr; RX</strong>, <strong>RX &rarr; TX</strong>. <strong>Leave VCC disconnected!</strong></td></tr>
       </table>
-      <ol style="margin-left: 1.5rem; line-height: 1.8;">
-        <li>Download official OpenWrt factory firmware image from the repository.</li>
-        <li>Rename image file to <code>{tftp_file}</code> and place in TFTP server root directory.</li>
-        <li>Configure host PC Ethernet to static IP <code>{server_ip}</code>.</li>
-        <li>Power off router. Hold Reset button down and power on. Hold for 10-15 seconds until TFTP request is detected.</li>
-        <li>Observe file transfer in TFTP server logs. Allow 3-5 minutes for flash write and reboot.</li>
-      </ol>
     </div>
 
-    <div class="card" style="margin-bottom: 2rem;">
-      <h2 style="color: var(--text-heading); font-size: 1.25rem; margin-bottom: 1rem;">4. Tier 3: 3.3V TTL Serial UART Console</h2>
-      <table class="spec-table" style="margin-bottom: 1rem;">
-        <thead>
-          <tr><th>Adapter Pin</th><th>Router Header</th><th>Mandatory Instruction</th></tr>
-        </thead>
-        <tbody>
-          <tr><td><strong>GND (Black)</strong></td><td>GND Pad / Pin</td><td>Connect securely to establish common ground reference.</td></tr>
-          <tr><td><strong>RX (White)</strong></td><td>TX Pad / Pin</td><td>Connect adapter RX to router TX.</td></tr>
-          <tr><td><strong>TX (Green)</strong></td><td>RX Pad / Pin</td><td>Connect adapter TX to router RX.</td></tr>
-          <tr><td><strong>VCC (Red)</strong></td><td><span style="color: var(--danger); font-weight: bold;">DISCONNECTED</span></td><td><strong>DO NOT CONNECT!</strong> Router powers itself from AC barrel jack.</td></tr>
-        </tbody>
-      </table>
-      <p style="font-size: 0.92rem; margin-bottom: 1rem;">Configure your terminal emulator (PuTTY, Minicom, Picocom, or Screen):</p>
-      <pre><code># Linux / macOS screen command
-screen /dev/ttyUSB0 {baud_rate} 8N1
-
-# Picocom command
-picocom -b {baud_rate} -d 8 -p n -f n /dev/ttyUSB0</code></pre>
-      <p style="font-size: 0.92rem; margin-top: 1rem;">Power on router and observe U-Boot bootlog. Press Enter/Space to enter U-Boot shell:</p>
-      <pre><code># Check environment variables
-printenv
-
-# Boot kernel via TFTP
-setenv ipaddr {tftp_ip}
-setenv serverip {server_ip}
-tftpboot 0x46000000 {tftp_file}
-bootm 0x46000000</code></pre>
-    </div>
-
-    <div class="card" style="margin-bottom: 2rem;">
-      <h2 style="color: var(--text-heading); font-size: 1.25rem; margin-bottom: 1rem;">5. Calibration & Partition Preservation</h2>
-      <div class="callout callout-note">
-        If you previously dumped your <code>Factory</code>, <code>ART</code>, or <code>MFG</code> partitions prior to bricking, you can restore them via serial console or OpenWrt shell:
-        <pre><code>mtd write /tmp/mtd_Factory.bin Factory
-mtd write /tmp/mtd_ART.bin art</code></pre>
-        <strong>Never flash another router's calibration partition!</strong> Each contains unique physical RF power calibration values and factory MAC addresses.
-      </div>
-    </div>
-
-    <div class="guide-pagination">
-      <a href="../../install/{dev_id}/index.html" class="guide-nav-link">
-        <span>&larr; Installation Guide</span>
-        <strong>Install OpenWrt on {d.get('model')}</strong>
-      </a>
-      <a href="../../../devices/{dev_id}/index.html" class="guide-nav-link" style="text-align: right;">
-        <span>Hardware Profile &rarr;</span>
-        <strong>{d.get('manufacturer')} {d.get('model')} Specifications</strong>
-      </a>
-    </div>
-
-    {get_contribution_panel(f"data/devices/{d.get('id').split('-')[0]}/{dev_id}.json", f"{d.get('manufacturer')} {d.get('model')} Recovery Guide", rel_root="../../..")}
+    {get_contribution_panel(f"data/devices/{d.get('manufacturer', '').lower()}/{dev_id}.json", f"{d.get('manufacturer')} {d.get('model')} Recovery Guide", rel_root="../../..")}
     """
-    desc = f"Complete disaster recovery and unbricking instructions for {d.get('manufacturer')} {d.get('model')}. TFTP recovery, 3.3V UART serial unbricking, and bootloader restoration."
-    return get_header(f"{d.get('manufacturer')} {d.get('model')} Disaster Recovery Guide", rel_root="../../..", current_nav="recovery", description=desc, canonical_path=f"guides/recovery/{dev_id}/", json_ld=json_ld) + content + get_footer(rel_root="../../..")
 
+    return get_header(f"{d.get('manufacturer')} {d.get('model')} Disaster Recovery Guide", rel_root="../../..", current_nav="recovery", description=f"Verified unbricking procedure, TFTP restoration, and 3.3V UART serial recovery for {d.get('manufacturer')} {d.get('model')}.", canonical_path=f"guides/recovery/{dev_id}/", json_ld=json_ld) + content + get_footer(rel_root="../../..", goatcounter_code=GOATCOUNTER_CODE)
 def generate_chipset_directory(chipsets):
     cards = ""
     for c in chipsets:

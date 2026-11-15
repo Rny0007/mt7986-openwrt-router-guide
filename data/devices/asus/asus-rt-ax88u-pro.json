@@ -138,14 +138,14 @@
     ]
   },
   "installation": {
-    "method": "OEM Web GUI Flash",
+    "method": "Unsupported",
     "risk": "CRITICAL",
-    "requires_factory_stage": true,
+    "requires_factory_stage": false,
     "guide_link": null
   },
   "recovery": {
     "method": "None Known",
-    "recovery_ip": "192.168.1.1",
+    "recovery_ip": null,
     "guide_link": null
   },
   "verification": {

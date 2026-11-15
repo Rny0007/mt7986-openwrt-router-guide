@@ -128,9 +128,9 @@
     ]
   },
   "installation": {
-    "method": "OEM Web GUI Flash",
+    "method": "Unsupported",
     "risk": "CRITICAL",
-    "requires_factory_stage": true,
+    "requires_factory_stage": false,
     "guide_link": null
   },
   "recovery": {

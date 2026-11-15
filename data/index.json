@@ -1,7 +1,7 @@
 {
   "metadata": {
     "title": "Global OpenWrt Router Hardware Knowledge Base Index",
-    "generated_at": "2026-11-14T23:08:44Z",
+    "generated_at": "2026-11-15T05:33:04Z",
     "total_devices": 48,
     "total_chipsets": 15,
     "status_summary": {
@@ -768,14 +768,14 @@
         ]
       },
       "installation": {
-        "method": "OEM Web GUI Flash",
+        "method": "Unsupported",
         "risk": "CRITICAL",
-        "requires_factory_stage": true,
+        "requires_factory_stage": false,
         "guide_link": null
       },
       "recovery": {
         "method": "None Known",
-        "recovery_ip": "192.168.1.1",
+        "recovery_ip": null,
         "guide_link": null
       },
       "verification": {
@@ -5261,9 +5261,9 @@
         ]
       },
       "installation": {
-        "method": "OEM Web GUI Flash",
+        "method": "Unsupported",
         "risk": "CRITICAL",
-        "requires_factory_stage": true,
+        "requires_factory_stage": false,
         "guide_link": null
       },
       "recovery": {
@@ -5583,9 +5583,9 @@
         ]
       },
       "installation": {
-        "method": "OEM Web GUI Flash",
+        "method": "Unsupported",
         "risk": "CRITICAL",
-        "requires_factory_stage": true,
+        "requires_factory_stage": false,
         "guide_link": null
       },
       "recovery": {

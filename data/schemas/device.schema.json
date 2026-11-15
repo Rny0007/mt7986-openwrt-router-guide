@@ -186,7 +186,7 @@
       "properties": {
         "method": {
           "type": "string",
-          "enum": ["OEM Web GUI Flash", "TFTP Boot / Recovery", "U-Boot Web Fail-Safe", "Automated Root SSH Exploit", "UART Serial Command", "NAND Clip / External Programmer", "Direct Image Flash (SBC / SD Card)", "OpenWrt Sysupgrade", "Vendor CLI / Telnet / SSH"]
+          "enum": ["OEM Web GUI Flash", "TFTP Boot / Recovery", "U-Boot Web Fail-Safe", "Automated Root SSH Exploit", "UART Serial Command", "NAND Clip / External Programmer", "Direct Image Flash (SBC / SD Card)", "OpenWrt Sysupgrade", "Vendor CLI / Telnet / SSH", "Unsupported"]
         },
         "risk": { "type": "string", "enum": ["LOW", "MEDIUM", "HIGH", "CRITICAL"] },
         "requires_factory_stage": { "type": "boolean" },
