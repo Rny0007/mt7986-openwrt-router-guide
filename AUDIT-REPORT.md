@@ -22,7 +22,7 @@ An exhaustive, independent verification was conducted across all device profiles
 
 | Finding ID | Severity | Category | Description | Status / Resolution |
 | :--- | :---: | :---: | :--- | :--- |
-| **AUD-01** | `HIGH` | Privacy / Portability | Hardcoded `file:///C:/Users/...` absolute URIs found in `README.md`, `GOVERNANCE.md`, and `ROADMAP.md`. | **RESOLVED**: Converted all instances to portable relative repository markdown links. |
+| **AUD-01** | `HIGH` | Privacy / Portability | Hardcoded local absolute file URIs found in legacy documentation. | **RESOLVED**: Converted all instances to portable relative repository markdown links. |
 | **AUD-02** | `HIGH` | Hardware Accuracy | `docs/supported-devices.md` historically conflated Arcadyan / Jio JIDU6201 with JIDU6101 (`MT7986A`). | **RESOLVED**: Corrected JIDU6201 record to MediaTek MT7981B (Filogic 820, dual-core, 256MB RAM, AX3000). Explicit warning added never to cross-flash JIDU6101 images to JIDU6201. |
 | **AUD-03** | `HIGH` | Operational Accuracy | Dual-WAN Failover (BSNL + Galaxy S25 hotspot) required formal qualification per project rules. | **RESOLVED**: Explicitly labeled `COMMUNITY_CONFIGURATION — REAL-WORLD VALIDATION PENDING` across `docs/networking/multi-wan-failover.md` and `README.md`. |
 | **AUD-04** | `MEDIUM` | Hardware Accuracy | Ubiquiti UniFi 6+ storage listed as 64MB SPI-NOR; upstream hardware contains 16MB NOR + 4GB eMMC. | **RESOLVED**: Updated `data/devices/ubiquiti/ubiquiti-unifi-6-plus.json` to reflect `16MB SPI-NOR + 4096MB eMMC` with notes on stock partition table preservation. |
@@ -85,7 +85,7 @@ An exhaustive, independent verification was conducted across all device profiles
 
 - **API Tokens & Private Keys:** 0 detected.
 - **Passwords / Secrets:** 0 hardcoded strings found. All configuration guides enforce generic placeholders (`<YOUR_PASSWORD>`, `<ROUTER_IP>`).
-- **Personal Paths:** Cleaned. All `file:///` and personal Windows user profile references removed from user-facing markdown.
+- **Personal Paths:** Cleaned. All local filesystem paths and personal Windows user profile references removed from user-facing markdown.
 - **Network Identifiers:** All example MAC addresses comply with RFC 7042 documentation prefixes or generic notation.
 - **Copyright & Assets:** All SVG graphics, flowcharts, and architecture diagrams are original vector assets authored directly for this repository.
 

@@ -437,6 +437,71 @@ def run_tests():
             record_scenario("multi_device_comparison_matrix", "FAILED", {"error": str(e)})
 
         # -------------------------------------------------------------
+        # Test 14: Explorer Back / Forward Navigation & Keyboard Accessibility
+        # -------------------------------------------------------------
+        try:
+            page.set_viewport_size({"width": 1440, "height": 900})
+            page.goto(f"{base_url}/explorer/index.html", wait_until="networkidle")
+
+            # 1. Test keyboard shortcut '/' to focus search input
+            page.keyboard.press("/")
+            focused_id = page.evaluate("() => document.activeElement ? document.activeElement.id : ''")
+            assert focused_id == "search-input", f"Expected activeElement to be search-input, got '{focused_id}'"
+
+            # 2. Select status filter dropdown (pushState)
+            page.select_option("#status-filter", "OFFICIALLY_SUPPORTED")
+            time.sleep(0.4)
+            url_after_status = page.url
+            assert "status=OFFICIALLY_SUPPORTED" in url_after_status, f"URL missing status query param: {url_after_status}"
+            count_status = int(page.locator("#results-count").inner_text())
+            assert count_status > 0 and count_status < 48, f"Unexpected count for officially supported: {count_status}"
+
+            # 3. Apply Quick Pill: Filogic 830 (MT7986)
+            pill_mt7986 = page.locator("button.quick-pill", has_text="Filogic 830 (MT7986)")
+            assert pill_mt7986.count() == 1, "Quick pill for Filogic 830 missing"
+            pill_mt7986.click()
+            time.sleep(0.4)
+            url_after_pill = page.url
+            assert "MT7986" in url_after_pill or "Filogic" in url_after_pill, f"URL missing pill query: {url_after_pill}"
+            count_pill = int(page.locator("#results-count").inner_text())
+
+            # 4. Browser Back button -> Should return to status=OFFICIALLY_SUPPORTED
+            page.go_back(wait_until="networkidle")
+            time.sleep(0.4)
+            back_url = page.url
+            assert "status=OFFICIALLY_SUPPORTED" in back_url, f"Back button didn't restore status filter: {back_url}"
+            status_val_after_back = page.locator("#status-filter").input_value()
+            assert status_val_after_back == "OFFICIALLY_SUPPORTED", f"Dropdown didn't restore: {status_val_after_back}"
+            count_after_back = int(page.locator("#results-count").inner_text())
+            assert count_after_back == count_status, f"Device count didn't restore after back: {count_after_back} vs {count_status}"
+
+            # 5. Browser Forward button -> Should restore Filogic 830 pill query
+            page.go_forward(wait_until="networkidle")
+            time.sleep(0.4)
+            fwd_url = page.url
+            assert "MT7986" in fwd_url or "Filogic" in fwd_url, f"Forward button didn't restore pill state: {fwd_url}"
+
+            # 6. Test Escape key to clear search input
+            page.locator("#search-input").focus()
+            page.keyboard.type("testsearch")
+            time.sleep(0.2)
+            page.keyboard.press("Escape")
+            time.sleep(0.3)
+            search_val = page.locator("#search-input").input_value()
+            assert search_val == "", f"Escape key failed to clear search input, got '{search_val}'"
+
+            record_scenario("explorer_back_forward_query_filter_navigation", "PASSED", {
+                "slash_focus_working": True,
+                "status_filter_url": url_after_status,
+                "pill_filter_url": url_after_pill,
+                "back_button_restored_url": back_url,
+                "forward_button_restored_url": fwd_url,
+                "escape_clears_search": True
+            })
+        except Exception as e:
+            record_scenario("explorer_back_forward_query_filter_navigation", "FAILED", {"error": str(e)})
+
+        # -------------------------------------------------------------
         # Visual Screenshots for Verification
         # -------------------------------------------------------------
         try:
