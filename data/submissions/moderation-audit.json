@@ -1,0 +1,14 @@
+{
+  "timestamp": "2026-11-15T06:59:07.944503+00:00",
+  "total_pending": 1,
+  "valid_submissions": 1,
+  "invalid_submissions": 0,
+  "items": [
+    {
+      "file": "sub-20261115-000101.json",
+      "submission_id": "sub-20261115-000101",
+      "valid": true,
+      "errors": []
+    }
+  ]
+}

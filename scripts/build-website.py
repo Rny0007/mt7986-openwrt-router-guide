@@ -15,6 +15,8 @@ from datetime import datetime, timezone
 
 sys.path.insert(0, os.path.dirname(__file__))
 import categories_generator
+import device_modules_renderer
+import api_generator
 
 REPO_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 DATA_DIR = os.path.join(REPO_ROOT, "data")
@@ -57,6 +59,7 @@ def get_header(title, rel_root=".", current_nav="", description=None, canonical_
         ("Installation", f"{rel_root}/guides/installation/index.html", "installation"),
         ("Recovery", f"{rel_root}/guides/recovery/index.html", "recovery"),
         ("Failover", f"{rel_root}/guides/multi-wan/index.html", "multi-wan"),
+        ("API", f"{rel_root}/api/index.html", "api"),
         ("Methodology", f"{rel_root}/methodology/index.html", "methodology"),
         ("About", f"{rel_root}/about/index.html", "about"),
     ]
@@ -2140,6 +2143,12 @@ def generate_device_page(d):
       </div>
     </div>
 
+    {device_modules_renderer.render_device_schematic_svg(d)}
+    {device_modules_renderer.render_firmware_intelligence_html(d)}
+    {device_modules_renderer.render_feature_compatibility_html(d)}
+    {device_modules_renderer.render_security_cves_html(d)}
+    {device_modules_renderer.render_lifecycle_and_oem_html(d)}
+
     {get_contribution_panel(f"data/devices/{d.get('id').split('-')[0]}/{dev_id}.json", f"{d.get('manufacturer')} {d.get('model')}", rel_root="../..")}
     """
     desc = f"Verified OpenWrt hardware profile for {d.get('manufacturer')} {d.get('model')}. CPU, RAM, flash layout, Ethernet, Wi-Fi, and flashing instructions."
@@ -3741,6 +3750,13 @@ def generate_sitemap(devices, chipsets):
         f"{BASE_URL}/guides/installation/",
         f"{BASE_URL}/guides/recovery/",
         f"{BASE_URL}/guides/multi-wan/",
+        f"{BASE_URL}/api/",
+        f"{BASE_URL}/api/v1/devices/index.json",
+        f"{BASE_URL}/api/v1/export/devices.csv",
+        f"{BASE_URL}/api/v1/export/devices.json",
+        f"{BASE_URL}/api/v1/chipsets/index.json",
+        f"{BASE_URL}/api/v1/security.json",
+        f"{BASE_URL}/api/v1/lifecycle.json",
         f"{BASE_URL}/methodology/",
         f"{BASE_URL}/contributing/",
         f"{BASE_URL}/about/",
@@ -3876,6 +3892,14 @@ def build_all():
     # Curated Search-Intent Categories & Buyer Guides
     dev_dict = {d["id"]: d for d in devices}
     categories_generator.build_categories(SITE_DIR, dev_dict, sys.modules[__name__])
+
+    # Module G: Public REST API & Bulk Data Exports
+    cves_file = os.path.join(DATA_DIR, "security", "cves.json")
+    cves_data = []
+    if os.path.exists(cves_file):
+        with open(cves_file, "r", encoding="utf-8") as fp:
+            cves_data = json.load(fp)
+    api_generator.generate_api_and_exports(SITE_DIR, devices, chipsets, categories_generator.CATEGORIES_META, cves_data, sys.modules[__name__])
 
     # Create Repo B README in site/
     repo_b_readme = """# OpenWrt Router Hardware Explorer (Live Website)

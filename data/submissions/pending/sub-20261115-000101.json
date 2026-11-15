@@ -1,0 +1,41 @@
+{
+  "submission_id": "sub-20261115-000101",
+  "submission_type": "INSTALLATION_REPORT",
+  "submitted_at": "2026-11-15T12:00:00Z",
+  "status": "PENDING_REVIEW",
+  "submitter": {
+    "github_username": "community-tester",
+    "forum_handle": "openwrt_enthusiast"
+  },
+  "device_summary": {
+    "manufacturer": "Ubiquiti",
+    "model": "UniFi 6 Pro",
+    "hardware_revision": "v1",
+    "soc_model": "IPQ5018",
+    "openwrt_target": "qualcommax/ipq50xx"
+  },
+  "proposed_changes": {
+    "firmware": {
+      "verified_sysupgrade_release": "24.10-SNAPSHOT"
+    }
+  },
+  "empirical_evidence": {
+    "boot_log_excerpt": "[    0.000000] Linux version 6.6.60 (openwrt@buildhost) (aarch64-openwrt-linux-musl-gcc) #0 SMP PREEMPT\n[    0.000000] Machine model: Ubiquiti UniFi 6 Pro\n[    1.849201] ath11k_pci 0000:01:00.0: FW build-id: WLAN.WBE.1.0-00123-QCAHKSWPL_SILICONZ-1",
+    "dmesg_excerpt": "ath11k initialized successfully on 5GHz 160MHz band.",
+    "pcb_photos": []
+  },
+  "sources": [
+    {
+      "title": "OpenWrt Forum: UniFi 6 Pro Hardware Verification Thread",
+      "url": "https://forum.openwrt.org/t/ubiquiti-unifi-6-pro-support/112520"
+    }
+  ],
+  "audit_log": [
+    {
+      "timestamp": "2026-11-15T12:00:00Z",
+      "action": "SUBMITTED",
+      "reviewer": "system_ingest",
+      "comment": "Structured submission received via GitHub issue automation."
+    }
+  ]
+}
