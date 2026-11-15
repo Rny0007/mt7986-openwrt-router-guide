@@ -37,6 +37,10 @@ jobs:
         run: |
           python scripts/build-index.py
 
+      - name: "Compile Static Website"
+        run: |
+          python scripts/build-website.py
+
       - name: "Execute Unit Test Suite"
         run: |
           python tests/run_tests.py
