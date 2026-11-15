@@ -233,6 +233,203 @@
         }
       }
     },
+    "firmware": {
+      "type": "object",
+      "description": "Module A: Firmware Intelligence Center specifications and constraints.",
+      "properties": {
+        "official_support": { "type": "boolean" },
+        "official_selector_url": { "type": ["string", "null"] },
+        "supported_releases": { "type": "array", "items": { "type": "string" } },
+        "current_stable_version": { "type": ["string", "null"] },
+        "images": {
+          "type": "object",
+          "properties": {
+            "factory": {
+              "type": "object",
+              "properties": {
+                "available": { "type": "boolean" },
+                "filename": { "type": ["string", "null"] },
+                "image_type": { "type": ["string", "null"] },
+                "download_url": { "type": ["string", "null"] },
+                "sha256": { "type": ["string", "null"] },
+                "size_bytes": { "type": ["integer", "null"] }
+              }
+            },
+            "sysupgrade": {
+              "type": "object",
+              "properties": {
+                "available": { "type": "boolean" },
+                "filename": { "type": ["string", "null"] },
+                "image_type": { "type": ["string", "null"] },
+                "download_url": { "type": ["string", "null"] },
+                "sha256": { "type": ["string", "null"] },
+                "size_bytes": { "type": ["integer", "null"] }
+              }
+            },
+            "initramfs_recovery": {
+              "type": "object",
+              "properties": {
+                "available": { "type": "boolean" },
+                "filename": { "type": ["string", "null"] },
+                "download_url": { "type": ["string", "null"] },
+                "sha256": { "type": ["string", "null"] }
+              }
+            }
+          }
+        },
+        "prerequisites": { "type": "array", "items": { "type": "string" } },
+        "upgrade_restrictions": { "type": "array", "items": { "type": "string" } },
+        "downgrade_restrictions": { "type": "array", "items": { "type": "string" } },
+        "known_regressions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["release", "severity", "summary"],
+            "properties": {
+              "release": { "type": "string" },
+              "severity": { "type": "string", "enum": ["LOW", "MEDIUM", "HIGH", "CRITICAL"] },
+              "summary": { "type": "string" },
+              "workaround": { "type": ["string", "null"] }
+            }
+          }
+        }
+      }
+    },
+    "security": {
+      "type": "object",
+      "description": "Module B: Security and CVE Intelligence tracking.",
+      "properties": {
+        "last_audit_date": { "type": "string" },
+        "vulnerabilities": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["cve_id", "component", "severity"],
+            "properties": {
+              "cve_id": { "type": "string" },
+              "title": { "type": "string" },
+              "component": { "type": "string" },
+              "affected_versions": { "type": "string" },
+              "fixed_in": { "type": ["string", "null"] },
+              "severity": { "type": "string", "enum": ["LOW", "MEDIUM", "HIGH", "CRITICAL"] },
+              "cvss_score": { "type": ["number", "null"] },
+              "advisory_url": { "type": ["string", "null"] },
+              "description": { "type": "string" },
+              "workaround": { "type": ["string", "null"] }
+            }
+          }
+        },
+        "advisories": { "type": "array", "items": { "type": "string" } },
+        "known_attack_surfaces": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "lifecycle": {
+      "type": "object",
+      "description": "Module C: Hardware Lifecycle and End-of-Support tracking.",
+      "properties": {
+        "announced_year": { "type": ["integer", "null"] },
+        "release_date": { "type": ["string", "null"] },
+        "discontinuation_status": { "type": "string", "enum": ["ACTIVE", "DISCONTINUED", "UNKNOWN"] },
+        "manufacturer_support_status": { "type": "string", "enum": ["SUPPORTED", "END_OF_SUPPORT", "END_OF_LIFE", "UNKNOWN"] },
+        "manufacturer_eol_date": { "type": ["string", "null"] },
+        "openwrt_support_status": { "type": "string", "enum": ["ACTIVE_MAINTENANCE", "STABLE_SUPPORTED", "DEPRECATION_PLANNED", "DEPRECATED_TINY_TARGET", "UNSUPPORTED", "UNKNOWN"] },
+        "last_verified_openwrt_release": { "type": ["string", "null"] },
+        "recommended_replacement": { "type": ["string", "null"] },
+        "hardware_limitations": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "feature_compatibility": {
+      "type": "object",
+      "description": "Module D: Hardware Feature Compatibility Matrix.",
+      "properties": {
+        "wifi_2g": { "type": "string", "enum": ["VERIFIED", "PARTIALLY_VERIFIED", "UNSUPPORTED", "UNKNOWN", "NOT_APPLICABLE"] },
+        "wifi_5g": { "type": "string", "enum": ["VERIFIED", "PARTIALLY_VERIFIED", "UNSUPPORTED", "UNKNOWN", "NOT_APPLICABLE"] },
+        "wifi_6g": { "type": "string", "enum": ["VERIFIED", "PARTIALLY_VERIFIED", "UNSUPPORTED", "UNKNOWN", "NOT_APPLICABLE"] },
+        "ethernet_lan": { "type": "string", "enum": ["VERIFIED", "PARTIALLY_VERIFIED", "UNSUPPORTED", "UNKNOWN"] },
+        "ethernet_wan": { "type": "string", "enum": ["VERIFIED", "PARTIALLY_VERIFIED", "UNSUPPORTED", "UNKNOWN"] },
+        "multigig_2_5g": { "type": "string", "enum": ["VERIFIED", "PARTIALLY_VERIFIED", "UNSUPPORTED", "UNKNOWN", "NOT_APPLICABLE"] },
+        "multigig_10g": { "type": "string", "enum": ["VERIFIED", "PARTIALLY_VERIFIED", "UNSUPPORTED", "UNKNOWN", "NOT_APPLICABLE"] },
+        "vlan_8021q": { "type": "string", "enum": ["VERIFIED", "PARTIALLY_VERIFIED", "UNSUPPORTED", "UNKNOWN"] },
+        "usb_storage": { "type": "string", "enum": ["VERIFIED", "PARTIALLY_VERIFIED", "UNSUPPORTED", "UNKNOWN", "NOT_APPLICABLE"] },
+        "usb_tethering": { "type": "string", "enum": ["VERIFIED", "PARTIALLY_VERIFIED", "UNSUPPORTED", "UNKNOWN", "NOT_APPLICABLE"] },
+        "hw_nat_offload": { "type": "string", "enum": ["VERIFIED", "PARTIALLY_VERIFIED", "UNSUPPORTED", "UNKNOWN", "NOT_APPLICABLE"] },
+        "hw_flow_offload": { "type": "string", "enum": ["VERIFIED", "PARTIALLY_VERIFIED", "UNSUPPORTED", "UNKNOWN", "NOT_APPLICABLE"] },
+        "sqm_cake": { "type": "string", "enum": ["VERIFIED", "PARTIALLY_VERIFIED", "UNSUPPORTED", "UNKNOWN"] },
+        "wireguard_crypto": { "type": "string", "enum": ["VERIFIED", "PARTIALLY_VERIFIED", "UNSUPPORTED", "UNKNOWN"] },
+        "wpa3_personal": { "type": "string", "enum": ["VERIFIED", "PARTIALLY_VERIFIED", "UNSUPPORTED", "UNKNOWN", "NOT_APPLICABLE"] },
+        "mesh_80211s": { "type": "string", "enum": ["VERIFIED", "PARTIALLY_VERIFIED", "UNSUPPORTED", "UNKNOWN", "NOT_APPLICABLE"] },
+        "dfs_radar_detect": { "type": "string", "enum": ["VERIFIED", "PARTIALLY_VERIFIED", "UNSUPPORTED", "UNKNOWN", "NOT_APPLICABLE"] },
+        "bluetooth": { "type": "string", "enum": ["VERIFIED", "PARTIALLY_VERIFIED", "UNSUPPORTED", "UNKNOWN", "NOT_APPLICABLE"] }
+      }
+    },
+    "oem_relationships": {
+      "type": "object",
+      "description": "Module E: OEM and Regional Model Normalization.",
+      "properties": {
+        "original_manufacturer": { "type": ["string", "null"] },
+        "oem_model": { "type": ["string", "null"] },
+        "rebranded_models": { "type": "array", "items": { "type": "string" } },
+        "board_clones": { "type": "array", "items": { "type": "string" } },
+        "regional_editions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "region": { "type": "string" },
+              "differences": { "type": "string" }
+            }
+          }
+        },
+        "isp_variants": { "type": "array", "items": { "type": "string" } },
+        "similar_models_warning": { "type": ["string", "null"] }
+      }
+    },
+    "architecture_diagram": {
+      "type": "object",
+      "description": "Module H: Interactive Board-Level Architecture Schematics.",
+      "properties": {
+        "has_schematic": { "type": "boolean" },
+        "soc_bus": { "type": "string" },
+        "switch_interconnect": { "type": "string" },
+        "wireless_interconnect": { "type": "string" },
+        "nodes": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": { "type": "string" },
+              "label": { "type": "string" },
+              "type": { "type": "string" },
+              "status": { "type": "string", "enum": ["VERIFIED", "PARTIAL", "UNSUPPORTED", "NOT_POPULATED"] },
+              "citation": { "type": "string" }
+            }
+          }
+        }
+      }
+    },
+    "metadata": {
+      "type": "object",
+      "description": "Module J: Data Freshness, Quality Scoring, and Change History.",
+      "properties": {
+        "created_at": { "type": "string" },
+        "last_modified": { "type": "string" },
+        "last_verified_at": { "type": "string" },
+        "verification_source": { "type": "string" },
+        "completeness_score": { "type": "integer", "minimum": 0, "maximum": 100 },
+        "evidence_tier": { "type": "string", "enum": ["GOLD", "SILVER", "BRONZE", "UNVERIFIED"] },
+        "change_history": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "date": { "type": "string" },
+              "author": { "type": "string" },
+              "summary": { "type": "string" }
+            }
+          }
+        }
+      }
+    },
     "sources": {
       "type": "array",
       "minItems": 1,

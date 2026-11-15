@@ -1,0 +1,82 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/Rny0007/mt7986-openwrt-router-guide/main/data/schemas/submission.schema.json",
+  "title": "CommunityHardwareSubmissionRecord",
+  "description": "Schema for structured community hardware profile contributions and empirical test reports.",
+  "type": "object",
+  "required": ["submission_id", "submission_type", "submitted_at", "status", "device_summary", "sources", "audit_log"],
+  "properties": {
+    "submission_id": {
+      "type": "string",
+      "pattern": "^sub-[0-9]{8}-[a-z0-9]{6}$",
+      "description": "Unique identifier for the submission in sub-YYYYMMDD-xxxxxx format."
+    },
+    "submission_type": {
+      "type": "string",
+      "enum": ["NEW_DEVICE", "REVISION_CORRECTION", "INSTALLATION_REPORT", "RECOVERY_REPORT", "FIRMWARE_COMPATIBILITY", "SPECIFICATION_UPDATE"]
+    },
+    "submitted_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["PENDING_REVIEW", "IN_TRIAGE", "APPROVED", "MERGED", "REJECTED", "MORE_EVIDENCE_REQUESTED"]
+    },
+    "submitter": {
+      "type": "object",
+      "properties": {
+        "github_username": { "type": ["string", "null"] },
+        "forum_handle": { "type": ["string", "null"] }
+      }
+    },
+    "device_summary": {
+      "type": "object",
+      "required": ["manufacturer", "model", "hardware_revision"],
+      "properties": {
+        "manufacturer": { "type": "string" },
+        "model": { "type": "string" },
+        "hardware_revision": { "type": "string" },
+        "soc_model": { "type": ["string", "null"] },
+        "openwrt_target": { "type": ["string", "null"] }
+      }
+    },
+    "proposed_changes": {
+      "type": "object",
+      "description": "Partial or full device record proposed for merge."
+    },
+    "empirical_evidence": {
+      "type": "object",
+      "properties": {
+        "boot_log_excerpt": { "type": ["string", "null"] },
+        "dmesg_excerpt": { "type": ["string", "null"] },
+        "pcb_photos": { "type": "array", "items": { "type": "string", "format": "uri" } }
+      }
+    },
+    "sources": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["title", "url"],
+        "properties": {
+          "title": { "type": "string" },
+          "url": { "type": "string", "format": "uri" }
+        }
+      }
+    },
+    "audit_log": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["timestamp", "action", "reviewer"],
+        "properties": {
+          "timestamp": { "type": "string" },
+          "action": { "type": "string" },
+          "reviewer": { "type": "string" },
+          "comment": { "type": ["string", "null"] }
+        }
+      }
+    }
+  }
+}

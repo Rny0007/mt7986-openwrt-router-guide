@@ -5,6 +5,39 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.3.0] - 2026-11-15
+
+### Added
+- **Module A: Firmware Intelligence Center**:
+  - Comprehensive firmware image indexing (`factory`, `sysupgrade`, `initramfs_recovery`) across all 72 cataloged devices.
+  - Direct OpenWrt Firmware Selector links, cryptographic SHA-256 checksums, prerequisite checks, upgrade/downgrade restrictions, and firmware regression logging.
+- **Module B: Security & CVE Intelligence**:
+  - Standalone OpenWrt vulnerability registry (`data/security/cves.json`) tracking component-level CVEs (Dnsmasq DNSpooq, FragAttacks, U-Boot ext4, mac80211, mt76, LuCI RPC, Dropbear Terrapin).
+  - Integrated CVE vulnerability disclosures, CVSS scores, remediation firmware versions, attack surface hardening, and actionable workarounds into all device profiles.
+- **Module C: Hardware Lifecycle & End-of-Support**:
+  - Structured lifecycle telemetry tracking announcement dates, retail availability, OEM manufacturer support horizons, OpenWrt release status (`ACTIVE_MAINTENANCE`, `STABLE_SUPPORTED`, `UNSUPPORTED`), and modern replacement hardware recommendations.
+- **Module D: Granular Hardware Feature Compatibility Matrix**:
+  - 18 discrete subsystem support states per device profile: 2.4 GHz, 5 GHz, 6 GHz Wi-Fi radios, Ethernet switching, Multi-Gig (2.5G/10G SFP+), 802.1Q VLAN DSA, USB storage/tethering, HW NAT, HW flow offload (WED/PPE), CAKE SQM, WireGuard crypto acceleration, WPA3-SAE, 802.11s mesh, DFS radar detection, and BLE controllers.
+- **Module E: OEM & Regional Model Normalization**:
+  - Comprehensive ODM lineage mapping identifying original hardware manufacturers, factory model codes, rebranded consumer variants, PCB clones, and similar-model collision warnings.
+- **Module F: Community Contribution & Moderation System**:
+  - JSON schema for community device submissions (`data/schemas/submission.schema.json`), pending review queue, and automated moderation CLI (`scripts/moderate-submissions.py`) with duplicate detection and JSON audit trail.
+- **Module G: Versioned Public Read-Only REST API & Bulk Data Exports**:
+  - Versioned REST endpoints: `/api/v1/devices/index.json`, `/api/v1/devices/{id}.json`, `/api/v1/chipsets/index.json`, `/api/v1/manufacturers.json`, `/api/v1/security.json`, `/api/v1/lifecycle.json`.
+  - Machine-readable bulk exports: `/api/v1/export/devices.json`, `/api/v1/export/devices.csv`, `/api/v1/export/chipsets.json`, `/api/v1/export/security.json`.
+  - Full OpenAPI 3.1 schema (`/api/v1/openapi.json`) and interactive documentation portal (`/api/index.html`) with cURL, Python 3, and JavaScript implementation examples.
+- **Module H: Board-Level Vector Architecture Schematics**:
+  - High-resolution SVG hardware block diagrams synthesized from Linux DTS device trees and teardown schematics for all 72 router models, visualizing bus interconnects (RAM, Flash, Switch ASIC, Wi-Fi radios, UART console).
+- **Module I: Technical SEO & Search Console Operations**:
+  - Comprehensive operations runbook in `docs/SEO-OPS-GUIDE.md` detailing indexing monitoring, sitemap submission, Core Web Vitals optimization, and structured data validation.
+- **Module J: Data Freshness, Quality Scoring & Review Queue**:
+  - Catalog freshness auditor (`scripts/audit-freshness.py`) scoring metadata completeness, assigning evidence tiers (`GOLD`, `SILVER`, `BRONZE`), and detecting stale records.
+
+### Testing & Verification
+- Unit test suite: 10/10 tests PASSED (`tests/run_tests.py`).
+- HTML audit: 259/259 pages validated with 0 missing canonicals, 0 duplicate descriptions, and 0 H1 issues (`tests/audit_site_html.py`).
+- Playwright E2E suite: 17/17 scenarios PASSED across responsive viewports, URL pushState, REST API endpoints, and SVG schematics (`tests/test_playwright_e2e.py`).
+
 ## [2.2.0] - 2026-11-15
 
 ### Added

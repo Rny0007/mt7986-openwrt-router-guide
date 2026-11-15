@@ -1,0 +1,69 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/Rny0007/mt7986-openwrt-router-guide/main/data/schemas/security.schema.json",
+  "title": "OpenWrtSecurityVulnerabilityRegistry",
+  "description": "Evidence-based CVE and security vulnerability tracking registry for OpenWrt core, packages, and networking drivers.",
+  "type": "object",
+  "required": ["cve_id", "title", "component", "severity", "affected_versions", "fixed_in", "advisory_url", "description", "last_audit_date"],
+  "properties": {
+    "cve_id": {
+      "type": "string",
+      "pattern": "^CVE-\\d{4}-\\d{4,}$",
+      "description": "Standardized Common Vulnerabilities and Exposures (CVE) identifier."
+    },
+    "title": {
+      "type": "string",
+      "description": "Concise summary title of the security vulnerability."
+    },
+    "component": {
+      "type": "string",
+      "description": "Affected software package, subsystem, or driver (e.g. 'dnsmasq', 'hostapd', 'luci', 'u-boot', 'kernel/mac80211', 'dropbear')."
+    },
+    "severity": {
+      "type": "string",
+      "enum": ["LOW", "MEDIUM", "HIGH", "CRITICAL"],
+      "description": "Standard CVSS severity rating."
+    },
+    "cvss_score": {
+      "type": ["number", "null"],
+      "minimum": 0.0,
+      "maximum": 10.0,
+      "description": "CVSS v3.1 base metric score."
+    },
+    "cvss_vector": {
+      "type": ["string", "null"],
+      "description": "CVSS v3.1 vector string (e.g. 'CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H')."
+    },
+    "affected_versions": {
+      "type": "string",
+      "description": "Explicit range of affected upstream software versions."
+    },
+    "fixed_in": {
+      "type": ["string", "null"],
+      "description": "Earliest OpenWrt version containing backported or upstream fix."
+    },
+    "advisory_url": {
+      "type": "string",
+      "format": "uri",
+      "description": "Authoritative link to OpenWrt Security Advisory, NVD, or upstream CVE report."
+    },
+    "description": {
+      "type": "string",
+      "description": "Technical description of vulnerability mechanics, attack vector, and potential impact."
+    },
+    "workaround": {
+      "type": ["string", "null"],
+      "description": "Documented configuration workaround, firewall rule, or package mitigation."
+    },
+    "applicable_architectures": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Hardware architectures or SoC families affected (leave empty if architecture-independent)."
+    },
+    "last_audit_date": {
+      "type": "string",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+      "description": "Date of latest verification against NVD / OpenWrt advisory in YYYY-MM-DD format."
+    }
+  }
+}

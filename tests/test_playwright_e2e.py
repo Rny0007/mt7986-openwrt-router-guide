@@ -502,6 +502,99 @@ def run_tests():
             record_scenario("explorer_back_forward_query_filter_navigation", "FAILED", {"error": str(e)})
 
         # -------------------------------------------------------------
+        # Test 14: Module G - Public REST API & Bulk Data Exports
+        # -------------------------------------------------------------
+        try:
+            page.set_viewport_size({"width": 1440, "height": 900})
+            page.goto(f"{base_url}/api/index.html", wait_until="networkidle")
+            title = page.title()
+            assert "REST API" in title, f"Unexpected API page title: {title}"
+
+            h1_text = page.locator("h1").inner_text()
+            assert "Public API" in h1_text, f"Unexpected H1: {h1_text}"
+
+            # Verify presence of endpoints table
+            endpoints_table = page.locator("table.data-table")
+            assert endpoints_table.count() > 0, "REST endpoints table not found on /api/index.html"
+
+            # Verify direct API JSON endpoint fetching
+            api_res = page.evaluate("""async () => {
+                const res = await fetch('/api/v1/devices/index.json');
+                return await res.json();
+            }""")
+            assert api_res.get("api_version") == "v1", f"API version mismatch: {api_res.get('api_version')}"
+            assert api_res.get("total_count") == 72, f"API device count mismatch: {api_res.get('total_count')}"
+            assert len(api_res.get("data", [])) == 72, f"API array mismatch: {len(api_res.get('data', []))}"
+
+            # Verify CSV export endpoint
+            csv_text = page.evaluate("""async () => {
+                const res = await fetch('/api/v1/export/devices.csv');
+                return await res.text();
+            }""")
+            assert "id,manufacturer,model,hardware_revision" in csv_text, "CSV header missing or invalid"
+            assert "jio-jidu6101" in csv_text, "Expected JIDU6101 record in CSV export"
+
+            page.screenshot(path=os.path.join(SCREENSHOTS_DIR, "api_portal_desktop.png"), full_page=False)
+
+            record_scenario("public_rest_api_and_bulk_exports", "PASSED", {
+                "total_api_devices": api_res.get("total_count"),
+                "csv_header_verified": True,
+                "endpoints_table_verified": True
+            })
+        except Exception as e:
+            record_scenario("public_rest_api_and_bulk_exports", "FAILED", {"error": str(e)})
+
+        # -------------------------------------------------------------
+        # Test 15: Device Profile Advanced Modules (A, B, C, D, E, H)
+        # -------------------------------------------------------------
+        try:
+            page.set_viewport_size({"width": 1440, "height": 900})
+            page.goto(f"{base_url}/devices/jio-jidu6101/index.html", wait_until="networkidle")
+
+            # Module H: Board-Level Vector Architecture Schematic
+            schematic = page.locator(".schematic-container svg")
+            assert schematic.count() == 1, "Module H vector SVG schematic missing"
+            ram_node = page.locator("g#node-ram")
+            assert ram_node.count() == 1, "RAM node in SVG schematic missing"
+
+            # Module A: Firmware Intelligence Center
+            fw_panel = page.locator("text=Firmware Intelligence Center")
+            assert fw_panel.count() > 0, "Firmware Intelligence section missing"
+            initramfs_row = page.locator("text=Initramfs Recovery")
+            assert initramfs_row.count() > 0, "Initramfs recovery row missing"
+
+            # Module D: Granular Feature Compatibility Matrix
+            feat_matrix = page.locator("text=Hardware Feature Compatibility Matrix")
+            assert feat_matrix.count() > 0, "Feature Compatibility matrix missing"
+            nat_badge = page.locator("text=Hardware NAT Offload")
+            assert nat_badge.count() > 0, "Hardware NAT feature item missing"
+
+            # Module B: Security & CVE Intelligence
+            cve_heading = page.locator("text=Vulnerability Disclosures & Patch Status")
+            assert cve_heading.count() > 0, "Security & CVE Intelligence missing"
+            dnsmasq_cve = page.locator("text=CVE-2020-25681")
+            assert dnsmasq_cve.count() > 0, "Dnsmasq CVE entry missing"
+
+            # Module C & E: Lifecycle & OEM Normalization
+            lc_heading = page.locator("text=Lifecycle & Support Timeline")
+            assert lc_heading.count() > 0, "Lifecycle section missing"
+            oem_heading = page.locator("text=Hardware Lineage & Variants")
+            assert oem_heading.count() > 0, "OEM Lineage section missing"
+
+            page.screenshot(path=os.path.join(SCREENSHOTS_DIR, "device_schematic_and_modules.png"), full_page=False)
+
+            record_scenario("device_page_advanced_modules", "PASSED", {
+                "module_h_schematic": True,
+                "module_a_firmware_intelligence": True,
+                "module_d_feature_matrix": True,
+                "module_b_cve_intelligence": True,
+                "module_c_lifecycle": True,
+                "module_e_oem_lineage": True
+            })
+        except Exception as e:
+            record_scenario("device_page_advanced_modules", "FAILED", {"error": str(e)})
+
+        # -------------------------------------------------------------
         # Visual Screenshots for Verification
         # -------------------------------------------------------------
         try:
@@ -523,7 +616,9 @@ def run_tests():
                     "homepage_mobile_375.png",
                     "homepage_mobile_drawer_open.png",
                     "explorer_search_mt7986.png",
-                    "comparison_matrix_modal.png"
+                    "comparison_matrix_modal.png",
+                    "api_portal_desktop.png",
+                    "device_schematic_and_modules.png"
                 ]
             })
         except Exception as e:
