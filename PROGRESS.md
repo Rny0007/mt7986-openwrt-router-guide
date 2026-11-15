@@ -4,6 +4,33 @@ This document preserves historical milestones and logs real-time engineering wor
 
 ---
 
+## [2026-11-15 11:15 IST] — Final Pre-Merge Safety Audit, Pull Request #2 Merge & Production Release
+
+- **Task Objective**: Execute rigorous 10-point safety audit across all 48 device records and 96 installation/recovery guides, eliminate generic or fabricated flashing commands, refresh GitHub CLI `workflow` credentials, push source branch to Repo A, create Pull Request #2 into `main`, resolve CI checks, merge PR #2, deploy static output to Repo B, and verify production live deployment over HTTPS.
+- **Safety Audit Findings & Remediation**:
+  1. **Unsupported Hardware Protection**: Updated `data/schemas/device.schema.json` to include `"Unsupported"` installation method. Re-classified `asus-rt-ax88u-pro`, `sercomm-airtel-a622g`, and `tp-link-archer-ax50-v1`. Completely eliminated fabricated factory download and flashing steps; replaced with prominent Red Incompatibility Notices detailing silicon constraints and alternative options.
+  2. **Potentially Compatible Safeguard**: Hardened `nokia-fastmile-5g-gateway-3-2` with an amber advisory disclosing carrier secure boot and BootROM cryptographic signature verification. Removed simulated end-user flashing instructions.
+  3. **Elimination of Generic MTD/NAND Commands**: Scoped `/dev/mtd6` dual-slot UBI bootargs strictly to verified Jio JIDU6101 hardware. For other devices, mandated `cat /proc/mtd` partition discovery to prevent accidental bootloader overwrites.
+  4. **Device-Specific Calibration Backup**: Enforced factory calibration and RF data backup instructions (`Factory`, `ART`, `Bdata`) across all two-stage and exploit-based guides before any flash write operations.
+  5. **Non-Generic TFTP Parameters**: Removed simulated `{dev_id}.bin` filenames. Used device-specific bootloader filenames where verified, or explicitly guided users to observe the UART console during boot.
+  6. **Electrical Safety Mandate**: Reinforced the **CRITICAL SAFETY MANDATE — NEVER CONNECT VCC (RED WIRE)** alert box across all 48 recovery guides, requiring strict 3.3V TTL logic levels.
+- **GitHub Release & PR Execution**:
+  - Authenticated GitHub CLI with `workflow` permission via browser device authorization.
+  - Pushed `feat/global-openwrt-device-discovery` to `origin`.
+  - Created Pull Request #2 into `main`: [PR #2](https://github.com/Rny0007/mt7986-openwrt-router-guide/pull/2).
+  - Fixed CI workflow configuration for `actions/setup-python@v5` and automated website compilation.
+  - All CI checks passed: `Validate Device & Chipset Schemas` (PASS), `Check Relative File Links` (PASS).
+  - Merged PR #2 into `main` via `--merge`: Merge commit [`39358bf`](https://github.com/Rny0007/mt7986-openwrt-router-guide/commit/39358bfa0de931085715ed661cca0fb54af4503b).
+  - GitHub Actions on `main` executed successfully: `Build and Deploy Website to Repo B` ([Run 43682420401](https://github.com/Rny0007/mt7986-openwrt-router-guide/actions/runs/43682420401)).
+- **Repo B Deployment & Live Verification**:
+  - Mirrored safety-audited site output to Repo B (`openwrt-router-hardware-explorer`).
+  - Committed and pushed commit [`7da5aac`](https://github.com/Rny0007/openwrt-router-hardware-explorer/commit/7da5aac7e212f41eb480b5be2e6479e3d71b51fb) to `origin/main`.
+  - GitHub Pages build confirmed: `status: built` at commit `7da5aac`.
+  - Live HTTPS validation: 10/10 endpoints verified returning `200 OK`.
+- **Status**: DONE
+
+---
+
 ## [2026-11-15 10:35 IST] — Futuristic Website Transformation: Premium UI/UX, Mobile-First Design, Global SEO, Search Visibility & Production Quality
 
 - **Task Objective**: Complete overhaul of the OpenWrt Hardware Explorer into a futuristic, technically sophisticated, mobile-first hardware intelligence platform. Implementation of an original Figma/NOC-inspired design system with obsidian/graphite tokens, responsive mobile navigation drawer, comprehensive 16-section homepage, deep-linking global hardware search, mobile-optimized device profiles, interactive SVG visualizations, WCAG 2.2 AA accessibility, and automated Playwright viewport testing across 320px to 1920px.
