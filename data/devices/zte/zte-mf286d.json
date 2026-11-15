@@ -1,0 +1,140 @@
+{
+  "$schema": "../../schemas/device.schema.json",
+  "id": "zte-mf286d",
+  "manufacturer": "ZTE",
+  "model": "MF286D",
+  "hardware_revision": "v1",
+  "regional_variant": "EU / Global",
+  "internal_board_name": "zte_mf286d",
+  "soc": {
+    "vendor": "Qualcomm",
+    "model": "IPQ4019",
+    "family": "Dakota",
+    "cores": 4,
+    "frequency_mhz": 717
+  },
+  "architecture": "arm_cortex-a7",
+  "ram_mb": 256,
+  "flash": {
+    "type": "SPI-NAND",
+    "capacity_mb": 128
+  },
+  "wireless": [
+    {
+      "radio_id": "radio0",
+      "chipset": "Qualcomm IPQ4019",
+      "frequency_ghz": 2.4,
+      "generation": "Wi-Fi 4",
+      "spatial_streams": "2x2",
+      "max_phy_rate_mbps": 300,
+      "channel_width_mhz": 40
+    },
+    {
+      "radio_id": "radio1",
+      "chipset": "Qualcomm IPQ4019",
+      "frequency_ghz": 5.0,
+      "generation": "Wi-Fi 5",
+      "spatial_streams": "2x2",
+      "max_phy_rate_mbps": 867,
+      "channel_width_mhz": 80
+    }
+  ],
+  "ethernet": {
+    "switch_chip": "Qualcomm QCA8075",
+    "ports": [
+      {
+        "name": "WAN/LAN4",
+        "type": "WAN/LAN",
+        "speed_mbps": 1000,
+        "dsa_port": "wan"
+      },
+      {
+        "name": "LAN1",
+        "type": "LAN",
+        "speed_mbps": 1000,
+        "dsa_port": "lan1"
+      },
+      {
+        "name": "LAN2",
+        "type": "LAN",
+        "speed_mbps": 1000,
+        "dsa_port": "lan2"
+      },
+      {
+        "name": "LAN3",
+        "type": "LAN",
+        "speed_mbps": 1000,
+        "dsa_port": "lan3"
+      }
+    ]
+  },
+  "usb_ports": [
+    {
+      "type": "USB 2.0 Type-A",
+      "count": 1
+    }
+  ],
+  "bootloader": "U-Boot",
+  "serial_uart": {
+    "available": true,
+    "voltage": "3.3V",
+    "baudrate": 115200,
+    "pinout_documented": true,
+    "notes": "Internal 3.3V TTL UART pads. Pin 1 VCC (DO NOT CONNECT), Pin 2 TX, Pin 3 RX, Pin 4 GND."
+  },
+  "openwrt": {
+    "target": "ipq40xx",
+    "subtarget": "generic",
+    "profile": "zte_mf286d",
+    "support_status": "OFFICIALLY_SUPPORTED",
+    "first_supported_version": "22.03.0",
+    "latest_tested_version": "23.05.5",
+    "firmware_selector_url": "https://firmware-selector.openwrt.org/?version=23.05.5&target=ipq40xx%2Fgeneric&id=zte_mf286d",
+    "device_tree_file": "qcom-ipq4019-zte-mf286d.dts",
+    "known_limitations": [
+      "Qualcomm Snapdragon X12 Cat 12 LTE modem is managed via QMI / MBIM protocol",
+      "Carrier customization requires setting APN manually in LuCI network interface"
+    ]
+  },
+  "installation": {
+    "method": "OEM Web GUI Flash",
+    "risk": "MEDIUM",
+    "requires_factory_stage": true,
+    "guide_link": "https://openwrt.org/toh/zte/mf286d"
+  },
+  "recovery": {
+    "method": "TFTP Push (Automated)",
+    "recovery_ip": "192.168.0.1",
+    "guide_link": "https://openwrt.org/toh/zte/mf286d#recovery"
+  },
+  "verification": {
+    "status": "OFFICIALLY_SUPPORTED",
+    "evidence": [
+      "Upstream OpenWrt target ipq40xx/generic in Git",
+      "Linux kernel DTS qcom-ipq4019-zte-mf286d.dts",
+      "OpenWrt ToH verified profile"
+    ],
+    "last_verified": "2026-11-15"
+  },
+  "popularity": {
+    "tier": "VERY_HIGH_INTEREST",
+    "signals": [
+      "Massive community following across Europe (TIM, Three, Vodafone) as budget 4G router",
+      "Highly sought after for LTE multi-WAN failover setups"
+    ]
+  },
+  "sources": [
+    {
+      "title": "OpenWrt Table of Hardware: ZTE MF286D",
+      "url": "https://openwrt.org/toh/zte/mf286d",
+      "type": "OPENWRT_TOH",
+      "date_accessed": "2026-11-15"
+    },
+    {
+      "title": "OpenWrt Git: ipq40xx zte-mf286d DTS commit",
+      "url": "https://git.openwrt.org/?p=openwrt/openwrt.git;a=blob;f=target/linux/ipq40xx/files/arch/arm/boot/dts/qcom-ipq4019-zte-mf286d.dts",
+      "type": "OPENWRT_GIT",
+      "date_accessed": "2026-11-15"
+    }
+  ]
+}

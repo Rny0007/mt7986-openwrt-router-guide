@@ -1,0 +1,47 @@
+{
+  "$schema": "../schemas/chipset.schema.json",
+  "id": "qualcomm-ipq5018",
+  "vendor": "Qualcomm",
+  "part_number": "IPQ5018",
+  "marketing_name": "Qualcomm IPQ5018 (Maple / Immersive Home 216)",
+  "cpu": {
+    "architecture": "arm_cortex-a53",
+    "core_type": "ARM Cortex-A53",
+    "cores": 2,
+    "max_clock_mhz": 1000
+  },
+  "process_node_nm": 14,
+  "openwrt_target": "qualcommax",
+  "openwrt_subtarget": "ipq50xx",
+  "linux_driver": {
+    "wireless_mac80211": "ath11k",
+    "ethernet_driver": "qcom-nss-dp",
+    "switch_driver": "qca8075"
+  },
+  "wireless_subsystem": {
+    "integrated": true,
+    "accompanying_rf_chips": [
+      "QCN6102",
+      "QCN9074"
+    ],
+    "wi_fi_generation": "Wi-Fi 6",
+    "mimo_capabilities": "2x2 2.4GHz 802.11ax (574Mbps) + PCIe 5GHz"
+  },
+  "hardware_acceleration": {
+    "flow_offload": "Supported (NSS / PPE)",
+    "crypto_engine": true,
+    "wireless_ethernet_dispatch": true
+  },
+  "openwrt_support_tier": "TIER_2_STABLE",
+  "notes": "Cost-effective dual-core 64-bit ARM Wi-Fi 6 platform heavily utilized in mainstream mesh access points and routers including Ubiquiti UniFi 6 Pro, TP-Link Deco X60, and Xiaomi AX3000 mesh systems. Supported via ath11k driver.",
+  "sources": [
+    {
+      "title": "Qualcomm IPQ5018 Product Brief",
+      "url": "https://www.qualcomm.com/products/internet-of-things/networking/wi-fi-networks/immersive-home-platforms"
+    },
+    {
+      "title": "OpenWrt Wiki: qualcommax target",
+      "url": "https://openwrt.org/docs/techref/targets/qualcommax"
+    }
+  ]
+}

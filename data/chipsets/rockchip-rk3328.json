@@ -1,0 +1,44 @@
+{
+  "$schema": "../schemas/chipset.schema.json",
+  "id": "rockchip-rk3328",
+  "vendor": "Rockchip",
+  "part_number": "RK3328",
+  "marketing_name": "Rockchip RK3328",
+  "cpu": {
+    "architecture": "arm_cortex-a53",
+    "core_type": "ARM Cortex-A53",
+    "cores": 4,
+    "max_clock_mhz": 1300
+  },
+  "process_node_nm": 28,
+  "openwrt_target": "rockchip",
+  "openwrt_subtarget": "armv8",
+  "linux_driver": {
+    "wireless_mac80211": null,
+    "ethernet_driver": "stmmac",
+    "switch_driver": null
+  },
+  "wireless_subsystem": {
+    "integrated": false,
+    "accompanying_rf_chips": [],
+    "wi_fi_generation": "Ethernet Only",
+    "mimo_capabilities": "USB / PCIe Wi-Fi expansion"
+  },
+  "hardware_acceleration": {
+    "flow_offload": "Software Only",
+    "crypto_engine": true,
+    "wireless_ethernet_dispatch": false
+  },
+  "openwrt_support_tier": "TIER_1_MAINSTREAM",
+  "notes": "Quad-core 64-bit ARM SoC with native Gigabit Ethernet MAC and USB 3.0 controller. Popularized as an ultra-compact dual-GbE mini-router platform by the FriendlyElec NanoPi R2S and Xunlong Orange Pi R1 Plus LTS.",
+  "sources": [
+    {
+      "title": "Rockchip RK3328 Technical Reference Manual",
+      "url": "https://www.rock-chips.com/a/en/products/RK33_Series/2017/0118/836.html"
+    },
+    {
+      "title": "OpenWrt rockchip target documentation",
+      "url": "https://openwrt.org/docs/techref/targets/rockchip"
+    }
+  ]
+}

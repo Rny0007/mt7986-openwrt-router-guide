@@ -1,0 +1,108 @@
+{
+  "$schema": "../../schemas/device.schema.json",
+  "id": "orange-pi-r1-plus-lts",
+  "manufacturer": "Xunlong / Orange Pi",
+  "model": "Orange Pi R1 Plus LTS",
+  "hardware_revision": "v1.1",
+  "regional_variant": "Global",
+  "internal_board_name": "xunlong_orangepi-r1-plus-lts",
+  "soc": {
+    "vendor": "Rockchip",
+    "model": "RK3328",
+    "family": "RK33xx",
+    "cores": 4,
+    "frequency_mhz": 1300
+  },
+  "architecture": "arm_cortex-a53",
+  "ram_mb": 1024,
+  "flash": {
+    "type": "SPI-NOR",
+    "capacity_mb": 16
+  },
+  "ethernet": {
+    "switch_chip": "Discrete Motorcomm YT8531C GbE + Realtek RTL8153B USB3 GbE",
+    "ports": [
+      {
+        "name": "WAN (Native GbE)",
+        "type": "WAN",
+        "speed_mbps": 1000,
+        "dsa_port": "eth0"
+      },
+      {
+        "name": "LAN (USB3 GbE)",
+        "type": "LAN",
+        "speed_mbps": 1000,
+        "dsa_port": "eth1"
+      }
+    ]
+  },
+  "usb_ports": [
+    {
+      "type": "USB-C",
+      "count": 1
+    }
+  ],
+  "bootloader": "U-Boot",
+  "serial_uart": {
+    "available": true,
+    "voltage": "3.3V",
+    "baudrate": 1500000,
+    "pinout_documented": true,
+    "notes": "3-pin 3.3V UART header on board: Pin 1 TX, Pin 2 RX, Pin 3 GND. Baudrate is 1,500,000."
+  },
+  "openwrt": {
+    "target": "rockchip",
+    "subtarget": "armv8",
+    "profile": "xunlong_orangepi-r1-plus-lts",
+    "support_status": "OFFICIALLY_SUPPORTED",
+    "first_supported_version": "22.03.0",
+    "latest_tested_version": "23.05.5",
+    "firmware_selector_url": "https://firmware-selector.openwrt.org/?version=23.05.5&target=rockchip%2Farmv8&id=xunlong_orangepi-r1-plus-lts",
+    "device_tree_file": "rk3328-orangepi-r1-plus-lts.dts",
+    "known_limitations": [
+      "Secondary Ethernet port is bridged over internal USB 3.0 controller (RTL8153B)",
+      "MicroSD card performance dictates rootfs write speeds"
+    ]
+  },
+  "installation": {
+    "method": "Direct Image Flash (SBC / SD Card)",
+    "risk": "LOW",
+    "requires_factory_stage": false,
+    "guide_link": "https://openwrt.org/toh/xunlong/orange_pi_r1_plus_lts"
+  },
+  "recovery": {
+    "method": "SD Card Re-flash (SBC)",
+    "recovery_ip": "192.168.1.1",
+    "guide_link": "https://openwrt.org/toh/xunlong/orange_pi_r1_plus_lts"
+  },
+  "verification": {
+    "status": "OFFICIALLY_SUPPORTED",
+    "evidence": [
+      "Upstream OpenWrt target rockchip/armv8 in Git",
+      "Linux kernel DTS rk3328-orangepi-r1-plus-lts.dts",
+      "OpenWrt ToH verified profile"
+    ],
+    "last_verified": "2026-11-15"
+  },
+  "popularity": {
+    "tier": "HIGH_INTEREST",
+    "signals": [
+      "Low-cost dual-gigabit router board competing with NanoPi R2S",
+      "Heavily used for budget travel router and home lab adblocking builds"
+    ]
+  },
+  "sources": [
+    {
+      "title": "Orange Pi R1 Plus LTS Official Product Specifications",
+      "url": "http://www.orangepi.org/html/hardWare/computerAndMicrocontrollers/details/Orange-Pi-R1-Plus-LTS.html",
+      "type": "OEM_SPEC",
+      "date_accessed": "2026-11-15"
+    },
+    {
+      "title": "OpenWrt Table of Hardware: Orange Pi R1 Plus LTS",
+      "url": "https://openwrt.org/toh/xunlong/orange_pi_r1_plus_lts",
+      "type": "OPENWRT_TOH",
+      "date_accessed": "2026-11-15"
+    }
+  ]
+}

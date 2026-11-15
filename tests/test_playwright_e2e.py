@@ -374,7 +374,7 @@ def run_tests():
             time.sleep(0.5)
             count_text = page.locator("#results-count").inner_text()
             count = int(count_text)
-            assert count > 0 and count < 48, f"Expected filtered count for MT7986, got: {count}"
+            assert count > 0 and count < 72, f"Expected filtered count for MT7986, got: {count}"
             
             page.screenshot(path=os.path.join(SCREENSHOTS_DIR, "explorer_search_mt7986.png"))
             
@@ -383,7 +383,7 @@ def run_tests():
             time.sleep(0.5)
             
             reset_count = int(page.locator("#results-count").inner_text())
-            assert reset_count == 48, f"Expected 48 devices after clear, got: {reset_count}"
+            assert reset_count == 72, f"Expected 72 devices after clear, got: {reset_count}"
             
             record_scenario("explorer_search_and_deep_linking", "PASSED", {
                 "prefilled_query": input_val,
@@ -454,7 +454,7 @@ def run_tests():
             url_after_status = page.url
             assert "status=OFFICIALLY_SUPPORTED" in url_after_status, f"URL missing status query param: {url_after_status}"
             count_status = int(page.locator("#results-count").inner_text())
-            assert count_status > 0 and count_status < 48, f"Unexpected count for officially supported: {count_status}"
+            assert count_status > 0 and count_status < 72, f"Unexpected count for officially supported: {count_status}"
 
             # 3. Apply Quick Pill: Filogic 830 (MT7986)
             pill_mt7986 = page.locator("button.quick-pill", has_text="Filogic 830 (MT7986)")

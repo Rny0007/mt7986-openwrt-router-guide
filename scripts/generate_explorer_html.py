@@ -17,7 +17,7 @@ header = bw.get_header(
     title="Global Router Hardware Explorer",
     rel_root="..",
     current_nav="explorer",
-    description="Interactive OpenWrt hardware database across 48 verified routers, single-board computers, and multi-gigabit gateways. Real-time filtering, comparison, and deep-linking.",
+    description="Interactive OpenWrt hardware database across 72 verified routers, single-board computers, and multi-gigabit gateways. Real-time filtering, comparison, and deep-linking.",
     canonical_path="explorer/",
     json_ld={
         "@context": "https://schema.org",
@@ -507,15 +507,15 @@ explorer_css = """
 body_content = """
   <div class="explorer-hero">
     <div class="explorer-hero-inner">
-      <div class="badge-status status-supported">⚡ 48 Hardware Profiles Verified</div>
+      <div class="badge-status status-supported">⚡ 72 Hardware Profiles Verified</div>
       <h1 class="explorer-title">Global Router Hardware Explorer</h1>
       <p class="explorer-subtitle">
-        Search, filter, and compare OpenWrt-compatible routers, switches, and single-board computers across 18 manufacturers worldwide. Real-time URL query parameter deep linking, multi-device comparison, and primary source citations.
+        Search, filter, and compare OpenWrt-compatible routers, switches, and single-board computers across 31 manufacturers worldwide. Real-time URL query parameter deep linking, multi-device comparison, and primary source citations.
       </p>
 
       <div class="quick-pills-wrap" role="toolbar" aria-label="Quick search presets">
         <span class="quick-pills-label">Quick Filters:</span>
-        <button class="quick-pill active" onclick="applyQuickFilter('', '', '', '')">All Hardware (48)</button>
+        <button class="quick-pill active" onclick="applyQuickFilter('', '', '', '')">All Hardware (72)</button>
         <button class="quick-pill" onclick="applyQuickFilter('MT7986', '', '', 'Filogic 830')">Filogic 830 (MT7986)</button>
         <button class="quick-pill" onclick="applyQuickFilter('MT7988', '', '', 'Filogic 880')">Filogic 880 (Wi-Fi 7)</button>
         <button class="quick-pill" onclick="applyQuickFilter('', '', 'Wi-Fi 6', '')">Wi-Fi 6 (802.11ax)</button>
@@ -660,17 +660,17 @@ body_content = """
       const soc = params.get('soc') || 'ALL';
       const arch = params.get('arch') || 'ALL';
 
-      if (q) document.getElementById('search-input').value = q;
-      if (status !== 'ALL') document.getElementById('status-filter').value = status;
-      if (wifi !== 'ALL') document.getElementById('wifi-filter').value = wifi;
-      if (soc !== 'ALL') document.getElementById('soc-filter').value = soc;
-      if (arch !== 'ALL') document.getElementById('arch-filter').value = arch;
+      document.getElementById('search-input').value = q;
+      document.getElementById('status-filter').value = status;
+      document.getElementById('wifi-filter').value = wifi;
+      document.getElementById('soc-filter').value = soc;
+      document.getElementById('arch-filter').value = arch;
 
       updateClearButtonVisibility();
       filterDevices(false);
     }
 
-    function syncURL() {
+    function syncURL(push = true) {
       const q = document.getElementById('search-input').value.trim();
       const status = document.getElementById('status-filter').value;
       const wifi = document.getElementById('wifi-filter').value;
@@ -686,7 +686,14 @@ body_content = """
 
       const qs = params.toString();
       const newUrl = window.location.pathname + (qs ? '?' + qs : '');
-      window.history.replaceState(null, '', newUrl);
+      const currentUrl = window.location.pathname + window.location.search;
+      if (newUrl === currentUrl) return;
+
+      if (push) {
+        window.history.pushState(null, '', newUrl);
+      } else {
+        window.history.replaceState(null, '', newUrl);
+      }
     }
 
     function renderDevices(devices) {
@@ -808,7 +815,7 @@ body_content = """
       }
     }
 
-    function filterDevices(shouldSyncURL = true) {
+    function filterDevices(shouldSyncURL = true, pushHistory = false) {
       const query = document.getElementById('search-input').value.toLowerCase().trim();
       const statusFilter = document.getElementById('status-filter').value;
       const wifiFilter = document.getElementById('wifi-filter').value;
@@ -859,7 +866,7 @@ body_content = """
       });
 
       renderDevices(filtered);
-      if (shouldSyncURL) syncURL();
+      if (shouldSyncURL) syncURL(pushHistory);
     }
 
     function applyQuickFilter(query, status, wifi, soc) {
@@ -874,7 +881,7 @@ body_content = """
       event.target.classList.add('active');
 
       updateClearButtonVisibility();
-      filterDevices();
+      filterDevices(true, true);
     }
 
     function resetAllFilters() {
@@ -890,7 +897,7 @@ body_content = """
       });
 
       updateClearButtonVisibility();
-      filterDevices();
+      filterDevices(true, true);
     }
 
     function updateClearButtonVisibility() {
@@ -904,20 +911,24 @@ body_content = """
     document.getElementById('search-input').addEventListener('input', () => {
       updateClearButtonVisibility();
       clearTimeout(searchDebounceTimer);
-      searchDebounceTimer = setTimeout(() => filterDevices(), 120);
+      searchDebounceTimer = setTimeout(() => filterDevices(true, false), 120);
     });
 
     document.getElementById('search-clear').addEventListener('click', () => {
       document.getElementById('search-input').value = '';
       updateClearButtonVisibility();
-      filterDevices();
+      filterDevices(true, true);
       document.getElementById('search-input').focus();
     });
 
-    document.getElementById('status-filter').addEventListener('change', () => filterDevices());
-    document.getElementById('wifi-filter').addEventListener('change', () => filterDevices());
-    document.getElementById('soc-filter').addEventListener('change', () => filterDevices());
-    document.getElementById('arch-filter').addEventListener('change', () => filterDevices());
+    document.getElementById('status-filter').addEventListener('change', () => filterDevices(true, true));
+    document.getElementById('wifi-filter').addEventListener('change', () => filterDevices(true, true));
+    document.getElementById('soc-filter').addEventListener('change', () => filterDevices(true, true));
+    document.getElementById('arch-filter').addEventListener('change', () => filterDevices(true, true));
+
+    window.addEventListener('popstate', () => {
+      initializeFromURL();
+    });
 
     // Comparison Logic
     function toggleCompare(id) {

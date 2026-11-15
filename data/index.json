@@ -1,16 +1,16 @@
 {
   "metadata": {
     "title": "Global OpenWrt Router Hardware Knowledge Base Index",
-    "generated_at": "2026-11-15T05:33:04Z",
-    "total_devices": 48,
-    "total_chipsets": 15,
+    "generated_at": "2026-11-15T06:34:11Z",
+    "total_devices": 72,
+    "total_chipsets": 20,
     "status_summary": {
-      "OFFICIALLY_SUPPORTED": 35,
-      "COMMUNITY_VERIFIED": 5,
-      "PARTIALLY_VERIFIED": 4,
+      "OFFICIALLY_SUPPORTED": 50,
+      "COMMUNITY_VERIFIED": 9,
+      "PARTIALLY_VERIFIED": 5,
       "EXPERIMENTAL": 0,
-      "POTENTIALLY_COMPATIBLE": 1,
-      "UNSUPPORTED": 3,
+      "POTENTIALLY_COMPATIBLE": 2,
+      "UNSUPPORTED": 6,
       "UNKNOWN": 0
     }
   },
@@ -630,6 +630,160 @@
     },
     {
       "$schema": "../../schemas/device.schema.json",
+      "id": "asus-rt-ax86u",
+      "manufacturer": "ASUS",
+      "model": "RT-AX86U / RT-AX86S",
+      "hardware_revision": "v1 (A1)",
+      "regional_variant": "Global",
+      "internal_board_name": "asus_rt-ax86u",
+      "soc": {
+        "vendor": "Broadcom",
+        "model": "BCM4908",
+        "family": "Brahma-B53",
+        "cores": 4,
+        "frequency_mhz": 1800
+      },
+      "architecture": "arm_cortex-a53",
+      "ram_mb": 1024,
+      "flash": {
+        "type": "SPI-NAND",
+        "capacity_mb": 256
+      },
+      "wireless": [
+        {
+          "radio_id": "radio0",
+          "chipset": "Broadcom BCM43684",
+          "frequency_ghz": 2.4,
+          "generation": "Wi-Fi 6",
+          "spatial_streams": "3x3",
+          "max_phy_rate_mbps": 861,
+          "channel_width_mhz": 40
+        },
+        {
+          "radio_id": "radio1",
+          "chipset": "Broadcom BCM43684",
+          "frequency_ghz": 5.0,
+          "generation": "Wi-Fi 6",
+          "spatial_streams": "4x4",
+          "max_phy_rate_mbps": 4804,
+          "channel_width_mhz": 160
+        }
+      ],
+      "ethernet": {
+        "switch_chip": "Broadcom Integrated + BCM54991E 2.5G PHY",
+        "ports": [
+          {
+            "name": "2.5G Gaming Port",
+            "type": "WAN/LAN",
+            "speed_mbps": 2500,
+            "dsa_port": "eth5"
+          },
+          {
+            "name": "WAN",
+            "type": "WAN",
+            "speed_mbps": 1000,
+            "dsa_port": "eth0"
+          },
+          {
+            "name": "LAN1",
+            "type": "LAN",
+            "speed_mbps": 1000,
+            "dsa_port": "lan1"
+          },
+          {
+            "name": "LAN2",
+            "type": "LAN",
+            "speed_mbps": 1000,
+            "dsa_port": "lan2"
+          },
+          {
+            "name": "LAN3",
+            "type": "LAN",
+            "speed_mbps": 1000,
+            "dsa_port": "lan3"
+          },
+          {
+            "name": "LAN4",
+            "type": "LAN",
+            "speed_mbps": 1000,
+            "dsa_port": "lan4"
+          }
+        ]
+      },
+      "usb_ports": [
+        {
+          "type": "USB 3.2 Gen 1 Type-A",
+          "count": 2
+        }
+      ],
+      "bootloader": "CFE / CFE-ARM",
+      "serial_uart": {
+        "available": true,
+        "voltage": "3.3V",
+        "baudrate": 115200,
+        "pinout_documented": true,
+        "notes": "4-pin 3.3V UART header on PCB: Pin 1 3.3V (NEVER CONNECT), Pin 2 TX, Pin 3 RX, Pin 4 GND."
+      },
+      "openwrt": {
+        "target": "bcm4908",
+        "subtarget": "generic",
+        "profile": "asus_rt-ax86u",
+        "support_status": "UNSUPPORTED",
+        "first_supported_version": null,
+        "latest_tested_version": null,
+        "firmware_selector_url": null,
+        "device_tree_file": null,
+        "known_limitations": [
+          "Broadcom BCM43684 Wi-Fi 6 wireless chipset relies on closed-source binary DHD/wl drivers without open-source mac80211 support",
+          "No functional open-source Wi-Fi drivers exist in upstream Linux kernel for this radio generation",
+          "Users seeking open-source customization must use Asuswrt-Merlin third-party firmware instead of OpenWrt"
+        ]
+      },
+      "installation": {
+        "method": "Unsupported",
+        "risk": "CRITICAL",
+        "requires_factory_stage": false,
+        "guide_link": null
+      },
+      "recovery": {
+        "method": "U-Boot Recovery Webpage",
+        "recovery_ip": "192.168.1.1",
+        "guide_link": "https://www.asus.com/support/FAQ/1000814/"
+      },
+      "verification": {
+        "status": "UNSUPPORTED",
+        "evidence": [
+          "OpenWrt Table of Hardware: Broadcom BCM4908 Wi-Fi barrier documentation",
+          "Linux wireless kernel mailing list confirming zero mac80211 driver for BCM43684",
+          "Asuswrt-Merlin official documentation on Broadcom closed wireless blobs"
+        ],
+        "last_verified": "2026-11-15"
+      },
+      "popularity": {
+        "tier": "VERY_HIGH_INTEREST",
+        "signals": [
+          "Top 3 most popular enthusiast gaming routers globally",
+          "Frequent inquiries across Reddit r/openwrt and OpenWrt forums",
+          "Widely recommended on PC gaming communities"
+        ]
+      },
+      "sources": [
+        {
+          "title": "OpenWrt Wiki: Broadcom Wi-Fi limitations and BCM4908 status",
+          "url": "https://openwrt.org/docs/techref/instruction/broadcom",
+          "type": "OFFICIAL_OPENWRT",
+          "date_accessed": "2026-11-15"
+        },
+        {
+          "title": "ASUS RT-AX86U Specifications & Teardown",
+          "url": "https://www.asus.com/networking-iot-servers/wifi-routers/asus-gaming-routers/rt-ax86u/techspec/",
+          "type": "OEM_SPEC",
+          "date_accessed": "2026-11-15"
+        }
+      ]
+    },
+    {
+      "$schema": "../../schemas/device.schema.json",
       "id": "asus-rt-ax88u-pro",
       "manufacturer": "ASUS",
       "model": "RT-AX88U Pro (AX6000 Dual 2.5G)",
@@ -798,6 +952,178 @@
           "title": "ASUS RT-AX88U Pro Specifications",
           "url": "https://www.asus.com/networking-iot-servers/wifi-routers/asus-wifi-routers/rt-ax88u-pro/",
           "type": "OEM_SPEC",
+          "date_accessed": "2026-11-15"
+        }
+      ]
+    },
+    {
+      "$schema": "../../schemas/device.schema.json",
+      "id": "asus-rt-be96u",
+      "manufacturer": "ASUS",
+      "model": "RT-BE96U (ROG Rapture / Wi-Fi 7)",
+      "hardware_revision": "v1",
+      "regional_variant": "Global",
+      "internal_board_name": "asus_rt-be96u",
+      "soc": {
+        "vendor": "Broadcom",
+        "model": "BCM4916",
+        "family": "Brahma-B53",
+        "cores": 4,
+        "frequency_mhz": 2600
+      },
+      "architecture": "arm_cortex-a53",
+      "ram_mb": 2048,
+      "flash": {
+        "type": "SPI-NAND",
+        "capacity_mb": 256
+      },
+      "wireless": [
+        {
+          "radio_id": "radio0",
+          "chipset": "Broadcom BCM6726",
+          "frequency_ghz": 2.4,
+          "generation": "Wi-Fi 7",
+          "spatial_streams": "4x4",
+          "max_phy_rate_mbps": 1376,
+          "channel_width_mhz": 40
+        },
+        {
+          "radio_id": "radio1",
+          "chipset": "Broadcom BCM6726",
+          "frequency_ghz": 5.0,
+          "generation": "Wi-Fi 7",
+          "spatial_streams": "4x4",
+          "max_phy_rate_mbps": 5764,
+          "channel_width_mhz": 160
+        },
+        {
+          "radio_id": "radio2",
+          "chipset": "Broadcom BCM6726",
+          "frequency_ghz": 6.0,
+          "generation": "Wi-Fi 7",
+          "spatial_streams": "4x4",
+          "max_phy_rate_mbps": 11529,
+          "channel_width_mhz": 320
+        }
+      ],
+      "ethernet": {
+        "switch_chip": "Broadcom BCM4916 Integrated + BCM84880 10G PHY",
+        "ports": [
+          {
+            "name": "10G WAN/LAN",
+            "type": "WAN/LAN",
+            "speed_mbps": 10000,
+            "dsa_port": "eth0"
+          },
+          {
+            "name": "10G Gaming LAN",
+            "type": "LAN",
+            "speed_mbps": 10000,
+            "dsa_port": "eth1"
+          },
+          {
+            "name": "2.5G WAN/LAN",
+            "type": "WAN/LAN",
+            "speed_mbps": 2500,
+            "dsa_port": "eth2"
+          },
+          {
+            "name": "2.5G LAN1",
+            "type": "LAN",
+            "speed_mbps": 2500,
+            "dsa_port": "lan1"
+          },
+          {
+            "name": "2.5G LAN2",
+            "type": "LAN",
+            "speed_mbps": 2500,
+            "dsa_port": "lan2"
+          },
+          {
+            "name": "2.5G LAN3",
+            "type": "LAN",
+            "speed_mbps": 2500,
+            "dsa_port": "lan3"
+          },
+          {
+            "name": "2.5G LAN4",
+            "type": "LAN",
+            "speed_mbps": 2500,
+            "dsa_port": "lan4"
+          }
+        ]
+      },
+      "usb_ports": [
+        {
+          "type": "USB 3.2 Gen 1 Type-A",
+          "count": 1
+        },
+        {
+          "type": "USB 2.0 Type-A",
+          "count": 1
+        }
+      ],
+      "bootloader": "CFE / CFE-ARM",
+      "serial_uart": {
+        "available": true,
+        "voltage": "3.3V",
+        "baudrate": 115200,
+        "pinout_documented": true,
+        "notes": "3.3V UART serial header present on PCB: Pin 1 VCC (NEVER CONNECT), Pin 2 TX, Pin 3 RX, Pin 4 GND."
+      },
+      "openwrt": {
+        "target": "bcm4908",
+        "subtarget": "generic",
+        "profile": "asus_rt-be96u",
+        "support_status": "UNSUPPORTED",
+        "first_supported_version": null,
+        "latest_tested_version": null,
+        "firmware_selector_url": null,
+        "device_tree_file": null,
+        "known_limitations": [
+          "Broadcom BCM6726 Wi-Fi 7 chipsets have zero open-source Linux kernel drivers",
+          "Broadcom proprietary FullMAC architecture prevents open-source driver development",
+          "Users must rely on Asuswrt-Merlin third-party firmware for custom features"
+        ]
+      },
+      "installation": {
+        "method": "Unsupported",
+        "risk": "CRITICAL",
+        "requires_factory_stage": false,
+        "guide_link": null
+      },
+      "recovery": {
+        "method": "U-Boot Recovery Webpage",
+        "recovery_ip": "192.168.1.1",
+        "guide_link": "https://www.asus.com/support/FAQ/1000814/"
+      },
+      "verification": {
+        "status": "UNSUPPORTED",
+        "evidence": [
+          "OpenWrt hardware documentation confirming Broadcom Wi-Fi 7 is closed and unsupported",
+          "Broadcom Linux kernel driver mailing list confirmation",
+          "Asuswrt-Merlin repository documentation on BCM4916 architecture"
+        ],
+        "last_verified": "2026-11-15"
+      },
+      "popularity": {
+        "tier": "HIGH_INTEREST",
+        "signals": [
+          "Premier enthusiast Wi-Fi 7 flagship router",
+          "Common search query among networking enthusiasts asking if OpenWrt can run on Broadcom Wi-Fi 7"
+        ]
+      },
+      "sources": [
+        {
+          "title": "ASUS RT-BE96U Technical Specifications",
+          "url": "https://www.asus.com/networking-iot-servers/wifi-routers/asus-gaming-routers/rt-be96u/techspec/",
+          "type": "OEM_SPEC",
+          "date_accessed": "2026-11-15"
+        },
+        {
+          "title": "OpenWrt Wiki: Broadcom Wi-Fi Architectural Limitations",
+          "url": "https://openwrt.org/docs/techref/instruction/broadcom",
+          "type": "OFFICIAL_OPENWRT",
           "date_accessed": "2026-11-15"
         }
       ]
@@ -1421,6 +1747,572 @@
           "url": "https://openwrt.org/toh/sinovoip/banana_pi_bpi-r4",
           "type": "OPENWRT_TOH",
           "date_accessed": "2026-11-14"
+        }
+      ]
+    },
+    {
+      "$schema": "../../schemas/device.schema.json",
+      "id": "buffalo-wsr-2533dhpl2",
+      "manufacturer": "Buffalo",
+      "model": "WSR-2533DHPL2",
+      "hardware_revision": "v1",
+      "regional_variant": "JP",
+      "internal_board_name": "buffalo_wsr-2533dhpl2",
+      "soc": {
+        "vendor": "MediaTek",
+        "model": "MT7621AT",
+        "family": "MT7621",
+        "cores": 2,
+        "frequency_mhz": 880
+      },
+      "architecture": "mipsel_24kc",
+      "ram_mb": 128,
+      "flash": {
+        "type": "SPI-NOR",
+        "capacity_mb": 64
+      },
+      "wireless": [
+        {
+          "radio_id": "radio0",
+          "chipset": "MediaTek MT7615E",
+          "frequency_ghz": 2.4,
+          "generation": "Wi-Fi 4",
+          "spatial_streams": "4x4",
+          "max_phy_rate_mbps": 800,
+          "channel_width_mhz": 40
+        },
+        {
+          "radio_id": "radio1",
+          "chipset": "MediaTek MT7615E",
+          "frequency_ghz": 5.0,
+          "generation": "Wi-Fi 5",
+          "spatial_streams": "4x4",
+          "max_phy_rate_mbps": 1733,
+          "channel_width_mhz": 80
+        }
+      ],
+      "ethernet": {
+        "switch_chip": "MediaTek MT7530 Integrated",
+        "ports": [
+          {
+            "name": "INTERNET",
+            "type": "WAN",
+            "speed_mbps": 1000,
+            "dsa_port": "wan"
+          },
+          {
+            "name": "LAN1",
+            "type": "LAN",
+            "speed_mbps": 1000,
+            "dsa_port": "lan1"
+          },
+          {
+            "name": "LAN2",
+            "type": "LAN",
+            "speed_mbps": 1000,
+            "dsa_port": "lan2"
+          },
+          {
+            "name": "LAN3",
+            "type": "LAN",
+            "speed_mbps": 1000,
+            "dsa_port": "lan3"
+          },
+          {
+            "name": "LAN4",
+            "type": "LAN",
+            "speed_mbps": 1000,
+            "dsa_port": "lan4"
+          }
+        ]
+      },
+      "bootloader": "U-Boot",
+      "serial_uart": {
+        "available": true,
+        "voltage": "3.3V",
+        "baudrate": 115200,
+        "pinout_documented": true,
+        "notes": "3.3V UART pads: VCC (DO NOT CONNECT), TX, RX, GND."
+      },
+      "openwrt": {
+        "target": "ramips",
+        "subtarget": "mt7621",
+        "profile": "buffalo_wsr-2533dhpl2",
+        "support_status": "OFFICIALLY_SUPPORTED",
+        "first_supported_version": "21.02.0",
+        "latest_tested_version": "23.05.5",
+        "firmware_selector_url": "https://firmware-selector.openwrt.org/?version=23.05.5&target=ramips%2Fmt7621&id=buffalo_wsr-2533dhpl2",
+        "device_tree_file": "mt7621-buffalo-wsr-2533dhpl2.dts",
+        "known_limitations": [
+          "128MB RAM requires careful package selection (avoid heavy Adblock lists alongside heavy torrents)",
+          "Hardware flow offloading (PPE) recommended for full gigabit NAT throughput"
+        ]
+      },
+      "installation": {
+        "method": "TFTP Boot / Recovery",
+        "risk": "MEDIUM",
+        "requires_factory_stage": true,
+        "guide_link": "https://openwrt.org/toh/buffalo/wsr-2533dhpl2"
+      },
+      "recovery": {
+        "method": "TFTP Push (Automated)",
+        "recovery_ip": "192.168.11.1",
+        "guide_link": "https://openwrt.org/toh/buffalo/wsr-2533dhpl2#recovery"
+      },
+      "verification": {
+        "status": "OFFICIALLY_SUPPORTED",
+        "evidence": [
+          "Upstream OpenWrt target ramips/mt7621 in Git",
+          "Linux kernel tree mt7621-buffalo-wsr-2533dhpl2.dts",
+          "OpenWrt ToH verified profile"
+        ],
+        "last_verified": "2026-11-15"
+      },
+      "popularity": {
+        "tier": "HIGH_INTEREST",
+        "signals": [
+          "Extremely popular low-cost Wi-Fi 5 router in Japan",
+          "Substantial open-source enthusiast community coverage"
+        ]
+      },
+      "sources": [
+        {
+          "title": "OpenWrt Table of Hardware: Buffalo WSR-2533DHPL2",
+          "url": "https://openwrt.org/toh/buffalo/wsr-2533dhpl2",
+          "type": "OPENWRT_TOH",
+          "date_accessed": "2026-11-15"
+        },
+        {
+          "title": "OpenWrt Git: ramips image Makefile",
+          "url": "https://git.openwrt.org/?p=openwrt/openwrt.git;a=blob;f=target/linux/ramips/image/mt7621.mk",
+          "type": "OPENWRT_GIT",
+          "date_accessed": "2026-11-15"
+        }
+      ]
+    },
+    {
+      "$schema": "../../schemas/device.schema.json",
+      "id": "buffalo-wsr-3200ax4s",
+      "manufacturer": "Buffalo",
+      "model": "WSR-3200AX4S",
+      "hardware_revision": "v1",
+      "regional_variant": "JP",
+      "internal_board_name": "buffalo_wsr-3200ax4s",
+      "soc": {
+        "vendor": "MediaTek",
+        "model": "MT7622BV",
+        "family": "MediaTek Filogic (Gen 1)",
+        "cores": 2,
+        "frequency_mhz": 1350
+      },
+      "architecture": "arm_cortex-a53",
+      "ram_mb": 512,
+      "flash": {
+        "type": "SPI-NAND",
+        "capacity_mb": 128
+      },
+      "wireless": [
+        {
+          "radio_id": "radio0",
+          "chipset": "MediaTek MT7975N",
+          "frequency_ghz": 2.4,
+          "generation": "Wi-Fi 6",
+          "spatial_streams": "4x4",
+          "max_phy_rate_mbps": 800,
+          "channel_width_mhz": 40
+        },
+        {
+          "radio_id": "radio1",
+          "chipset": "MediaTek MT7975A",
+          "frequency_ghz": 5.0,
+          "generation": "Wi-Fi 6",
+          "spatial_streams": "4x4",
+          "max_phy_rate_mbps": 2402,
+          "channel_width_mhz": 80
+        }
+      ],
+      "ethernet": {
+        "switch_chip": "MediaTek MT7531AE",
+        "ports": [
+          {
+            "name": "INTERNET",
+            "type": "WAN",
+            "speed_mbps": 1000,
+            "dsa_port": "wan"
+          },
+          {
+            "name": "LAN1",
+            "type": "LAN",
+            "speed_mbps": 1000,
+            "dsa_port": "lan1"
+          },
+          {
+            "name": "LAN2",
+            "type": "LAN",
+            "speed_mbps": 1000,
+            "dsa_port": "lan2"
+          },
+          {
+            "name": "LAN3",
+            "type": "LAN",
+            "speed_mbps": 1000,
+            "dsa_port": "lan3"
+          },
+          {
+            "name": "LAN4",
+            "type": "LAN",
+            "speed_mbps": 1000,
+            "dsa_port": "lan4"
+          }
+        ]
+      },
+      "bootloader": "U-Boot",
+      "serial_uart": {
+        "available": true,
+        "voltage": "3.3V",
+        "baudrate": 115200,
+        "pinout_documented": true,
+        "notes": "4-pin 3.3V UART pads on mainboard: Pin 1 VCC (DO NOT CONNECT), Pin 2 TX, Pin 3 RX, Pin 4 GND."
+      },
+      "openwrt": {
+        "target": "mediatek",
+        "subtarget": "mt7622",
+        "profile": "buffalo_wsr-3200ax4s",
+        "support_status": "OFFICIALLY_SUPPORTED",
+        "first_supported_version": "22.03.0",
+        "latest_tested_version": "23.05.5",
+        "firmware_selector_url": "https://firmware-selector.openwrt.org/?version=23.05.5&target=mediatek%2Fmt7622&id=buffalo_wsr-3200ax4s",
+        "device_tree_file": "mt7622-buffalo-wsr-3200ax4s.dts",
+        "known_limitations": [
+          "Japanese domestic firmware requires TFTP recovery method for initial flashing",
+          "MAP-E and DS-Lite (transix / OCN) for Japanese IPv6 IPoE requires ocsp and luci-proto-ipv6 configuration"
+        ]
+      },
+      "installation": {
+        "method": "TFTP Boot / Recovery",
+        "risk": "MEDIUM",
+        "requires_factory_stage": true,
+        "guide_link": "https://openwrt.org/toh/buffalo/wsr-3200ax4s"
+      },
+      "recovery": {
+        "method": "TFTP Push (Automated)",
+        "recovery_ip": "192.168.11.1",
+        "guide_link": "https://openwrt.org/toh/buffalo/wsr-3200ax4s#recovery"
+      },
+      "verification": {
+        "status": "OFFICIALLY_SUPPORTED",
+        "evidence": [
+          "Upstream OpenWrt target mediatek/mt7622 in Git",
+          "Linux kernel tree mt7622-buffalo-wsr-3200ax4s.dts",
+          "OpenWrt ToH verified profile"
+        ],
+        "last_verified": "2026-11-15"
+      },
+      "popularity": {
+        "tier": "HIGH_INTEREST",
+        "signals": [
+          "Top-ranked OpenWrt Wi-Fi 6 device on Japanese technical blogs (Qiita/Zenn)",
+          "Over 500,000 units sold in Japan domestic market"
+        ]
+      },
+      "sources": [
+        {
+          "title": "OpenWrt Table of Hardware: Buffalo WSR-3200AX4S",
+          "url": "https://openwrt.org/toh/buffalo/wsr-3200ax4s",
+          "type": "OPENWRT_TOH",
+          "date_accessed": "2026-11-15"
+        },
+        {
+          "title": "OpenWrt Git: mediatek mt7622 device tree",
+          "url": "https://git.openwrt.org/?p=openwrt/openwrt.git;a=blob;f=target/linux/mediatek/files-5.15/arch/arm64/boot/dts/mediatek/mt7622-buffalo-wsr-3200ax4s.dts",
+          "type": "OPENWRT_GIT",
+          "date_accessed": "2026-11-15"
+        }
+      ]
+    },
+    {
+      "$schema": "../../schemas/device.schema.json",
+      "id": "turris-omnia",
+      "manufacturer": "CZ.NIC / Turris",
+      "model": "Omnia (2020 Edition)",
+      "hardware_revision": "rev 2020",
+      "regional_variant": "Global",
+      "internal_board_name": "cznic_turris-omnia",
+      "soc": {
+        "vendor": "Marvell",
+        "model": "88F6820",
+        "family": "Armada 385",
+        "cores": 2,
+        "frequency_mhz": 1600
+      },
+      "architecture": "arm_cortex-a9",
+      "ram_mb": 2048,
+      "flash": {
+        "type": "eMMC",
+        "capacity_mb": 8192
+      },
+      "wireless": [
+        {
+          "radio_id": "radio0",
+          "chipset": "Qualcomm Atheros QCA9880",
+          "frequency_ghz": 5.0,
+          "generation": "Wi-Fi 5",
+          "spatial_streams": "3x3",
+          "max_phy_rate_mbps": 1300,
+          "channel_width_mhz": 80
+        },
+        {
+          "radio_id": "radio1",
+          "chipset": "Qualcomm Atheros AR9287",
+          "frequency_ghz": 2.4,
+          "generation": "Wi-Fi 4",
+          "spatial_streams": "2x2",
+          "max_phy_rate_mbps": 300,
+          "channel_width_mhz": 40
+        }
+      ],
+      "ethernet": {
+        "switch_chip": "Marvell 88E6161 + 88E1512 PHY",
+        "ports": [
+          {
+            "name": "SFP Cage",
+            "type": "SFP+",
+            "speed_mbps": 1000,
+            "dsa_port": "sfp"
+          },
+          {
+            "name": "WAN",
+            "type": "WAN",
+            "speed_mbps": 1000,
+            "dsa_port": "wan"
+          },
+          {
+            "name": "LAN1",
+            "type": "LAN",
+            "speed_mbps": 1000,
+            "dsa_port": "lan1"
+          },
+          {
+            "name": "LAN2",
+            "type": "LAN",
+            "speed_mbps": 1000,
+            "dsa_port": "lan2"
+          },
+          {
+            "name": "LAN3",
+            "type": "LAN",
+            "speed_mbps": 1000,
+            "dsa_port": "lan3"
+          },
+          {
+            "name": "LAN4",
+            "type": "LAN",
+            "speed_mbps": 1000,
+            "dsa_port": "lan4"
+          },
+          {
+            "name": "LAN5",
+            "type": "LAN",
+            "speed_mbps": 1000,
+            "dsa_port": "lan5"
+          }
+        ]
+      },
+      "usb_ports": [
+        {
+          "type": "USB 3.0 Type-A",
+          "count": 2
+        }
+      ],
+      "bootloader": "U-Boot",
+      "serial_uart": {
+        "available": true,
+        "voltage": "3.3V",
+        "baudrate": 115200,
+        "pinout_documented": true,
+        "notes": "Dedicated 3.3V UART header on board: Pin 1 TX, Pin 2 RX, Pin 3 GND. Never connect VCC."
+      },
+      "openwrt": {
+        "target": "mvebu",
+        "subtarget": "cortexa9",
+        "profile": "cznic_turris-omnia",
+        "support_status": "OFFICIALLY_SUPPORTED",
+        "first_supported_version": "17.01.0",
+        "latest_tested_version": "23.05.5",
+        "firmware_selector_url": "https://firmware-selector.openwrt.org/?version=23.05.5&target=mvebu%2Fcortexa9&id=cznic_turris-omnia",
+        "device_tree_file": "armada-385-turris-omnia.dts",
+        "known_limitations": [
+          "Btrfs snapshot rollback built into hardware reset button modes",
+          "Dedicated cryptographic chip (Atmel ATSHA204A) for device identity"
+        ]
+      },
+      "installation": {
+        "method": "OEM Web GUI Flash",
+        "risk": "LOW",
+        "requires_factory_stage": false,
+        "guide_link": "https://docs.turris.cz/hw/omnia/omnia/"
+      },
+      "recovery": {
+        "method": "U-Boot Recovery Webpage",
+        "recovery_ip": "192.168.1.1",
+        "guide_link": "https://docs.turris.cz/hw/omnia/rescue-modes/"
+      },
+      "verification": {
+        "status": "OFFICIALLY_SUPPORTED",
+        "evidence": [
+          "Upstream OpenWrt target mvebu/cortexa9 in Git",
+          "Linux kernel DTS armada-385-turris-omnia.dts",
+          "Official CZ.NIC open-source documentation and schematics"
+        ],
+        "last_verified": "2026-11-15"
+      },
+      "popularity": {
+        "tier": "VERY_HIGH_INTEREST",
+        "signals": [
+          "Flagship European open-hardware router created by CZ.NIC registry",
+          "Crowdfunded with over $1.2M USD by the open-source community",
+          "Native OpenWrt/TurrisOS distribution with automated security patching"
+        ]
+      },
+      "sources": [
+        {
+          "title": "Turris Omnia Official Documentation",
+          "url": "https://docs.turris.cz/hw/omnia/omnia/",
+          "type": "OEM_SPEC",
+          "date_accessed": "2026-11-15"
+        },
+        {
+          "title": "OpenWrt Table of Hardware: Turris Omnia",
+          "url": "https://openwrt.org/toh/cz.nic/turris_omnia",
+          "type": "OPENWRT_TOH",
+          "date_accessed": "2026-11-15"
+        }
+      ]
+    },
+    {
+      "$schema": "../../schemas/device.schema.json",
+      "id": "comfast-cf-e390ax",
+      "manufacturer": "Comfast",
+      "model": "CF-E390AX",
+      "hardware_revision": "v1",
+      "regional_variant": "Global",
+      "internal_board_name": "comfast_cf-e390ax",
+      "soc": {
+        "vendor": "MediaTek",
+        "model": "MT7621AT",
+        "family": "MT7621",
+        "cores": 2,
+        "frequency_mhz": 880
+      },
+      "architecture": "mipsel_24kc",
+      "ram_mb": 256,
+      "flash": {
+        "type": "SPI-NOR",
+        "capacity_mb": 16
+      },
+      "wireless": [
+        {
+          "radio_id": "radio0",
+          "chipset": "MediaTek MT7975DN",
+          "frequency_ghz": 2.4,
+          "generation": "Wi-Fi 6",
+          "spatial_streams": "2x2",
+          "max_phy_rate_mbps": 574,
+          "channel_width_mhz": 40
+        },
+        {
+          "radio_id": "radio1",
+          "chipset": "MediaTek MT7915D",
+          "frequency_ghz": 5.0,
+          "generation": "Wi-Fi 6",
+          "spatial_streams": "2x2",
+          "max_phy_rate_mbps": 1201,
+          "channel_width_mhz": 80
+        }
+      ],
+      "ethernet": {
+        "switch_chip": "MediaTek MT7530 Integrated",
+        "ports": [
+          {
+            "name": "WAN/PoE",
+            "type": "WAN",
+            "speed_mbps": 1000,
+            "dsa_port": "wan"
+          },
+          {
+            "name": "LAN",
+            "type": "LAN",
+            "speed_mbps": 1000,
+            "dsa_port": "lan1"
+          }
+        ]
+      },
+      "poe": {
+        "supported": true,
+        "standard": "802.3at (PoE+)",
+        "type": "PoE-In"
+      },
+      "bootloader": "Breed / U-Boot",
+      "serial_uart": {
+        "available": true,
+        "voltage": "3.3V",
+        "baudrate": 115200,
+        "pinout_documented": true,
+        "notes": "3.3V UART serial pads labeled TX/RX/GND. Never connect VCC."
+      },
+      "openwrt": {
+        "target": "ramips",
+        "subtarget": "mt7621",
+        "profile": "comfast_cf-e390ax",
+        "support_status": "COMMUNITY_VERIFIED",
+        "first_supported_version": "22.03.0 (Community Git)",
+        "latest_tested_version": "23.05.5",
+        "firmware_selector_url": null,
+        "device_tree_file": "mt7621-comfast-cf-e390ax.dts",
+        "known_limitations": [
+          "16MB NOR flash limits user package installation; squashfs image recommended",
+          "Stock bootloader can be replaced with Breed bootloader for one-click web failsafe recovery"
+        ]
+      },
+      "installation": {
+        "method": "OEM Web GUI Flash",
+        "risk": "MEDIUM",
+        "requires_factory_stage": true,
+        "guide_link": "https://forum.openwrt.org/t/comfast-cf-e390ax-support/134988"
+      },
+      "recovery": {
+        "method": "U-Boot Recovery Webpage",
+        "recovery_ip": "192.168.1.1",
+        "guide_link": "https://forum.openwrt.org/t/comfast-cf-e390ax-support/134988"
+      },
+      "verification": {
+        "status": "COMMUNITY_VERIFIED",
+        "evidence": [
+          "OpenWrt community forum thread with boot log and dmesg",
+          "GitHub pull request for Comfast MT7621+MT7915 Wi-Fi 6 series",
+          "Tested and verified by multiple community wireless engineers"
+        ],
+        "last_verified": "2026-11-15"
+      },
+      "popularity": {
+        "tier": "MODERATE_INTEREST",
+        "signals": [
+          "Popular high-power enterprise ceiling AP imported globally from Shenzhen",
+          "Substantial deployment in budget hotel and warehouse Wi-Fi networks"
+        ]
+      },
+      "sources": [
+        {
+          "title": "Comfast CF-E390AX Specifications",
+          "url": "http://www.comfast.cn/index.php?m=content&c=index&a=show&catid=13&id=202",
+          "type": "OEM_SPEC",
+          "date_accessed": "2026-11-15"
+        },
+        {
+          "title": "OpenWrt Forum: Comfast CF-E390AX Hardware Port",
+          "url": "https://forum.openwrt.org/t/comfast-cf-e390ax-support/134988",
+          "type": "OPENWRT_FORUM",
+          "date_accessed": "2026-11-15"
         }
       ]
     },
@@ -2272,6 +3164,259 @@
     },
     {
       "$schema": "../../schemas/device.schema.json",
+      "id": "gl-inet-gl-ar300m16",
+      "manufacturer": "GL.iNet",
+      "model": "GL-AR300M16 (Shadow)",
+      "hardware_revision": "v1 (16MB NOR)",
+      "regional_variant": "Global",
+      "internal_board_name": "glinet_gl-ar300m16",
+      "soc": {
+        "vendor": "Qualcomm",
+        "model": "QCA9531",
+        "family": "Honey Bee",
+        "cores": 1,
+        "frequency_mhz": 650
+      },
+      "architecture": "mips_24kc",
+      "ram_mb": 128,
+      "flash": {
+        "type": "SPI-NOR",
+        "capacity_mb": 16
+      },
+      "wireless": [
+        {
+          "radio_id": "radio0",
+          "chipset": "Qualcomm Atheros QCA9531",
+          "frequency_ghz": 2.4,
+          "generation": "Wi-Fi 4",
+          "spatial_streams": "2x2",
+          "max_phy_rate_mbps": 300,
+          "channel_width_mhz": 40
+        }
+      ],
+      "ethernet": {
+        "switch_chip": "Integrated 100M Switch",
+        "ports": [
+          {
+            "name": "WAN",
+            "type": "WAN",
+            "speed_mbps": 100,
+            "dsa_port": "wan"
+          },
+          {
+            "name": "LAN",
+            "type": "LAN",
+            "speed_mbps": 100,
+            "dsa_port": "lan"
+          }
+        ]
+      },
+      "usb_ports": [
+        {
+          "type": "USB 2.0 Type-A",
+          "count": 1
+        }
+      ],
+      "bootloader": "U-Boot",
+      "serial_uart": {
+        "available": true,
+        "voltage": "3.3V",
+        "baudrate": 115200,
+        "pinout_documented": true,
+        "notes": "3.3V UART pads on PCB. Do not connect VCC."
+      },
+      "openwrt": {
+        "target": "ath79",
+        "subtarget": "generic",
+        "profile": "glinet_gl-ar300m-nor",
+        "support_status": "OFFICIALLY_SUPPORTED",
+        "first_supported_version": "18.06.0",
+        "latest_tested_version": "23.05.5",
+        "firmware_selector_url": "https://firmware-selector.openwrt.org/?version=23.05.5&target=ath79%2Fgeneric&id=glinet_gl-ar300m-nor",
+        "device_tree_file": "qca9531-glinet-gl-ar300m-nor.dts",
+        "known_limitations": [
+          "16MB NOR flash has limited free space for additional packages in LuCI",
+          "100Mbps Ethernet limits LAN/WAN throughput to Fast Ethernet speeds"
+        ]
+      },
+      "installation": {
+        "method": "OEM Web GUI Flash",
+        "risk": "LOW",
+        "requires_factory_stage": false,
+        "guide_link": "https://openwrt.org/toh/gl.inet/gl-ar300m"
+      },
+      "recovery": {
+        "method": "U-Boot Recovery Webpage",
+        "recovery_ip": "192.168.1.1",
+        "guide_link": "https://docs.gl-inet.com/router/en/3/tutorials/debrick/"
+      },
+      "verification": {
+        "status": "OFFICIALLY_SUPPORTED",
+        "evidence": [
+          "Upstream OpenWrt target ath79/generic in Git",
+          "Linux kernel DTS qca9531-glinet-gl-ar300m-nor.dts",
+          "OpenWrt ToH verified profile"
+        ],
+        "last_verified": "2026-11-15"
+      },
+      "popularity": {
+        "tier": "HIGH_INTEREST",
+        "signals": [
+          "Ubiquitous pocket mini-router used in IoT, vehicle tracking, and portable VPN gateways",
+          "Over 200,000 units deployed worldwide"
+        ]
+      },
+      "sources": [
+        {
+          "title": "OpenWrt Table of Hardware: GL.iNet GL-AR300M",
+          "url": "https://openwrt.org/toh/gl.inet/gl-ar300m",
+          "type": "OPENWRT_TOH",
+          "date_accessed": "2026-11-15"
+        },
+        {
+          "title": "OpenWrt Git: ath79 generic device profile",
+          "url": "https://git.openwrt.org/?p=openwrt/openwrt.git;a=blob;f=target/linux/ath79/image/generic.mk",
+          "type": "OPENWRT_GIT",
+          "date_accessed": "2026-11-15"
+        }
+      ]
+    },
+    {
+      "$schema": "../../schemas/device.schema.json",
+      "id": "gl-inet-gl-ar750s",
+      "manufacturer": "GL.iNet",
+      "model": "GL-AR750S (Slate)",
+      "hardware_revision": "v1 (Ext)",
+      "regional_variant": "Global",
+      "internal_board_name": "glinet_gl-ar750s",
+      "soc": {
+        "vendor": "Qualcomm",
+        "model": "QCA9563",
+        "family": "Dragonfly",
+        "cores": 1,
+        "frequency_mhz": 775
+      },
+      "architecture": "mips_74kc",
+      "ram_mb": 128,
+      "flash": {
+        "type": "SPI-NOR",
+        "capacity_mb": 16
+      },
+      "wireless": [
+        {
+          "radio_id": "radio0",
+          "chipset": "Qualcomm Atheros QCA9563",
+          "frequency_ghz": 2.4,
+          "generation": "Wi-Fi 4",
+          "spatial_streams": "3x3",
+          "max_phy_rate_mbps": 450,
+          "channel_width_mhz": 40
+        },
+        {
+          "radio_id": "radio1",
+          "chipset": "Qualcomm Atheros QCA9887",
+          "frequency_ghz": 5.0,
+          "generation": "Wi-Fi 5",
+          "spatial_streams": "1x1",
+          "max_phy_rate_mbps": 433,
+          "channel_width_mhz": 80
+        }
+      ],
+      "ethernet": {
+        "switch_chip": "Qualcomm QCA8337",
+        "ports": [
+          {
+            "name": "WAN",
+            "type": "WAN",
+            "speed_mbps": 1000,
+            "dsa_port": "wan"
+          },
+          {
+            "name": "LAN1",
+            "type": "LAN",
+            "speed_mbps": 1000,
+            "dsa_port": "lan1"
+          },
+          {
+            "name": "LAN2",
+            "type": "LAN",
+            "speed_mbps": 1000,
+            "dsa_port": "lan2"
+          }
+        ]
+      },
+      "usb_ports": [
+        {
+          "type": "USB 2.0 Type-A",
+          "count": 1
+        }
+      ],
+      "bootloader": "U-Boot",
+      "serial_uart": {
+        "available": true,
+        "voltage": "3.3V",
+        "baudrate": 115200,
+        "pinout_documented": true,
+        "notes": "Internal 3.3V UART pads: VCC (DO NOT CONNECT), TX, RX, GND."
+      },
+      "openwrt": {
+        "target": "ath79",
+        "subtarget": "nand",
+        "profile": "glinet_gl-ar750s-nor-nand",
+        "support_status": "OFFICIALLY_SUPPORTED",
+        "first_supported_version": "19.07.0",
+        "latest_tested_version": "23.05.5",
+        "firmware_selector_url": "https://firmware-selector.openwrt.org/?version=23.05.5&target=ath79%2Fnand&id=glinet_gl-ar750s-nor-nand",
+        "device_tree_file": "qca9563-glinet-gl-ar750s.dts",
+        "known_limitations": [
+          "Dual NOR (16MB) + NAND (128MB) flash architecture requires standard ath79 nand image",
+          "Single core 775MHz CPU limits WireGuard VPN throughput to ~45Mbps"
+        ]
+      },
+      "installation": {
+        "method": "OEM Web GUI Flash",
+        "risk": "LOW",
+        "requires_factory_stage": false,
+        "guide_link": "https://openwrt.org/toh/gl.inet/gl-ar750s"
+      },
+      "recovery": {
+        "method": "U-Boot Recovery Webpage",
+        "recovery_ip": "192.168.1.1",
+        "guide_link": "https://docs.gl-inet.com/router/en/3/tutorials/debrick/"
+      },
+      "verification": {
+        "status": "OFFICIALLY_SUPPORTED",
+        "evidence": [
+          "Upstream OpenWrt target ath79/nand in Git",
+          "Linux kernel DTS qca9563-glinet-gl-ar750s.dts",
+          "OpenWrt ToH verified profile"
+        ],
+        "last_verified": "2026-11-15"
+      },
+      "popularity": {
+        "tier": "VERY_HIGH_INTEREST",
+        "signals": [
+          "Legendary travel router with cult following among digital nomads and cybersecurity auditors",
+          "Thousands of active community reviews"
+        ]
+      },
+      "sources": [
+        {
+          "title": "OpenWrt Table of Hardware: GL.iNet GL-AR750S",
+          "url": "https://openwrt.org/toh/gl.inet/gl-ar750s",
+          "type": "OPENWRT_TOH",
+          "date_accessed": "2026-11-15"
+        },
+        {
+          "title": "OpenWrt Git: ath79 nand profile definition",
+          "url": "https://git.openwrt.org/?p=openwrt/openwrt.git;a=blob;f=target/linux/ath79/image/nand.mk",
+          "type": "OPENWRT_GIT",
+          "date_accessed": "2026-11-15"
+        }
+      ]
+    },
+    {
+      "$schema": "../../schemas/device.schema.json",
       "id": "gl-inet-gl-ax1800",
       "manufacturer": "GL.iNet",
       "model": "GL-AX1800 (Flint)",
@@ -2995,6 +4140,277 @@
       ]
     },
     {
+      "$schema": "../../schemas/device.schema.json",
+      "id": "gl-inet-gl-sft1200",
+      "manufacturer": "GL.iNet",
+      "model": "GL-SFT1200 (Opal)",
+      "hardware_revision": "v1",
+      "regional_variant": "Global",
+      "internal_board_name": "glinet_gl-sft1200",
+      "soc": {
+        "vendor": "Siflower",
+        "model": "SF19A2890",
+        "family": "Siflower Full-Gigabit",
+        "cores": 2,
+        "frequency_mhz": 1000
+      },
+      "architecture": "mips_1004kc",
+      "ram_mb": 128,
+      "flash": {
+        "type": "SPI-NAND",
+        "capacity_mb": 128
+      },
+      "wireless": [
+        {
+          "radio_id": "radio0",
+          "chipset": "Integrated Siflower 2.4G",
+          "frequency_ghz": 2.4,
+          "generation": "Wi-Fi 4",
+          "spatial_streams": "2x2",
+          "max_phy_rate_mbps": 300,
+          "channel_width_mhz": 40
+        },
+        {
+          "radio_id": "radio1",
+          "chipset": "Integrated Siflower 5G",
+          "frequency_ghz": 5.0,
+          "generation": "Wi-Fi 5",
+          "spatial_streams": "2x2",
+          "max_phy_rate_mbps": 867,
+          "channel_width_mhz": 80
+        }
+      ],
+      "ethernet": {
+        "switch_chip": "Integrated Siflower Switch",
+        "ports": [
+          {
+            "name": "WAN",
+            "type": "WAN",
+            "speed_mbps": 1000,
+            "dsa_port": "wan"
+          },
+          {
+            "name": "LAN1",
+            "type": "LAN",
+            "speed_mbps": 1000,
+            "dsa_port": "lan1"
+          },
+          {
+            "name": "LAN2",
+            "type": "LAN",
+            "speed_mbps": 1000,
+            "dsa_port": "lan2"
+          }
+        ]
+      },
+      "usb_ports": [
+        {
+          "type": "USB 2.0 Type-A",
+          "count": 1
+        }
+      ],
+      "bootloader": "U-Boot",
+      "serial_uart": {
+        "available": true,
+        "voltage": "3.3V",
+        "baudrate": 115200,
+        "pinout_documented": true,
+        "notes": "UART pads on board: 3.3V, TX, RX, GND. Do NOT connect VCC."
+      },
+      "openwrt": {
+        "target": "siflower",
+        "subtarget": "sf19a2890",
+        "profile": "glinet_gl-sft1200",
+        "support_status": "COMMUNITY_VERIFIED",
+        "first_supported_version": "OpenWrt 18.06 (GL.iNet Fork)",
+        "latest_tested_version": "GL.iNet OS 4.3.17",
+        "firmware_selector_url": "https://dl.gl-inet.com/router/sft1200/",
+        "device_tree_file": "sf19a2890-gl-sft1200.dts",
+        "known_limitations": [
+          "Not merged into upstream mainline OpenWrt due to Siflower proprietary Wi-Fi kernel driver",
+          "Official GL.iNet firmware is based on customized OpenWrt 18.06 / 21.02 trees with proprietary wireless modules",
+          "Third-party upstream Linux open-source Wi-Fi driver development remains experimental"
+        ]
+      },
+      "installation": {
+        "method": "OEM Web GUI Flash",
+        "risk": "LOW",
+        "requires_factory_stage": false,
+        "guide_link": "https://docs.gl-inet.com/router/en/3/setup/gl-sft1200/first-time_setup/"
+      },
+      "recovery": {
+        "method": "U-Boot Recovery Webpage",
+        "recovery_ip": "192.168.1.1",
+        "guide_link": "https://docs.gl-inet.com/router/en/3/tutorials/debrick/"
+      },
+      "verification": {
+        "status": "COMMUNITY_VERIFIED",
+        "evidence": [
+          "GL.iNet official firmware repository based on OpenWrt",
+          "Community Siflower SDK reverse engineering repositories on GitHub",
+          "OpenWrt forum thread on Siflower SF19A2890 architecture"
+        ],
+        "last_verified": "2026-11-15"
+      },
+      "popularity": {
+        "tier": "VERY_HIGH_INTEREST",
+        "signals": [
+          "Amazon #1 bestseller portable travel router",
+          "Massive search interest from travelers seeking low-cost VPN router",
+          "Frequent OpenWrt forum queries regarding mainline support"
+        ]
+      },
+      "sources": [
+        {
+          "title": "GL.iNet Opal (GL-SFT1200) Technical Specifications",
+          "url": "https://www.gl-inet.com/products/gl-sft1200/",
+          "type": "OEM_SPEC",
+          "date_accessed": "2026-11-15"
+        },
+        {
+          "title": "OpenWrt Forum: GL-SFT1200 Siflower Mainline Support Discussion",
+          "url": "https://forum.openwrt.org/t/support-for-gl-sft1200-opal/110901",
+          "type": "OPENWRT_FORUM",
+          "date_accessed": "2026-11-15"
+        }
+      ]
+    },
+    {
+      "$schema": "../../schemas/device.schema.json",
+      "id": "huawei-b535-232",
+      "manufacturer": "Huawei",
+      "model": "4G Router 3 Pro (B535-232)",
+      "hardware_revision": "v1",
+      "regional_variant": "Global",
+      "internal_board_name": "huawei_b535",
+      "soc": {
+        "vendor": "HiSilicon",
+        "model": "Balong 711 (Hi6932)",
+        "family": "Balong",
+        "cores": 2,
+        "frequency_mhz": 800
+      },
+      "architecture": "arm_cortex-a7",
+      "ram_mb": 128,
+      "flash": {
+        "type": "SPI-NAND",
+        "capacity_mb": 128
+      },
+      "wireless": [
+        {
+          "radio_id": "radio0",
+          "chipset": "HiSilicon Hi1151",
+          "frequency_ghz": 2.4,
+          "generation": "Wi-Fi 4",
+          "spatial_streams": "2x2",
+          "max_phy_rate_mbps": 300,
+          "channel_width_mhz": 40
+        },
+        {
+          "radio_id": "radio1",
+          "chipset": "HiSilicon Hi1151",
+          "frequency_ghz": 5.0,
+          "generation": "Wi-Fi 5",
+          "spatial_streams": "2x2",
+          "max_phy_rate_mbps": 867,
+          "channel_width_mhz": 80
+        }
+      ],
+      "ethernet": {
+        "switch_chip": "Integrated HiSilicon Switch",
+        "ports": [
+          {
+            "name": "LAN4/WAN",
+            "type": "WAN/LAN",
+            "speed_mbps": 1000,
+            "dsa_port": "wan"
+          },
+          {
+            "name": "LAN1",
+            "type": "LAN",
+            "speed_mbps": 1000,
+            "dsa_port": "lan1"
+          },
+          {
+            "name": "LAN2",
+            "type": "LAN",
+            "speed_mbps": 1000,
+            "dsa_port": "lan2"
+          },
+          {
+            "name": "LAN3",
+            "type": "LAN",
+            "speed_mbps": 1000,
+            "dsa_port": "lan3"
+          }
+        ]
+      },
+      "bootloader": "Fastboot / Balong Boot (Cryptographically Locked)",
+      "serial_uart": {
+        "available": true,
+        "voltage": "3.3V",
+        "baudrate": 115200,
+        "pinout_documented": true,
+        "notes": "3.3V UART test pads present. Output is silenced after second-stage bootloader lock."
+      },
+      "openwrt": {
+        "target": "hisilicon",
+        "subtarget": "generic",
+        "profile": "huawei_b535-232",
+        "support_status": "UNSUPPORTED",
+        "first_supported_version": null,
+        "latest_tested_version": null,
+        "firmware_selector_url": null,
+        "device_tree_file": null,
+        "known_limitations": [
+          "HiSilicon Balong baseband and application processor lack open-source Linux kernel drivers",
+          "Bootloader enforces RSA-2048 cryptographic firmware signature verification",
+          "No functional open-source firmware port is technically feasible"
+        ]
+      },
+      "installation": {
+        "method": "Unsupported",
+        "risk": "CRITICAL",
+        "requires_factory_stage": false,
+        "guide_link": null
+      },
+      "recovery": {
+        "method": "None Known",
+        "recovery_ip": null,
+        "guide_link": null
+      },
+      "verification": {
+        "status": "UNSUPPORTED",
+        "evidence": [
+          "OpenWrt Table of Hardware: Huawei HiSilicon architectural barrier documentation",
+          "Linux kernel mainline tree lacking HiSilicon Balong 711 modem drivers",
+          "Hardware reverse engineering confirming permanent bootloader signature locks"
+        ],
+        "last_verified": "2026-11-15"
+      },
+      "popularity": {
+        "tier": "VERY_HIGH_INTEREST",
+        "signals": [
+          "Worldwide best-selling 4G Cat 7 home router across Amazon and carrier retail",
+          "Frequent user queries on OpenWrt forums seeking firmware flash instructions"
+        ]
+      },
+      "sources": [
+        {
+          "title": "Huawei B535-232 Product Specifications",
+          "url": "https://consumer.huawei.com/",
+          "type": "OEM_SPEC",
+          "date_accessed": "2026-11-15"
+        },
+        {
+          "title": "OpenWrt Forum: Huawei LTE Gateways Compatibility Discussion",
+          "url": "https://forum.openwrt.org/t/huawei-b535-support/49132",
+          "type": "OPENWRT_FORUM",
+          "date_accessed": "2026-11-15"
+        }
+      ]
+    },
+    {
       "id": "jio-jidu6101",
       "manufacturer": "Jio / Arcadyan",
       "model": "JIDU6101",
@@ -3419,6 +4835,288 @@
         {
           "title": "OpenWrt Source Tree: target/linux/mediatek/mt7622",
           "url": "https://git.openwrt.org/?p=openwrt/openwrt.git;a=tree;f=target/linux/mediatek/mt7622",
+          "type": "OPENWRT_GIT",
+          "date_accessed": "2026-11-15"
+        }
+      ]
+    },
+    {
+      "$schema": "../../schemas/device.schema.json",
+      "id": "linksys-velop-whw03",
+      "manufacturer": "Linksys",
+      "model": "Velop Tri-Band (WHW03)",
+      "hardware_revision": "v1 / v2",
+      "regional_variant": "Global",
+      "internal_board_name": "linksys_whw03",
+      "soc": {
+        "vendor": "Qualcomm",
+        "model": "IPQ4019",
+        "family": "Dakota",
+        "cores": 4,
+        "frequency_mhz": 717
+      },
+      "architecture": "arm_cortex-a7",
+      "ram_mb": 512,
+      "flash": {
+        "type": "eMMC",
+        "capacity_mb": 4096
+      },
+      "wireless": [
+        {
+          "radio_id": "radio0",
+          "chipset": "Qualcomm IPQ4019",
+          "frequency_ghz": 2.4,
+          "generation": "Wi-Fi 4",
+          "spatial_streams": "2x2",
+          "max_phy_rate_mbps": 400,
+          "channel_width_mhz": 40
+        },
+        {
+          "radio_id": "radio1",
+          "chipset": "Qualcomm IPQ4019",
+          "frequency_ghz": 5.0,
+          "generation": "Wi-Fi 5",
+          "spatial_streams": "2x2",
+          "max_phy_rate_mbps": 867,
+          "channel_width_mhz": 80
+        },
+        {
+          "radio_id": "radio2",
+          "chipset": "Qualcomm Atheros QCA9886",
+          "frequency_ghz": 5.0,
+          "generation": "Wi-Fi 5",
+          "spatial_streams": "2x2",
+          "max_phy_rate_mbps": 867,
+          "channel_width_mhz": 80
+        }
+      ],
+      "ethernet": {
+        "switch_chip": "Qualcomm QCA8075",
+        "ports": [
+          {
+            "name": "Port 1",
+            "type": "WAN/LAN",
+            "speed_mbps": 1000,
+            "dsa_port": "eth0"
+          },
+          {
+            "name": "Port 2",
+            "type": "LAN",
+            "speed_mbps": 1000,
+            "dsa_port": "eth1"
+          }
+        ]
+      },
+      "bootloader": "U-Boot",
+      "serial_uart": {
+        "available": true,
+        "voltage": "3.3V",
+        "baudrate": 115200,
+        "pinout_documented": true,
+        "notes": "UART pads on underside of board: Pin 1 3.3V (DO NOT CONNECT), Pin 2 TX, Pin 3 RX, Pin 4 GND."
+      },
+      "openwrt": {
+        "target": "ipq40xx",
+        "subtarget": "generic",
+        "profile": "linksys_whw03",
+        "support_status": "OFFICIALLY_SUPPORTED",
+        "first_supported_version": "21.02.0",
+        "latest_tested_version": "23.05.5",
+        "firmware_selector_url": "https://firmware-selector.openwrt.org/?version=23.05.5&target=ipq40xx%2Fgeneric&id=linksys_whw03",
+        "device_tree_file": "qcom-ipq4019-linksys-whw03.dts",
+        "known_limitations": [
+          "Initial installation requires connecting through Linksys auto-update exploit or serial console",
+          "4GB eMMC provides massive storage for Docker and packages"
+        ]
+      },
+      "installation": {
+        "method": "Automated Root SSH Exploit",
+        "risk": "MEDIUM",
+        "requires_factory_stage": true,
+        "guide_link": "https://openwrt.org/toh/linksys/whw03"
+      },
+      "recovery": {
+        "method": "TFTP Push (Automated)",
+        "recovery_ip": "192.168.1.1",
+        "guide_link": "https://openwrt.org/toh/linksys/whw03#recovery"
+      },
+      "verification": {
+        "status": "OFFICIALLY_SUPPORTED",
+        "evidence": [
+          "Upstream OpenWrt target ipq40xx/generic in Git",
+          "Linux kernel DTS qcom-ipq4019-linksys-whw03.dts",
+          "OpenWrt ToH verified profile"
+        ],
+        "last_verified": "2026-11-15"
+      },
+      "popularity": {
+        "tier": "HIGH_INTEREST",
+        "signals": [
+          "Extremely popular secondary-market mesh nodes purchased in multi-packs",
+          "Tri-band capability provides dedicated wireless mesh backhaul on OpenWrt (802.11s)"
+        ]
+      },
+      "sources": [
+        {
+          "title": "OpenWrt Table of Hardware: Linksys Velop WHW03",
+          "url": "https://openwrt.org/toh/linksys/whw03",
+          "type": "OPENWRT_TOH",
+          "date_accessed": "2026-11-15"
+        },
+        {
+          "title": "OpenWrt Git: ipq40xx image Makefile",
+          "url": "https://git.openwrt.org/?p=openwrt/openwrt.git;a=blob;f=target/linux/ipq40xx/image/generic.mk",
+          "type": "OPENWRT_GIT",
+          "date_accessed": "2026-11-15"
+        }
+      ]
+    },
+    {
+      "$schema": "../../schemas/device.schema.json",
+      "id": "linksys-wrt1900acs",
+      "manufacturer": "Linksys",
+      "model": "WRT1900ACS",
+      "hardware_revision": "v1 / v2",
+      "regional_variant": "Global",
+      "internal_board_name": "linksys_wrt1900acs",
+      "soc": {
+        "vendor": "Marvell",
+        "model": "88F6820",
+        "family": "Armada 385",
+        "cores": 2,
+        "frequency_mhz": 1600
+      },
+      "architecture": "arm_cortex-a9",
+      "ram_mb": 512,
+      "flash": {
+        "type": "SPI-NAND",
+        "capacity_mb": 128
+      },
+      "wireless": [
+        {
+          "radio_id": "radio0",
+          "chipset": "Marvell 88W8864",
+          "frequency_ghz": 2.4,
+          "generation": "Wi-Fi 4",
+          "spatial_streams": "3x3",
+          "max_phy_rate_mbps": 600,
+          "channel_width_mhz": 40
+        },
+        {
+          "radio_id": "radio1",
+          "chipset": "Marvell 88W8864",
+          "frequency_ghz": 5.0,
+          "generation": "Wi-Fi 5",
+          "spatial_streams": "4x4",
+          "max_phy_rate_mbps": 1300,
+          "channel_width_mhz": 80
+        }
+      ],
+      "ethernet": {
+        "switch_chip": "Marvell 88E6176",
+        "ports": [
+          {
+            "name": "WAN",
+            "type": "WAN",
+            "speed_mbps": 1000,
+            "dsa_port": "wan"
+          },
+          {
+            "name": "LAN1",
+            "type": "LAN",
+            "speed_mbps": 1000,
+            "dsa_port": "lan1"
+          },
+          {
+            "name": "LAN2",
+            "type": "LAN",
+            "speed_mbps": 1000,
+            "dsa_port": "lan2"
+          },
+          {
+            "name": "LAN3",
+            "type": "LAN",
+            "speed_mbps": 1000,
+            "dsa_port": "lan3"
+          },
+          {
+            "name": "LAN4",
+            "type": "LAN",
+            "speed_mbps": 1000,
+            "dsa_port": "lan4"
+          }
+        ]
+      },
+      "usb_ports": [
+        {
+          "type": "USB 3.0 Type-A",
+          "count": 1
+        },
+        {
+          "type": "USB 2.0 Type-A",
+          "count": 1
+        }
+      ],
+      "bootloader": "U-Boot",
+      "serial_uart": {
+        "available": true,
+        "voltage": "3.3V",
+        "baudrate": 115200,
+        "pinout_documented": true,
+        "notes": "J10 header: Pin 1 VCC 3.3V (NEVER CONNECT), Pin 2 TX, Pin 3 RX, Pin 4 GND."
+      },
+      "openwrt": {
+        "target": "mvebu",
+        "subtarget": "cortexa9",
+        "profile": "linksys_wrt1900acs",
+        "support_status": "OFFICIALLY_SUPPORTED",
+        "first_supported_version": "15.05.1",
+        "latest_tested_version": "23.05.5",
+        "firmware_selector_url": "https://firmware-selector.openwrt.org/?version=23.05.5&target=mvebu%2Fcortexa9&id=linksys_wrt1900acs",
+        "device_tree_file": "armada-385-linksys-shelby.dts",
+        "known_limitations": [
+          "Marvell mwlwifi closed firmware blob required",
+          "Dual-firmware partition scheme requires sysupgrade -F if upgrading across major partition layouts"
+        ]
+      },
+      "installation": {
+        "method": "OEM Web GUI Flash",
+        "risk": "LOW",
+        "requires_factory_stage": true,
+        "guide_link": "https://openwrt.org/toh/linksys/wrt1900acs"
+      },
+      "recovery": {
+        "method": "U-Boot Recovery Webpage",
+        "recovery_ip": "192.168.1.1",
+        "guide_link": "https://openwrt.org/toh/linksys/wrt_nodemanager_recovery"
+      },
+      "verification": {
+        "status": "OFFICIALLY_SUPPORTED",
+        "evidence": [
+          "Upstream OpenWrt target mvebu/cortexa9",
+          "Linux kernel tree armada-385-linksys-shelby.dts",
+          "OpenWrt ToH verified hardware profile"
+        ],
+        "last_verified": "2026-11-15"
+      },
+      "popularity": {
+        "tier": "VERY_HIGH_INTEREST",
+        "signals": [
+          "Over 10,000 forum posts on OpenWrt forums",
+          "Direct successor to WRT54G heritage open-router line",
+          "Active multi-year community firmware support"
+        ]
+      },
+      "sources": [
+        {
+          "title": "OpenWrt Table of Hardware: Linksys WRT1900ACS",
+          "url": "https://openwrt.org/toh/linksys/wrt1900acs",
+          "type": "OPENWRT_TOH",
+          "date_accessed": "2026-11-15"
+        },
+        {
+          "title": "OpenWrt Git: mvebu target image definition",
+          "url": "https://git.openwrt.org/?p=openwrt/openwrt.git;a=blob;f=target/linux/mvebu/image/cortexa9.mk",
           "type": "OPENWRT_GIT",
           "date_accessed": "2026-11-15"
         }
@@ -3886,6 +5584,280 @@
           "title": "MikroTik hEX RB750Gr3 Specifications",
           "url": "https://mikrotik.com/product/RB750Gr3",
           "type": "OEM_SPEC",
+          "date_accessed": "2026-11-15"
+        }
+      ]
+    },
+    {
+      "$schema": "../../schemas/device.schema.json",
+      "id": "mikrotik-cap-ac",
+      "manufacturer": "MikroTik",
+      "model": "cAP ac (RBcAPGi-5acD2nD)",
+      "hardware_revision": "r2",
+      "regional_variant": "Global",
+      "internal_board_name": "mikrotik_cap-ac",
+      "soc": {
+        "vendor": "Qualcomm",
+        "model": "IPQ4018",
+        "family": "Dakota",
+        "cores": 4,
+        "frequency_mhz": 716
+      },
+      "architecture": "arm_cortex-a7",
+      "ram_mb": 128,
+      "flash": {
+        "type": "SPI-NOR",
+        "capacity_mb": 16
+      },
+      "wireless": [
+        {
+          "radio_id": "radio0",
+          "chipset": "Qualcomm IPQ4018",
+          "frequency_ghz": 2.4,
+          "generation": "Wi-Fi 4",
+          "spatial_streams": "2x2",
+          "max_phy_rate_mbps": 300,
+          "channel_width_mhz": 40
+        },
+        {
+          "radio_id": "radio1",
+          "chipset": "Qualcomm IPQ4018",
+          "frequency_ghz": 5.0,
+          "generation": "Wi-Fi 5",
+          "spatial_streams": "2x2",
+          "max_phy_rate_mbps": 867,
+          "channel_width_mhz": 80
+        }
+      ],
+      "ethernet": {
+        "switch_chip": "Qualcomm QCA8075",
+        "ports": [
+          {
+            "name": "ETH1 (PoE-IN)",
+            "type": "WAN/LAN",
+            "speed_mbps": 1000,
+            "dsa_port": "eth0"
+          },
+          {
+            "name": "ETH2 (PoE-OUT)",
+            "type": "LAN",
+            "speed_mbps": 1000,
+            "dsa_port": "eth1"
+          }
+        ]
+      },
+      "poe": {
+        "supported": true,
+        "standard": "802.3af (PoE)",
+        "type": "PoE-In"
+      },
+      "bootloader": "RouterBOOT",
+      "serial_uart": {
+        "available": true,
+        "voltage": "3.3V",
+        "baudrate": 115200,
+        "pinout_documented": true,
+        "notes": "Internal UART pads. Never connect VCC."
+      },
+      "openwrt": {
+        "target": "ipq40xx",
+        "subtarget": "mikrotik",
+        "profile": "mikrotik_cap-ac",
+        "support_status": "OFFICIALLY_SUPPORTED",
+        "first_supported_version": "21.02.0",
+        "latest_tested_version": "23.05.5",
+        "firmware_selector_url": "https://firmware-selector.openwrt.org/?version=23.05.5&target=ipq40xx%2Fmikrotik&id=mikrotik_cap-ac",
+        "device_tree_file": "qcom-ipq4018-mikrotik-cap-ac.dts",
+        "known_limitations": [
+          "RouterBOOT requires initial kernel load via Netinstall / BOOTP TFTP server",
+          "RouterOS license key is preserved in protected NAND partition and should be backed up before sysupgrade"
+        ]
+      },
+      "installation": {
+        "method": "TFTP Boot / Recovery",
+        "risk": "MEDIUM",
+        "requires_factory_stage": true,
+        "guide_link": "https://openwrt.org/toh/mikrotik/cap_ac"
+      },
+      "recovery": {
+        "method": "TFTP Push (Automated)",
+        "recovery_ip": "192.168.88.1",
+        "guide_link": "https://openwrt.org/toh/mikrotik/cap_ac#recovery"
+      },
+      "verification": {
+        "status": "OFFICIALLY_SUPPORTED",
+        "evidence": [
+          "Upstream OpenWrt target ipq40xx/mikrotik in Git",
+          "Linux kernel DTS qcom-ipq4018-mikrotik-cap-ac.dts",
+          "OpenWrt ToH verified profile"
+        ],
+        "last_verified": "2026-11-15"
+      },
+      "popularity": {
+        "tier": "HIGH_INTEREST",
+        "signals": [
+          "Extremely widely used ceiling AP by WISP and enterprise network engineers",
+          "Supports passive PoE passthrough to secondary camera or AP"
+        ]
+      },
+      "sources": [
+        {
+          "title": "MikroTik cAP ac Official Specifications",
+          "url": "https://mikrotik.com/product/cap_ac",
+          "type": "OEM_SPEC",
+          "date_accessed": "2026-11-15"
+        },
+        {
+          "title": "OpenWrt Table of Hardware: MikroTik cAP ac",
+          "url": "https://openwrt.org/toh/mikrotik/cap_ac",
+          "type": "OPENWRT_TOH",
+          "date_accessed": "2026-11-15"
+        }
+      ]
+    },
+    {
+      "$schema": "../../schemas/device.schema.json",
+      "id": "netgear-r6700-v3",
+      "manufacturer": "Netgear",
+      "model": "Nighthawk R6700",
+      "hardware_revision": "v3",
+      "regional_variant": "Global",
+      "internal_board_name": "netgear_r6700_v3",
+      "soc": {
+        "vendor": "Broadcom",
+        "model": "BCM4708C0",
+        "family": "Northstar",
+        "cores": 2,
+        "frequency_mhz": 1000
+      },
+      "architecture": "arm_cortex-a9",
+      "ram_mb": 256,
+      "flash": {
+        "type": "SPI-NAND",
+        "capacity_mb": 128
+      },
+      "wireless": [
+        {
+          "radio_id": "radio0",
+          "chipset": "Broadcom BCM4360",
+          "frequency_ghz": 2.4,
+          "generation": "Wi-Fi 4",
+          "spatial_streams": "3x3",
+          "max_phy_rate_mbps": 450,
+          "channel_width_mhz": 40
+        },
+        {
+          "radio_id": "radio1",
+          "chipset": "Broadcom BCM4360",
+          "frequency_ghz": 5.0,
+          "generation": "Wi-Fi 5",
+          "spatial_streams": "3x3",
+          "max_phy_rate_mbps": 1300,
+          "channel_width_mhz": 80
+        }
+      ],
+      "ethernet": {
+        "switch_chip": "Broadcom BCM53012",
+        "ports": [
+          {
+            "name": "WAN",
+            "type": "WAN",
+            "speed_mbps": 1000,
+            "dsa_port": "wan"
+          },
+          {
+            "name": "LAN1",
+            "type": "LAN",
+            "speed_mbps": 1000,
+            "dsa_port": "lan1"
+          },
+          {
+            "name": "LAN2",
+            "type": "LAN",
+            "speed_mbps": 1000,
+            "dsa_port": "lan2"
+          },
+          {
+            "name": "LAN3",
+            "type": "LAN",
+            "speed_mbps": 1000,
+            "dsa_port": "lan3"
+          },
+          {
+            "name": "LAN4",
+            "type": "LAN",
+            "speed_mbps": 1000,
+            "dsa_port": "lan4"
+          }
+        ]
+      },
+      "usb_ports": [
+        {
+          "type": "USB 3.0 Type-A",
+          "count": 1
+        }
+      ],
+      "bootloader": "CFE",
+      "serial_uart": {
+        "available": true,
+        "voltage": "3.3V",
+        "baudrate": 115200,
+        "pinout_documented": true,
+        "notes": "JP1 header on PCB: Pin 1 VCC 3.3V (NEVER CONNECT), Pin 2 GND, Pin 3 RX, Pin 4 TX."
+      },
+      "openwrt": {
+        "target": "bcm53xx",
+        "subtarget": "generic",
+        "profile": "netgear_r6700-v3",
+        "support_status": "PARTIALLY_VERIFIED",
+        "first_supported_version": "21.02.0",
+        "latest_tested_version": "23.05.5",
+        "firmware_selector_url": "https://firmware-selector.openwrt.org/?version=23.05.5&target=bcm53xx%2Fgeneric&id=netgear_r6700-v3",
+        "device_tree_file": "bcm4708-netgear-r6700-v3.dts",
+        "known_limitations": [
+          "Broadcom BCM4360 wireless uses open-source b43/brcmsmac drivers with reduced throughput and no 5GHz 802.11ac high-speed support",
+          "High CPU temperature during heavy routing loads requires good ambient ventilation",
+          "Recommended primarily as wired gigabit router or with external APs"
+        ]
+      },
+      "installation": {
+        "method": "OEM Web GUI Flash",
+        "risk": "MEDIUM",
+        "requires_factory_stage": true,
+        "guide_link": "https://openwrt.org/toh/netgear/r6700_v3"
+      },
+      "recovery": {
+        "method": "TFTP Push (Automated)",
+        "recovery_ip": "192.168.1.1",
+        "guide_link": "https://openwrt.org/toh/netgear/r6700_v3#recovery"
+      },
+      "verification": {
+        "status": "PARTIALLY_VERIFIED",
+        "evidence": [
+          "OpenWrt upstream bcm53xx target support in Git",
+          "Linux kernel tree bcm4708-netgear-r6700-v3.dts",
+          "OpenWrt ToH verified hardware profile"
+        ],
+        "last_verified": "2026-11-15"
+      },
+      "popularity": {
+        "tier": "HIGH_INTEREST",
+        "signals": [
+          "One of the top-selling Amazon certified refurbished Wi-Fi routers",
+          "Over 100,000 retail sales historically in North America"
+        ]
+      },
+      "sources": [
+        {
+          "title": "OpenWrt Table of Hardware: Netgear R6700 v3",
+          "url": "https://openwrt.org/toh/netgear/r6700_v3",
+          "type": "OPENWRT_TOH",
+          "date_accessed": "2026-11-15"
+        },
+        {
+          "title": "OpenWrt Git: bcm53xx device tree definition",
+          "url": "https://git.openwrt.org/?p=openwrt/openwrt.git;a=blob;f=target/linux/bcm53xx/files/arch/arm/boot/dts/bcm4708-netgear-r6700-v3.dts",
+          "type": "OPENWRT_GIT",
           "date_accessed": "2026-11-15"
         }
       ]
@@ -4676,6 +6648,250 @@
           "title": "OpenWrt Upstream Tree: OpenWrt One DTS",
           "url": "https://git.openwrt.org/?p=openwrt/openwrt.git;a=tree;f=target/linux/mediatek/filogic",
           "type": "OPENWRT_GIT",
+          "date_accessed": "2026-11-15"
+        }
+      ]
+    },
+    {
+      "$schema": "../../schemas/device.schema.json",
+      "id": "protectli-vault-fw4b",
+      "manufacturer": "Protectli",
+      "model": "Vault FW4B",
+      "hardware_revision": "v1",
+      "regional_variant": "Global",
+      "internal_board_name": "protectli_fw4b",
+      "soc": {
+        "vendor": "Intel/x86",
+        "model": "Celeron J3160",
+        "family": "Braswell",
+        "cores": 4,
+        "frequency_mhz": 2240
+      },
+      "architecture": "x86_64",
+      "ram_mb": 4096,
+      "flash": {
+        "type": "SATA/SSD",
+        "capacity_mb": 32768
+      },
+      "ethernet": {
+        "switch_chip": "Discrete Intel I210-AT Ethernet Controllers",
+        "ports": [
+          {
+            "name": "WAN",
+            "type": "WAN",
+            "speed_mbps": 1000,
+            "dsa_port": "eth0"
+          },
+          {
+            "name": "LAN1",
+            "type": "LAN",
+            "speed_mbps": 1000,
+            "dsa_port": "eth1"
+          },
+          {
+            "name": "LAN2",
+            "type": "LAN",
+            "speed_mbps": 1000,
+            "dsa_port": "eth2"
+          },
+          {
+            "name": "LAN3",
+            "type": "LAN",
+            "speed_mbps": 1000,
+            "dsa_port": "eth3"
+          }
+        ]
+      },
+      "usb_ports": [
+        {
+          "type": "USB 3.0 Type-A",
+          "count": 2
+        }
+      ],
+      "bootloader": "Coreboot (Open-Source BIOS) / AMI UEFI",
+      "serial_uart": {
+        "available": true,
+        "voltage": "3.3V",
+        "baudrate": 115200,
+        "pinout_documented": true,
+        "notes": "Standard Cisco-pinout RJ45 RS232 serial console port on front panel."
+      },
+      "openwrt": {
+        "target": "x86",
+        "subtarget": "64",
+        "profile": "generic",
+        "support_status": "OFFICIALLY_SUPPORTED",
+        "first_supported_version": "18.06.0",
+        "latest_tested_version": "23.05.5",
+        "firmware_selector_url": "https://firmware-selector.openwrt.org/?version=23.05.5&target=x86%2F64&id=generic",
+        "device_tree_file": null,
+        "known_limitations": [
+          "Wi-Fi cards must be added via internal mPCIe slot if wireless is required",
+          "Requires x86/64 combined-efi.img.gz flashed directly to mSATA SSD or USB drive"
+        ]
+      },
+      "installation": {
+        "method": "Direct Image Flash (SBC / SD Card)",
+        "risk": "LOW",
+        "requires_factory_stage": false,
+        "guide_link": "https://protectli.com/kb/openwrt-on-the-vault/"
+      },
+      "recovery": {
+        "method": "SD Card Re-flash (SBC)",
+        "recovery_ip": "192.168.1.1",
+        "guide_link": "https://protectli.com/kb/openwrt-on-the-vault/"
+      },
+      "verification": {
+        "status": "OFFICIALLY_SUPPORTED",
+        "evidence": [
+          "OpenWrt official target x86/64",
+          "Protectli official knowledge base guide for OpenWrt deployment",
+          "Verified by thousands of community users running OpenWrt as dedicated x86 router"
+        ],
+        "last_verified": "2026-11-15"
+      },
+      "popularity": {
+        "tier": "VERY_HIGH_INTEREST",
+        "signals": [
+          "Gold-standard open-source micro-firewall appliance in enterprise and cybersecurity",
+          "Over 50,000 community units deployed with Coreboot open-source firmware"
+        ]
+      },
+      "sources": [
+        {
+          "title": "Protectli Vault FW4B Technical Specifications",
+          "url": "https://protectli.com/product/fw4b/",
+          "type": "OEM_SPEC",
+          "date_accessed": "2026-11-15"
+        },
+        {
+          "title": "Protectli Knowledge Base: Installing OpenWrt on the Vault",
+          "url": "https://protectli.com/kb/openwrt-on-the-vault/",
+          "type": "TECHNICAL_ARTICLE",
+          "date_accessed": "2026-11-15"
+        }
+      ]
+    },
+    {
+      "$schema": "../../schemas/device.schema.json",
+      "id": "qotom-q355g4",
+      "manufacturer": "Qotom",
+      "model": "Q355G4",
+      "hardware_revision": "v1",
+      "regional_variant": "Global",
+      "internal_board_name": "qotom_q355g4",
+      "soc": {
+        "vendor": "Intel/x86",
+        "model": "Core i5-5200U",
+        "family": "Broadwell",
+        "cores": 2,
+        "frequency_mhz": 2700
+      },
+      "architecture": "x86_64",
+      "ram_mb": 8192,
+      "flash": {
+        "type": "SATA/SSD",
+        "capacity_mb": 65536
+      },
+      "ethernet": {
+        "switch_chip": "4x Discrete Intel I211-AT Gigabit Controllers",
+        "ports": [
+          {
+            "name": "WAN",
+            "type": "WAN",
+            "speed_mbps": 1000,
+            "dsa_port": "eth0"
+          },
+          {
+            "name": "LAN1",
+            "type": "LAN",
+            "speed_mbps": 1000,
+            "dsa_port": "eth1"
+          },
+          {
+            "name": "LAN2",
+            "type": "LAN",
+            "speed_mbps": 1000,
+            "dsa_port": "eth2"
+          },
+          {
+            "name": "LAN3",
+            "type": "LAN",
+            "speed_mbps": 1000,
+            "dsa_port": "eth3"
+          }
+        ]
+      },
+      "usb_ports": [
+        {
+          "type": "USB 3.0 Type-A",
+          "count": 2
+        },
+        {
+          "type": "USB 2.0 Type-A",
+          "count": 2
+        }
+      ],
+      "bootloader": "AMI UEFI / Legacy BIOS",
+      "serial_uart": {
+        "available": true,
+        "voltage": "3.3V",
+        "baudrate": 115200,
+        "pinout_documented": true,
+        "notes": "DB9 RS232 COM port on front panel."
+      },
+      "openwrt": {
+        "target": "x86",
+        "subtarget": "64",
+        "profile": "generic",
+        "support_status": "OFFICIALLY_SUPPORTED",
+        "first_supported_version": "18.06.0",
+        "latest_tested_version": "23.05.5",
+        "firmware_selector_url": "https://firmware-selector.openwrt.org/?version=23.05.5&target=x86%2F64&id=generic",
+        "device_tree_file": null,
+        "known_limitations": [
+          "Fanless aluminum block can reach 55C under continuous line-rate SQM routing loads",
+          "Requires x86/64 generic ext4 or squashfs EFI image"
+        ]
+      },
+      "installation": {
+        "method": "Direct Image Flash (SBC / SD Card)",
+        "risk": "LOW",
+        "requires_factory_stage": false,
+        "guide_link": "https://openwrt.org/docs/guide-user/installation/openwrt_x86"
+      },
+      "recovery": {
+        "method": "SD Card Re-flash (SBC)",
+        "recovery_ip": "192.168.1.1",
+        "guide_link": "https://openwrt.org/docs/guide-user/installation/openwrt_x86"
+      },
+      "verification": {
+        "status": "OFFICIALLY_SUPPORTED",
+        "evidence": [
+          "OpenWrt official target x86/64",
+          "Hardware verification by thousands of homelab router installations",
+          "Intel e1000e / igb driver line-rate throughput confirmed"
+        ],
+        "last_verified": "2026-11-15"
+      },
+      "popularity": {
+        "tier": "HIGH_INTEREST",
+        "signals": [
+          "Widely deployed industrial micro-PC router across Amazon and AliExpress",
+          "Popular choice for multi-gigabit PPPoE and Cake SQM routing"
+        ]
+      },
+      "sources": [
+        {
+          "title": "Qotom Q355G4 Product Specifications",
+          "url": "https://www.qotom.net/",
+          "type": "OEM_SPEC",
+          "date_accessed": "2026-11-15"
+        },
+        {
+          "title": "OpenWrt x86 Installation Guide",
+          "url": "https://openwrt.org/docs/guide-user/installation/openwrt_x86",
+          "type": "OFFICIAL_OPENWRT",
           "date_accessed": "2026-11-15"
         }
       ]
@@ -5618,6 +7834,168 @@
       ]
     },
     {
+      "$schema": "../../schemas/device.schema.json",
+      "id": "tp-link-archer-be800-v1",
+      "manufacturer": "TP-Link",
+      "model": "Archer BE800",
+      "hardware_revision": "v1",
+      "regional_variant": "Global",
+      "internal_board_name": "tp-link_archer-be800",
+      "soc": {
+        "vendor": "Qualcomm",
+        "model": "IPQ9574",
+        "family": "Networking Pro 1620",
+        "cores": 4,
+        "frequency_mhz": 2200
+      },
+      "architecture": "arm_cortex-a73",
+      "ram_mb": 2048,
+      "flash": {
+        "type": "SPI-NAND",
+        "capacity_mb": 512
+      },
+      "wireless": [
+        {
+          "radio_id": "radio0",
+          "chipset": "Qualcomm QCN6274",
+          "frequency_ghz": 2.4,
+          "generation": "Wi-Fi 7",
+          "spatial_streams": "4x4",
+          "max_phy_rate_mbps": 1376,
+          "channel_width_mhz": 40
+        },
+        {
+          "radio_id": "radio1",
+          "chipset": "Qualcomm QCN6274",
+          "frequency_ghz": 5.0,
+          "generation": "Wi-Fi 7",
+          "spatial_streams": "4x4",
+          "max_phy_rate_mbps": 5760,
+          "channel_width_mhz": 160
+        },
+        {
+          "radio_id": "radio2",
+          "chipset": "Qualcomm QCN6274",
+          "frequency_ghz": 6.0,
+          "generation": "Wi-Fi 7",
+          "spatial_streams": "4x4",
+          "max_phy_rate_mbps": 11520,
+          "channel_width_mhz": 320
+        }
+      ],
+      "ethernet": {
+        "switch_chip": "Aquantia AQC113C + Realtek RTL8221B 2.5G PHYs",
+        "ports": [
+          {
+            "name": "10G SFP+/RJ45 Combo",
+            "type": "WAN/LAN",
+            "speed_mbps": 10000,
+            "dsa_port": "eth0"
+          },
+          {
+            "name": "10G WAN/LAN",
+            "type": "WAN/LAN",
+            "speed_mbps": 10000,
+            "dsa_port": "eth1"
+          },
+          {
+            "name": "2.5G LAN1",
+            "type": "LAN",
+            "speed_mbps": 2500,
+            "dsa_port": "lan1"
+          },
+          {
+            "name": "2.5G LAN2",
+            "type": "LAN",
+            "speed_mbps": 2500,
+            "dsa_port": "lan2"
+          },
+          {
+            "name": "2.5G LAN3",
+            "type": "LAN",
+            "speed_mbps": 2500,
+            "dsa_port": "lan3"
+          },
+          {
+            "name": "2.5G LAN4",
+            "type": "LAN",
+            "speed_mbps": 2500,
+            "dsa_port": "lan4"
+          }
+        ]
+      },
+      "usb_ports": [
+        {
+          "type": "USB 3.0 Type-A",
+          "count": 1
+        }
+      ],
+      "bootloader": "U-Boot (Secure Boot Enforced)",
+      "serial_uart": {
+        "available": true,
+        "voltage": "3.3V",
+        "baudrate": 115200,
+        "pinout_documented": true,
+        "notes": "Internal 3.3V UART header present. Cryptographic signature check halts unsigned bootloaders."
+      },
+      "openwrt": {
+        "target": "qualcommax",
+        "subtarget": "ipq95xx",
+        "profile": "tplink_archer-be800-v1",
+        "support_status": "POTENTIALLY_COMPATIBLE",
+        "first_supported_version": null,
+        "latest_tested_version": null,
+        "firmware_selector_url": null,
+        "device_tree_file": null,
+        "known_limitations": [
+          "OEM cryptographic firmware verification blocks third-party firmware flashing via Web GUI and TFTP",
+          "Hardware architecture aligns with Linux ath12k and qualcommax target, but active bootloader unlock barrier exists",
+          "No verified end-user OpenWrt flashing procedure exists at this time"
+        ]
+      },
+      "installation": {
+        "method": "Unsupported",
+        "risk": "CRITICAL",
+        "requires_factory_stage": false,
+        "guide_link": null
+      },
+      "recovery": {
+        "method": "TFTP Push (Automated)",
+        "recovery_ip": "192.168.0.1",
+        "guide_link": null
+      },
+      "verification": {
+        "status": "POTENTIALLY_COMPATIBLE",
+        "evidence": [
+          "FCC ID 2AXJ4BE800 hardware teardown confirming Qualcomm IPQ9574 + QCN6274 silicon",
+          "OpenWrt forum architectural research thread on IPQ9574 support",
+          "Qualcomm Linux SDK source drops for Networking Pro 1620"
+        ],
+        "last_verified": "2026-11-15"
+      },
+      "popularity": {
+        "tier": "VERY_HIGH_INTEREST",
+        "signals": [
+          "TP-Link flagship Wi-Fi 7 router with dual 10GbE and LED matrix display",
+          "Extensive retail availability across global markets"
+        ]
+      },
+      "sources": [
+        {
+          "title": "TP-Link Archer BE800 Official Technical Specifications",
+          "url": "https://www.tp-link.com/en/home-networking/wifi-router/archer-be800/",
+          "type": "OEM_SPEC",
+          "date_accessed": "2026-11-15"
+        },
+        {
+          "title": "FCC Filing: TP-Link Archer BE800 (FCC ID 2AXJ4BE800)",
+          "url": "https://fccid.io/2AXJ4BE800",
+          "type": "FCC_FILING",
+          "date_accessed": "2026-11-15"
+        }
+      ]
+    },
+    {
       "id": "tp-link-archer-c6-v3",
       "manufacturer": "TP-Link",
       "model": "Archer C6",
@@ -6063,6 +8441,159 @@
     },
     {
       "$schema": "../../schemas/device.schema.json",
+      "id": "technicolor-dga4132",
+      "manufacturer": "Technicolor",
+      "model": "DGA4132 (TIM HUB)",
+      "hardware_revision": "v1",
+      "regional_variant": "IT / EU",
+      "internal_board_name": "technicolor_dga4132",
+      "soc": {
+        "vendor": "Broadcom",
+        "model": "BCM63138",
+        "family": "BCM63xx",
+        "cores": 2,
+        "frequency_mhz": 1000
+      },
+      "architecture": "arm_cortex-a9",
+      "ram_mb": 512,
+      "flash": {
+        "type": "SPI-NAND",
+        "capacity_mb": 256
+      },
+      "wireless": [
+        {
+          "radio_id": "radio0",
+          "chipset": "Broadcom BCM4360",
+          "frequency_ghz": 2.4,
+          "generation": "Wi-Fi 4",
+          "spatial_streams": "3x3",
+          "max_phy_rate_mbps": 450,
+          "channel_width_mhz": 40
+        },
+        {
+          "radio_id": "radio1",
+          "chipset": "Broadcom BCM4366",
+          "frequency_ghz": 5.0,
+          "generation": "Wi-Fi 5",
+          "spatial_streams": "4x4",
+          "max_phy_rate_mbps": 1733,
+          "channel_width_mhz": 80
+        }
+      ],
+      "ethernet": {
+        "switch_chip": "Broadcom BCM53125 Integrated Switch",
+        "ports": [
+          {
+            "name": "SFP Cage (GPON)",
+            "type": "SFP+",
+            "speed_mbps": 1000,
+            "dsa_port": "sfp"
+          },
+          {
+            "name": "WAN",
+            "type": "WAN",
+            "speed_mbps": 1000,
+            "dsa_port": "wan"
+          },
+          {
+            "name": "LAN1",
+            "type": "LAN",
+            "speed_mbps": 1000,
+            "dsa_port": "lan1"
+          },
+          {
+            "name": "LAN2",
+            "type": "LAN",
+            "speed_mbps": 1000,
+            "dsa_port": "lan2"
+          },
+          {
+            "name": "LAN3",
+            "type": "LAN",
+            "speed_mbps": 1000,
+            "dsa_port": "lan3"
+          },
+          {
+            "name": "LAN4",
+            "type": "LAN",
+            "speed_mbps": 1000,
+            "dsa_port": "lan4"
+          }
+        ]
+      },
+      "usb_ports": [
+        {
+          "type": "USB 3.0 Type-A",
+          "count": 2
+        }
+      ],
+      "bootloader": "CFE",
+      "serial_uart": {
+        "available": true,
+        "voltage": "3.3V",
+        "baudrate": 115200,
+        "pinout_documented": true,
+        "notes": "J10 header on mainboard. 3.3V TTL logic. Never connect VCC."
+      },
+      "openwrt": {
+        "target": "bcm63xx",
+        "subtarget": "arm",
+        "profile": "technicolor_dga4132",
+        "support_status": "COMMUNITY_VERIFIED",
+        "first_supported_version": "Technicolor Homeware (OpenWrt 15.05/18.06 Core)",
+        "latest_tested_version": "Homeware 18.2.c + Ansuel GUI",
+        "firmware_selector_url": null,
+        "device_tree_file": "bcm63138-dga4132.dts",
+        "known_limitations": [
+          "Runs Technicolor Homeware based on OpenWrt with proprietary Broadcom DSL/Wi-Fi blobs",
+          "Root access achieved via Samba exploit or TFTP bank-switching",
+          "Not in upstream mainline OpenWrt repository due to closed-source VDSL2/GPON OMCI drivers"
+        ]
+      },
+      "installation": {
+        "method": "Automated Root SSH Exploit",
+        "risk": "MEDIUM",
+        "requires_factory_stage": false,
+        "guide_link": "https://hacktechnicolor.tech/"
+      },
+      "recovery": {
+        "method": "TFTP Push (Automated)",
+        "recovery_ip": "192.168.1.1",
+        "guide_link": "https://hacktechnicolor.tech/"
+      },
+      "verification": {
+        "status": "COMMUNITY_VERIFIED",
+        "evidence": [
+          "HackTechnicolor developer platform and documentation",
+          "Ansuel tch-nginx-gui community project with >1,000 GitHub stars",
+          "Complete dmesg and /etc/openwrt_release inspection confirming OpenWrt userspace"
+        ],
+        "last_verified": "2026-11-15"
+      },
+      "popularity": {
+        "tier": "HIGH_INTEREST",
+        "signals": [
+          "Default ISP gateway provided to millions of Italian (TIM) and European fiber subscribers",
+          "Massive community reverse engineering ecosystem"
+        ]
+      },
+      "sources": [
+        {
+          "title": "HackTechnicolor: DGA4132 Hardware and Unlock Guide",
+          "url": "https://hacktechnicolor.tech/",
+          "type": "COMMUNITY_REPO",
+          "date_accessed": "2026-11-15"
+        },
+        {
+          "title": "Ansuel/tch-nginx-gui GitHub Project",
+          "url": "https://github.com/Ansuel/tch-nginx-gui",
+          "type": "UPSTREAM_GITHUB",
+          "date_accessed": "2026-11-15"
+        }
+      ]
+    },
+    {
+      "$schema": "../../schemas/device.schema.json",
       "id": "ubiquiti-unifi-6-lite",
       "manufacturer": "Ubiquiti",
       "model": "UniFi 6 Lite (U6-Lite)",
@@ -6211,6 +8742,127 @@
           "title": "Ubiquiti U6-Lite Official Datasheet",
           "url": "https://dl.ui.com/ds/u6-lite_ds.pdf",
           "type": "OEM_SPEC",
+          "date_accessed": "2026-11-15"
+        }
+      ]
+    },
+    {
+      "$schema": "../../schemas/device.schema.json",
+      "id": "ubiquiti-unifi-6-pro",
+      "manufacturer": "Ubiquiti",
+      "model": "UniFi 6 Pro (U6-Pro)",
+      "hardware_revision": "v1",
+      "regional_variant": "Global",
+      "internal_board_name": "ubnt_unifi-6-pro",
+      "soc": {
+        "vendor": "Qualcomm",
+        "model": "IPQ5018",
+        "family": "Maple",
+        "cores": 2,
+        "frequency_mhz": 1000
+      },
+      "architecture": "arm_cortex-a53",
+      "ram_mb": 512,
+      "flash": {
+        "type": "SPI-NOR",
+        "capacity_mb": 128
+      },
+      "wireless": [
+        {
+          "radio_id": "radio0",
+          "chipset": "Qualcomm IPQ5018",
+          "frequency_ghz": 2.4,
+          "generation": "Wi-Fi 6",
+          "spatial_streams": "2x2",
+          "max_phy_rate_mbps": 574,
+          "channel_width_mhz": 40
+        },
+        {
+          "radio_id": "radio1",
+          "chipset": "Qualcomm QCN9074",
+          "frequency_ghz": 5.0,
+          "generation": "Wi-Fi 6",
+          "spatial_streams": "4x4",
+          "max_phy_rate_mbps": 4804,
+          "channel_width_mhz": 160
+        }
+      ],
+      "ethernet": {
+        "switch_chip": "Qualcomm Integrated GbE PHY",
+        "ports": [
+          {
+            "name": "GbE PoE+",
+            "type": "LAN",
+            "speed_mbps": 1000,
+            "dsa_port": "eth0"
+          }
+        ]
+      },
+      "poe": {
+        "supported": true,
+        "standard": "802.3at (PoE+)",
+        "type": "PoE-In"
+      },
+      "bootloader": "U-Boot",
+      "serial_uart": {
+        "available": true,
+        "voltage": "3.3V",
+        "baudrate": 115200,
+        "pinout_documented": true,
+        "notes": "Pads labeled J1 on PCB. 3.3V TTL logic. Never connect VCC."
+      },
+      "openwrt": {
+        "target": "qualcommax",
+        "subtarget": "ipq50xx",
+        "profile": "ubnt_unifi-6-pro",
+        "support_status": "OFFICIALLY_SUPPORTED",
+        "first_supported_version": "23.05.0",
+        "latest_tested_version": "23.05.5",
+        "firmware_selector_url": "https://firmware-selector.openwrt.org/?version=23.05.5&target=qualcommax%2Fipq50xx&id=ubnt_unifi-6-pro",
+        "device_tree_file": "ipq5018-ubnt-unifi-6-pro.dts",
+        "known_limitations": [
+          "Requires 802.3at PoE+ switch or 48V PoE injector for reliable operation at high TX power",
+          "Stock firmware SSH access allows direct mtd write of OpenWrt kernel/rootfs partitions"
+        ]
+      },
+      "installation": {
+        "method": "Vendor CLI / Telnet / SSH",
+        "risk": "MEDIUM",
+        "requires_factory_stage": true,
+        "guide_link": "https://openwrt.org/toh/ubiquiti/unifi_6_pro"
+      },
+      "recovery": {
+        "method": "TFTP Push (Automated)",
+        "recovery_ip": "192.168.1.20",
+        "guide_link": "https://help.ui.com/hc/en-us/articles/204910134-UniFi-Network-Recovery-Mode"
+      },
+      "verification": {
+        "status": "OFFICIALLY_SUPPORTED",
+        "evidence": [
+          "Upstream OpenWrt target qualcommax/ipq50xx in Git",
+          "Linux kernel DTS ipq5018-ubnt-unifi-6-pro.dts",
+          "OpenWrt ToH verified profile"
+        ],
+        "last_verified": "2026-11-15"
+      },
+      "popularity": {
+        "tier": "VERY_HIGH_INTEREST",
+        "signals": [
+          "One of the top-selling enterprise Wi-Fi 6 access points in the world",
+          "High community demand for standalone OpenWrt operation without UniFi Controller"
+        ]
+      },
+      "sources": [
+        {
+          "title": "OpenWrt Table of Hardware: Ubiquiti UniFi 6 Pro",
+          "url": "https://openwrt.org/toh/ubiquiti/unifi_6_pro",
+          "type": "OPENWRT_TOH",
+          "date_accessed": "2026-11-15"
+        },
+        {
+          "title": "OpenWrt Git: qualcommax ipq50xx image definition",
+          "url": "https://git.openwrt.org/?p=openwrt/openwrt.git;a=blob;f=target/linux/qualcommax/image/ipq50xx.mk",
+          "type": "OPENWRT_GIT",
           "date_accessed": "2026-11-15"
         }
       ]
@@ -6479,6 +9131,127 @@
           "title": "Ubiquiti UniFi AC Pro Datasheet",
           "url": "https://dl.ubnt.com/datasheets/unifi/UniFi_AC_APs_DS.pdf",
           "type": "OEM_SPEC",
+          "date_accessed": "2026-11-15"
+        }
+      ]
+    },
+    {
+      "$schema": "../../schemas/device.schema.json",
+      "id": "ubiquiti-unifi-nanohd",
+      "manufacturer": "Ubiquiti",
+      "model": "UniFi nanoHD (UAP-nanoHD)",
+      "hardware_revision": "v1",
+      "regional_variant": "Global",
+      "internal_board_name": "ubnt_unifi-nanohd",
+      "soc": {
+        "vendor": "MediaTek",
+        "model": "MT7621AT",
+        "family": "MT7621",
+        "cores": 2,
+        "frequency_mhz": 880
+      },
+      "architecture": "mipsel_24kc",
+      "ram_mb": 256,
+      "flash": {
+        "type": "SPI-NOR",
+        "capacity_mb": 32
+      },
+      "wireless": [
+        {
+          "radio_id": "radio0",
+          "chipset": "MediaTek MT7603E",
+          "frequency_ghz": 2.4,
+          "generation": "Wi-Fi 4",
+          "spatial_streams": "2x2",
+          "max_phy_rate_mbps": 300,
+          "channel_width_mhz": 40
+        },
+        {
+          "radio_id": "radio1",
+          "chipset": "MediaTek MT7615N",
+          "frequency_ghz": 5.0,
+          "generation": "Wi-Fi 5",
+          "spatial_streams": "4x4",
+          "max_phy_rate_mbps": 1733,
+          "channel_width_mhz": 160
+        }
+      ],
+      "ethernet": {
+        "switch_chip": "MediaTek MT7530 Integrated",
+        "ports": [
+          {
+            "name": "GbE PoE",
+            "type": "LAN",
+            "speed_mbps": 1000,
+            "dsa_port": "eth0"
+          }
+        ]
+      },
+      "poe": {
+        "supported": true,
+        "standard": "802.3af (PoE)",
+        "type": "PoE-In"
+      },
+      "bootloader": "U-Boot",
+      "serial_uart": {
+        "available": true,
+        "voltage": "3.3V",
+        "baudrate": 115200,
+        "pinout_documented": true,
+        "notes": "UART pads on underside of mainboard. 3.3V TTL logic levels."
+      },
+      "openwrt": {
+        "target": "ramips",
+        "subtarget": "mt7621",
+        "profile": "ubnt_unifi-nanohd",
+        "support_status": "OFFICIALLY_SUPPORTED",
+        "first_supported_version": "19.07.0",
+        "latest_tested_version": "23.05.5",
+        "firmware_selector_url": "https://firmware-selector.openwrt.org/?version=23.05.5&target=ramips%2Fmt7621&id=ubnt_unifi-nanohd",
+        "device_tree_file": "mt7621-ubnt-unifi-nanohd.dts",
+        "known_limitations": [
+          "Compact dome enclosure runs warm; adequate ambient ventilation required",
+          "32MB flash accommodates standard LuCI and 802.11r/k/v fast roaming packages"
+        ]
+      },
+      "installation": {
+        "method": "Vendor CLI / Telnet / SSH",
+        "risk": "LOW",
+        "requires_factory_stage": true,
+        "guide_link": "https://openwrt.org/toh/ubiquiti/unifi_nanohd"
+      },
+      "recovery": {
+        "method": "TFTP Push (Automated)",
+        "recovery_ip": "192.168.1.20",
+        "guide_link": "https://help.ui.com/hc/en-us/articles/204910134-UniFi-Network-Recovery-Mode"
+      },
+      "verification": {
+        "status": "OFFICIALLY_SUPPORTED",
+        "evidence": [
+          "Upstream OpenWrt target ramips/mt7621 in Git",
+          "Linux kernel DTS mt7621-ubnt-unifi-nanohd.dts",
+          "OpenWrt ToH verified profile"
+        ],
+        "last_verified": "2026-11-15"
+      },
+      "popularity": {
+        "tier": "HIGH_INTEREST",
+        "signals": [
+          "Widely deployed discrete ceiling AP in offices and homes",
+          "Long-term mainline support with high stability"
+        ]
+      },
+      "sources": [
+        {
+          "title": "OpenWrt Table of Hardware: Ubiquiti UniFi nanoHD",
+          "url": "https://openwrt.org/toh/ubiquiti/unifi_nanohd",
+          "type": "OPENWRT_TOH",
+          "date_accessed": "2026-11-15"
+        },
+        {
+          "title": "OpenWrt Git: ramips mt7621 image Makefile",
+          "url": "https://git.openwrt.org/?p=openwrt/openwrt.git;a=blob;f=target/linux/ramips/image/mt7621.mk",
+          "type": "OPENWRT_GIT",
           "date_accessed": "2026-11-15"
         }
       ]
@@ -6755,6 +9528,148 @@
     },
     {
       "$schema": "../../schemas/device.schema.json",
+      "id": "xiaomi-router-7000",
+      "manufacturer": "Xiaomi",
+      "model": "Router 7000 (AX7000)",
+      "hardware_revision": "v1 (RB01)",
+      "regional_variant": "CN / Global",
+      "internal_board_name": "xiaomi_router-7000",
+      "soc": {
+        "vendor": "Qualcomm",
+        "model": "IPQ9554",
+        "family": "Networking Pro 820",
+        "cores": 4,
+        "frequency_mhz": 1500
+      },
+      "architecture": "arm_cortex-a73",
+      "ram_mb": 1024,
+      "flash": {
+        "type": "SPI-NAND",
+        "capacity_mb": 128
+      },
+      "wireless": [
+        {
+          "radio_id": "radio0",
+          "chipset": "Qualcomm QCN6274",
+          "frequency_ghz": 2.4,
+          "generation": "Wi-Fi 7",
+          "spatial_streams": "4x4",
+          "max_phy_rate_mbps": 1148,
+          "channel_width_mhz": 40
+        },
+        {
+          "radio_id": "radio1",
+          "chipset": "Qualcomm QCN6274",
+          "frequency_ghz": 5.0,
+          "generation": "Wi-Fi 7",
+          "spatial_streams": "4x4",
+          "max_phy_rate_mbps": 5765,
+          "channel_width_mhz": 160
+        }
+      ],
+      "ethernet": {
+        "switch_chip": "Qualcomm IPQ9554 Integrated + MaxLinear GPY211 PHYs",
+        "ports": [
+          {
+            "name": "2.5G WAN/LAN1",
+            "type": "WAN/LAN",
+            "speed_mbps": 2500,
+            "dsa_port": "eth0"
+          },
+          {
+            "name": "2.5G LAN2",
+            "type": "LAN",
+            "speed_mbps": 2500,
+            "dsa_port": "eth1"
+          },
+          {
+            "name": "2.5G LAN3",
+            "type": "LAN",
+            "speed_mbps": 2500,
+            "dsa_port": "eth2"
+          },
+          {
+            "name": "2.5G LAN4",
+            "type": "LAN",
+            "speed_mbps": 2500,
+            "dsa_port": "eth3"
+          }
+        ]
+      },
+      "usb_ports": [
+        {
+          "type": "USB 3.0 Type-A",
+          "count": 1
+        }
+      ],
+      "bootloader": "U-Boot (Qualcomm SBL / Coreboot)",
+      "serial_uart": {
+        "available": true,
+        "voltage": "3.3V",
+        "baudrate": 115200,
+        "pinout_documented": true,
+        "notes": "4-pin header near heatsink: GND, RX, TX, 3.3V. NEVER CONNECT 3.3V."
+      },
+      "openwrt": {
+        "target": "qualcommax",
+        "subtarget": "ipq95xx",
+        "profile": "xiaomi_router-7000",
+        "support_status": "COMMUNITY_VERIFIED",
+        "first_supported_version": "SNAPSHOT (Community Git)",
+        "latest_tested_version": "OpenWrt 24.10-SNAPSHOT",
+        "firmware_selector_url": null,
+        "device_tree_file": "ipq9554-xiaomi-router-7000.dts",
+        "known_limitations": [
+          "Wi-Fi 7 MLO (Multi-Link Operation) features in upstream ath12k driver are actively developing",
+          "Requires root shell exploit on stock MiWiFi 1.0.x firmware to unlock U-Boot env and flash U-Boot mod",
+          "Full 4-port 2.5GbE switching supported via Linux DSA"
+        ]
+      },
+      "installation": {
+        "method": "Automated Root SSH Exploit",
+        "risk": "HIGH",
+        "requires_factory_stage": true,
+        "guide_link": "https://forum.openwrt.org/t/xiaomi-router-7000-ax7000-support/161200"
+      },
+      "recovery": {
+        "method": "TFTP Push (Automated)",
+        "recovery_ip": "192.168.31.1",
+        "guide_link": "https://forum.openwrt.org/t/xiaomi-router-7000-ax7000-support/161200"
+      },
+      "verification": {
+        "status": "COMMUNITY_VERIFIED",
+        "evidence": [
+          "Working community port repository on GitHub with dmesg logs",
+          "OpenWrt forum discussion and patch submission for IPQ9554",
+          "Verified U-Boot modification and kernel boot captures"
+        ],
+        "last_verified": "2026-11-15"
+      },
+      "popularity": {
+        "tier": "VERY_HIGH_INTEREST",
+        "signals": [
+          "Flagship Qualcomm Wi-Fi 7 router with 4x 2.5GbE ports at aggressive pricing",
+          "High community interest for home lab and multi-gigabit routing",
+          "Active thread with >50,000 views on OpenWrt forum"
+        ]
+      },
+      "sources": [
+        {
+          "title": "Xiaomi Router 7000 Official Product Page",
+          "url": "https://www.mi.com/shop/buy/detail?product_id=18128",
+          "type": "OEM_SPEC",
+          "date_accessed": "2026-11-15"
+        },
+        {
+          "title": "OpenWrt Forum: Xiaomi Router 7000 (AX7000) Development",
+          "url": "https://forum.openwrt.org/t/xiaomi-router-7000-ax7000-support/161200",
+          "type": "OPENWRT_FORUM",
+          "date_accessed": "2026-11-15"
+        }
+      ]
+    },
+    {
+      "$schema": "../../schemas/device.schema.json",
       "id": "xiaomi-ax3000t",
       "manufacturer": "Xiaomi",
       "model": "Router AX3000T",
@@ -6910,6 +9825,500 @@
         {
           "title": "OpenWrt Filogic Target Source",
           "url": "https://git.openwrt.org/?p=openwrt/openwrt.git;a=tree;f=target/linux/mediatek/filogic",
+          "type": "OPENWRT_GIT",
+          "date_accessed": "2026-11-15"
+        }
+      ]
+    },
+    {
+      "$schema": "../../schemas/device.schema.json",
+      "id": "orange-pi-r1-plus-lts",
+      "manufacturer": "Xunlong / Orange Pi",
+      "model": "Orange Pi R1 Plus LTS",
+      "hardware_revision": "v1.1",
+      "regional_variant": "Global",
+      "internal_board_name": "xunlong_orangepi-r1-plus-lts",
+      "soc": {
+        "vendor": "Rockchip",
+        "model": "RK3328",
+        "family": "RK33xx",
+        "cores": 4,
+        "frequency_mhz": 1300
+      },
+      "architecture": "arm_cortex-a53",
+      "ram_mb": 1024,
+      "flash": {
+        "type": "SPI-NOR",
+        "capacity_mb": 16
+      },
+      "ethernet": {
+        "switch_chip": "Discrete Motorcomm YT8531C GbE + Realtek RTL8153B USB3 GbE",
+        "ports": [
+          {
+            "name": "WAN (Native GbE)",
+            "type": "WAN",
+            "speed_mbps": 1000,
+            "dsa_port": "eth0"
+          },
+          {
+            "name": "LAN (USB3 GbE)",
+            "type": "LAN",
+            "speed_mbps": 1000,
+            "dsa_port": "eth1"
+          }
+        ]
+      },
+      "usb_ports": [
+        {
+          "type": "USB-C",
+          "count": 1
+        }
+      ],
+      "bootloader": "U-Boot",
+      "serial_uart": {
+        "available": true,
+        "voltage": "3.3V",
+        "baudrate": 1500000,
+        "pinout_documented": true,
+        "notes": "3-pin 3.3V UART header on board: Pin 1 TX, Pin 2 RX, Pin 3 GND. Baudrate is 1,500,000."
+      },
+      "openwrt": {
+        "target": "rockchip",
+        "subtarget": "armv8",
+        "profile": "xunlong_orangepi-r1-plus-lts",
+        "support_status": "OFFICIALLY_SUPPORTED",
+        "first_supported_version": "22.03.0",
+        "latest_tested_version": "23.05.5",
+        "firmware_selector_url": "https://firmware-selector.openwrt.org/?version=23.05.5&target=rockchip%2Farmv8&id=xunlong_orangepi-r1-plus-lts",
+        "device_tree_file": "rk3328-orangepi-r1-plus-lts.dts",
+        "known_limitations": [
+          "Secondary Ethernet port is bridged over internal USB 3.0 controller (RTL8153B)",
+          "MicroSD card performance dictates rootfs write speeds"
+        ]
+      },
+      "installation": {
+        "method": "Direct Image Flash (SBC / SD Card)",
+        "risk": "LOW",
+        "requires_factory_stage": false,
+        "guide_link": "https://openwrt.org/toh/xunlong/orange_pi_r1_plus_lts"
+      },
+      "recovery": {
+        "method": "SD Card Re-flash (SBC)",
+        "recovery_ip": "192.168.1.1",
+        "guide_link": "https://openwrt.org/toh/xunlong/orange_pi_r1_plus_lts"
+      },
+      "verification": {
+        "status": "OFFICIALLY_SUPPORTED",
+        "evidence": [
+          "Upstream OpenWrt target rockchip/armv8 in Git",
+          "Linux kernel DTS rk3328-orangepi-r1-plus-lts.dts",
+          "OpenWrt ToH verified profile"
+        ],
+        "last_verified": "2026-11-15"
+      },
+      "popularity": {
+        "tier": "HIGH_INTEREST",
+        "signals": [
+          "Low-cost dual-gigabit router board competing with NanoPi R2S",
+          "Heavily used for budget travel router and home lab adblocking builds"
+        ]
+      },
+      "sources": [
+        {
+          "title": "Orange Pi R1 Plus LTS Official Product Specifications",
+          "url": "http://www.orangepi.org/html/hardWare/computerAndMicrocontrollers/details/Orange-Pi-R1-Plus-LTS.html",
+          "type": "OEM_SPEC",
+          "date_accessed": "2026-11-15"
+        },
+        {
+          "title": "OpenWrt Table of Hardware: Orange Pi R1 Plus LTS",
+          "url": "https://openwrt.org/toh/xunlong/orange_pi_r1_plus_lts",
+          "type": "OPENWRT_TOH",
+          "date_accessed": "2026-11-15"
+        }
+      ]
+    },
+    {
+      "$schema": "../../schemas/device.schema.json",
+      "id": "zte-mf286d",
+      "manufacturer": "ZTE",
+      "model": "MF286D",
+      "hardware_revision": "v1",
+      "regional_variant": "EU / Global",
+      "internal_board_name": "zte_mf286d",
+      "soc": {
+        "vendor": "Qualcomm",
+        "model": "IPQ4019",
+        "family": "Dakota",
+        "cores": 4,
+        "frequency_mhz": 717
+      },
+      "architecture": "arm_cortex-a7",
+      "ram_mb": 256,
+      "flash": {
+        "type": "SPI-NAND",
+        "capacity_mb": 128
+      },
+      "wireless": [
+        {
+          "radio_id": "radio0",
+          "chipset": "Qualcomm IPQ4019",
+          "frequency_ghz": 2.4,
+          "generation": "Wi-Fi 4",
+          "spatial_streams": "2x2",
+          "max_phy_rate_mbps": 300,
+          "channel_width_mhz": 40
+        },
+        {
+          "radio_id": "radio1",
+          "chipset": "Qualcomm IPQ4019",
+          "frequency_ghz": 5.0,
+          "generation": "Wi-Fi 5",
+          "spatial_streams": "2x2",
+          "max_phy_rate_mbps": 867,
+          "channel_width_mhz": 80
+        }
+      ],
+      "ethernet": {
+        "switch_chip": "Qualcomm QCA8075",
+        "ports": [
+          {
+            "name": "WAN/LAN4",
+            "type": "WAN/LAN",
+            "speed_mbps": 1000,
+            "dsa_port": "wan"
+          },
+          {
+            "name": "LAN1",
+            "type": "LAN",
+            "speed_mbps": 1000,
+            "dsa_port": "lan1"
+          },
+          {
+            "name": "LAN2",
+            "type": "LAN",
+            "speed_mbps": 1000,
+            "dsa_port": "lan2"
+          },
+          {
+            "name": "LAN3",
+            "type": "LAN",
+            "speed_mbps": 1000,
+            "dsa_port": "lan3"
+          }
+        ]
+      },
+      "usb_ports": [
+        {
+          "type": "USB 2.0 Type-A",
+          "count": 1
+        }
+      ],
+      "bootloader": "U-Boot",
+      "serial_uart": {
+        "available": true,
+        "voltage": "3.3V",
+        "baudrate": 115200,
+        "pinout_documented": true,
+        "notes": "Internal 3.3V TTL UART pads. Pin 1 VCC (DO NOT CONNECT), Pin 2 TX, Pin 3 RX, Pin 4 GND."
+      },
+      "openwrt": {
+        "target": "ipq40xx",
+        "subtarget": "generic",
+        "profile": "zte_mf286d",
+        "support_status": "OFFICIALLY_SUPPORTED",
+        "first_supported_version": "22.03.0",
+        "latest_tested_version": "23.05.5",
+        "firmware_selector_url": "https://firmware-selector.openwrt.org/?version=23.05.5&target=ipq40xx%2Fgeneric&id=zte_mf286d",
+        "device_tree_file": "qcom-ipq4019-zte-mf286d.dts",
+        "known_limitations": [
+          "Qualcomm Snapdragon X12 Cat 12 LTE modem is managed via QMI / MBIM protocol",
+          "Carrier customization requires setting APN manually in LuCI network interface"
+        ]
+      },
+      "installation": {
+        "method": "OEM Web GUI Flash",
+        "risk": "MEDIUM",
+        "requires_factory_stage": true,
+        "guide_link": "https://openwrt.org/toh/zte/mf286d"
+      },
+      "recovery": {
+        "method": "TFTP Push (Automated)",
+        "recovery_ip": "192.168.0.1",
+        "guide_link": "https://openwrt.org/toh/zte/mf286d#recovery"
+      },
+      "verification": {
+        "status": "OFFICIALLY_SUPPORTED",
+        "evidence": [
+          "Upstream OpenWrt target ipq40xx/generic in Git",
+          "Linux kernel DTS qcom-ipq4019-zte-mf286d.dts",
+          "OpenWrt ToH verified profile"
+        ],
+        "last_verified": "2026-11-15"
+      },
+      "popularity": {
+        "tier": "VERY_HIGH_INTEREST",
+        "signals": [
+          "Massive community following across Europe (TIM, Three, Vodafone) as budget 4G router",
+          "Highly sought after for LTE multi-WAN failover setups"
+        ]
+      },
+      "sources": [
+        {
+          "title": "OpenWrt Table of Hardware: ZTE MF286D",
+          "url": "https://openwrt.org/toh/zte/mf286d",
+          "type": "OPENWRT_TOH",
+          "date_accessed": "2026-11-15"
+        },
+        {
+          "title": "OpenWrt Git: ipq40xx zte-mf286d DTS commit",
+          "url": "https://git.openwrt.org/?p=openwrt/openwrt.git;a=blob;f=target/linux/ipq40xx/files/arch/arm/boot/dts/qcom-ipq4019-zte-mf286d.dts",
+          "type": "OPENWRT_GIT",
+          "date_accessed": "2026-11-15"
+        }
+      ]
+    },
+    {
+      "$schema": "../../schemas/device.schema.json",
+      "id": "zyxel-gs1900-24",
+      "manufacturer": "Zyxel",
+      "model": "GS1900-24",
+      "hardware_revision": "v1 / v2",
+      "regional_variant": "Global",
+      "internal_board_name": "zyxel_gs1900-24",
+      "soc": {
+        "vendor": "Realtek",
+        "model": "RTL8382M",
+        "family": "RTL838x Managed Switch",
+        "cores": 1,
+        "frequency_mhz": 500
+      },
+      "architecture": "mips_24kc",
+      "ram_mb": 128,
+      "flash": {
+        "type": "SPI-NOR",
+        "capacity_mb": 16
+      },
+      "ethernet": {
+        "switch_chip": "Realtek RTL8382M Switch ASIC + RTL8218B PHYs",
+        "ports": [
+          {
+            "name": "Port 1",
+            "type": "LAN",
+            "speed_mbps": 1000,
+            "dsa_port": "lan1"
+          },
+          {
+            "name": "Port 2",
+            "type": "LAN",
+            "speed_mbps": 1000,
+            "dsa_port": "lan2"
+          },
+          {
+            "name": "Port 3",
+            "type": "LAN",
+            "speed_mbps": 1000,
+            "dsa_port": "lan3"
+          },
+          {
+            "name": "Port 4",
+            "type": "LAN",
+            "speed_mbps": 1000,
+            "dsa_port": "lan4"
+          },
+          {
+            "name": "Port 5",
+            "type": "LAN",
+            "speed_mbps": 1000,
+            "dsa_port": "lan5"
+          },
+          {
+            "name": "Port 6",
+            "type": "LAN",
+            "speed_mbps": 1000,
+            "dsa_port": "lan6"
+          },
+          {
+            "name": "Port 7",
+            "type": "LAN",
+            "speed_mbps": 1000,
+            "dsa_port": "lan7"
+          },
+          {
+            "name": "Port 8",
+            "type": "LAN",
+            "speed_mbps": 1000,
+            "dsa_port": "lan8"
+          },
+          {
+            "name": "Port 9",
+            "type": "LAN",
+            "speed_mbps": 1000,
+            "dsa_port": "lan9"
+          },
+          {
+            "name": "Port 10",
+            "type": "LAN",
+            "speed_mbps": 1000,
+            "dsa_port": "lan10"
+          },
+          {
+            "name": "Port 11",
+            "type": "LAN",
+            "speed_mbps": 1000,
+            "dsa_port": "lan11"
+          },
+          {
+            "name": "Port 12",
+            "type": "LAN",
+            "speed_mbps": 1000,
+            "dsa_port": "lan12"
+          },
+          {
+            "name": "Port 13",
+            "type": "LAN",
+            "speed_mbps": 1000,
+            "dsa_port": "lan13"
+          },
+          {
+            "name": "Port 14",
+            "type": "LAN",
+            "speed_mbps": 1000,
+            "dsa_port": "lan14"
+          },
+          {
+            "name": "Port 15",
+            "type": "LAN",
+            "speed_mbps": 1000,
+            "dsa_port": "lan15"
+          },
+          {
+            "name": "Port 16",
+            "type": "LAN",
+            "speed_mbps": 1000,
+            "dsa_port": "lan16"
+          },
+          {
+            "name": "Port 17",
+            "type": "LAN",
+            "speed_mbps": 1000,
+            "dsa_port": "lan17"
+          },
+          {
+            "name": "Port 18",
+            "type": "LAN",
+            "speed_mbps": 1000,
+            "dsa_port": "lan18"
+          },
+          {
+            "name": "Port 19",
+            "type": "LAN",
+            "speed_mbps": 1000,
+            "dsa_port": "lan19"
+          },
+          {
+            "name": "Port 20",
+            "type": "LAN",
+            "speed_mbps": 1000,
+            "dsa_port": "lan20"
+          },
+          {
+            "name": "Port 21",
+            "type": "LAN",
+            "speed_mbps": 1000,
+            "dsa_port": "lan21"
+          },
+          {
+            "name": "Port 22",
+            "type": "LAN",
+            "speed_mbps": 1000,
+            "dsa_port": "lan22"
+          },
+          {
+            "name": "Port 23",
+            "type": "LAN",
+            "speed_mbps": 1000,
+            "dsa_port": "lan23"
+          },
+          {
+            "name": "Port 24",
+            "type": "LAN",
+            "speed_mbps": 1000,
+            "dsa_port": "lan24"
+          },
+          {
+            "name": "SFP1",
+            "type": "SFP+",
+            "speed_mbps": 1000,
+            "dsa_port": "sfp1"
+          },
+          {
+            "name": "SFP2",
+            "type": "SFP+",
+            "speed_mbps": 1000,
+            "dsa_port": "sfp2"
+          }
+        ]
+      },
+      "bootloader": "U-Boot",
+      "serial_uart": {
+        "available": true,
+        "voltage": "3.3V",
+        "baudrate": 115200,
+        "pinout_documented": true,
+        "notes": "Internal 3.3V TTL UART header JP1. Pin 1 3.3V (NEVER CONNECT), Pin 2 TX, Pin 3 RX, Pin 4 GND."
+      },
+      "openwrt": {
+        "target": "realtek",
+        "subtarget": "generic",
+        "profile": "zyxel_gs1900-24",
+        "support_status": "OFFICIALLY_SUPPORTED",
+        "first_supported_version": "21.02.0",
+        "latest_tested_version": "23.05.5",
+        "firmware_selector_url": "https://firmware-selector.openwrt.org/?version=23.05.5&target=realtek%2Fgeneric&id=zyxel_gs1900-24",
+        "device_tree_file": "rtl8382_zyxel_gs1900-24.dts",
+        "known_limitations": [
+          "Hardware L2 switching runs at full wire speed via Realtek ASIC; CPU only routes management and routing packets",
+          "Initial flash requires U-Boot TFTP recovery or stock Web GUI flash depending on vendor bootloader version"
+        ]
+      },
+      "installation": {
+        "method": "OEM Web GUI Flash",
+        "risk": "MEDIUM",
+        "requires_factory_stage": true,
+        "guide_link": "https://openwrt.org/toh/zyxel/gs1900-24"
+      },
+      "recovery": {
+        "method": "TFTP Push (Automated)",
+        "recovery_ip": "192.168.1.1",
+        "guide_link": "https://openwrt.org/toh/zyxel/gs1900-24#recovery"
+      },
+      "verification": {
+        "status": "OFFICIALLY_SUPPORTED",
+        "evidence": [
+          "Upstream OpenWrt target realtek/generic in Git",
+          "Linux kernel DTS rtl8382_zyxel_gs1900-24.dts",
+          "OpenWrt ToH verified profile"
+        ],
+        "last_verified": "2026-11-15"
+      },
+      "popularity": {
+        "tier": "HIGH_INTEREST",
+        "signals": [
+          "Top-recommended affordable 24-port managed rackmount switch for OpenWrt network lab segmentation",
+          "Full 802.1Q VLAN trunking and isolation"
+        ]
+      },
+      "sources": [
+        {
+          "title": "OpenWrt Table of Hardware: Zyxel GS1900-24",
+          "url": "https://openwrt.org/toh/zyxel/gs1900-24",
+          "type": "OPENWRT_TOH",
+          "date_accessed": "2026-11-15"
+        },
+        {
+          "title": "OpenWrt Git: realtek rtl838x image Makefile",
+          "url": "https://git.openwrt.org/?p=openwrt/openwrt.git;a=blob;f=target/linux/realtek/image/generic.mk",
           "type": "OPENWRT_GIT",
           "date_accessed": "2026-11-15"
         }
@@ -7203,6 +10612,53 @@
       ]
     },
     {
+      "$schema": "../schemas/chipset.schema.json",
+      "id": "broadcom-bcm63138",
+      "vendor": "Broadcom",
+      "part_number": "BCM63138",
+      "marketing_name": "Broadcom BCM63138 (DSL / VDSL2 / Gigabit Gateway)",
+      "cpu": {
+        "architecture": "arm_cortex-a9",
+        "core_type": "ARM Cortex-A9 MPCore",
+        "cores": 2,
+        "max_clock_mhz": 1000
+      },
+      "process_node_nm": 40,
+      "openwrt_target": "bcm63xx",
+      "openwrt_subtarget": "arm",
+      "linux_driver": {
+        "wireless_mac80211": "b43 / brcmfmac",
+        "ethernet_driver": "bcm63xx_enet",
+        "switch_driver": "bcm_robo"
+      },
+      "wireless_subsystem": {
+        "integrated": false,
+        "accompanying_rf_chips": [
+          "BCM4360",
+          "BCM4366"
+        ],
+        "wi_fi_generation": "Wi-Fi 5",
+        "mimo_capabilities": "3x3 / 4x4 PCIe Hosted"
+      },
+      "hardware_acceleration": {
+        "flow_offload": "Software Only",
+        "crypto_engine": true,
+        "wireless_ethernet_dispatch": false
+      },
+      "openwrt_support_tier": "TIER_3_COMMUNITY_ONLY",
+      "notes": "Carrier-grade VDSL2 bonding and Gigabit Ethernet SoC deployed in millions of ISP residential gateways including Technicolor DGA4130, DGA4132, and TG789vac series. Runs OpenWrt-derived Technicolor Homeware firmware with active community root and customization support.",
+      "sources": [
+        {
+          "title": "OpenWrt Wiki: Broadcom BCM63xx Target",
+          "url": "https://openwrt.org/docs/techref/targets/bcm63xx"
+        },
+        {
+          "title": "Ansuel/tch-nginx-gui GitHub Community Repository",
+          "url": "https://github.com/Ansuel/tch-nginx-gui"
+        }
+      ]
+    },
+    {
       "id": "broadcom-bcm4908",
       "vendor": "Broadcom",
       "part_number": "BCM4908 / BCM4906",
@@ -7283,6 +10739,53 @@
         {
           "title": "OpenWrt Target Definition: x86/64",
           "url": "https://git.openwrt.org/?p=openwrt/openwrt.git;a=tree;f=target/linux/x86"
+        }
+      ]
+    },
+    {
+      "$schema": "../schemas/chipset.schema.json",
+      "id": "marvell-armada-385",
+      "vendor": "Marvell",
+      "part_number": "88F6820 (Armada 385)",
+      "marketing_name": "Marvell Armada 385 (88F6820 / 88F6828)",
+      "cpu": {
+        "architecture": "arm_cortex-a9",
+        "core_type": "ARM Cortex-A9 MPCore (v7-A)",
+        "cores": 2,
+        "max_clock_mhz": 1600
+      },
+      "process_node_nm": 28,
+      "openwrt_target": "mvebu",
+      "openwrt_subtarget": "cortexa9",
+      "linux_driver": {
+        "wireless_mac80211": null,
+        "ethernet_driver": "mvneta",
+        "switch_driver": "mv88e6xxx"
+      },
+      "wireless_subsystem": {
+        "integrated": false,
+        "accompanying_rf_chips": [
+          "Marvell 88W8864",
+          "Qualcomm Atheros QCA9880"
+        ],
+        "wi_fi_generation": "Wi-Fi 5",
+        "mimo_capabilities": "PCIe Hosted Radio Cards"
+      },
+      "hardware_acceleration": {
+        "flow_offload": "Software Only",
+        "crypto_engine": true,
+        "wireless_ethernet_dispatch": false
+      },
+      "openwrt_support_tier": "TIER_1_MAINSTREAM",
+      "notes": "Renowned high-performance 32-bit ARM SoC powering legendary open routers including the Turris Omnia and Linksys WRT1900AC/WRT1900ACS/WRT3200ACM series. Features dedicated hardware cryptographic acceleration (Marvell CESA) and mature upstream Linux mvneta Ethernet driver.",
+      "sources": [
+        {
+          "title": "OpenWrt Wiki: Marvell Armada 385 (mvebu target)",
+          "url": "https://openwrt.org/docs/techref/targets/mvebu"
+        },
+        {
+          "title": "Linux Kernel DTS: armada-385.dtsi",
+          "url": "https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/arch/arm/boot/dts/marvell/armada-385.dtsi"
         }
       ]
     },
@@ -7683,6 +11186,101 @@
       ]
     },
     {
+      "$schema": "../schemas/chipset.schema.json",
+      "id": "qualcomm-qca9563",
+      "vendor": "Qualcomm",
+      "part_number": "QCA9563",
+      "marketing_name": "Qualcomm Atheros QCA9563 (Dragonfly)",
+      "cpu": {
+        "architecture": "mips_74kc",
+        "core_type": "MIPS 74Kc",
+        "cores": 1,
+        "max_clock_mhz": 775
+      },
+      "process_node_nm": 65,
+      "openwrt_target": "ath79",
+      "openwrt_subtarget": "generic",
+      "linux_driver": {
+        "wireless_mac80211": "ath9k",
+        "ethernet_driver": "ag71xx",
+        "switch_driver": "qca8k"
+      },
+      "wireless_subsystem": {
+        "integrated": true,
+        "accompanying_rf_chips": [
+          "QCA9880",
+          "QCA9886",
+          "QCA9888"
+        ],
+        "wi_fi_generation": "Wi-Fi 5",
+        "mimo_capabilities": "3x3 2.4GHz b/g/n (450Mbps) + PCIe 5GHz"
+      },
+      "hardware_acceleration": {
+        "flow_offload": "Software Only",
+        "crypto_engine": false,
+        "wireless_ethernet_dispatch": false
+      },
+      "openwrt_support_tier": "TIER_1_MAINSTREAM",
+      "notes": "Classic, battle-tested Qualcomm Atheros MIPS SoC deployed in millions of routers worldwide including TP-Link Archer C7 v2/v4/v5, GL.iNet GL-AR750S Slate, and many enterprise outdoor APs. Supported with 100% open-source ath9k drivers.",
+      "sources": [
+        {
+          "title": "OpenWrt ath79 target documentation",
+          "url": "https://openwrt.org/docs/techref/targets/ath79"
+        },
+        {
+          "title": "Linux Wireless: ath9k driver documentation",
+          "url": "https://wireless.docs.kernel.org/en/latest/en/users/drivers/ath9k.html"
+        }
+      ]
+    },
+    {
+      "$schema": "../schemas/chipset.schema.json",
+      "id": "qualcomm-ipq5018",
+      "vendor": "Qualcomm",
+      "part_number": "IPQ5018",
+      "marketing_name": "Qualcomm IPQ5018 (Maple / Immersive Home 216)",
+      "cpu": {
+        "architecture": "arm_cortex-a53",
+        "core_type": "ARM Cortex-A53",
+        "cores": 2,
+        "max_clock_mhz": 1000
+      },
+      "process_node_nm": 14,
+      "openwrt_target": "qualcommax",
+      "openwrt_subtarget": "ipq50xx",
+      "linux_driver": {
+        "wireless_mac80211": "ath11k",
+        "ethernet_driver": "qcom-nss-dp",
+        "switch_driver": "qca8075"
+      },
+      "wireless_subsystem": {
+        "integrated": true,
+        "accompanying_rf_chips": [
+          "QCN6102",
+          "QCN9074"
+        ],
+        "wi_fi_generation": "Wi-Fi 6",
+        "mimo_capabilities": "2x2 2.4GHz 802.11ax (574Mbps) + PCIe 5GHz"
+      },
+      "hardware_acceleration": {
+        "flow_offload": "Supported (NSS / PPE)",
+        "crypto_engine": true,
+        "wireless_ethernet_dispatch": true
+      },
+      "openwrt_support_tier": "TIER_2_STABLE",
+      "notes": "Cost-effective dual-core 64-bit ARM Wi-Fi 6 platform heavily utilized in mainstream mesh access points and routers including Ubiquiti UniFi 6 Pro, TP-Link Deco X60, and Xiaomi AX3000 mesh systems. Supported via ath11k driver.",
+      "sources": [
+        {
+          "title": "Qualcomm IPQ5018 Product Brief",
+          "url": "https://www.qualcomm.com/products/internet-of-things/networking/wi-fi-networks/immersive-home-platforms"
+        },
+        {
+          "title": "OpenWrt Wiki: qualcommax target",
+          "url": "https://openwrt.org/docs/techref/targets/qualcommax"
+        }
+      ]
+    },
+    {
       "id": "realtek-rtl8380m",
       "vendor": "Realtek",
       "part_number": "RTL8380M / RTL8382M",
@@ -7757,6 +11355,50 @@
         {
           "title": "OpenWrt Target Definition: rockchip/armv8",
           "url": "https://git.openwrt.org/?p=openwrt/openwrt.git;a=tree;f=target/linux/rockchip"
+        }
+      ]
+    },
+    {
+      "$schema": "../schemas/chipset.schema.json",
+      "id": "rockchip-rk3328",
+      "vendor": "Rockchip",
+      "part_number": "RK3328",
+      "marketing_name": "Rockchip RK3328",
+      "cpu": {
+        "architecture": "arm_cortex-a53",
+        "core_type": "ARM Cortex-A53",
+        "cores": 4,
+        "max_clock_mhz": 1300
+      },
+      "process_node_nm": 28,
+      "openwrt_target": "rockchip",
+      "openwrt_subtarget": "armv8",
+      "linux_driver": {
+        "wireless_mac80211": null,
+        "ethernet_driver": "stmmac",
+        "switch_driver": null
+      },
+      "wireless_subsystem": {
+        "integrated": false,
+        "accompanying_rf_chips": [],
+        "wi_fi_generation": "Ethernet Only",
+        "mimo_capabilities": "USB / PCIe Wi-Fi expansion"
+      },
+      "hardware_acceleration": {
+        "flow_offload": "Software Only",
+        "crypto_engine": true,
+        "wireless_ethernet_dispatch": false
+      },
+      "openwrt_support_tier": "TIER_1_MAINSTREAM",
+      "notes": "Quad-core 64-bit ARM SoC with native Gigabit Ethernet MAC and USB 3.0 controller. Popularized as an ultra-compact dual-GbE mini-router platform by the FriendlyElec NanoPi R2S and Xunlong Orange Pi R1 Plus LTS.",
+      "sources": [
+        {
+          "title": "Rockchip RK3328 Technical Reference Manual",
+          "url": "https://www.rock-chips.com/a/en/products/RK33_Series/2017/0118/836.html"
+        },
+        {
+          "title": "OpenWrt rockchip target documentation",
+          "url": "https://openwrt.org/docs/techref/targets/rockchip"
         }
       ]
     },

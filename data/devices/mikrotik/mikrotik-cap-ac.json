@@ -1,0 +1,127 @@
+{
+  "$schema": "../../schemas/device.schema.json",
+  "id": "mikrotik-cap-ac",
+  "manufacturer": "MikroTik",
+  "model": "cAP ac (RBcAPGi-5acD2nD)",
+  "hardware_revision": "r2",
+  "regional_variant": "Global",
+  "internal_board_name": "mikrotik_cap-ac",
+  "soc": {
+    "vendor": "Qualcomm",
+    "model": "IPQ4018",
+    "family": "Dakota",
+    "cores": 4,
+    "frequency_mhz": 716
+  },
+  "architecture": "arm_cortex-a7",
+  "ram_mb": 128,
+  "flash": {
+    "type": "SPI-NOR",
+    "capacity_mb": 16
+  },
+  "wireless": [
+    {
+      "radio_id": "radio0",
+      "chipset": "Qualcomm IPQ4018",
+      "frequency_ghz": 2.4,
+      "generation": "Wi-Fi 4",
+      "spatial_streams": "2x2",
+      "max_phy_rate_mbps": 300,
+      "channel_width_mhz": 40
+    },
+    {
+      "radio_id": "radio1",
+      "chipset": "Qualcomm IPQ4018",
+      "frequency_ghz": 5.0,
+      "generation": "Wi-Fi 5",
+      "spatial_streams": "2x2",
+      "max_phy_rate_mbps": 867,
+      "channel_width_mhz": 80
+    }
+  ],
+  "ethernet": {
+    "switch_chip": "Qualcomm QCA8075",
+    "ports": [
+      {
+        "name": "ETH1 (PoE-IN)",
+        "type": "WAN/LAN",
+        "speed_mbps": 1000,
+        "dsa_port": "eth0"
+      },
+      {
+        "name": "ETH2 (PoE-OUT)",
+        "type": "LAN",
+        "speed_mbps": 1000,
+        "dsa_port": "eth1"
+      }
+    ]
+  },
+  "poe": {
+    "supported": true,
+    "standard": "802.3af (PoE)",
+    "type": "PoE-In"
+  },
+  "bootloader": "RouterBOOT",
+  "serial_uart": {
+    "available": true,
+    "voltage": "3.3V",
+    "baudrate": 115200,
+    "pinout_documented": true,
+    "notes": "Internal UART pads. Never connect VCC."
+  },
+  "openwrt": {
+    "target": "ipq40xx",
+    "subtarget": "mikrotik",
+    "profile": "mikrotik_cap-ac",
+    "support_status": "OFFICIALLY_SUPPORTED",
+    "first_supported_version": "21.02.0",
+    "latest_tested_version": "23.05.5",
+    "firmware_selector_url": "https://firmware-selector.openwrt.org/?version=23.05.5&target=ipq40xx%2Fmikrotik&id=mikrotik_cap-ac",
+    "device_tree_file": "qcom-ipq4018-mikrotik-cap-ac.dts",
+    "known_limitations": [
+      "RouterBOOT requires initial kernel load via Netinstall / BOOTP TFTP server",
+      "RouterOS license key is preserved in protected NAND partition and should be backed up before sysupgrade"
+    ]
+  },
+  "installation": {
+    "method": "TFTP Boot / Recovery",
+    "risk": "MEDIUM",
+    "requires_factory_stage": true,
+    "guide_link": "https://openwrt.org/toh/mikrotik/cap_ac"
+  },
+  "recovery": {
+    "method": "TFTP Push (Automated)",
+    "recovery_ip": "192.168.88.1",
+    "guide_link": "https://openwrt.org/toh/mikrotik/cap_ac#recovery"
+  },
+  "verification": {
+    "status": "OFFICIALLY_SUPPORTED",
+    "evidence": [
+      "Upstream OpenWrt target ipq40xx/mikrotik in Git",
+      "Linux kernel DTS qcom-ipq4018-mikrotik-cap-ac.dts",
+      "OpenWrt ToH verified profile"
+    ],
+    "last_verified": "2026-11-15"
+  },
+  "popularity": {
+    "tier": "HIGH_INTEREST",
+    "signals": [
+      "Extremely widely used ceiling AP by WISP and enterprise network engineers",
+      "Supports passive PoE passthrough to secondary camera or AP"
+    ]
+  },
+  "sources": [
+    {
+      "title": "MikroTik cAP ac Official Specifications",
+      "url": "https://mikrotik.com/product/cap_ac",
+      "type": "OEM_SPEC",
+      "date_accessed": "2026-11-15"
+    },
+    {
+      "title": "OpenWrt Table of Hardware: MikroTik cAP ac",
+      "url": "https://openwrt.org/toh/mikrotik/cap_ac",
+      "type": "OPENWRT_TOH",
+      "date_accessed": "2026-11-15"
+    }
+  ]
+}

@@ -1,0 +1,48 @@
+{
+  "$schema": "../schemas/chipset.schema.json",
+  "id": "qualcomm-qca9563",
+  "vendor": "Qualcomm",
+  "part_number": "QCA9563",
+  "marketing_name": "Qualcomm Atheros QCA9563 (Dragonfly)",
+  "cpu": {
+    "architecture": "mips_74kc",
+    "core_type": "MIPS 74Kc",
+    "cores": 1,
+    "max_clock_mhz": 775
+  },
+  "process_node_nm": 65,
+  "openwrt_target": "ath79",
+  "openwrt_subtarget": "generic",
+  "linux_driver": {
+    "wireless_mac80211": "ath9k",
+    "ethernet_driver": "ag71xx",
+    "switch_driver": "qca8k"
+  },
+  "wireless_subsystem": {
+    "integrated": true,
+    "accompanying_rf_chips": [
+      "QCA9880",
+      "QCA9886",
+      "QCA9888"
+    ],
+    "wi_fi_generation": "Wi-Fi 5",
+    "mimo_capabilities": "3x3 2.4GHz b/g/n (450Mbps) + PCIe 5GHz"
+  },
+  "hardware_acceleration": {
+    "flow_offload": "Software Only",
+    "crypto_engine": false,
+    "wireless_ethernet_dispatch": false
+  },
+  "openwrt_support_tier": "TIER_1_MAINSTREAM",
+  "notes": "Classic, battle-tested Qualcomm Atheros MIPS SoC deployed in millions of routers worldwide including TP-Link Archer C7 v2/v4/v5, GL.iNet GL-AR750S Slate, and many enterprise outdoor APs. Supported with 100% open-source ath9k drivers.",
+  "sources": [
+    {
+      "title": "OpenWrt ath79 target documentation",
+      "url": "https://openwrt.org/docs/techref/targets/ath79"
+    },
+    {
+      "title": "Linux Wireless: ath9k driver documentation",
+      "url": "https://wireless.docs.kernel.org/en/latest/en/users/drivers/ath9k.html"
+    }
+  ]
+}

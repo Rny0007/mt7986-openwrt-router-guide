@@ -1,0 +1,172 @@
+{
+  "$schema": "../../schemas/device.schema.json",
+  "id": "asus-rt-be96u",
+  "manufacturer": "ASUS",
+  "model": "RT-BE96U (ROG Rapture / Wi-Fi 7)",
+  "hardware_revision": "v1",
+  "regional_variant": "Global",
+  "internal_board_name": "asus_rt-be96u",
+  "soc": {
+    "vendor": "Broadcom",
+    "model": "BCM4916",
+    "family": "Brahma-B53",
+    "cores": 4,
+    "frequency_mhz": 2600
+  },
+  "architecture": "arm_cortex-a53",
+  "ram_mb": 2048,
+  "flash": {
+    "type": "SPI-NAND",
+    "capacity_mb": 256
+  },
+  "wireless": [
+    {
+      "radio_id": "radio0",
+      "chipset": "Broadcom BCM6726",
+      "frequency_ghz": 2.4,
+      "generation": "Wi-Fi 7",
+      "spatial_streams": "4x4",
+      "max_phy_rate_mbps": 1376,
+      "channel_width_mhz": 40
+    },
+    {
+      "radio_id": "radio1",
+      "chipset": "Broadcom BCM6726",
+      "frequency_ghz": 5.0,
+      "generation": "Wi-Fi 7",
+      "spatial_streams": "4x4",
+      "max_phy_rate_mbps": 5764,
+      "channel_width_mhz": 160
+    },
+    {
+      "radio_id": "radio2",
+      "chipset": "Broadcom BCM6726",
+      "frequency_ghz": 6.0,
+      "generation": "Wi-Fi 7",
+      "spatial_streams": "4x4",
+      "max_phy_rate_mbps": 11529,
+      "channel_width_mhz": 320
+    }
+  ],
+  "ethernet": {
+    "switch_chip": "Broadcom BCM4916 Integrated + BCM84880 10G PHY",
+    "ports": [
+      {
+        "name": "10G WAN/LAN",
+        "type": "WAN/LAN",
+        "speed_mbps": 10000,
+        "dsa_port": "eth0"
+      },
+      {
+        "name": "10G Gaming LAN",
+        "type": "LAN",
+        "speed_mbps": 10000,
+        "dsa_port": "eth1"
+      },
+      {
+        "name": "2.5G WAN/LAN",
+        "type": "WAN/LAN",
+        "speed_mbps": 2500,
+        "dsa_port": "eth2"
+      },
+      {
+        "name": "2.5G LAN1",
+        "type": "LAN",
+        "speed_mbps": 2500,
+        "dsa_port": "lan1"
+      },
+      {
+        "name": "2.5G LAN2",
+        "type": "LAN",
+        "speed_mbps": 2500,
+        "dsa_port": "lan2"
+      },
+      {
+        "name": "2.5G LAN3",
+        "type": "LAN",
+        "speed_mbps": 2500,
+        "dsa_port": "lan3"
+      },
+      {
+        "name": "2.5G LAN4",
+        "type": "LAN",
+        "speed_mbps": 2500,
+        "dsa_port": "lan4"
+      }
+    ]
+  },
+  "usb_ports": [
+    {
+      "type": "USB 3.2 Gen 1 Type-A",
+      "count": 1
+    },
+    {
+      "type": "USB 2.0 Type-A",
+      "count": 1
+    }
+  ],
+  "bootloader": "CFE / CFE-ARM",
+  "serial_uart": {
+    "available": true,
+    "voltage": "3.3V",
+    "baudrate": 115200,
+    "pinout_documented": true,
+    "notes": "3.3V UART serial header present on PCB: Pin 1 VCC (NEVER CONNECT), Pin 2 TX, Pin 3 RX, Pin 4 GND."
+  },
+  "openwrt": {
+    "target": "bcm4908",
+    "subtarget": "generic",
+    "profile": "asus_rt-be96u",
+    "support_status": "UNSUPPORTED",
+    "first_supported_version": null,
+    "latest_tested_version": null,
+    "firmware_selector_url": null,
+    "device_tree_file": null,
+    "known_limitations": [
+      "Broadcom BCM6726 Wi-Fi 7 chipsets have zero open-source Linux kernel drivers",
+      "Broadcom proprietary FullMAC architecture prevents open-source driver development",
+      "Users must rely on Asuswrt-Merlin third-party firmware for custom features"
+    ]
+  },
+  "installation": {
+    "method": "Unsupported",
+    "risk": "CRITICAL",
+    "requires_factory_stage": false,
+    "guide_link": null
+  },
+  "recovery": {
+    "method": "U-Boot Recovery Webpage",
+    "recovery_ip": "192.168.1.1",
+    "guide_link": "https://www.asus.com/support/FAQ/1000814/"
+  },
+  "verification": {
+    "status": "UNSUPPORTED",
+    "evidence": [
+      "OpenWrt hardware documentation confirming Broadcom Wi-Fi 7 is closed and unsupported",
+      "Broadcom Linux kernel driver mailing list confirmation",
+      "Asuswrt-Merlin repository documentation on BCM4916 architecture"
+    ],
+    "last_verified": "2026-11-15"
+  },
+  "popularity": {
+    "tier": "HIGH_INTEREST",
+    "signals": [
+      "Premier enthusiast Wi-Fi 7 flagship router",
+      "Common search query among networking enthusiasts asking if OpenWrt can run on Broadcom Wi-Fi 7"
+    ]
+  },
+  "sources": [
+    {
+      "title": "ASUS RT-BE96U Technical Specifications",
+      "url": "https://www.asus.com/networking-iot-servers/wifi-routers/asus-gaming-routers/rt-be96u/techspec/",
+      "type": "OEM_SPEC",
+      "date_accessed": "2026-11-15"
+    },
+    {
+      "title": "OpenWrt Wiki: Broadcom Wi-Fi Architectural Limitations",
+      "url": "https://openwrt.org/docs/techref/instruction/broadcom",
+      "type": "OFFICIAL_OPENWRT",
+      "date_accessed": "2026-11-15"
+    }
+  ]
+}

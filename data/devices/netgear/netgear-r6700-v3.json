@@ -1,0 +1,147 @@
+{
+  "$schema": "../../schemas/device.schema.json",
+  "id": "netgear-r6700-v3",
+  "manufacturer": "Netgear",
+  "model": "Nighthawk R6700",
+  "hardware_revision": "v3",
+  "regional_variant": "Global",
+  "internal_board_name": "netgear_r6700_v3",
+  "soc": {
+    "vendor": "Broadcom",
+    "model": "BCM4708C0",
+    "family": "Northstar",
+    "cores": 2,
+    "frequency_mhz": 1000
+  },
+  "architecture": "arm_cortex-a9",
+  "ram_mb": 256,
+  "flash": {
+    "type": "SPI-NAND",
+    "capacity_mb": 128
+  },
+  "wireless": [
+    {
+      "radio_id": "radio0",
+      "chipset": "Broadcom BCM4360",
+      "frequency_ghz": 2.4,
+      "generation": "Wi-Fi 4",
+      "spatial_streams": "3x3",
+      "max_phy_rate_mbps": 450,
+      "channel_width_mhz": 40
+    },
+    {
+      "radio_id": "radio1",
+      "chipset": "Broadcom BCM4360",
+      "frequency_ghz": 5.0,
+      "generation": "Wi-Fi 5",
+      "spatial_streams": "3x3",
+      "max_phy_rate_mbps": 1300,
+      "channel_width_mhz": 80
+    }
+  ],
+  "ethernet": {
+    "switch_chip": "Broadcom BCM53012",
+    "ports": [
+      {
+        "name": "WAN",
+        "type": "WAN",
+        "speed_mbps": 1000,
+        "dsa_port": "wan"
+      },
+      {
+        "name": "LAN1",
+        "type": "LAN",
+        "speed_mbps": 1000,
+        "dsa_port": "lan1"
+      },
+      {
+        "name": "LAN2",
+        "type": "LAN",
+        "speed_mbps": 1000,
+        "dsa_port": "lan2"
+      },
+      {
+        "name": "LAN3",
+        "type": "LAN",
+        "speed_mbps": 1000,
+        "dsa_port": "lan3"
+      },
+      {
+        "name": "LAN4",
+        "type": "LAN",
+        "speed_mbps": 1000,
+        "dsa_port": "lan4"
+      }
+    ]
+  },
+  "usb_ports": [
+    {
+      "type": "USB 3.0 Type-A",
+      "count": 1
+    }
+  ],
+  "bootloader": "CFE",
+  "serial_uart": {
+    "available": true,
+    "voltage": "3.3V",
+    "baudrate": 115200,
+    "pinout_documented": true,
+    "notes": "JP1 header on PCB: Pin 1 VCC 3.3V (NEVER CONNECT), Pin 2 GND, Pin 3 RX, Pin 4 TX."
+  },
+  "openwrt": {
+    "target": "bcm53xx",
+    "subtarget": "generic",
+    "profile": "netgear_r6700-v3",
+    "support_status": "PARTIALLY_VERIFIED",
+    "first_supported_version": "21.02.0",
+    "latest_tested_version": "23.05.5",
+    "firmware_selector_url": "https://firmware-selector.openwrt.org/?version=23.05.5&target=bcm53xx%2Fgeneric&id=netgear_r6700-v3",
+    "device_tree_file": "bcm4708-netgear-r6700-v3.dts",
+    "known_limitations": [
+      "Broadcom BCM4360 wireless uses open-source b43/brcmsmac drivers with reduced throughput and no 5GHz 802.11ac high-speed support",
+      "High CPU temperature during heavy routing loads requires good ambient ventilation",
+      "Recommended primarily as wired gigabit router or with external APs"
+    ]
+  },
+  "installation": {
+    "method": "OEM Web GUI Flash",
+    "risk": "MEDIUM",
+    "requires_factory_stage": true,
+    "guide_link": "https://openwrt.org/toh/netgear/r6700_v3"
+  },
+  "recovery": {
+    "method": "TFTP Push (Automated)",
+    "recovery_ip": "192.168.1.1",
+    "guide_link": "https://openwrt.org/toh/netgear/r6700_v3#recovery"
+  },
+  "verification": {
+    "status": "PARTIALLY_VERIFIED",
+    "evidence": [
+      "OpenWrt upstream bcm53xx target support in Git",
+      "Linux kernel tree bcm4708-netgear-r6700-v3.dts",
+      "OpenWrt ToH verified hardware profile"
+    ],
+    "last_verified": "2026-11-15"
+  },
+  "popularity": {
+    "tier": "HIGH_INTEREST",
+    "signals": [
+      "One of the top-selling Amazon certified refurbished Wi-Fi routers",
+      "Over 100,000 retail sales historically in North America"
+    ]
+  },
+  "sources": [
+    {
+      "title": "OpenWrt Table of Hardware: Netgear R6700 v3",
+      "url": "https://openwrt.org/toh/netgear/r6700_v3",
+      "type": "OPENWRT_TOH",
+      "date_accessed": "2026-11-15"
+    },
+    {
+      "title": "OpenWrt Git: bcm53xx device tree definition",
+      "url": "https://git.openwrt.org/?p=openwrt/openwrt.git;a=blob;f=target/linux/bcm53xx/files/arch/arm/boot/dts/bcm4708-netgear-r6700-v3.dts",
+      "type": "OPENWRT_GIT",
+      "date_accessed": "2026-11-15"
+    }
+  ]
+}

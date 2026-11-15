@@ -1,0 +1,47 @@
+{
+  "$schema": "../schemas/chipset.schema.json",
+  "id": "broadcom-bcm63138",
+  "vendor": "Broadcom",
+  "part_number": "BCM63138",
+  "marketing_name": "Broadcom BCM63138 (DSL / VDSL2 / Gigabit Gateway)",
+  "cpu": {
+    "architecture": "arm_cortex-a9",
+    "core_type": "ARM Cortex-A9 MPCore",
+    "cores": 2,
+    "max_clock_mhz": 1000
+  },
+  "process_node_nm": 40,
+  "openwrt_target": "bcm63xx",
+  "openwrt_subtarget": "arm",
+  "linux_driver": {
+    "wireless_mac80211": "b43 / brcmfmac",
+    "ethernet_driver": "bcm63xx_enet",
+    "switch_driver": "bcm_robo"
+  },
+  "wireless_subsystem": {
+    "integrated": false,
+    "accompanying_rf_chips": [
+      "BCM4360",
+      "BCM4366"
+    ],
+    "wi_fi_generation": "Wi-Fi 5",
+    "mimo_capabilities": "3x3 / 4x4 PCIe Hosted"
+  },
+  "hardware_acceleration": {
+    "flow_offload": "Software Only",
+    "crypto_engine": true,
+    "wireless_ethernet_dispatch": false
+  },
+  "openwrt_support_tier": "TIER_3_COMMUNITY_ONLY",
+  "notes": "Carrier-grade VDSL2 bonding and Gigabit Ethernet SoC deployed in millions of ISP residential gateways including Technicolor DGA4130, DGA4132, and TG789vac series. Runs OpenWrt-derived Technicolor Homeware firmware with active community root and customization support.",
+  "sources": [
+    {
+      "title": "OpenWrt Wiki: Broadcom BCM63xx Target",
+      "url": "https://openwrt.org/docs/techref/targets/bcm63xx"
+    },
+    {
+      "title": "Ansuel/tch-nginx-gui GitHub Community Repository",
+      "url": "https://github.com/Ansuel/tch-nginx-gui"
+    }
+  ]
+}

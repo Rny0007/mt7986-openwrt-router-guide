@@ -1,0 +1,124 @@
+{
+  "$schema": "../../schemas/device.schema.json",
+  "id": "qotom-q355g4",
+  "manufacturer": "Qotom",
+  "model": "Q355G4",
+  "hardware_revision": "v1",
+  "regional_variant": "Global",
+  "internal_board_name": "qotom_q355g4",
+  "soc": {
+    "vendor": "Intel/x86",
+    "model": "Core i5-5200U",
+    "family": "Broadwell",
+    "cores": 2,
+    "frequency_mhz": 2700
+  },
+  "architecture": "x86_64",
+  "ram_mb": 8192,
+  "flash": {
+    "type": "SATA/SSD",
+    "capacity_mb": 65536
+  },
+  "ethernet": {
+    "switch_chip": "4x Discrete Intel I211-AT Gigabit Controllers",
+    "ports": [
+      {
+        "name": "WAN",
+        "type": "WAN",
+        "speed_mbps": 1000,
+        "dsa_port": "eth0"
+      },
+      {
+        "name": "LAN1",
+        "type": "LAN",
+        "speed_mbps": 1000,
+        "dsa_port": "eth1"
+      },
+      {
+        "name": "LAN2",
+        "type": "LAN",
+        "speed_mbps": 1000,
+        "dsa_port": "eth2"
+      },
+      {
+        "name": "LAN3",
+        "type": "LAN",
+        "speed_mbps": 1000,
+        "dsa_port": "eth3"
+      }
+    ]
+  },
+  "usb_ports": [
+    {
+      "type": "USB 3.0 Type-A",
+      "count": 2
+    },
+    {
+      "type": "USB 2.0 Type-A",
+      "count": 2
+    }
+  ],
+  "bootloader": "AMI UEFI / Legacy BIOS",
+  "serial_uart": {
+    "available": true,
+    "voltage": "3.3V",
+    "baudrate": 115200,
+    "pinout_documented": true,
+    "notes": "DB9 RS232 COM port on front panel."
+  },
+  "openwrt": {
+    "target": "x86",
+    "subtarget": "64",
+    "profile": "generic",
+    "support_status": "OFFICIALLY_SUPPORTED",
+    "first_supported_version": "18.06.0",
+    "latest_tested_version": "23.05.5",
+    "firmware_selector_url": "https://firmware-selector.openwrt.org/?version=23.05.5&target=x86%2F64&id=generic",
+    "device_tree_file": null,
+    "known_limitations": [
+      "Fanless aluminum block can reach 55C under continuous line-rate SQM routing loads",
+      "Requires x86/64 generic ext4 or squashfs EFI image"
+    ]
+  },
+  "installation": {
+    "method": "Direct Image Flash (SBC / SD Card)",
+    "risk": "LOW",
+    "requires_factory_stage": false,
+    "guide_link": "https://openwrt.org/docs/guide-user/installation/openwrt_x86"
+  },
+  "recovery": {
+    "method": "SD Card Re-flash (SBC)",
+    "recovery_ip": "192.168.1.1",
+    "guide_link": "https://openwrt.org/docs/guide-user/installation/openwrt_x86"
+  },
+  "verification": {
+    "status": "OFFICIALLY_SUPPORTED",
+    "evidence": [
+      "OpenWrt official target x86/64",
+      "Hardware verification by thousands of homelab router installations",
+      "Intel e1000e / igb driver line-rate throughput confirmed"
+    ],
+    "last_verified": "2026-11-15"
+  },
+  "popularity": {
+    "tier": "HIGH_INTEREST",
+    "signals": [
+      "Widely deployed industrial micro-PC router across Amazon and AliExpress",
+      "Popular choice for multi-gigabit PPPoE and Cake SQM routing"
+    ]
+  },
+  "sources": [
+    {
+      "title": "Qotom Q355G4 Product Specifications",
+      "url": "https://www.qotom.net/",
+      "type": "OEM_SPEC",
+      "date_accessed": "2026-11-15"
+    },
+    {
+      "title": "OpenWrt x86 Installation Guide",
+      "url": "https://openwrt.org/docs/guide-user/installation/openwrt_x86",
+      "type": "OFFICIAL_OPENWRT",
+      "date_accessed": "2026-11-15"
+    }
+  ]
+}

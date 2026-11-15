@@ -1,0 +1,153 @@
+{
+  "$schema": "../../schemas/device.schema.json",
+  "id": "technicolor-dga4132",
+  "manufacturer": "Technicolor",
+  "model": "DGA4132 (TIM HUB)",
+  "hardware_revision": "v1",
+  "regional_variant": "IT / EU",
+  "internal_board_name": "technicolor_dga4132",
+  "soc": {
+    "vendor": "Broadcom",
+    "model": "BCM63138",
+    "family": "BCM63xx",
+    "cores": 2,
+    "frequency_mhz": 1000
+  },
+  "architecture": "arm_cortex-a9",
+  "ram_mb": 512,
+  "flash": {
+    "type": "SPI-NAND",
+    "capacity_mb": 256
+  },
+  "wireless": [
+    {
+      "radio_id": "radio0",
+      "chipset": "Broadcom BCM4360",
+      "frequency_ghz": 2.4,
+      "generation": "Wi-Fi 4",
+      "spatial_streams": "3x3",
+      "max_phy_rate_mbps": 450,
+      "channel_width_mhz": 40
+    },
+    {
+      "radio_id": "radio1",
+      "chipset": "Broadcom BCM4366",
+      "frequency_ghz": 5.0,
+      "generation": "Wi-Fi 5",
+      "spatial_streams": "4x4",
+      "max_phy_rate_mbps": 1733,
+      "channel_width_mhz": 80
+    }
+  ],
+  "ethernet": {
+    "switch_chip": "Broadcom BCM53125 Integrated Switch",
+    "ports": [
+      {
+        "name": "SFP Cage (GPON)",
+        "type": "SFP+",
+        "speed_mbps": 1000,
+        "dsa_port": "sfp"
+      },
+      {
+        "name": "WAN",
+        "type": "WAN",
+        "speed_mbps": 1000,
+        "dsa_port": "wan"
+      },
+      {
+        "name": "LAN1",
+        "type": "LAN",
+        "speed_mbps": 1000,
+        "dsa_port": "lan1"
+      },
+      {
+        "name": "LAN2",
+        "type": "LAN",
+        "speed_mbps": 1000,
+        "dsa_port": "lan2"
+      },
+      {
+        "name": "LAN3",
+        "type": "LAN",
+        "speed_mbps": 1000,
+        "dsa_port": "lan3"
+      },
+      {
+        "name": "LAN4",
+        "type": "LAN",
+        "speed_mbps": 1000,
+        "dsa_port": "lan4"
+      }
+    ]
+  },
+  "usb_ports": [
+    {
+      "type": "USB 3.0 Type-A",
+      "count": 2
+    }
+  ],
+  "bootloader": "CFE",
+  "serial_uart": {
+    "available": true,
+    "voltage": "3.3V",
+    "baudrate": 115200,
+    "pinout_documented": true,
+    "notes": "J10 header on mainboard. 3.3V TTL logic. Never connect VCC."
+  },
+  "openwrt": {
+    "target": "bcm63xx",
+    "subtarget": "arm",
+    "profile": "technicolor_dga4132",
+    "support_status": "COMMUNITY_VERIFIED",
+    "first_supported_version": "Technicolor Homeware (OpenWrt 15.05/18.06 Core)",
+    "latest_tested_version": "Homeware 18.2.c + Ansuel GUI",
+    "firmware_selector_url": null,
+    "device_tree_file": "bcm63138-dga4132.dts",
+    "known_limitations": [
+      "Runs Technicolor Homeware based on OpenWrt with proprietary Broadcom DSL/Wi-Fi blobs",
+      "Root access achieved via Samba exploit or TFTP bank-switching",
+      "Not in upstream mainline OpenWrt repository due to closed-source VDSL2/GPON OMCI drivers"
+    ]
+  },
+  "installation": {
+    "method": "Automated Root SSH Exploit",
+    "risk": "MEDIUM",
+    "requires_factory_stage": false,
+    "guide_link": "https://hacktechnicolor.tech/"
+  },
+  "recovery": {
+    "method": "TFTP Push (Automated)",
+    "recovery_ip": "192.168.1.1",
+    "guide_link": "https://hacktechnicolor.tech/"
+  },
+  "verification": {
+    "status": "COMMUNITY_VERIFIED",
+    "evidence": [
+      "HackTechnicolor developer platform and documentation",
+      "Ansuel tch-nginx-gui community project with >1,000 GitHub stars",
+      "Complete dmesg and /etc/openwrt_release inspection confirming OpenWrt userspace"
+    ],
+    "last_verified": "2026-11-15"
+  },
+  "popularity": {
+    "tier": "HIGH_INTEREST",
+    "signals": [
+      "Default ISP gateway provided to millions of Italian (TIM) and European fiber subscribers",
+      "Massive community reverse engineering ecosystem"
+    ]
+  },
+  "sources": [
+    {
+      "title": "HackTechnicolor: DGA4132 Hardware and Unlock Guide",
+      "url": "https://hacktechnicolor.tech/",
+      "type": "COMMUNITY_REPO",
+      "date_accessed": "2026-11-15"
+    },
+    {
+      "title": "Ansuel/tch-nginx-gui GitHub Project",
+      "url": "https://github.com/Ansuel/tch-nginx-gui",
+      "type": "UPSTREAM_GITHUB",
+      "date_accessed": "2026-11-15"
+    }
+  ]
+}

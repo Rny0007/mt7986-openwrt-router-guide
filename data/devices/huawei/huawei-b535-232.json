@@ -1,0 +1,135 @@
+{
+  "$schema": "../../schemas/device.schema.json",
+  "id": "huawei-b535-232",
+  "manufacturer": "Huawei",
+  "model": "4G Router 3 Pro (B535-232)",
+  "hardware_revision": "v1",
+  "regional_variant": "Global",
+  "internal_board_name": "huawei_b535",
+  "soc": {
+    "vendor": "HiSilicon",
+    "model": "Balong 711 (Hi6932)",
+    "family": "Balong",
+    "cores": 2,
+    "frequency_mhz": 800
+  },
+  "architecture": "arm_cortex-a7",
+  "ram_mb": 128,
+  "flash": {
+    "type": "SPI-NAND",
+    "capacity_mb": 128
+  },
+  "wireless": [
+    {
+      "radio_id": "radio0",
+      "chipset": "HiSilicon Hi1151",
+      "frequency_ghz": 2.4,
+      "generation": "Wi-Fi 4",
+      "spatial_streams": "2x2",
+      "max_phy_rate_mbps": 300,
+      "channel_width_mhz": 40
+    },
+    {
+      "radio_id": "radio1",
+      "chipset": "HiSilicon Hi1151",
+      "frequency_ghz": 5.0,
+      "generation": "Wi-Fi 5",
+      "spatial_streams": "2x2",
+      "max_phy_rate_mbps": 867,
+      "channel_width_mhz": 80
+    }
+  ],
+  "ethernet": {
+    "switch_chip": "Integrated HiSilicon Switch",
+    "ports": [
+      {
+        "name": "LAN4/WAN",
+        "type": "WAN/LAN",
+        "speed_mbps": 1000,
+        "dsa_port": "wan"
+      },
+      {
+        "name": "LAN1",
+        "type": "LAN",
+        "speed_mbps": 1000,
+        "dsa_port": "lan1"
+      },
+      {
+        "name": "LAN2",
+        "type": "LAN",
+        "speed_mbps": 1000,
+        "dsa_port": "lan2"
+      },
+      {
+        "name": "LAN3",
+        "type": "LAN",
+        "speed_mbps": 1000,
+        "dsa_port": "lan3"
+      }
+    ]
+  },
+  "bootloader": "Fastboot / Balong Boot (Cryptographically Locked)",
+  "serial_uart": {
+    "available": true,
+    "voltage": "3.3V",
+    "baudrate": 115200,
+    "pinout_documented": true,
+    "notes": "3.3V UART test pads present. Output is silenced after second-stage bootloader lock."
+  },
+  "openwrt": {
+    "target": "hisilicon",
+    "subtarget": "generic",
+    "profile": "huawei_b535-232",
+    "support_status": "UNSUPPORTED",
+    "first_supported_version": null,
+    "latest_tested_version": null,
+    "firmware_selector_url": null,
+    "device_tree_file": null,
+    "known_limitations": [
+      "HiSilicon Balong baseband and application processor lack open-source Linux kernel drivers",
+      "Bootloader enforces RSA-2048 cryptographic firmware signature verification",
+      "No functional open-source firmware port is technically feasible"
+    ]
+  },
+  "installation": {
+    "method": "Unsupported",
+    "risk": "CRITICAL",
+    "requires_factory_stage": false,
+    "guide_link": null
+  },
+  "recovery": {
+    "method": "None Known",
+    "recovery_ip": null,
+    "guide_link": null
+  },
+  "verification": {
+    "status": "UNSUPPORTED",
+    "evidence": [
+      "OpenWrt Table of Hardware: Huawei HiSilicon architectural barrier documentation",
+      "Linux kernel mainline tree lacking HiSilicon Balong 711 modem drivers",
+      "Hardware reverse engineering confirming permanent bootloader signature locks"
+    ],
+    "last_verified": "2026-11-15"
+  },
+  "popularity": {
+    "tier": "VERY_HIGH_INTEREST",
+    "signals": [
+      "Worldwide best-selling 4G Cat 7 home router across Amazon and carrier retail",
+      "Frequent user queries on OpenWrt forums seeking firmware flash instructions"
+    ]
+  },
+  "sources": [
+    {
+      "title": "Huawei B535-232 Product Specifications",
+      "url": "https://consumer.huawei.com/",
+      "type": "OEM_SPEC",
+      "date_accessed": "2026-11-15"
+    },
+    {
+      "title": "OpenWrt Forum: Huawei LTE Gateways Compatibility Discussion",
+      "url": "https://forum.openwrt.org/t/huawei-b535-support/49132",
+      "type": "OPENWRT_FORUM",
+      "date_accessed": "2026-11-15"
+    }
+  ]
+}
