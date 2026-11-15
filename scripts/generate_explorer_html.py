@@ -1,0 +1,1100 @@
+#!/usr/bin/env python3
+"""
+scripts/generate_explorer_html.py
+Generates the futuristic, responsive, deep-linked explorer/index.html for the Global OpenWrt Router Hardware Knowledge Base.
+"""
+import os
+import importlib.util
+
+REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+EXPLORER_PATH = os.path.join(REPO_ROOT, "explorer", "index.html")
+
+spec = importlib.util.spec_from_file_location("build_website", os.path.join(REPO_ROOT, "scripts", "build-website.py"))
+bw = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(bw)
+
+header = bw.get_header(
+    title="Global Router Hardware Explorer",
+    rel_root="..",
+    current_nav="explorer",
+    description="Interactive OpenWrt hardware database across 48 verified routers, single-board computers, and multi-gigabit gateways. Real-time filtering, comparison, and deep-linking.",
+    canonical_path="explorer/",
+    json_ld={
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "Global OpenWrt Router Hardware Explorer",
+        "url": f"{bw.BASE_URL}/explorer/",
+        "description": "Interactive search, comparison, and verification tool for OpenWrt router hardware across global vendors.",
+        "applicationCategory": "NetworkingApplication",
+        "operatingSystem": "Web Browser"
+    }
+)
+
+footer = bw.get_footer(rel_root="..", goatcounter_code=bw.GOATCOUNTER_CODE)
+
+# Explorer specific CSS additions
+explorer_css = """
+<style>
+/* Explorer Specific Futuristic Styles */
+.explorer-hero {
+  padding: 2.5rem 0 1.5rem;
+  border-bottom: 1px solid var(--card-border);
+  margin-bottom: 2rem;
+}
+.explorer-hero-inner {
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+.explorer-title {
+  font-size: clamp(1.8rem, 4vw, 2.6rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: var(--text-bright);
+  margin: 0.6rem 0 0.8rem;
+  line-height: 1.15;
+}
+.explorer-subtitle {
+  color: var(--text-muted);
+  font-size: 1.05rem;
+  max-width: 820px;
+  line-height: 1.6;
+}
+
+/* Quick Filter Presets */
+.quick-pills-wrap {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+  margin-top: 1.25rem;
+}
+.quick-pills-label {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+  font-weight: 700;
+  margin-right: 0.25rem;
+}
+.quick-pill {
+  background: var(--surface);
+  border: 1px solid var(--card-border);
+  color: var(--text);
+  font-size: 0.82rem;
+  padding: 0.35rem 0.8rem;
+  border-radius: 9999px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  user-select: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  min-height: 36px;
+}
+.quick-pill:hover, .quick-pill.active {
+  background: rgba(6, 182, 212, 0.12);
+  border-color: var(--accent);
+  color: var(--accent);
+  transform: translateY(-1px);
+}
+.quick-pill.active {
+  font-weight: 600;
+  box-shadow: 0 0 12px rgba(6, 182, 212, 0.25);
+}
+
+/* Search and Filter Controls */
+.controls-container {
+  max-width: 1300px;
+  margin: 0 auto 1.5rem;
+  padding: 0 1.5rem;
+}
+.controls-card {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius-lg);
+  padding: 1.25rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+.controls-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
+  gap: 0.85rem;
+}
+@media (max-width: 1100px) {
+  .controls-grid { grid-template-columns: 1fr 1fr 1fr; }
+}
+@media (max-width: 768px) {
+  .controls-grid { grid-template-columns: 1fr; }
+}
+
+.search-input-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+.search-icon-svg {
+  position: absolute;
+  left: 0.85rem;
+  width: 16px;
+  height: 16px;
+  stroke: var(--text-muted);
+  pointer-events: none;
+}
+.explorer-search-input {
+  width: 100%;
+  background: var(--surface);
+  border: 1px solid var(--card-border);
+  color: var(--text-bright);
+  font-family: var(--font-sans);
+  font-size: 0.92rem;
+  padding: 0.65rem 2.5rem 0.65rem 2.4rem;
+  border-radius: var(--radius-sm);
+  outline: none;
+  transition: all 0.15s ease;
+  min-height: 44px;
+}
+.explorer-search-input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(6, 182, 212, 0.2);
+}
+.search-clear-btn {
+  position: absolute;
+  right: 0.75rem;
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 0.2rem;
+  display: none;
+  line-height: 1;
+}
+.search-clear-btn:hover { color: var(--text-bright); }
+.search-kbd-hint {
+  position: absolute;
+  right: 0.75rem;
+  background: var(--surface-light);
+  border: 1px solid var(--card-border);
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  padding: 0.1rem 0.4rem;
+  border-radius: 4px;
+  pointer-events: none;
+}
+
+.filter-select {
+  background: var(--surface);
+  border: 1px solid var(--card-border);
+  color: var(--text);
+  font-family: var(--font-sans);
+  font-size: 0.88rem;
+  padding: 0.65rem 0.85rem;
+  border-radius: var(--radius-sm);
+  outline: none;
+  cursor: pointer;
+  width: 100%;
+  min-height: 44px;
+}
+.filter-select:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(6, 182, 212, 0.2);
+}
+
+/* Telemetry & Active Filters Bar */
+.telemetry-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 1rem;
+  padding-top: 0.85rem;
+  border-top: 1px solid var(--card-border);
+  font-size: 0.88rem;
+}
+.telemetry-left {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+.results-counter {
+  font-weight: 700;
+  color: var(--text-bright);
+}
+.active-chips {
+  display: flex;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+}
+.active-chip {
+  background: rgba(6, 182, 212, 0.12);
+  border: 1px solid rgba(6, 182, 212, 0.3);
+  color: var(--accent);
+  font-size: 0.78rem;
+  padding: 0.2rem 0.55rem;
+  border-radius: 4px;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+.chip-remove {
+  cursor: pointer;
+  font-weight: bold;
+}
+.btn-reset-filters {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-size: 0.82rem;
+  cursor: pointer;
+  text-decoration: underline;
+  padding: 0.2rem 0.4rem;
+}
+.btn-reset-filters:hover { color: var(--accent); }
+
+/* Comparison Floating Tray */
+#comparison-tray {
+  position: fixed;
+  bottom: 1.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 900;
+  background: rgba(17, 24, 39, 0.94);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--accent);
+  border-radius: var(--radius-md);
+  box-shadow: 0 10px 35px rgba(0, 0, 0, 0.5), 0 0 20px rgba(6, 182, 212, 0.2);
+  padding: 0.85rem 1.25rem;
+  display: none;
+  align-items: center;
+  gap: 1.25rem;
+  max-width: 90vw;
+  width: 780px;
+}
+[data-theme="light"] #comparison-tray {
+  background: rgba(255, 255, 255, 0.96);
+  border-color: #0284c7;
+  box-shadow: 0 10px 35px rgba(0, 0, 0, 0.15), 0 0 15px rgba(2, 132, 199, 0.2);
+}
+.tray-items {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  flex: 1;
+}
+.tray-pill {
+  background: var(--surface);
+  border: 1px solid var(--card-border);
+  padding: 0.25rem 0.6rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.82rem;
+  color: var(--text-bright);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+.tray-remove {
+  cursor: pointer;
+  color: var(--danger);
+  font-weight: bold;
+  font-size: 1rem;
+}
+
+/* Hardware Results Grid */
+.explorer-grid-container {
+  max-width: 1300px;
+  margin: 0 auto 3rem;
+  padding: 0 1.5rem;
+}
+#device-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+  gap: 1.25rem;
+}
+@media (max-width: 480px) {
+  #device-grid { grid-template-columns: 1fr; }
+}
+
+.hardware-card {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius-md);
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: transform 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+  position: relative;
+}
+.hardware-card:hover {
+  transform: translateY(-3px);
+  border-color: var(--accent);
+  box-shadow: 0 8px 24px rgba(6, 182, 212, 0.12);
+}
+
+.hw-card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 0.75rem;
+  gap: 0.5rem;
+}
+.hw-vendor {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+}
+.hw-model-title {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--text-bright);
+  line-height: 1.25;
+  margin-top: 0.15rem;
+}
+.hw-rev-badge {
+  font-size: 0.8rem;
+  font-weight: 400;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+}
+
+.hw-specs-box {
+  background: var(--surface);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius-sm);
+  padding: 0.75rem 0.85rem;
+  margin: 0.75rem 0 1rem;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.4rem 0.85rem;
+  font-size: 0.85rem;
+}
+.spec-k {
+  color: var(--text-muted);
+  font-size: 0.8rem;
+}
+.spec-v {
+  color: var(--text-bright);
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  text-align: right;
+  word-break: break-all;
+}
+
+.hw-card-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 0.85rem;
+  border-top: 1px solid var(--card-border);
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+.compare-checkbox-label {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  cursor: pointer;
+  min-height: 36px;
+  user-select: none;
+}
+.compare-checkbox-label input {
+  cursor: pointer;
+  width: 16px;
+  height: 16px;
+}
+.card-links-row {
+  display: flex;
+  gap: 0.4rem;
+}
+.btn-hw-link {
+  font-size: 0.78rem;
+  padding: 0.35rem 0.65rem;
+  border-radius: 4px;
+  background: var(--surface);
+  border: 1px solid var(--card-border);
+  color: var(--text-bright);
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.15s ease;
+  min-height: 32px;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+.btn-hw-link:hover {
+  background: var(--surface-light);
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+/* Modal Overlay & Comparison View */
+#modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(8px);
+  z-index: 1000;
+  padding: 1.5rem;
+  overflow-y: auto;
+}
+.modal-box {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius-lg);
+  max-width: 950px;
+  margin: 2rem auto;
+  padding: 2rem;
+  position: relative;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+}
+@media (max-width: 640px) {
+  .modal-box { padding: 1.25rem; margin: 1rem auto; }
+}
+.modal-close-btn {
+  position: absolute;
+  top: 1.25rem;
+  right: 1.25rem;
+  background: var(--surface);
+  border: 1px solid var(--card-border);
+  color: var(--text-muted);
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  font-size: 1.2rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s ease;
+}
+.modal-close-btn:hover {
+  color: var(--text-bright);
+  border-color: var(--accent);
+}
+
+.compare-matrix-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1.25rem;
+  font-size: 0.88rem;
+}
+.compare-matrix-table th, .compare-matrix-table td {
+  border: 1px solid var(--card-border);
+  padding: 0.75rem 0.9rem;
+  text-align: left;
+}
+.compare-matrix-table th {
+  background: var(--surface);
+  color: var(--text-bright);
+  font-weight: 700;
+}
+.compare-matrix-table td {
+  vertical-align: top;
+}
+</style>
+"""
+
+# Explorer Main Content
+body_content = """
+  <div class="explorer-hero">
+    <div class="explorer-hero-inner">
+      <div class="badge-status status-supported">⚡ 48 Hardware Profiles Verified</div>
+      <h1 class="explorer-title">Global Router Hardware Explorer</h1>
+      <p class="explorer-subtitle">
+        Search, filter, and compare OpenWrt-compatible routers, switches, and single-board computers across 18 manufacturers worldwide. Real-time URL query parameter deep linking, multi-device comparison, and primary source citations.
+      </p>
+
+      <div class="quick-pills-wrap" role="toolbar" aria-label="Quick search presets">
+        <span class="quick-pills-label">Quick Filters:</span>
+        <button class="quick-pill active" onclick="applyQuickFilter('', '', '', '')">All Hardware (48)</button>
+        <button class="quick-pill" onclick="applyQuickFilter('MT7986', '', '', 'Filogic 830')">Filogic 830 (MT7986)</button>
+        <button class="quick-pill" onclick="applyQuickFilter('MT7988', '', '', 'Filogic 880')">Filogic 880 (Wi-Fi 7)</button>
+        <button class="quick-pill" onclick="applyQuickFilter('', '', 'Wi-Fi 6', '')">Wi-Fi 6 (802.11ax)</button>
+        <button class="quick-pill" onclick="applyQuickFilter('', 'COMMUNITY_VERIFIED', '', '')">Community Verified</button>
+        <button class="quick-pill" onclick="applyQuickFilter('', '', '', 'Intel/x86')">x86_64 Gateway</button>
+        <button class="quick-pill" onclick="applyQuickFilter('JIDU6101', '', '', '')">Jio JIDU6101</button>
+      </div>
+    </div>
+  </div>
+
+  <section class="controls-container" aria-label="Hardware Search and Filters">
+    <div class="controls-card">
+      <div class="controls-grid">
+        <div class="search-input-wrap">
+          <svg class="search-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+          <input type="text" id="search-input" class="explorer-search-input" placeholder="Search model, vendor, SoC, target (e.g. MT7986, BPI-R4, JIDU6101)..." autofocus aria-label="Search router hardware">
+          <span class="search-kbd-hint" aria-hidden="true">/</span>
+          <button id="search-clear" class="search-clear-btn" aria-label="Clear search input">&times;</button>
+        </div>
+
+        <div>
+          <select id="status-filter" class="filter-select" aria-label="Filter by OpenWrt Support Status">
+            <option value="ALL">All Support Statuses</option>
+            <option value="OFFICIALLY_SUPPORTED">Officially Supported</option>
+            <option value="COMMUNITY_VERIFIED">Community Verified</option>
+            <option value="PARTIALLY_VERIFIED">Partially Verified</option>
+            <option value="EXPERIMENTAL">Experimental</option>
+            <option value="POTENTIALLY_COMPATIBLE">Potentially Compatible</option>
+            <option value="UNSUPPORTED">Unsupported</option>
+          </select>
+        </div>
+
+        <div>
+          <select id="wifi-filter" class="filter-select" aria-label="Filter by Wi-Fi Generation">
+            <option value="ALL">All Wi-Fi Generations</option>
+            <option value="Wi-Fi 7">Wi-Fi 7 (802.11be)</option>
+            <option value="Wi-Fi 6">Wi-Fi 6 (802.11ax)</option>
+            <option value="Wi-Fi 5">Wi-Fi 5 (802.11ac)</option>
+            <option value="Wi-Fi 4">Wi-Fi 4 (802.11n)</option>
+            <option value="Ethernet Only">Ethernet Only (Soft-Router)</option>
+          </select>
+        </div>
+
+        <div>
+          <select id="soc-filter" class="filter-select" aria-label="Filter by Silicon SoC Family">
+            <option value="ALL">All SoC Families</option>
+            <option value="Filogic 830">MediaTek Filogic 830 (MT7986A)</option>
+            <option value="Filogic 820">MediaTek Filogic 820 (MT7981B)</option>
+            <option value="Filogic 880">MediaTek Filogic 880 (MT7988A)</option>
+            <option value="MT7621">MediaTek MT7621</option>
+            <option value="MT7622">MediaTek MT7622</option>
+            <option value="Qualcomm">Qualcomm (IPQ807x / IPQ60xx)</option>
+            <option value="Broadcom">Broadcom (BCM4908 / BCM4709)</option>
+            <option value="Rockchip">Rockchip (RK3568 / RK3399)</option>
+            <option value="Realtek">Realtek (RTL838x / RTL839x)</option>
+            <option value="Intel/x86">Intel / AMD x86_64</option>
+          </select>
+        </div>
+
+        <div>
+          <select id="arch-filter" class="filter-select" aria-label="Filter by CPU Architecture">
+            <option value="ALL">All Architectures</option>
+            <option value="aarch64">aarch64 (ARM64)</option>
+            <option value="arm">arm (ARM32)</option>
+            <option value="mips">mips / mipsel</option>
+            <option value="x86_64">x86_64</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="telemetry-bar">
+        <div class="telemetry-left">
+          <span class="results-counter">Showing <span id="results-count">0</span> matching router profiles</span>
+          <div class="active-chips" id="active-chips-area"></div>
+        </div>
+        <button class="btn-reset-filters" id="btn-reset" onclick="resetAllFilters()">Reset All Filters</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Active Comparison Floating Tray -->
+  <div id="comparison-tray" role="region" aria-label="Side-by-side hardware comparison tray">
+    <div style="display:flex; align-items:center; gap:0.6rem;">
+      <strong style="color:var(--text-bright); font-size:0.88rem;">Comparing (<span id="compare-count">0</span>/4):</strong>
+    </div>
+    <div class="tray-items" id="tray-pills"></div>
+    <div style="display:flex; gap:0.5rem;">
+      <button class="btn btn-secondary" style="min-height:36px; padding:0.4rem 0.8rem; font-size:0.82rem;" onclick="clearComparison()">Clear</button>
+      <button class="btn btn-primary" style="min-height:36px; padding:0.4rem 0.9rem; font-size:0.82rem;" onclick="showComparisonModal()">Compare Matrix →</button>
+    </div>
+  </div>
+
+  <!-- Hardware Results Grid -->
+  <main id="main-content" class="explorer-grid-container">
+    <div id="device-grid" aria-live="polite"></div>
+  </main>
+
+  <!-- Side-by-Side Comparison Modal -->
+  <div id="modal-overlay" onclick="closeModal(event)" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <div class="modal-box" id="modal-body" onclick="event.stopPropagation()">
+      <button class="modal-close-btn" onclick="closeModalDirect()" aria-label="Close comparison modal">&times;</button>
+      <div id="modal-inner"></div>
+    </div>
+  </div>
+
+  <script>
+    let allDevices = [];
+    let compareList = [];
+    let searchDebounceTimer = null;
+
+    async function loadData() {
+      try {
+        const res = await fetch('../data/index.json');
+        if (!res.ok) throw new Error('Fetch failed');
+        const data = await res.json();
+        allDevices = data.devices || [];
+        initializeFromURL();
+      } catch (err) {
+        const embedded = document.getElementById('embedded-data');
+        if (embedded && embedded.textContent.trim()) {
+          try {
+            const data = JSON.parse(embedded.textContent);
+            allDevices = data.devices || [];
+            initializeFromURL();
+            return;
+          } catch(e) {}
+        }
+        document.getElementById('device-grid').innerHTML = `
+          <div style="grid-column: 1/-1; text-align:center; padding: 3rem; background: var(--card-bg); border-radius: 8px; border: 1px solid var(--card-border);">
+            <h3 style="color:var(--danger)">Database Load Failed</h3>
+            <p style="color:var(--text-muted); margin-top:0.5rem;">Ensure <code>data/index.json</code> is accessible.</p>
+          </div>
+        `;
+      }
+    }
+
+    function initializeFromURL() {
+      const params = new URLSearchParams(window.location.search);
+      const q = params.get('q') || '';
+      const status = params.get('status') || 'ALL';
+      const wifi = params.get('wifi') || 'ALL';
+      const soc = params.get('soc') || 'ALL';
+      const arch = params.get('arch') || 'ALL';
+
+      if (q) document.getElementById('search-input').value = q;
+      if (status !== 'ALL') document.getElementById('status-filter').value = status;
+      if (wifi !== 'ALL') document.getElementById('wifi-filter').value = wifi;
+      if (soc !== 'ALL') document.getElementById('soc-filter').value = soc;
+      if (arch !== 'ALL') document.getElementById('arch-filter').value = arch;
+
+      updateClearButtonVisibility();
+      filterDevices(false);
+    }
+
+    function syncURL() {
+      const q = document.getElementById('search-input').value.trim();
+      const status = document.getElementById('status-filter').value;
+      const wifi = document.getElementById('wifi-filter').value;
+      const soc = document.getElementById('soc-filter').value;
+      const arch = document.getElementById('arch-filter').value;
+
+      const params = new URLSearchParams();
+      if (q) params.set('q', q);
+      if (status !== 'ALL') params.set('status', status);
+      if (wifi !== 'ALL') params.set('wifi', wifi);
+      if (soc !== 'ALL') params.set('soc', soc);
+      if (arch !== 'ALL') params.set('arch', arch);
+
+      const qs = params.toString();
+      const newUrl = window.location.pathname + (qs ? '?' + qs : '');
+      window.history.replaceState(null, '', newUrl);
+    }
+
+    function renderDevices(devices) {
+      const grid = document.getElementById('device-grid');
+      const countEl = document.getElementById('results-count');
+      countEl.innerText = devices.length;
+
+      renderActiveChips();
+
+      if (devices.length === 0) {
+        grid.innerHTML = `
+          <div style="grid-column: 1/-1; text-align:center; padding: 4rem 1.5rem; background: var(--card-bg); border-radius: var(--radius-md); border: 1px dashed var(--card-border);">
+            <div style="font-size:2.5rem; margin-bottom:0.75rem;">🔍</div>
+            <h3 style="color:var(--text-bright); font-size:1.3rem;">No router hardware found</h3>
+            <p style="color:var(--text-muted); margin-top:0.5rem; max-width:480px; margin-left:auto; margin-right:auto;">
+              No hardware matched your criteria. Try loosening search terms or resetting filters.
+            </p>
+            <button class="btn btn-secondary" style="margin-top:1.25rem;" onclick="resetAllFilters()">Reset All Filters</button>
+          </div>
+        `;
+        return;
+      }
+
+      grid.innerHTML = devices.map(d => {
+        const wifiList = d.wifi || d.wireless || [];
+        const wifiGen = wifiList.length > 0 
+          ? [...new Set(wifiList.map(w => w.standard || w.generation))].join(', ')
+          : 'None (Ethernet Only)';
+
+        const isComparing = compareList.includes(d.id);
+        const flashCap = d.flash.mb || d.flash.capacity_mb || 'N/A';
+        const ports = d.ethernet_ports || (d.ethernet && d.ethernet.ports) || [];
+        const portSummary = ports.length > 0
+          ? `${ports.length} ports (${ports.map(p => `${p.speed_mbps}M`).join('/')})`
+          : 'Integrated Switch';
+
+        const statusClass = d.openwrt.support_status === 'OFFICIALLY_SUPPORTED' ? 'status-supported'
+          : d.openwrt.support_status === 'COMMUNITY_VERIFIED' ? 'status-community'
+          : d.openwrt.support_status === 'PARTIALLY_VERIFIED' ? 'status-partial'
+          : 'status-experimental';
+
+        return `
+          <article class="hardware-card" id="card-${d.id}">
+            <div>
+              <div class="hw-card-top">
+                <div>
+                  <div class="hw-vendor">${escapeHtml(d.manufacturer)}</div>
+                  <h2 class="hw-model-title">${escapeHtml(d.model)} <span class="hw-rev-badge">(${escapeHtml(d.hardware_revision)})</span></h2>
+                </div>
+                <span class="badge-status ${statusClass}">${d.openwrt.support_status.replace(/_/g, ' ')}</span>
+              </div>
+
+              <div class="hw-specs-box">
+                <span class="spec-k">SoC Platform:</span>
+                <span class="spec-v">${escapeHtml(d.soc.vendor)} ${escapeHtml(d.soc.model)}</span>
+
+                <span class="spec-k">CPU / Arch:</span>
+                <span class="spec-v">${d.soc.cores} Cores @ ${d.soc.frequency_mhz}MHz (${escapeHtml(d.architecture)})</span>
+
+                <span class="spec-k">RAM / Flash:</span>
+                <span class="spec-v">${d.ram_mb}MB / ${flashCap}MB ${escapeHtml(d.flash.type || '')}</span>
+
+                <span class="spec-k">Ethernet:</span>
+                <span class="spec-v">${escapeHtml(portSummary)}</span>
+
+                <span class="spec-k">Wi-Fi Gen:</span>
+                <span class="spec-v">${escapeHtml(wifiGen)}</span>
+
+                <span class="spec-k">OpenWrt Target:</span>
+                <span class="spec-v">${escapeHtml(d.openwrt.target)}</span>
+              </div>
+            </div>
+
+            <div class="hw-card-actions">
+              <label class="compare-checkbox-label" title="Add to comparison tray">
+                <input type="checkbox" onchange="toggleCompare('${d.id}')" ${isComparing ? 'checked' : ''}>
+                Compare
+              </label>
+
+              <div class="card-links-row">
+                <a href="../devices/${d.id}/index.html" class="btn-hw-link" title="Full Hardware Profile">📖 Profile</a>
+                <a href="../guides/installation/${d.id}/index.html" class="btn-hw-link" title="Installation Guide">⚡ Install</a>
+                <a href="../guides/recovery/${d.id}/index.html" class="btn-hw-link" title="Disaster Recovery">🛠️ Recovery</a>
+              </div>
+            </div>
+          </article>
+        `;
+      }).join('');
+    }
+
+    function renderActiveChips() {
+      const area = document.getElementById('active-chips-area');
+      const q = document.getElementById('search-input').value.trim();
+      const status = document.getElementById('status-filter').value;
+      const wifi = document.getElementById('wifi-filter').value;
+      const soc = document.getElementById('soc-filter').value;
+      const arch = document.getElementById('arch-filter').value;
+
+      let chips = [];
+      if (q) chips.push({ label: `Query: "${q}"`, reset: () => { document.getElementById('search-input').value = ''; filterDevices(); } });
+      if (status !== 'ALL') chips.push({ label: `Status: ${status}`, reset: () => { document.getElementById('status-filter').value = 'ALL'; filterDevices(); } });
+      if (wifi !== 'ALL') chips.push({ label: `Wi-Fi: ${wifi}`, reset: () => { document.getElementById('wifi-filter').value = 'ALL'; filterDevices(); } });
+      if (soc !== 'ALL') chips.push({ label: `SoC: ${soc}`, reset: () => { document.getElementById('soc-filter').value = 'ALL'; filterDevices(); } });
+      if (arch !== 'ALL') chips.push({ label: `Arch: ${arch}`, reset: () => { document.getElementById('arch-filter').value = 'ALL'; filterDevices(); } });
+
+      area.innerHTML = chips.map((c, i) => `
+        <span class="active-chip">
+          ${escapeHtml(c.label)}
+          <span class="chip-remove" onclick="removeChip(${i})">&times;</span>
+        </span>
+      `).join('');
+
+      window._currentChips = chips;
+    }
+
+    function removeChip(index) {
+      if (window._currentChips && window._currentChips[index]) {
+        window._currentChips[index].reset();
+      }
+    }
+
+    function filterDevices(shouldSyncURL = true) {
+      const query = document.getElementById('search-input').value.toLowerCase().trim();
+      const statusFilter = document.getElementById('status-filter').value;
+      const wifiFilter = document.getElementById('wifi-filter').value;
+      const socFilter = document.getElementById('soc-filter').value;
+      const archFilter = document.getElementById('arch-filter').value;
+
+      const filtered = allDevices.filter(d => {
+        const matchesQuery = !query || 
+          d.model.toLowerCase().includes(query) ||
+          d.manufacturer.toLowerCase().includes(query) ||
+          d.soc.model.toLowerCase().includes(query) ||
+          d.soc.family.toLowerCase().includes(query) ||
+          d.soc.vendor.toLowerCase().includes(query) ||
+          d.openwrt.target.toLowerCase().includes(query) ||
+          (d.internal_board_name && d.internal_board_name.toLowerCase().includes(query)) ||
+          (d.id && d.id.toLowerCase().includes(query));
+
+        const matchesStatus = statusFilter === 'ALL' || d.openwrt.support_status === statusFilter;
+
+        const wifiList = d.wifi || d.wireless || [];
+        const hasWifi = wifiList.length > 0;
+        let matchesWifi = true;
+        if (wifiFilter === 'Ethernet Only') {
+          matchesWifi = !hasWifi;
+        } else if (wifiFilter !== 'ALL') {
+          matchesWifi = hasWifi && wifiList.some(w => {
+            const gen = w.generation || (w.standard === '802.11be' ? 'Wi-Fi 7' : (w.standard === '802.11ax' ? 'Wi-Fi 6' : (w.standard === '802.11ac' ? 'Wi-Fi 5' : (w.standard === '802.11n' ? 'Wi-Fi 4' : ''))));
+            return gen.includes(wifiFilter) || (w.standard && w.standard.includes(wifiFilter));
+          });
+        }
+
+        let matchesSoc = true;
+        if (socFilter !== 'ALL') {
+          if (socFilter === 'Qualcomm') matchesSoc = d.soc.vendor === 'Qualcomm';
+          else if (socFilter === 'Rockchip') matchesSoc = d.soc.vendor === 'Rockchip';
+          else if (socFilter === 'Broadcom') matchesSoc = d.soc.vendor === 'Broadcom';
+          else if (socFilter === 'Realtek') matchesSoc = d.soc.vendor === 'Realtek';
+          else if (socFilter === 'Intel/x86') matchesSoc = d.architecture === 'x86_64' || d.soc.vendor === 'Intel';
+          else matchesSoc = d.soc.family.includes(socFilter) || d.soc.model.includes(socFilter);
+        }
+
+        let matchesArch = true;
+        if (archFilter !== 'ALL') {
+          matchesArch = d.architecture === archFilter;
+        }
+
+        return matchesQuery && matchesStatus && matchesWifi && matchesSoc && matchesArch;
+      });
+
+      renderDevices(filtered);
+      if (shouldSyncURL) syncURL();
+    }
+
+    function applyQuickFilter(query, status, wifi, soc) {
+      document.getElementById('search-input').value = query || '';
+      document.getElementById('status-filter').value = status || 'ALL';
+      document.getElementById('wifi-filter').value = wifi || 'ALL';
+      document.getElementById('soc-filter').value = soc || 'ALL';
+      document.getElementById('arch-filter').value = 'ALL';
+
+      // Update pills active state
+      document.querySelectorAll('.quick-pill').forEach(btn => btn.classList.remove('active'));
+      event.target.classList.add('active');
+
+      updateClearButtonVisibility();
+      filterDevices();
+    }
+
+    function resetAllFilters() {
+      document.getElementById('search-input').value = '';
+      document.getElementById('status-filter').value = 'ALL';
+      document.getElementById('wifi-filter').value = 'ALL';
+      document.getElementById('soc-filter').value = 'ALL';
+      document.getElementById('arch-filter').value = 'ALL';
+
+      document.querySelectorAll('.quick-pill').forEach((btn, idx) => {
+        if (idx === 0) btn.classList.add('active');
+        else btn.classList.remove('active');
+      });
+
+      updateClearButtonVisibility();
+      filterDevices();
+    }
+
+    function updateClearButtonVisibility() {
+      const val = document.getElementById('search-input').value;
+      const clearBtn = document.getElementById('search-clear');
+      if (val) clearBtn.style.display = 'block';
+      else clearBtn.style.display = 'none';
+    }
+
+    // Debounced search
+    document.getElementById('search-input').addEventListener('input', () => {
+      updateClearButtonVisibility();
+      clearTimeout(searchDebounceTimer);
+      searchDebounceTimer = setTimeout(() => filterDevices(), 120);
+    });
+
+    document.getElementById('search-clear').addEventListener('click', () => {
+      document.getElementById('search-input').value = '';
+      updateClearButtonVisibility();
+      filterDevices();
+      document.getElementById('search-input').focus();
+    });
+
+    document.getElementById('status-filter').addEventListener('change', () => filterDevices());
+    document.getElementById('wifi-filter').addEventListener('change', () => filterDevices());
+    document.getElementById('soc-filter').addEventListener('change', () => filterDevices());
+    document.getElementById('arch-filter').addEventListener('change', () => filterDevices());
+
+    // Comparison Logic
+    function toggleCompare(id) {
+      if (compareList.includes(id)) {
+        compareList = compareList.filter(item => item !== id);
+      } else {
+        if (compareList.length >= 4) {
+          alert('You can compare a maximum of 4 devices simultaneously.');
+          filterDevices(false);
+          return;
+        }
+        compareList.push(id);
+      }
+      updateComparisonTray();
+    }
+
+    function clearComparison() {
+      compareList = [];
+      updateComparisonTray();
+      filterDevices(false);
+    }
+
+    function updateComparisonTray() {
+      const tray = document.getElementById('comparison-tray');
+      const pillsContainer = document.getElementById('tray-pills');
+      const countEl = document.getElementById('compare-count');
+
+      if (compareList.length === 0) {
+        tray.style.display = 'none';
+        return;
+      }
+
+      tray.style.display = 'flex';
+      countEl.innerText = compareList.length;
+
+      pillsContainer.innerHTML = compareList.map(id => {
+        const d = allDevices.find(x => x.id === id);
+        if (!d) return '';
+        return `
+          <div class="tray-pill">
+            <span>${escapeHtml(d.manufacturer)} ${escapeHtml(d.model)}</span>
+            <span class="tray-remove" onclick="toggleCompare('${id}')" title="Remove from comparison">&times;</span>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function showComparisonModal() {
+      if (compareList.length < 2) {
+        alert('Please select at least 2 devices to compare.');
+        return;
+      }
+
+      const devices = compareList.map(id => allDevices.find(x => x.id === id));
+      const modalInner = document.getElementById('modal-inner');
+
+      modalInner.innerHTML = `
+        <h2 id="modal-title" style="color:var(--text-bright); font-size:1.5rem; margin-bottom:0.5rem;">Side-by-Side Hardware Comparison Matrix</h2>
+        <p style="color:var(--text-muted); font-size:0.9rem; margin-bottom:1.25rem;">Comparing ${devices.length} verified network platforms across silicon, memory, networking, and firmware architecture.</p>
+        <div style="overflow-x:auto;">
+          <table class="compare-matrix-table">
+            <thead>
+              <tr>
+                <th style="min-width:140px;">Feature</th>
+                ${devices.map(d => `<th style="min-width:200px;">${escapeHtml(d.manufacturer)} ${escapeHtml(d.model)}<br><span style="font-size:0.75rem; font-weight:normal; color:var(--text-muted);">Rev ${escapeHtml(d.hardware_revision)}</span></th>`).join('')}
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Support Status</strong></td>
+                ${devices.map(d => `<td><span class="badge-status ${d.openwrt.support_status === 'OFFICIALLY_SUPPORTED' ? 'status-supported' : 'status-community'}">${d.openwrt.support_status.replace(/_/g, ' ')}</span></td>`).join('')}
+              </tr>
+              <tr>
+                <td><strong>SoC Platform</strong></td>
+                ${devices.map(d => `<td>${escapeHtml(d.soc.vendor)} ${escapeHtml(d.soc.model)}<br><span style="color:var(--text-muted); font-size:0.8rem;">(${escapeHtml(d.soc.family)})</span></td>`).join('')}
+              </tr>
+              <tr>
+                <td><strong>CPU / Arch</strong></td>
+                ${devices.map(d => `<td>${d.soc.cores} Cores @ ${d.soc.frequency_mhz} MHz<br><span style="font-family:var(--font-mono); font-size:0.8rem;">${escapeHtml(d.architecture)}</span></td>`).join('')}
+              </tr>
+              <tr>
+                <td><strong>RAM Memory</strong></td>
+                ${devices.map(d => `<td><strong>${d.ram_mb} MB</strong></td>`).join('')}
+              </tr>
+              <tr>
+                <td><strong>Flash Storage</strong></td>
+                ${devices.map(d => `<td><strong>${d.flash.mb || d.flash.capacity_mb || 'N/A'} MB</strong> (${escapeHtml(d.flash.type || '')})</td>`).join('')}
+              </tr>
+              <tr>
+                <td><strong>OpenWrt Target</strong></td>
+                ${devices.map(d => `<td><code>${escapeHtml(d.openwrt.target)}</code></td>`).join('')}
+              </tr>
+              <tr>
+                <td><strong>Ethernet Ports</strong></td>
+                ${devices.map(d => {
+                  const ports = d.ethernet_ports || (d.ethernet && d.ethernet.ports) || [];
+                  return `<td>${ports.map(p => `${escapeHtml(p.label || p.name || 'Port')} (${p.speed_mbps}M)`).join('<br>') || 'N/A'}</td>`;
+                }).join('')}
+              </tr>
+              <tr>
+                <td><strong>Wireless Radios</strong></td>
+                ${devices.map(d => {
+                  const wlist = d.wifi || d.wireless || [];
+                  return `<td>${wlist.map(w => `${w.band || (w.frequency_ghz + 'G')}: ${w.standard || w.generation} (${w.streams || w.spatial_streams || ''})`).join('<br>') || 'None (Ethernet Only)'}</td>`;
+                }).join('')}
+              </tr>
+              <tr>
+                <td><strong>Installation</strong></td>
+                ${devices.map(d => `<td>${escapeHtml(d.installation.method)}<br><span style="font-size:0.78rem; color:var(--text-muted);">Risk: ${d.installation.risk}</span></td>`).join('')}
+              </tr>
+              <tr>
+                <td><strong>Recovery Protocol</strong></td>
+                ${devices.map(d => `<td>${escapeHtml(d.recovery.method)}<br><span style="font-size:0.78rem; font-family:var(--font-mono);">${d.recovery.recovery_ip ? `IP: ${d.recovery.recovery_ip}` : ''}</span></td>`).join('')}
+              </tr>
+              <tr>
+                <td><strong>Hardware Profiles</strong></td>
+                ${devices.map(d => `<td><a href="../devices/${d.id}/index.html" class="btn-hw-link" style="display:inline-block; margin-top:0.25rem;">View Profile →</a></td>`).join('')}
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      `;
+
+      document.getElementById('modal-overlay').style.display = 'block';
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeModalDirect() {
+      document.getElementById('modal-overlay').style.display = 'none';
+      document.body.style.overflow = '';
+    }
+
+    function closeModal(e) {
+      if (e.target.id === 'modal-overlay') {
+        closeModalDirect();
+      }
+    }
+
+    // Keyboard Shortcuts: '/' to focus search, 'Escape' to clear / close modal
+    document.addEventListener('keydown', (e) => {
+      if (e.key === '/' && document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'TEXTAREA') {
+        e.preventDefault();
+        const input = document.getElementById('search-input');
+        input.focus();
+        input.select();
+      } else if (e.key === 'Escape') {
+        if (document.getElementById('modal-overlay').style.display === 'block') {
+          closeModalDirect();
+        } else if (document.activeElement.id === 'search-input') {
+          document.getElementById('search-input').value = '';
+          updateClearButtonVisibility();
+          filterDevices();
+          document.getElementById('search-input').blur();
+        }
+      }
+    });
+
+    function escapeHtml(str) {
+      if (!str) return '';
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
+    // Initialize
+    loadData();
+  </script>
+"""
+
+# Assemble full page
+# Note: we inject explorer_css into the head before </head>
+full_html = header.replace("</head>", f"{explorer_css}\n</head>") + body_content + footer
+
+with open(EXPLORER_PATH, "w", encoding="utf-8") as fp:
+    fp.write(full_html)
+
+print(f"[SUCCESS] Modernized explorer/index.html generated ({len(full_html)} chars)")
