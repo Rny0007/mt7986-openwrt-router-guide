@@ -1,0 +1,39 @@
+{
+  "id": "mediatek-mt7988a",
+  "vendor": "MediaTek",
+  "part_number": "MT7988A",
+  "marketing_name": "Filogic 880",
+  "cpu": {
+    "architecture": "aarch64",
+    "core_type": "ARM Cortex-A73",
+    "cores": 4,
+    "max_clock_mhz": 1800
+  },
+  "process_node_nm": 6,
+  "openwrt_target": "mediatek",
+  "openwrt_subtarget": "filogic",
+  "linux_driver": {
+    "wireless_mac80211": "mt76 (mt7996 for PCIe Wi-Fi 7 modules)",
+    "ethernet_driver": "mtk_eth_soc",
+    "switch_driver": "mt7531 / direct USXGMII"
+  },
+  "wireless_subsystem": {
+    "integrated": false,
+    "accompanying_rf_chips": ["MT7996AV", "MT7992AV"],
+    "wi_fi_generation": "Wi-Fi 7 (802.11be)",
+    "mimo_capabilities": "Tri-band 4x4 + 4x4 + 4x4 via PCIe NIC"
+  },
+  "hardware_acceleration": {
+    "flow_offload": "Supported (Hardware PPE / WED)",
+    "crypto_engine": true,
+    "wireless_ethernet_dispatch": true
+  },
+  "openwrt_support_tier": "TIER_2_STABLE",
+  "notes": "State-of-the-art 6nm networking platform engineered for multi-gigabit gateways (Banana Pi BPI-R4). Supports quad 10GbE interfaces (USXGMII) and PCIe 3.0 interfaces for Wi-Fi 7 MLO (Multi-Link Operation).",
+  "sources": [
+    {
+      "title": "OpenWrt Target Definition: mediatek/filogic (MT7988 Support)",
+      "url": "https://git.openwrt.org/?p=openwrt/openwrt.git;a=tree;f=target/linux/mediatek/filogic"
+    }
+  ]
+}

@@ -1,0 +1,48 @@
+{
+  "$schema": "../schemas/chipset.schema.json",
+  "id": "mediatek-mt7622bv",
+  "vendor": "MediaTek",
+  "part_number": "MT7622BV",
+  "marketing_name": "MediaTek MT7622B",
+  "cpu": {
+    "architecture": "aarch64",
+    "core_type": "ARM Cortex-A53",
+    "cores": 2,
+    "max_clock_mhz": 1350
+  },
+  "process_node_nm": 28,
+  "openwrt_target": "mediatek",
+  "openwrt_subtarget": "mt7622",
+  "linux_driver": {
+    "wireless_mac80211": "mt76",
+    "ethernet_driver": "mtk_eth_soc",
+    "switch_driver": "mt7531"
+  },
+  "wireless_subsystem": {
+    "integrated": true,
+    "accompanying_rf_chips": ["MT7915A", "MT7975DN"],
+    "wi_fi_generation": "Wi-Fi 6 (802.11ax) / Wi-Fi 5 (802.11ac)",
+    "mimo_capabilities": "4x4 MU-MIMO (5GHz), 4x4 MU-MIMO (2.4GHz)"
+  },
+  "hardware_acceleration": {
+    "flow_offload": "Supported (Hardware PPE / WED)",
+    "crypto_engine": true,
+    "wireless_ethernet_dispatch": true
+  },
+  "openwrt_support_tier": "TIER_1_MAINSTREAM",
+  "notes": "Powerhouse 64-bit ARM dual-core SoC powering the Linksys E8450, Belkin RT3200, and Banana Pi BPI-R64. Full upstream open-source driver support in mainline Linux via mt76.",
+  "sources": [
+    {
+      "title": "OpenWrt Target: MediaTek MT7622",
+      "url": "https://git.openwrt.org/?p=openwrt/openwrt.git;a=tree;f=target/linux/mediatek/mt7622",
+      "type": "OPENWRT_GIT",
+      "date_accessed": "2026-11-15"
+    },
+    {
+      "title": "MediaTek MT7622 Product Brief",
+      "url": "https://www.mediatek.com/products/networking-and-connectivity/mt7622",
+      "type": "OEM_SPEC",
+      "date_accessed": "2026-11-15"
+    }
+  ]
+}

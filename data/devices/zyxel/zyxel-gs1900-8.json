@@ -1,0 +1,130 @@
+{
+  "id": "zyxel-gs1900-8",
+  "manufacturer": "Zyxel",
+  "model": "GS1900-8",
+  "hardware_revision": "v1.0",
+  "regional_variant": "Global",
+  "internal_board_name": "gs1900-8",
+  "soc": {
+    "vendor": "Realtek",
+    "model": "RTL8380M",
+    "family": "RTL838x",
+    "cores": 1,
+    "frequency_mhz": 500
+  },
+  "architecture": "mips_24kc",
+  "ram_mb": 128,
+  "flash": {
+    "type": "SPI-NOR",
+    "capacity_mb": 16,
+    "mb": 16
+  },
+  "wireless": [],
+  "ethernet": {
+    "switch_chip": "RTL8380M Integrated ASIC",
+    "ports": [
+      {
+        "name": "Port 1",
+        "type": "LAN",
+        "speed_mbps": 1000,
+        "dsa_port": "lan1"
+      },
+      {
+        "name": "Port 2",
+        "type": "LAN",
+        "speed_mbps": 1000,
+        "dsa_port": "lan2"
+      },
+      {
+        "name": "Port 3",
+        "type": "LAN",
+        "speed_mbps": 1000,
+        "dsa_port": "lan3"
+      },
+      {
+        "name": "Port 4",
+        "type": "LAN",
+        "speed_mbps": 1000,
+        "dsa_port": "lan4"
+      },
+      {
+        "name": "Port 5",
+        "type": "LAN",
+        "speed_mbps": 1000,
+        "dsa_port": "lan5"
+      },
+      {
+        "name": "Port 6",
+        "type": "LAN",
+        "speed_mbps": 1000,
+        "dsa_port": "lan6"
+      },
+      {
+        "name": "Port 7",
+        "type": "LAN",
+        "speed_mbps": 1000,
+        "dsa_port": "lan7"
+      },
+      {
+        "name": "Port 8",
+        "type": "LAN",
+        "speed_mbps": 1000,
+        "dsa_port": "lan8"
+      }
+    ]
+  },
+  "usb_ports": [],
+  "poe": {
+    "supported": false,
+    "standard": null,
+    "type": null
+  },
+  "bootloader": "U-Boot 2011.12 (Realtek SDK)",
+  "serial_uart": {
+    "available": true,
+    "voltage": "3.3V",
+    "baudrate": 115200,
+    "pinout_documented": true,
+    "notes": "4-pin 3.3V header on edge of board."
+  },
+  "openwrt": {
+    "target": "realtek/rtl838x",
+    "subtarget": "generic",
+    "profile": "zyxel_gs1900-8",
+    "support_status": "OFFICIALLY_SUPPORTED",
+    "first_supported_version": "21.02.0",
+    "latest_tested_version": "25.12.6",
+    "firmware_selector_url": "https://firmware-selector.openwrt.org/?version=25.12.6&target=realtek%2Frtl838x&id=zyxel_gs1900-8",
+    "device_tree_file": "rtl8380_zyxel_gs1900-8.dts",
+    "known_limitations": [
+      "Dedicated hardware switch; CPU routing capacity is limited to ~150 Mbps, but L2 switch fabric operates at full line-rate 16 Gbps."
+    ]
+  },
+  "installation": {
+    "method": "OEM Web GUI Flash",
+    "risk": "LOW",
+    "requires_factory_stage": false,
+    "guide_link": "https://openwrt.org/toh/zyxel/gs1900-8"
+  },
+  "recovery": {
+    "method": "UART Serial Kernel Boot",
+    "recovery_ip": "192.168.1.1",
+    "guide_link": "https://openwrt.org/toh/zyxel/gs1900-8"
+  },
+  "verification": {
+    "status": "OFFICIALLY_SUPPORTED",
+    "evidence": [
+      "OpenWrt commit: realtek: add support for Zyxel GS1900-8",
+      "Official Linux DSA switch tree integration"
+    ],
+    "last_verified": "2026-11-14"
+  },
+  "sources": [
+    {
+      "title": "OpenWrt ToH: Zyxel GS1900-8",
+      "url": "https://openwrt.org/toh/zyxel/gs1900-8",
+      "type": "OPENWRT_TOH",
+      "date_accessed": "2026-11-14"
+    }
+  ]
+}

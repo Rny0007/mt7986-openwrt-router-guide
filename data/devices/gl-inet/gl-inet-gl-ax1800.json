@@ -1,0 +1,168 @@
+{
+  "$schema": "../../schemas/device.schema.json",
+  "id": "gl-inet-gl-ax1800",
+  "manufacturer": "GL.iNet",
+  "model": "GL-AX1800 (Flint)",
+  "hardware_revision": "v1",
+  "regional_variant": "Global",
+  "internal_board_name": "glinet_gl-ax1800",
+  "soc": {
+    "vendor": "Qualcomm",
+    "model": "IPQ6000",
+    "family": "Cypress",
+    "cores": 4,
+    "frequency_mhz": 1200
+  },
+  "architecture": "aarch64",
+  "ram_mb": 512,
+  "flash": {
+    "mb": 128,
+    "type": "SPI-NAND",
+    "ubi_support": true,
+    "dual_boot": false,
+    "partitions": [
+      {
+        "name": "SBL1",
+        "size_kb": 256,
+        "read_only": true
+      },
+      {
+        "name": "u-boot",
+        "size_kb": 1024,
+        "read_only": true
+      },
+      {
+        "name": "art",
+        "size_kb": 1024,
+        "read_only": true
+      },
+      {
+        "name": "ubi",
+        "size_kb": 122880,
+        "read_only": false
+      }
+    ],
+    "capacity_mb": 128
+  },
+  "ethernet_ports": [
+    {
+      "speed_mbps": 1000,
+      "type": "WAN",
+      "label": "WAN",
+      "dsa_interface": "wan"
+    },
+    {
+      "speed_mbps": 1000,
+      "type": "LAN",
+      "label": "LAN 1",
+      "dsa_interface": "lan1"
+    },
+    {
+      "speed_mbps": 1000,
+      "type": "LAN",
+      "label": "LAN 2",
+      "dsa_interface": "lan2"
+    },
+    {
+      "speed_mbps": 1000,
+      "type": "LAN",
+      "label": "LAN 3",
+      "dsa_interface": "lan3"
+    },
+    {
+      "speed_mbps": 1000,
+      "type": "LAN",
+      "label": "LAN 4",
+      "dsa_interface": "lan4"
+    }
+  ],
+  "switch": {
+    "integrated": false,
+    "model": "Qualcomm QCA8075",
+    "dsa_driver": "qca8k",
+    "hardware_vlan": true
+  },
+  "wifi": [
+    {
+      "band": "2.4 GHz",
+      "standard": "802.11ax",
+      "streams": "2x2",
+      "max_phy_mbps": 574,
+      "chipset": "Qualcomm QCN5022 (ath11k)"
+    },
+    {
+      "band": "5 GHz",
+      "standard": "802.11ax",
+      "streams": "2x2",
+      "max_phy_mbps": 1201,
+      "chipset": "Qualcomm QCN5052 (ath11k)"
+    }
+  ],
+  "usb_ports": [
+    {
+      "type": "USB 3.0 Type-A",
+      "count": 1
+    }
+  ],
+  "poe": {
+    "supported": false,
+    "standard": null,
+    "type": null
+  },
+  "bootloader": "U-Boot (GL.iNet U-Boot with Web Failsafe)",
+  "serial_uart": {
+    "available": true,
+    "voltage": "3.3V",
+    "baudrate": 115200,
+    "pinout_documented": true,
+    "notes": "4-pin internal header: Pin 1 = 3.3V (do not connect), Pin 2 = GND, Pin 3 = TX, Pin 4 = RX."
+  },
+  "openwrt": {
+    "target": "qualcommax/ipq60xx",
+    "subtarget": "generic",
+    "profile": "glinet_gl-ax1800",
+    "support_status": "OFFICIALLY_SUPPORTED",
+    "first_supported_version": "23.05.0",
+    "latest_tested_version": "25.12.6",
+    "firmware_selector_url": "https://firmware-selector.openwrt.org/?target=qualcommax%2Fipq60xx&id=glinet_gl-ax1800",
+    "device_tree_file": "ipq6018-glinet-gl-ax1800.dts",
+    "known_limitations": [
+      "Open-source ath11k driver requires proprietary board-2.bin calibration data extracted from stock flash.",
+      "Hardware NSS packet accelerator is not active in mainline OpenWrt; uses software flow offload."
+    ]
+  },
+  "installation": {
+    "method": "OEM Web GUI Flash",
+    "risk": "LOW",
+    "requires_factory_stage": false,
+    "guide_link": "https://openwrt.org/toh/gl.inet/gl-ax1800"
+  },
+  "recovery": {
+    "method": "U-Boot Recovery Webpage",
+    "recovery_ip": "192.168.1.1",
+    "guide_link": "https://docs.gl-inet.com/router/en/4/faq/debrick/"
+  },
+  "verification": {
+    "status": "OFFICIALLY_SUPPORTED",
+    "evidence": [
+      "Upstream OpenWrt target: target/linux/qualcommax/ipq60xx",
+      "DTS: ipq6018-glinet-gl-ax1800.dts",
+      "Mainline firmware selector images built and verified"
+    ],
+    "last_verified": "2026-11-15"
+  },
+  "sources": [
+    {
+      "title": "OpenWrt Table of Hardware: GL.iNet GL-AX1800",
+      "url": "https://openwrt.org/toh/gl.inet/gl-ax1800",
+      "type": "OPENWRT_TOH",
+      "date_accessed": "2026-11-15"
+    },
+    {
+      "title": "OpenWrt qualcommax Target Tree",
+      "url": "https://git.openwrt.org/?p=openwrt/openwrt.git;a=tree;f=target/linux/qualcommax",
+      "type": "OPENWRT_GIT",
+      "date_accessed": "2026-11-15"
+    }
+  ]
+}

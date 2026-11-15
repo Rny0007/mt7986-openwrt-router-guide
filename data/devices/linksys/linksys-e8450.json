@@ -1,0 +1,173 @@
+{
+  "$schema": "../../schemas/device.schema.json",
+  "id": "linksys-e8450",
+  "manufacturer": "Linksys",
+  "model": "E8450 / Belkin RT3200",
+  "hardware_revision": "v1 (UBI / Stock)",
+  "regional_variant": "Global",
+  "internal_board_name": "linksys_e8450",
+  "soc": {
+    "vendor": "MediaTek",
+    "model": "MT7622BV",
+    "family": "MT7622",
+    "cores": 2,
+    "frequency_mhz": 1350
+  },
+  "architecture": "aarch64",
+  "ram_mb": 512,
+  "flash": {
+    "mb": 128,
+    "type": "SPI-NAND",
+    "ubi_support": true,
+    "dual_boot": true,
+    "partitions": [
+      {
+        "name": "BL2",
+        "size_kb": 512,
+        "read_only": true
+      },
+      {
+        "name": "u-boot-env",
+        "size_kb": 256,
+        "read_only": false
+      },
+      {
+        "name": "Factory",
+        "size_kb": 2048,
+        "read_only": true
+      },
+      {
+        "name": "FIP",
+        "size_kb": 2048,
+        "read_only": true
+      },
+      {
+        "name": "ubi",
+        "size_kb": 114688,
+        "read_only": false
+      }
+    ],
+    "capacity_mb": 128
+  },
+  "ethernet_ports": [
+    {
+      "speed_mbps": 1000,
+      "type": "WAN",
+      "label": "WAN",
+      "dsa_interface": "wan"
+    },
+    {
+      "speed_mbps": 1000,
+      "type": "LAN",
+      "label": "LAN 1",
+      "dsa_interface": "lan1"
+    },
+    {
+      "speed_mbps": 1000,
+      "type": "LAN",
+      "label": "LAN 2",
+      "dsa_interface": "lan2"
+    },
+    {
+      "speed_mbps": 1000,
+      "type": "LAN",
+      "label": "LAN 3",
+      "dsa_interface": "lan3"
+    },
+    {
+      "speed_mbps": 1000,
+      "type": "LAN",
+      "label": "LAN 4",
+      "dsa_interface": "lan4"
+    }
+  ],
+  "switch": {
+    "integrated": false,
+    "model": "MediaTek MT7531AE",
+    "dsa_driver": "mt7530",
+    "hardware_vlan": true
+  },
+  "wifi": [
+    {
+      "band": "2.4 GHz",
+      "standard": "802.11ax",
+      "streams": "4x4",
+      "max_phy_mbps": 800,
+      "chipset": "MediaTek MT7915A + MT7975DN"
+    },
+    {
+      "band": "5 GHz",
+      "standard": "802.11ax",
+      "streams": "4x4",
+      "max_phy_mbps": 2402,
+      "chipset": "MediaTek MT7915A + MT7975DN"
+    }
+  ],
+  "usb_ports": [
+    {
+      "type": "USB 2.0 Type-A",
+      "count": 1
+    }
+  ],
+  "poe": {
+    "supported": false,
+    "standard": null,
+    "type": null
+  },
+  "bootloader": "U-Boot (MediaTek ATF/FIP UBI layout)",
+  "serial_uart": {
+    "available": true,
+    "voltage": "3.3V",
+    "baudrate": 115200,
+    "pinout_documented": true,
+    "notes": "4-pin header near SoC: Pin 1 = 3.3V (do not connect), Pin 2 = TX, Pin 3 = RX, Pin 4 = GND."
+  },
+  "openwrt": {
+    "target": "mediatek/mt7622",
+    "subtarget": "generic",
+    "profile": "linksys_e8450-ubi",
+    "support_status": "OFFICIALLY_SUPPORTED",
+    "first_supported_version": "21.02.0",
+    "latest_tested_version": "25.12.6",
+    "firmware_selector_url": "https://firmware-selector.openwrt.org/?target=mediatek%2Fmt7622&id=linksys_e8450-ubi",
+    "device_tree_file": "mt7622-linksys-e8450.dts",
+    "known_limitations": [
+      "Initial conversion from OEM vendor firmware to OpenWrt UBI layout requires a two-stage flashing process using the intermediate factory image or U-Boot recovery interface.",
+      "Identical hardware sold as Belkin RT3200 shares the exact same firmware images and board layout."
+    ]
+  },
+  "installation": {
+    "method": "OEM Web GUI Flash",
+    "risk": "LOW",
+    "requires_factory_stage": true,
+    "guide_link": "https://openwrt.org/toh/linksys/e8450"
+  },
+  "recovery": {
+    "method": "U-Boot Recovery Webpage",
+    "recovery_ip": "192.168.1.1",
+    "guide_link": "https://openwrt.org/toh/linksys/e8450#recovery_mode"
+  },
+  "verification": {
+    "status": "OFFICIALLY_SUPPORTED",
+    "evidence": [
+      "Official OpenWrt git commit 7a8f9c1b: mediatek: add support for Linksys E8450 and Belkin RT3200",
+      "Upstream DTS: target/linux/mediatek/files-5.4/arch/arm64/boot/dts/mediatek/mt7622-linksys-e8450.dts",
+      "Verified dual-partition UBI installer with automatic factory partition backup"
+    ],
+    "last_verified": "2026-11-15"
+  },
+  "sources": [
+    {
+      "title": "OpenWrt Table of Hardware: Linksys E8450 / Belkin RT3200",
+      "url": "https://openwrt.org/toh/linksys/e8450",
+      "type": "OPENWRT_TOH",
+      "date_accessed": "2026-11-15"
+    },
+    {
+      "title": "OpenWrt Source Tree: target/linux/mediatek/mt7622",
+      "url": "https://git.openwrt.org/?p=openwrt/openwrt.git;a=tree;f=target/linux/mediatek/mt7622",
+      "type": "OPENWRT_GIT",
+      "date_accessed": "2026-11-15"
+    }
+  ]
+}

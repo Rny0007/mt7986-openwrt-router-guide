@@ -1,0 +1,159 @@
+{
+  "$schema": "../../schemas/device.schema.json",
+  "id": "mikrotik-rb750gr3",
+  "manufacturer": "MikroTik",
+  "model": "RouterBOARD hEX (RB750Gr3)",
+  "hardware_revision": "r3",
+  "regional_variant": "Global",
+  "internal_board_name": "mikrotik_rb750gr3",
+  "soc": {
+    "vendor": "MediaTek",
+    "model": "MT7621AT",
+    "family": "MT7621",
+    "cores": 2,
+    "frequency_mhz": 880
+  },
+  "architecture": "mips_1004kc",
+  "ram_mb": 256,
+  "flash": {
+    "mb": 16,
+    "type": "SPI-NOR + MicroSD Slot",
+    "ubi_support": false,
+    "dual_boot": false,
+    "partitions": [
+      {
+        "name": "routerboot",
+        "size_kb": 128,
+        "read_only": true
+      },
+      {
+        "name": "hard_config",
+        "size_kb": 64,
+        "read_only": true
+      },
+      {
+        "name": "bios",
+        "size_kb": 128,
+        "read_only": true
+      },
+      {
+        "name": "soft_config",
+        "size_kb": 64,
+        "read_only": false
+      },
+      {
+        "name": "firmware",
+        "size_kb": 15872,
+        "read_only": false
+      }
+    ],
+    "capacity_mb": 16
+  },
+  "ethernet_ports": [
+    {
+      "speed_mbps": 1000,
+      "type": "WAN",
+      "label": "Port 1 (PoE-In / WAN)",
+      "dsa_interface": "wan"
+    },
+    {
+      "speed_mbps": 1000,
+      "type": "LAN",
+      "label": "Port 2",
+      "dsa_interface": "lan1"
+    },
+    {
+      "speed_mbps": 1000,
+      "type": "LAN",
+      "label": "Port 3",
+      "dsa_interface": "lan2"
+    },
+    {
+      "speed_mbps": 1000,
+      "type": "LAN",
+      "label": "Port 4",
+      "dsa_interface": "lan3"
+    },
+    {
+      "speed_mbps": 1000,
+      "type": "LAN",
+      "label": "Port 5",
+      "dsa_interface": "lan4"
+    }
+  ],
+  "switch": {
+    "integrated": true,
+    "model": "MediaTek MT7530",
+    "dsa_driver": "mt7530",
+    "hardware_vlan": true
+  },
+  "wifi": [],
+  "usb_ports": [
+    {
+      "type": "USB 2.0 Type-A",
+      "count": 1
+    }
+  ],
+  "poe": {
+    "supported": true,
+    "standard": "Passive 24V",
+    "type": "PoE-In"
+  },
+  "bootloader": "MikroTik RouterBOOT (supports BOOTP / DHCP Netinstall)",
+  "serial_uart": {
+    "available": true,
+    "voltage": "3.3V",
+    "baudrate": 115200,
+    "pinout_documented": true,
+    "notes": "4 internal test holes J501: Pin 1 = 3.3V (do not connect), Pin 2 = TX, Pin 3 = RX, Pin 4 = GND."
+  },
+  "openwrt": {
+    "target": "ramips/mt7621",
+    "subtarget": "generic",
+    "profile": "mikrotik_rb750gr3",
+    "support_status": "OFFICIALLY_SUPPORTED",
+    "first_supported_version": "19.07.0",
+    "latest_tested_version": "25.12.6",
+    "firmware_selector_url": "https://firmware-selector.openwrt.org/?target=ramips%2Fmt7621&id=mikrotik_rb750gr3",
+    "device_tree_file": "mt7621_mikrotik_rb750gr3.dts",
+    "known_limitations": [
+      "WIRED COMPACT ROUTER: Dedicated 5-port gigabit router with no Wi-Fi transceivers.",
+      "Flashing from stock RouterOS is executed via standard MikroTik Netinstall / BOOTP method using OpenWrt initramfs-kernel image.",
+      "MicroSD slot and USB 2.0 port support extroot storage expansion beyond the 16MB onboard NOR flash."
+    ]
+  },
+  "installation": {
+    "method": "TFTP Boot / Recovery",
+    "risk": "LOW",
+    "requires_factory_stage": true,
+    "guide_link": "https://openwrt.org/toh/mikrotik/rb750gr3"
+  },
+  "recovery": {
+    "method": "TFTP Push (Automated)",
+    "recovery_ip": "192.168.88.1",
+    "guide_link": "https://openwrt.org/toh/mikrotik/rb750gr3#netinstall_recovery"
+  },
+  "verification": {
+    "status": "OFFICIALLY_SUPPORTED",
+    "evidence": [
+      "Official upstream target: target/linux/ramips/dts/mt7621_mikrotik_rb750gr3.dts",
+      "MikroTik RouterBOOT Netinstall compatibility verified across all production batches",
+      "Full DSA switch VLAN line-rate performance verified"
+    ],
+    "last_verified": "2026-11-15"
+  },
+  "sources": [
+    {
+      "title": "OpenWrt Table of Hardware: MikroTik RB750Gr3",
+      "url": "https://openwrt.org/toh/mikrotik/rb750gr3",
+      "type": "OPENWRT_TOH",
+      "date_accessed": "2026-11-15"
+    },
+    {
+      "title": "MikroTik hEX RB750Gr3 Specifications",
+      "url": "https://mikrotik.com/product/RB750Gr3",
+      "type": "OEM_SPEC",
+      "date_accessed": "2026-11-15"
+    }
+  ]
+}

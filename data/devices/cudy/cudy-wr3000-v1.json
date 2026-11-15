@@ -1,0 +1,125 @@
+{
+  "id": "cudy-wr3000-v1",
+  "manufacturer": "Cudy",
+  "model": "WR3000",
+  "hardware_revision": "v1",
+  "regional_variant": "Global",
+  "internal_board_name": "cudy_wr3000-v1",
+  "soc": {
+    "vendor": "MediaTek",
+    "model": "MT7981BA",
+    "family": "Filogic 820",
+    "cores": 2,
+    "frequency_mhz": 1300
+  },
+  "architecture": "aarch64",
+  "ram_mb": 256,
+  "flash": {
+    "type": "SPI-NOR",
+    "capacity_mb": 16,
+    "mb": 16
+  },
+  "wireless": [
+    {
+      "radio_id": "radio0",
+      "chipset": "MT7976CN",
+      "frequency_ghz": 2.4,
+      "generation": "Wi-Fi 6",
+      "spatial_streams": "2x2",
+      "max_phy_rate_mbps": 574,
+      "channel_width_mhz": 40
+    },
+    {
+      "radio_id": "radio1",
+      "chipset": "MT7976CN",
+      "frequency_ghz": 5.0,
+      "generation": "Wi-Fi 6",
+      "spatial_streams": "3x3",
+      "max_phy_rate_mbps": 2402,
+      "channel_width_mhz": 160
+    }
+  ],
+  "ethernet": {
+    "switch_chip": "MT7531AE",
+    "ports": [
+      {
+        "name": "WAN",
+        "type": "WAN",
+        "speed_mbps": 1000,
+        "dsa_port": "wan"
+      },
+      {
+        "name": "LAN1",
+        "type": "LAN",
+        "speed_mbps": 1000,
+        "dsa_port": "lan1"
+      },
+      {
+        "name": "LAN2",
+        "type": "LAN",
+        "speed_mbps": 1000,
+        "dsa_port": "lan2"
+      },
+      {
+        "name": "LAN3",
+        "type": "LAN",
+        "speed_mbps": 1000,
+        "dsa_port": "lan3"
+      }
+    ]
+  },
+  "usb_ports": [],
+  "poe": {
+    "supported": false,
+    "standard": null,
+    "type": null
+  },
+  "bootloader": "U-Boot 2022.04 (MediaTek ATF/FIP)",
+  "serial_uart": {
+    "available": true,
+    "voltage": "3.3V",
+    "baudrate": 115200,
+    "pinout_documented": true,
+    "notes": "Standard 4-pin 3.3V TTL header."
+  },
+  "openwrt": {
+    "target": "mediatek/filogic",
+    "subtarget": "arm64",
+    "profile": "cudy_wr3000-v1",
+    "support_status": "OFFICIALLY_SUPPORTED",
+    "first_supported_version": "23.05.0",
+    "latest_tested_version": "25.12.6",
+    "firmware_selector_url": "https://firmware-selector.openwrt.org/?version=25.12.6&target=mediatek%2Ffilogic&id=cudy_wr3000-v1",
+    "device_tree_file": "mt7981ba-cudy-wr3000-v1.dts",
+    "known_limitations": [
+      "16 MB flash requires careful package selection (recommend using extroot or imagebuilder if installing heavy python/AdGuard packages)."
+    ]
+  },
+  "installation": {
+    "method": "OEM Web GUI Flash",
+    "risk": "LOW",
+    "requires_factory_stage": false,
+    "guide_link": "https://openwrt.org/toh/cudy/wr3000"
+  },
+  "recovery": {
+    "method": "TFTP Push (Automated)",
+    "recovery_ip": "192.168.1.1",
+    "guide_link": "https://openwrt.org/toh/cudy/wr3000"
+  },
+  "verification": {
+    "status": "OFFICIALLY_SUPPORTED",
+    "evidence": [
+      "OpenWrt commit: mediatek: add support for Cudy WR3000 v1",
+      "Direct OEM web flash compatibility verified"
+    ],
+    "last_verified": "2026-11-14"
+  },
+  "sources": [
+    {
+      "title": "OpenWrt ToH: Cudy WR3000",
+      "url": "https://openwrt.org/toh/cudy/wr3000",
+      "type": "OPENWRT_TOH",
+      "date_accessed": "2026-11-14"
+    }
+  ]
+}

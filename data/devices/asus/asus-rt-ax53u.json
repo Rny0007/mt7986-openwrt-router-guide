@@ -1,0 +1,157 @@
+{
+  "$schema": "../../schemas/device.schema.json",
+  "id": "asus-rt-ax53u",
+  "manufacturer": "ASUS",
+  "model": "RT-AX53U",
+  "hardware_revision": "v1 (A1)",
+  "regional_variant": "Global",
+  "internal_board_name": "asus_rt-ax53u",
+  "soc": {
+    "vendor": "MediaTek",
+    "model": "MT7621AT",
+    "family": "MT7621",
+    "cores": 2,
+    "frequency_mhz": 880
+  },
+  "architecture": "mips_1004kc",
+  "ram_mb": 256,
+  "flash": {
+    "mb": 128,
+    "type": "SPI-NAND",
+    "ubi_support": true,
+    "dual_boot": false,
+    "partitions": [
+      {
+        "name": "Bootloader",
+        "size_kb": 512,
+        "read_only": true
+      },
+      {
+        "name": "Factory",
+        "size_kb": 256,
+        "read_only": true
+      },
+      {
+        "name": "ubi",
+        "size_kb": 130304,
+        "read_only": false
+      }
+    ],
+    "capacity_mb": 128
+  },
+  "ethernet_ports": [
+    {
+      "speed_mbps": 1000,
+      "type": "WAN",
+      "label": "WAN (Blue)",
+      "dsa_interface": "wan"
+    },
+    {
+      "speed_mbps": 1000,
+      "type": "LAN",
+      "label": "LAN 1",
+      "dsa_interface": "lan1"
+    },
+    {
+      "speed_mbps": 1000,
+      "type": "LAN",
+      "label": "LAN 2",
+      "dsa_interface": "lan2"
+    },
+    {
+      "speed_mbps": 1000,
+      "type": "LAN",
+      "label": "LAN 3",
+      "dsa_interface": "lan3"
+    }
+  ],
+  "switch": {
+    "integrated": true,
+    "model": "MediaTek MT7530",
+    "dsa_driver": "mt7530",
+    "hardware_vlan": true
+  },
+  "wifi": [
+    {
+      "band": "2.4 GHz",
+      "standard": "802.11ax",
+      "streams": "2x2",
+      "max_phy_mbps": 574,
+      "chipset": "MediaTek MT7905DAN + MT7975DN"
+    },
+    {
+      "band": "5 GHz",
+      "standard": "802.11ax",
+      "streams": "2x2",
+      "max_phy_mbps": 1201,
+      "chipset": "MediaTek MT7905DAN + MT7975DN"
+    }
+  ],
+  "usb_ports": [
+    {
+      "type": "USB 2.0 Type-A",
+      "count": 1
+    }
+  ],
+  "poe": {
+    "supported": false,
+    "standard": null,
+    "type": null
+  },
+  "bootloader": "U-Boot (ASUS customized with ASUS Rescue Mode)",
+  "serial_uart": {
+    "available": true,
+    "voltage": "3.3V",
+    "baudrate": 115200,
+    "pinout_documented": true,
+    "notes": "4-pin header near WAN port: Pin 1 = 3.3V (do not connect), Pin 2 = RX, Pin 3 = TX, Pin 4 = GND."
+  },
+  "openwrt": {
+    "target": "ramips/mt7621",
+    "subtarget": "generic",
+    "profile": "asus_rt-ax53u",
+    "support_status": "OFFICIALLY_SUPPORTED",
+    "first_supported_version": "22.03.0",
+    "latest_tested_version": "25.12.6",
+    "firmware_selector_url": "https://firmware-selector.openwrt.org/?target=ramips%2Fmt7621&id=asus_rt-ax53u",
+    "device_tree_file": "mt7621_asus_rt-ax53u.dts",
+    "known_limitations": [
+      "Initial flash can be completed cleanly using the ASUS Firmware Restoration Utility in Rescue Mode (hold Reset while powering on until power LED blinks slowly).",
+      "256MB DDR3 RAM provides ample overhead for Adblock and WireGuard tunnels."
+    ]
+  },
+  "installation": {
+    "method": "OEM Web GUI Flash",
+    "risk": "LOW",
+    "requires_factory_stage": true,
+    "guide_link": "https://openwrt.org/toh/asus/rt-ax53u"
+  },
+  "recovery": {
+    "method": "TFTP Push (Automated)",
+    "recovery_ip": "192.168.1.1",
+    "guide_link": "https://openwrt.org/toh/asus/rt-ax53u#recovery_mode"
+  },
+  "verification": {
+    "status": "OFFICIALLY_SUPPORTED",
+    "evidence": [
+      "Official OpenWrt target: target/linux/ramips/dts/mt7621_asus_rt-ax53u.dts",
+      "Verified ASUS Rescue utility compatibility",
+      "Production deployment testing on OpenWrt 23.05 and 25.12"
+    ],
+    "last_verified": "2026-11-15"
+  },
+  "sources": [
+    {
+      "title": "OpenWrt Table of Hardware: ASUS RT-AX53U",
+      "url": "https://openwrt.org/toh/asus/rt-ax53u",
+      "type": "OPENWRT_TOH",
+      "date_accessed": "2026-11-15"
+    },
+    {
+      "title": "ASUS RT-AX53U Official Specifications",
+      "url": "https://www.asus.com/networking-iot-servers/wifi-routers/asus-wifi-routers/rt-ax53u/",
+      "type": "OEM_SPEC",
+      "date_accessed": "2026-11-15"
+    }
+  ]
+}

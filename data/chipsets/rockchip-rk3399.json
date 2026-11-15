@@ -1,0 +1,48 @@
+{
+  "$schema": "../schemas/chipset.schema.json",
+  "id": "rockchip-rk3399",
+  "vendor": "Rockchip",
+  "part_number": "RK3399",
+  "marketing_name": "Rockchip RK3399 (Dual-A72 + Quad-A53)",
+  "cpu": {
+    "architecture": "aarch64",
+    "core_type": "ARM big.LITTLE (2x A72 + 4x A53)",
+    "cores": 6,
+    "max_clock_mhz": 1800
+  },
+  "process_node_nm": 28,
+  "openwrt_target": "rockchip",
+  "openwrt_subtarget": "armv8",
+  "linux_driver": {
+    "wireless_mac80211": null,
+    "ethernet_driver": "stmmac",
+    "switch_driver": null
+  },
+  "wireless_subsystem": {
+    "integrated": false,
+    "accompanying_rf_chips": [],
+    "wi_fi_generation": "None (External PCIe/USB only)",
+    "mimo_capabilities": "N/A"
+  },
+  "hardware_acceleration": {
+    "flow_offload": "Software Only",
+    "crypto_engine": true,
+    "wireless_ethernet_dispatch": false
+  },
+  "openwrt_support_tier": "TIER_1_MAINSTREAM",
+  "notes": "Hexa-core 64-bit ARM processor powering the FriendlyElec NanoPi R4S dual-GbE mini-router. Capable of handling full gigabit WireGuard throughput in OpenWrt.",
+  "sources": [
+    {
+      "title": "OpenWrt Target: Rockchip ARMv8",
+      "url": "https://git.openwrt.org/?p=openwrt/openwrt.git;a=tree;f=target/linux/rockchip/armv8",
+      "type": "OPENWRT_GIT",
+      "date_accessed": "2026-11-15"
+    },
+    {
+      "title": "FriendlyElec NanoPi R4S OpenWrt Profile",
+      "url": "https://openwrt.org/toh/friendlyarm/nanopi_r4s",
+      "type": "OPENWRT_TOH",
+      "date_accessed": "2026-11-15"
+    }
+  ]
+}

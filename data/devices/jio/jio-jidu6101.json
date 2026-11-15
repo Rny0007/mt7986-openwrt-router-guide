@@ -1,0 +1,138 @@
+{
+  "id": "jio-jidu6101",
+  "manufacturer": "Jio / Arcadyan",
+  "model": "JIDU6101",
+  "hardware_revision": "6j01",
+  "regional_variant": "IN",
+  "internal_board_name": "arcadyan_6j01",
+  "soc": {
+    "vendor": "MediaTek",
+    "model": "MT7986A",
+    "family": "Filogic 830",
+    "cores": 4,
+    "frequency_mhz": 2000
+  },
+  "architecture": "aarch64",
+  "ram_mb": 512,
+  "flash": {
+    "type": "SPI-NAND",
+    "capacity_mb": 256,
+    "mb": 256
+  },
+  "wireless": [
+    {
+      "radio_id": "radio0",
+      "chipset": "MT7976C",
+      "frequency_ghz": 2.4,
+      "generation": "Wi-Fi 6",
+      "spatial_streams": "4x4",
+      "max_phy_rate_mbps": 1148,
+      "channel_width_mhz": 40
+    },
+    {
+      "radio_id": "radio1",
+      "chipset": "MT7976C",
+      "frequency_ghz": 5.0,
+      "generation": "Wi-Fi 6",
+      "spatial_streams": "4x4",
+      "max_phy_rate_mbps": 4804,
+      "channel_width_mhz": 160
+    }
+  ],
+  "ethernet": {
+    "switch_chip": "MT7531AE",
+    "ports": [
+      {
+        "name": "WAN",
+        "type": "WAN",
+        "speed_mbps": 1000,
+        "dsa_port": "wan"
+      },
+      {
+        "name": "LAN1",
+        "type": "LAN",
+        "speed_mbps": 1000,
+        "dsa_port": "lan1"
+      },
+      {
+        "name": "LAN2",
+        "type": "LAN",
+        "speed_mbps": 1000,
+        "dsa_port": "lan2"
+      },
+      {
+        "name": "LAN3",
+        "type": "LAN",
+        "speed_mbps": 1000,
+        "dsa_port": "lan3"
+      }
+    ]
+  },
+  "usb_ports": [
+    {
+      "type": "USB 3.0 Type-A",
+      "count": 1
+    }
+  ],
+  "poe": {
+    "supported": false,
+    "standard": null,
+    "type": null
+  },
+  "bootloader": "U-Boot 2022.04 (MediaTek ATF/FIP)",
+  "serial_uart": {
+    "available": true,
+    "voltage": "3.3V",
+    "baudrate": 115200,
+    "pinout_documented": true,
+    "notes": "Unpopulated 4-pin header near SoC shield: VCC (3.3V), TX, RX, GND."
+  },
+  "openwrt": {
+    "target": "mediatek/filogic",
+    "subtarget": "arm64",
+    "profile": "jiorouter_ax6000-jidu6101",
+    "support_status": "OFFICIALLY_SUPPORTED",
+    "first_supported_version": "25.12.6",
+    "latest_tested_version": "25.12.6",
+    "firmware_selector_url": "https://firmware-selector.openwrt.org/?version=25.12.6&target=mediatek%2Ffilogic&id=jiorouter_ax6000-jidu6101",
+    "device_tree_file": "mt7986a-jiorouter-ax6000-jidu6101.dts",
+    "known_limitations": [
+      "Factory downgrade protection requires custom unlock stage or UART to bypass signature checks.",
+      "Dual-WAN failover with wireless uplink shares radio1 (5 GHz) requiring channel alignment with upstream AP (e.g. Channel 149)."
+    ]
+  },
+  "installation": {
+    "method": "Automated Root SSH Exploit",
+    "risk": "HIGH",
+    "requires_factory_stage": true,
+    "guide_link": "docs/installation.md"
+  },
+  "recovery": {
+    "method": "TFTP Push (Automated)",
+    "recovery_ip": "192.168.1.1",
+    "guide_link": "docs/recovery-unbrick.md"
+  },
+  "verification": {
+    "status": "OFFICIALLY_SUPPORTED",
+    "evidence": [
+      "OpenWrt official PR 25122 commit 981c978eff",
+      "Live hardware execution on OpenWrt 25.12.6 r33311",
+      "Mainline dmesg matching mt7986a-jiorouter-ax6000-jidu6101.dts"
+    ],
+    "last_verified": "2026-11-14"
+  },
+  "sources": [
+    {
+      "title": "OpenWrt Target Definition: JIDU6101 Device Tree",
+      "url": "https://git.openwrt.org/?p=openwrt/openwrt.git;a=blob;f=target/linux/mediatek/files-6.6/arch/arm64/boot/dts/mediatek/mt7986a-jiorouter-ax6000-jidu6101.dts",
+      "type": "OPENWRT_GIT",
+      "date_accessed": "2026-11-14"
+    },
+    {
+      "title": "OpenWrt PR 25122: Add support for JioRouter AX6000 JIDU6101",
+      "url": "https://github.com/openwrt/openwrt/pull/25122",
+      "type": "OPENWRT_GIT",
+      "date_accessed": "2026-11-14"
+    }
+  ]
+}

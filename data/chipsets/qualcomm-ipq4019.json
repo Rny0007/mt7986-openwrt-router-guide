@@ -1,0 +1,39 @@
+{
+  "id": "qualcomm-ipq4019",
+  "vendor": "Qualcomm",
+  "part_number": "IPQ4018 / IPQ4019",
+  "marketing_name": "Dakota",
+  "cpu": {
+    "architecture": "arm_cortex-a7",
+    "core_type": "ARM Cortex-A7",
+    "cores": 4,
+    "max_clock_mhz": 716
+  },
+  "process_node_nm": 40,
+  "openwrt_target": "ipq40xx",
+  "openwrt_subtarget": "generic",
+  "linux_driver": {
+    "wireless_mac80211": "ath10k",
+    "ethernet_driver": "essedma",
+    "switch_driver": "qca8k"
+  },
+  "wireless_subsystem": {
+    "integrated": true,
+    "accompanying_rf_chips": [],
+    "wi_fi_generation": "Wi-Fi 5 (802.11ac Wave 2)",
+    "mimo_capabilities": "2x2:2 (2.4 GHz) + 2x2:2 (5.0 GHz)"
+  },
+  "hardware_acceleration": {
+    "flow_offload": "Software Only",
+    "crypto_engine": true,
+    "wireless_ethernet_dispatch": false
+  },
+  "openwrt_support_tier": "TIER_1_MAINSTREAM",
+  "notes": "Highly popular Wave-2 AC chipset (e.g. GL.iNet GL-B1300, Linksys EA8300, ASUS RT-AC58U, Netgear Orbi RBR50). Outstanding open-source driver maturity via ath10k.",
+  "sources": [
+    {
+      "title": "OpenWrt Target Definition: ipq40xx",
+      "url": "https://git.openwrt.org/?p=openwrt/openwrt.git;a=tree;f=target/linux/ipq40xx"
+    }
+  ]
+}

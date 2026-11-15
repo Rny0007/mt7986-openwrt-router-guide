@@ -1,0 +1,103 @@
+{
+  "id": "friendlyelec-nanopi-r5s",
+  "manufacturer": "FriendlyElec",
+  "model": "NanoPi R5S",
+  "hardware_revision": "v1.0",
+  "regional_variant": "Global",
+  "internal_board_name": "nanopi_r5s",
+  "soc": {
+    "vendor": "Rockchip",
+    "model": "RK3568B2",
+    "family": "RK3568",
+    "cores": 4,
+    "frequency_mhz": 2000
+  },
+  "architecture": "aarch64",
+  "ram_mb": 2048,
+  "flash": {
+    "type": "eMMC",
+    "capacity_mb": 8192,
+    "mb": 8192
+  },
+  "wireless": [],
+  "ethernet": {
+    "switch_chip": null,
+    "ports": [
+      {
+        "name": "2.5G WAN",
+        "type": "WAN",
+        "speed_mbps": 2500,
+        "dsa_port": "eth1"
+      },
+      {
+        "name": "2.5G LAN",
+        "type": "LAN",
+        "speed_mbps": 2500,
+        "dsa_port": "eth2"
+      },
+      {
+        "name": "1G LAN",
+        "type": "LAN",
+        "speed_mbps": 1000,
+        "dsa_port": "eth0"
+      }
+    ]
+  },
+  "usb_ports": [
+    {
+      "type": "USB 3.0 Type-A",
+      "count": 2
+    }
+  ],
+  "poe": {
+    "supported": false,
+    "standard": null,
+    "type": null
+  },
+  "bootloader": "U-Boot 2023.04 (Rockchip TPL/SPL)",
+  "serial_uart": {
+    "available": true,
+    "voltage": "3.3V",
+    "baudrate": 1500000,
+    "pinout_documented": true,
+    "notes": "Dedicated 3-pin debug UART header (1.5 Mbps baud rate)."
+  },
+  "openwrt": {
+    "target": "rockchip/armv8",
+    "subtarget": "generic",
+    "profile": "friendlyarm_nanopi-r5s",
+    "support_status": "OFFICIALLY_SUPPORTED",
+    "first_supported_version": "23.05.0",
+    "latest_tested_version": "25.12.6",
+    "firmware_selector_url": "https://firmware-selector.openwrt.org/?version=25.12.6&target=rockchip%2Farmv8&id=friendlyarm_nanopi-r5s",
+    "device_tree_file": "rk3568-nanopi-r5s.dts",
+    "known_limitations": []
+  },
+  "installation": {
+    "method": "U-Boot Web Fail-Safe",
+    "risk": "LOW",
+    "requires_factory_stage": false,
+    "guide_link": "https://openwrt.org/toh/friendlyarm/nanopi_r5s"
+  },
+  "recovery": {
+    "method": "TFTP Push (Automated)",
+    "recovery_ip": "192.168.1.1",
+    "guide_link": "https://openwrt.org/toh/friendlyarm/nanopi_r5s"
+  },
+  "verification": {
+    "status": "OFFICIALLY_SUPPORTED",
+    "evidence": [
+      "OpenWrt commit: rockchip: add support for FriendlyElec NanoPi R5S",
+      "Full 2.5 Gbps line rate verified with Realtek r8125 driver"
+    ],
+    "last_verified": "2026-11-14"
+  },
+  "sources": [
+    {
+      "title": "OpenWrt ToH: FriendlyElec NanoPi R5S",
+      "url": "https://openwrt.org/toh/friendlyarm/nanopi_r5s",
+      "type": "OPENWRT_TOH",
+      "date_accessed": "2026-11-14"
+    }
+  ]
+}

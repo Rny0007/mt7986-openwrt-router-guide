@@ -1,0 +1,119 @@
+{
+  "id": "jio-jidu6201",
+  "manufacturer": "Jio / Arcadyan",
+  "model": "JIDU6201",
+  "hardware_revision": "6j02",
+  "regional_variant": "IN",
+  "internal_board_name": "arcadyan_6j02",
+  "soc": {
+    "vendor": "MediaTek",
+    "model": "MT7981B",
+    "family": "Filogic 820",
+    "cores": 2,
+    "frequency_mhz": 1300
+  },
+  "architecture": "aarch64",
+  "ram_mb": 256,
+  "flash": {
+    "type": "SPI-NAND",
+    "capacity_mb": 128,
+    "mb": 128
+  },
+  "wireless": [
+    {
+      "radio_id": "radio0",
+      "chipset": "MT7976CN",
+      "frequency_ghz": 2.4,
+      "generation": "Wi-Fi 6",
+      "spatial_streams": "2x2",
+      "max_phy_rate_mbps": 574,
+      "channel_width_mhz": 40
+    },
+    {
+      "radio_id": "radio1",
+      "chipset": "MT7976CN",
+      "frequency_ghz": 5.0,
+      "generation": "Wi-Fi 6",
+      "spatial_streams": "3x3",
+      "max_phy_rate_mbps": 2402,
+      "channel_width_mhz": 160
+    }
+  ],
+  "ethernet": {
+    "switch_chip": "MT7531AE",
+    "ports": [
+      {
+        "name": "WAN",
+        "type": "WAN",
+        "speed_mbps": 1000,
+        "dsa_port": "wan"
+      },
+      {
+        "name": "LAN1",
+        "type": "LAN",
+        "speed_mbps": 1000,
+        "dsa_port": "lan1"
+      },
+      {
+        "name": "LAN2",
+        "type": "LAN",
+        "speed_mbps": 1000,
+        "dsa_port": "lan2"
+      }
+    ]
+  },
+  "usb_ports": [],
+  "poe": {
+    "supported": false,
+    "standard": null,
+    "type": null
+  },
+  "bootloader": "U-Boot (MediaTek ATF/FIP)",
+  "serial_uart": {
+    "available": true,
+    "voltage": "3.3V",
+    "baudrate": 115200,
+    "pinout_documented": true,
+    "notes": "3.3V TTL UART header adjacent to SoC shield."
+  },
+  "openwrt": {
+    "target": "mediatek/filogic",
+    "subtarget": "arm64",
+    "profile": "jiorouter_ax3000-jidu6201",
+    "support_status": "COMMUNITY_VERIFIED",
+    "first_supported_version": "SNAPSHOT",
+    "latest_tested_version": "SNAPSHOT",
+    "firmware_selector_url": null,
+    "device_tree_file": "mt7981b-jiorouter-ax3000-jidu6201.dts",
+    "known_limitations": [
+      "Community build in active development; not yet in official stable release."
+    ]
+  },
+  "installation": {
+    "method": "UART Serial Command",
+    "risk": "HIGH",
+    "requires_factory_stage": true,
+    "guide_link": "docs/installation.md"
+  },
+  "recovery": {
+    "method": "UART Serial Kernel Boot",
+    "recovery_ip": "192.168.1.1",
+    "guide_link": "docs/recovery-unbrick.md"
+  },
+  "verification": {
+    "status": "COMMUNITY_VERIFIED",
+    "evidence": [
+      "Community teardown corroborating Arcadyan 6j02 MT7981B board architecture",
+      "Verified UART dmesg boot log from Indian community contributors"
+    ],
+    "last_verified": "2026-11-10"
+  },
+  "sources": [
+    {
+      "title": "OpenWrt Forum: JioFiber Arcadyan JIDU6201 Discussion",
+      "url": "https://forum.openwrt.org/t/jio-airfiber-jidu6201-mt7981-discussion/185200",
+      "type": "OPENWRT_FORUM",
+      "date_accessed": "2026-11-10"
+    }
+  ]
+}

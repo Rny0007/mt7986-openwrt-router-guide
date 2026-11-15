@@ -1,0 +1,108 @@
+{
+  "id": "ubiquiti-unifi-6-plus",
+  "manufacturer": "Ubiquiti",
+  "model": "UniFi 6+",
+  "hardware_revision": "U6+",
+  "regional_variant": "Global",
+  "internal_board_name": "ubnt_u6_plus",
+  "soc": {
+    "vendor": "MediaTek",
+    "model": "MT7981B",
+    "family": "Filogic 820",
+    "cores": 2,
+    "frequency_mhz": 1300
+  },
+  "architecture": "aarch64",
+  "ram_mb": 256,
+  "flash": {
+    "type": "SPI-NOR + eMMC",
+    "capacity_mb": 4096,
+    "mb": 4096
+  },
+  "wireless": [
+    {
+      "radio_id": "radio0",
+      "chipset": "MT7976CN",
+      "frequency_ghz": 2.4,
+      "generation": "Wi-Fi 6",
+      "spatial_streams": "2x2",
+      "max_phy_rate_mbps": 574,
+      "channel_width_mhz": 40
+    },
+    {
+      "radio_id": "radio1",
+      "chipset": "MT7976CN",
+      "frequency_ghz": 5.0,
+      "generation": "Wi-Fi 6",
+      "spatial_streams": "2x2",
+      "max_phy_rate_mbps": 2402,
+      "channel_width_mhz": 160
+    }
+  ],
+  "ethernet": {
+    "switch_chip": null,
+    "ports": [
+      {
+        "name": "PoE LAN",
+        "type": "LAN",
+        "speed_mbps": 1000,
+        "dsa_port": "eth0"
+      }
+    ]
+  },
+  "usb_ports": [],
+  "poe": {
+    "supported": true,
+    "standard": "802.3af (PoE)",
+    "type": "PoE-In"
+  },
+  "bootloader": "U-Boot 2022.04 (Ubiquiti UniFi bootloader)",
+  "serial_uart": {
+    "available": true,
+    "voltage": "3.3V",
+    "baudrate": 115200,
+    "pinout_documented": true,
+    "notes": "4-pin 3.3V TTL debug pads."
+  },
+  "openwrt": {
+    "target": "mediatek/filogic",
+    "subtarget": "arm64",
+    "profile": "ubnt_unifi-6-plus",
+    "support_status": "OFFICIALLY_SUPPORTED",
+    "first_supported_version": "SNAPSHOT",
+    "latest_tested_version": "25.12.6",
+    "firmware_selector_url": "https://firmware-selector.openwrt.org/?version=SNAPSHOT&target=mediatek%2Ffilogic&id=ubnt_unifi-6-plus",
+    "device_tree_file": "mt7981b-ubnt-unifi-6-plus.dts",
+    "known_limitations": [
+      "Access point only (single PoE Ethernet port, no dedicated WAN).",
+      "Flash storage is 16MB SPI-NOR + 4GB eMMC; OpenWrt maintains stock partition table to prevent bricking, exposing ~120 MiB overlay for packages."
+    ]
+  },
+  "installation": {
+    "method": "Automated Root SSH Exploit",
+    "risk": "MEDIUM",
+    "requires_factory_stage": true,
+    "guide_link": "https://openwrt.org/toh/ubiquiti/unifi_6_plus"
+  },
+  "recovery": {
+    "method": "TFTP Push (Automated)",
+    "recovery_ip": "192.168.1.20",
+    "guide_link": "https://openwrt.org/toh/ubiquiti/unifi_6_plus"
+  },
+  "verification": {
+    "status": "OFFICIALLY_SUPPORTED",
+    "evidence": [
+      "OpenWrt commit: mediatek: add support for Ubiquiti UniFi 6+",
+      "Mainline mt76 Wi-Fi 6 driver support verified"
+    ],
+    "last_verified": "2026-11-14"
+  },
+  "sources": [
+    {
+      "title": "OpenWrt Target: Ubiquiti UniFi 6+",
+      "url": "https://git.openwrt.org/?p=openwrt/openwrt.git;a=tree;f=target/linux/mediatek/filogic",
+      "type": "OPENWRT_GIT",
+      "date_accessed": "2026-11-14"
+    }
+  ]
+}

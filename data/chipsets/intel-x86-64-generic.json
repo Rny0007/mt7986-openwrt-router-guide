@@ -1,0 +1,39 @@
+{
+  "id": "intel-x86-64-generic",
+  "vendor": "Intel/x86",
+  "part_number": "x86_64 Generic (Intel N100 / J4125 / Core / Xeon)",
+  "marketing_name": "x86_64 Router Appliance Platform",
+  "cpu": {
+    "architecture": "x86_64",
+    "core_type": "x86-64 (Intel Gracemont / Tremont / Goldmont)",
+    "cores": 4,
+    "max_clock_mhz": 3400
+  },
+  "process_node_nm": 10,
+  "openwrt_target": "x86",
+  "openwrt_subtarget": "64",
+  "linux_driver": {
+    "wireless_mac80211": "iwlwifi / ath9k / mt76 (optional PCIe)",
+    "ethernet_driver": "igc (Intel i225-V / i226-V 2.5GbE), e1000e",
+    "switch_driver": null
+  },
+  "wireless_subsystem": {
+    "integrated": false,
+    "accompanying_rf_chips": [],
+    "wi_fi_generation": "Varies by M.2 PCIe Wi-Fi card",
+    "mimo_capabilities": "Optional M.2 E-key slot"
+  },
+  "hardware_acceleration": {
+    "flow_offload": "Software Only",
+    "crypto_engine": true,
+    "wireless_ethernet_dispatch": false
+  },
+  "openwrt_support_tier": "TIER_1_MAINSTREAM",
+  "notes": "Standard architecture for soft-routers and dedicated firewall appliances (e.g. Protectli Vault, Topton, Qotom, PC Engines APU, generic mini-PCs). Unmatched CPU throughput for complex routing, 10G WireGuard VPN, Suricata IDS, and heavy SQM CAKE traffic shaping.",
+  "sources": [
+    {
+      "title": "OpenWrt Target Definition: x86/64",
+      "url": "https://git.openwrt.org/?p=openwrt/openwrt.git;a=tree;f=target/linux/x86"
+    }
+  ]
+}

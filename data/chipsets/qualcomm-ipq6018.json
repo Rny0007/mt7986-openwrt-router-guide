@@ -1,0 +1,39 @@
+{
+  "id": "qualcomm-ipq6018",
+  "vendor": "Qualcomm",
+  "part_number": "IPQ6018 / IPQ6000",
+  "marketing_name": "Networking Pro 400 / Cypress",
+  "cpu": {
+    "architecture": "aarch64",
+    "core_type": "ARM Cortex-A53",
+    "cores": 4,
+    "max_clock_mhz": 1800
+  },
+  "process_node_nm": 14,
+  "openwrt_target": "qualcommax",
+  "openwrt_subtarget": "ipq60xx",
+  "linux_driver": {
+    "wireless_mac80211": "ath11k",
+    "ethernet_driver": "qca_nss_dp",
+    "switch_driver": "qca8k"
+  },
+  "wireless_subsystem": {
+    "integrated": true,
+    "accompanying_rf_chips": ["QCN5022", "QCN5052"],
+    "wi_fi_generation": "Wi-Fi 6 (802.11ax)",
+    "mimo_capabilities": "2x2:2 (2.4 GHz) + 2x2:2 (5.0 GHz)"
+  },
+  "hardware_acceleration": {
+    "flow_offload": "Supported (NSS / PPE)",
+    "crypto_engine": true,
+    "wireless_ethernet_dispatch": false
+  },
+  "openwrt_support_tier": "TIER_1_MAINSTREAM",
+  "notes": "Mid-tier Wi-Fi 6 chipset powering widespread models like Xiaomi AX1800, Redmi AX5, and GL.iNet Flint (GL-AX1800). Full upstream ath11k driver support.",
+  "sources": [
+    {
+      "title": "OpenWrt Target Definition: qualcommax",
+      "url": "https://git.openwrt.org/?p=openwrt/openwrt.git;a=tree;f=target/linux/qualcommax"
+    }
+  ]
+}

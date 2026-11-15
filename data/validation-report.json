@@ -1,0 +1,17 @@
+{
+  "timestamp": "2026-11-15T05:33:04Z",
+  "total_device_records": 48,
+  "total_chipset_records": 15,
+  "status_breakdown": {
+    "OFFICIALLY_SUPPORTED": 35,
+    "COMMUNITY_VERIFIED": 5,
+    "PARTIALLY_VERIFIED": 4,
+    "EXPERIMENTAL": 0,
+    "POTENTIALLY_COMPATIBLE": 1,
+    "UNSUPPORTED": 3,
+    "UNKNOWN": 0
+  },
+  "total_sources_cited": 79,
+  "validation_passed": true,
+  "errors": []
+}

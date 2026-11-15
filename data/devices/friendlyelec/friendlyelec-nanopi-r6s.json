@@ -1,0 +1,144 @@
+{
+  "$schema": "../../schemas/device.schema.json",
+  "id": "friendlyelec-nanopi-r6s",
+  "manufacturer": "FriendlyElec",
+  "model": "NanoPi R6S",
+  "hardware_revision": "v1 (8GB RAM)",
+  "regional_variant": "Global",
+  "internal_board_name": "friendlyelec_nanopi-r6s",
+  "soc": {
+    "vendor": "Rockchip",
+    "model": "RK3588S",
+    "family": "RK3588",
+    "cores": 8,
+    "frequency_mhz": 2400
+  },
+  "architecture": "aarch64",
+  "ram_mb": 8192,
+  "flash": {
+    "mb": 32768,
+    "type": "eMMC + MicroSD",
+    "ubi_support": false,
+    "dual_boot": false,
+    "partitions": [
+      {
+        "name": "uboot",
+        "size_kb": 8192,
+        "read_only": true
+      },
+      {
+        "name": "boot",
+        "size_kb": 131072,
+        "read_only": false
+      },
+      {
+        "name": "rootfs",
+        "size_kb": 32628736,
+        "read_only": false
+      }
+    ],
+    "capacity_mb": 32768
+  },
+  "ethernet_ports": [
+    {
+      "speed_mbps": 2500,
+      "type": "WAN",
+      "label": "WAN (2.5GbE PCIe RTL8125BG)",
+      "dsa_interface": "eth0"
+    },
+    {
+      "speed_mbps": 2500,
+      "type": "LAN",
+      "label": "LAN 1 (2.5GbE PCIe RTL8125BG)",
+      "dsa_interface": "eth1"
+    },
+    {
+      "speed_mbps": 1000,
+      "type": "LAN",
+      "label": "LAN 2 (1GbE Native GMAC)",
+      "dsa_interface": "eth2"
+    }
+  ],
+  "switch": {
+    "integrated": false,
+    "model": "2x Realtek RTL8125BG (2.5G PCIe) + Motorcomm YT8531C (1G PHY)",
+    "dsa_driver": null,
+    "hardware_vlan": false
+  },
+  "wifi": [],
+  "usb_ports": [
+    {
+      "type": "USB 3.0 Type-A",
+      "count": 1
+    },
+    {
+      "type": "USB 2.0 Type-A",
+      "count": 1
+    },
+    {
+      "type": "USB-C",
+      "count": 1
+    }
+  ],
+  "poe": {
+    "supported": false,
+    "standard": null,
+    "type": null
+  },
+  "bootloader": "U-Boot (Rockchip RK3588 SPL/U-Boot with eMMC/SD boot)",
+  "serial_uart": {
+    "available": true,
+    "voltage": "3.3V",
+    "baudrate": 1500000,
+    "pinout_documented": true,
+    "notes": "Debug UART 3-pin connector: GND, TX, RX. 1.5Mbaud standard."
+  },
+  "openwrt": {
+    "target": "rockchip/armv8",
+    "subtarget": "generic",
+    "profile": "friendlyelec_nanopi-r6s",
+    "support_status": "COMMUNITY_VERIFIED",
+    "first_supported_version": null,
+    "latest_tested_version": "SNAPSHOT (Community Build)",
+    "firmware_selector_url": null,
+    "device_tree_file": "rk3588s-nanopi-r6s.dts",
+    "known_limitations": [
+      "Ultra-high performance octa-core router (4x A76 @ 2.4GHz + 4x A55 @ 1.8GHz) with 32GB eMMC flash.",
+      "Dual 2.5GbE ports driven by upstream r8169/r8125 driver. Mainline kernel 6.6+ required for full hardware support."
+    ]
+  },
+  "installation": {
+    "method": "Direct Image Flash (SBC / SD Card)",
+    "risk": "LOW",
+    "requires_factory_stage": false,
+    "guide_link": "https://forum.openwrt.org/t/rockchip-rk3588-rk3588s-support-thread/135905"
+  },
+  "recovery": {
+    "method": "SD Card Re-flash (SBC)",
+    "recovery_ip": "192.168.1.1",
+    "guide_link": "https://wiki.friendlyelec.com/wiki/index.php/NanoPi_R6S"
+  },
+  "verification": {
+    "status": "COMMUNITY_VERIFIED",
+    "evidence": [
+      "OpenWrt forum development thread testing RK3588 / RK3588S mainline port",
+      "Multiple independent user speed test benchmarks confirming 2.5Gbps routing and high-throughput WireGuard",
+      "Upstream DTS submitted: rk3588s-nanopi-r6s.dts"
+    ],
+    "last_verified": "2026-11-15"
+  },
+  "sources": [
+    {
+      "title": "OpenWrt Forum: Rockchip RK3588 / RK3588S Support Discussion",
+      "url": "https://forum.openwrt.org/t/rockchip-rk3588-rk3588s-support-thread/135905",
+      "type": "OPENWRT_FORUM",
+      "date_accessed": "2026-11-15"
+    },
+    {
+      "title": "FriendlyElec NanoPi R6S Specifications",
+      "url": "https://wiki.friendlyelec.com/wiki/index.php/NanoPi_R6S",
+      "type": "OEM_SPEC",
+      "date_accessed": "2026-11-15"
+    }
+  ]
+}

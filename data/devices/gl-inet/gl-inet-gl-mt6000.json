@@ -1,0 +1,140 @@
+{
+  "id": "gl-inet-gl-mt6000",
+  "manufacturer": "GL.iNet",
+  "model": "GL-MT6000",
+  "hardware_revision": "Flint 2",
+  "regional_variant": "Global",
+  "internal_board_name": "glinet_gl-mt6000",
+  "soc": {
+    "vendor": "MediaTek",
+    "model": "MT7986A",
+    "family": "Filogic 830",
+    "cores": 4,
+    "frequency_mhz": 2000
+  },
+  "architecture": "aarch64",
+  "ram_mb": 1024,
+  "flash": {
+    "type": "eMMC",
+    "capacity_mb": 8192,
+    "mb": 8192
+  },
+  "wireless": [
+    {
+      "radio_id": "radio0",
+      "chipset": "MT7976C",
+      "frequency_ghz": 2.4,
+      "generation": "Wi-Fi 6",
+      "spatial_streams": "4x4",
+      "max_phy_rate_mbps": 1148,
+      "channel_width_mhz": 40
+    },
+    {
+      "radio_id": "radio1",
+      "chipset": "MT7976C",
+      "frequency_ghz": 5.0,
+      "generation": "Wi-Fi 6",
+      "spatial_streams": "4x4",
+      "max_phy_rate_mbps": 4804,
+      "channel_width_mhz": 160
+    }
+  ],
+  "ethernet": {
+    "switch_chip": "MT7531AE",
+    "ports": [
+      {
+        "name": "2.5G WAN",
+        "type": "WAN",
+        "speed_mbps": 2500,
+        "dsa_port": "eth0"
+      },
+      {
+        "name": "2.5G LAN1",
+        "type": "LAN",
+        "speed_mbps": 2500,
+        "dsa_port": "eth1"
+      },
+      {
+        "name": "LAN2",
+        "type": "LAN",
+        "speed_mbps": 1000,
+        "dsa_port": "lan2"
+      },
+      {
+        "name": "LAN3",
+        "type": "LAN",
+        "speed_mbps": 1000,
+        "dsa_port": "lan3"
+      },
+      {
+        "name": "LAN4",
+        "type": "LAN",
+        "speed_mbps": 1000,
+        "dsa_port": "lan4"
+      },
+      {
+        "name": "LAN5",
+        "type": "LAN",
+        "speed_mbps": 1000,
+        "dsa_port": "lan5"
+      }
+    ]
+  },
+  "usb_ports": [
+    {
+      "type": "USB 3.0 Type-A",
+      "count": 1
+    }
+  ],
+  "poe": {
+    "supported": false,
+    "standard": null,
+    "type": null
+  },
+  "bootloader": "U-Boot 2022.04 with GL.iNet Web Fail-Safe",
+  "serial_uart": {
+    "available": true,
+    "voltage": "3.3V",
+    "baudrate": 115200,
+    "pinout_documented": true,
+    "notes": "4-pin header clearly labelled on PCB (GND, RX, TX, 3.3V)."
+  },
+  "openwrt": {
+    "target": "mediatek/filogic",
+    "subtarget": "arm64",
+    "profile": "glinet_gl-mt6000",
+    "support_status": "OFFICIALLY_SUPPORTED",
+    "first_supported_version": "23.05.2",
+    "latest_tested_version": "25.12.6",
+    "firmware_selector_url": "https://firmware-selector.openwrt.org/?version=25.12.6&target=mediatek%2Ffilogic&id=glinet_gl-mt6000",
+    "device_tree_file": "mt7986a-glinet-gl-mt6000.dts",
+    "known_limitations": []
+  },
+  "installation": {
+    "method": "U-Boot Web Fail-Safe",
+    "risk": "LOW",
+    "requires_factory_stage": false,
+    "guide_link": "https://docs.gl-inet.com/router/en/4/faq/debrick/"
+  },
+  "recovery": {
+    "method": "U-Boot Recovery Webpage",
+    "recovery_ip": "192.168.1.1",
+    "guide_link": "https://docs.gl-inet.com/router/en/4/faq/debrick/"
+  },
+  "verification": {
+    "status": "OFFICIALLY_SUPPORTED",
+    "evidence": [
+      "OpenWrt commit 8378a5e81d: mediatek: add support for GL.iNet GL-MT6000",
+      "Mainline firmware selector active"
+    ],
+    "last_verified": "2026-11-14"
+  },
+  "sources": [
+    {
+      "title": "OpenWrt Firmware Selector: GL-MT6000",
+      "url": "https://firmware-selector.openwrt.org/?version=25.12.6&target=mediatek%2Ffilogic&id=glinet_gl-mt6000",
+      "type": "OPENWRT_GIT",
+      "date_accessed": "2026-11-14"
+    }
+  ]
+}

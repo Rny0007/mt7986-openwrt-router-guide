@@ -1,0 +1,147 @@
+{
+  "$schema": "../../schemas/device.schema.json",
+  "id": "raspberry-pi-4b",
+  "manufacturer": "Raspberry Pi",
+  "model": "Raspberry Pi 4 Model B",
+  "hardware_revision": "v1.1 / v1.2 / v1.4 / v1.5",
+  "regional_variant": "Global",
+  "internal_board_name": "rpi-4",
+  "soc": {
+    "vendor": "Broadcom",
+    "model": "BCM2711",
+    "family": "BCM2711",
+    "cores": 4,
+    "frequency_mhz": 1500
+  },
+  "architecture": "aarch64",
+  "ram_mb": 4096,
+  "flash": {
+    "mb": 64,
+    "type": "SPI-NOR (Bootloader EEPROM) + MicroSD / USB SSD",
+    "ubi_support": false,
+    "dual_boot": false,
+    "partitions": [
+      {
+        "name": "bootloader",
+        "size_kb": 512,
+        "read_only": true
+      },
+      {
+        "name": "boot",
+        "size_kb": 65536,
+        "read_only": false
+      },
+      {
+        "name": "rootfs",
+        "size_kb": 1048576,
+        "read_only": false
+      }
+    ],
+    "capacity_mb": 64
+  },
+  "ethernet_ports": [
+    {
+      "speed_mbps": 1000,
+      "type": "LAN",
+      "label": "Gigabit Ethernet (bcmgenet)",
+      "dsa_interface": "eth0"
+    }
+  ],
+  "switch": {
+    "integrated": false,
+    "model": "Broadcom BCM54213PE Gigabit PHY",
+    "dsa_driver": null,
+    "hardware_vlan": false
+  },
+  "wifi": [
+    {
+      "band": "2.4 GHz",
+      "standard": "802.11n",
+      "streams": "1x1",
+      "max_phy_mbps": 72,
+      "chipset": "Cypress CYW43455 (brcmfmac)"
+    },
+    {
+      "band": "5 GHz",
+      "standard": "802.11ac",
+      "streams": "1x1",
+      "max_phy_mbps": 433,
+      "chipset": "Cypress CYW43455 (brcmfmac)"
+    }
+  ],
+  "usb_ports": [
+    {
+      "type": "USB 3.0 Type-A",
+      "count": 2
+    },
+    {
+      "type": "USB 2.0 Type-A",
+      "count": 2
+    },
+    {
+      "type": "USB-C",
+      "count": 1
+    }
+  ],
+  "poe": {
+    "supported": true,
+    "standard": "802.3af (PoE)",
+    "type": "PoE-In"
+  },
+  "bootloader": "Raspberry Pi EEPROM Bootloader / U-Boot",
+  "serial_uart": {
+    "available": true,
+    "voltage": "3.3V",
+    "baudrate": 115200,
+    "pinout_documented": true,
+    "notes": "40-pin GPIO header: Pin 6 = GND, Pin 8 = GPIO 14 (TXD), Pin 10 = GPIO 15 (RXD)."
+  },
+  "openwrt": {
+    "target": "bcm27xx/bcm2711",
+    "subtarget": "bcm2711",
+    "profile": "rpi-4",
+    "support_status": "OFFICIALLY_SUPPORTED",
+    "first_supported_version": "19.07.0",
+    "latest_tested_version": "25.12.6",
+    "firmware_selector_url": "https://firmware-selector.openwrt.org/?target=bcm27xx%2Fbcm2711&id=rpi-4",
+    "device_tree_file": "bcm2711-rpi-4-b.dts",
+    "known_limitations": [
+      "Single native RJ45 port; requires USB 3.0 to Gigabit Ethernet adapter (e.g. Realtek RTL8153, ASIX AX88179) or 802.1Q managed switch for Router-on-a-Stick WAN/LAN topologies.",
+      "High performance quad-core CPU capable of routing line-rate gigabit WireGuard and running Docker containers."
+    ]
+  },
+  "installation": {
+    "method": "Direct Image Flash (SBC / SD Card)",
+    "risk": "LOW",
+    "requires_factory_stage": false,
+    "guide_link": "https://openwrt.org/toh/raspberry_pi_foundation/raspberry_pi"
+  },
+  "recovery": {
+    "method": "SD Card Re-flash (SBC)",
+    "recovery_ip": "192.168.1.1",
+    "guide_link": "https://openwrt.org/toh/raspberry_pi_foundation/raspberry_pi#recovery"
+  },
+  "verification": {
+    "status": "OFFICIALLY_SUPPORTED",
+    "evidence": [
+      "Official upstream OpenWrt target: target/linux/bcm27xx/bcm2711",
+      "Upstream DTS: bcm2711-rpi-4-b.dts",
+      "Millions of validated real-world deployments worldwide running OpenWrt on MicroSD and USB NVMe drives"
+    ],
+    "last_verified": "2026-11-15"
+  },
+  "sources": [
+    {
+      "title": "OpenWrt Table of Hardware: Raspberry Pi 4",
+      "url": "https://openwrt.org/toh/raspberry_pi_foundation/raspberry_pi",
+      "type": "OPENWRT_TOH",
+      "date_accessed": "2026-11-15"
+    },
+    {
+      "title": "OpenWrt bcm27xx Target Git Source",
+      "url": "https://git.openwrt.org/?p=openwrt/openwrt.git;a=tree;f=target/linux/bcm27xx",
+      "type": "OPENWRT_GIT",
+      "date_accessed": "2026-11-15"
+    }
+  ]
+}

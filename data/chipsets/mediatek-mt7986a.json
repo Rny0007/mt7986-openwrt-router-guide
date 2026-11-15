@@ -1,0 +1,43 @@
+{
+  "id": "mediatek-mt7986a",
+  "vendor": "MediaTek",
+  "part_number": "MT7986A",
+  "marketing_name": "Filogic 830",
+  "cpu": {
+    "architecture": "aarch64",
+    "core_type": "ARM Cortex-A53",
+    "cores": 4,
+    "max_clock_mhz": 2000
+  },
+  "process_node_nm": 12,
+  "openwrt_target": "mediatek",
+  "openwrt_subtarget": "filogic",
+  "linux_driver": {
+    "wireless_mac80211": "mt76 (mt7915 / mt7986)",
+    "ethernet_driver": "mtk_eth_soc",
+    "switch_driver": "mt7530 / mt7531 (DSA)"
+  },
+  "wireless_subsystem": {
+    "integrated": true,
+    "accompanying_rf_chips": ["MT7976C", "MT7976CN"],
+    "wi_fi_generation": "Wi-Fi 6 (802.11ax)",
+    "mimo_capabilities": "4x4:4 (2.4 GHz) + 4x4:4 (5.0 GHz)"
+  },
+  "hardware_acceleration": {
+    "flow_offload": "Supported (Hardware PPE / WED)",
+    "crypto_engine": true,
+    "wireless_ethernet_dispatch": true
+  },
+  "openwrt_support_tier": "TIER_1_MAINSTREAM",
+  "notes": "Flagship Wi-Fi 6 router platform featuring dual 2.5G SGMII interfaces, hardware packet processing engine (PPE v2), and Wireless Ethernet Dispatch (WED v2) providing line-rate routing with sub-5% CPU utilization under OpenWrt flow offloading.",
+  "sources": [
+    {
+      "title": "OpenWrt Target Definition: mediatek/filogic",
+      "url": "https://git.openwrt.org/?p=openwrt/openwrt.git;a=tree;f=target/linux/mediatek/filogic"
+    },
+    {
+      "title": "MediaTek Filogic 830 Product Brief",
+      "url": "https://www.mediatek.com/products/broadband-wifi/mediatek-filogic-830"
+    }
+  ]
+}

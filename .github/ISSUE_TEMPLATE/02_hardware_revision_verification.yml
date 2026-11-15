@@ -1,0 +1,37 @@
+name: "Hardware Revision Verification"
+description: "Verify or update the status of a router hardware revision you physically own and tested"
+title: "[Verification]: "
+labels: ["hardware-verified", "testing-report"]
+body:
+  - type: input
+    id: device_id
+    attributes:
+      label: "Device ID in Knowledge Base"
+      placeholder: "e.g. jio-jidu6101, gl-inet-gl-mt6000"
+    validations:
+      required: true
+  - type: input
+    id: openwrt_version
+    attributes:
+      label: "Tested OpenWrt Version"
+      placeholder: "e.g. 25.12.6, 23.05.4, SNAPSHOT"
+    validations:
+      required: true
+  - type: checkboxes
+    id: functional_subsystems
+    attributes:
+      label: "Subsystems Tested & Working"
+      options:
+        - label: "Wired Ethernet routing (WAN & LAN)"
+        - label: "2.4 GHz Wi-Fi"
+        - label: "5.0 GHz Wi-Fi (including 160MHz / HE160 if applicable)"
+        - label: "Hardware flow offloading (PPE / WED / nftables)"
+        - label: "Status LEDs"
+        - label: "Recovery button / TFTP bootloader"
+  - type: textarea
+    id: sanitized_evidence
+    attributes:
+      label: "Sanitized Evidence & Verification Notes"
+      description: "Paste command output from `cat /etc/openwrt_release`, `iwinfo`, and `dmesg`. Strip all personal data."
+    validations:
+      required: true

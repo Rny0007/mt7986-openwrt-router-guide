@@ -1,0 +1,164 @@
+{
+  "$schema": "../../schemas/device.schema.json",
+  "id": "tp-link-archer-ax50-v1",
+  "manufacturer": "TP-Link",
+  "model": "Archer AX50",
+  "hardware_revision": "v1",
+  "regional_variant": "Global",
+  "internal_board_name": "tplink_archer-ax50-v1",
+  "soc": {
+    "vendor": "Intel/x86",
+    "model": "AnyWAN GRX350 (Intel Lantiq)",
+    "family": "GRX350",
+    "cores": 2,
+    "frequency_mhz": 800
+  },
+  "architecture": "mips_34kc",
+  "ram_mb": 256,
+  "flash": {
+    "mb": 128,
+    "type": "SPI-NAND",
+    "ubi_support": false,
+    "dual_boot": false,
+    "partitions": [
+      {
+        "name": "u-boot",
+        "size_kb": 512,
+        "read_only": true
+      },
+      {
+        "name": "factory",
+        "size_kb": 512,
+        "read_only": true
+      },
+      {
+        "name": "firmware",
+        "size_kb": 130048,
+        "read_only": false
+      }
+    ],
+    "capacity_mb": 128
+  },
+  "ethernet_ports": [
+    {
+      "speed_mbps": 1000,
+      "type": "WAN",
+      "label": "WAN",
+      "dsa_interface": "wan"
+    },
+    {
+      "speed_mbps": 1000,
+      "type": "LAN",
+      "label": "LAN 1",
+      "dsa_interface": "lan1"
+    },
+    {
+      "speed_mbps": 1000,
+      "type": "LAN",
+      "label": "LAN 2",
+      "dsa_interface": "lan2"
+    },
+    {
+      "speed_mbps": 1000,
+      "type": "LAN",
+      "label": "LAN 3",
+      "dsa_interface": "lan3"
+    },
+    {
+      "speed_mbps": 1000,
+      "type": "LAN",
+      "label": "LAN 4",
+      "dsa_interface": "lan4"
+    }
+  ],
+  "switch": {
+    "integrated": true,
+    "model": "Intel GSW150 (integrated)",
+    "dsa_driver": "gsw150",
+    "hardware_vlan": true
+  },
+  "wifi": [
+    {
+      "band": "2.4 GHz",
+      "standard": "802.11ax",
+      "streams": "2x2",
+      "max_phy_mbps": 574,
+      "chipset": "Intel WAV654 (Proprietary PCIe)"
+    },
+    {
+      "band": "5 GHz",
+      "standard": "802.11ax",
+      "streams": "2x2",
+      "max_phy_mbps": 2402,
+      "chipset": "Intel WAV654 (Proprietary PCIe 160MHz)"
+    }
+  ],
+  "usb_ports": [
+    {
+      "type": "USB 3.0 Type-A",
+      "count": 1
+    }
+  ],
+  "poe": {
+    "supported": false,
+    "standard": null,
+    "type": null
+  },
+  "bootloader": "U-Boot (TP-Link / Intel proprietary)",
+  "serial_uart": {
+    "available": true,
+    "voltage": "3.3V",
+    "baudrate": 115200,
+    "pinout_documented": true,
+    "notes": "4-pin header J2 on board. Pin 1 = 3.3V (do not connect), Pin 2 = RX, Pin 3 = TX, Pin 4 = GND."
+  },
+  "openwrt": {
+    "target": "lantiq/xrx200",
+    "subtarget": null,
+    "profile": "tplink_archer-ax50-v1",
+    "support_status": "UNSUPPORTED",
+    "first_supported_version": null,
+    "latest_tested_version": null,
+    "firmware_selector_url": null,
+    "device_tree_file": null,
+    "known_limitations": [
+      "UNSUPPORTED HARDWARE ARCHITECTURE: The Intel AnyWAN GRX350 paired with Intel WAV654 PCIe Wi-Fi 6 transceivers lacks open-source mac80211 Linux drivers.",
+      "Intel's proprietary wireless driver stack was never released to mainline open-source or ported to OpenWrt.",
+      "Known severe hardware thermal issues on stock firmware; attempting to flash alternative firmware risks bricking without Wi-Fi driver recovery."
+    ]
+  },
+  "installation": {
+    "method": "Unsupported",
+    "risk": "CRITICAL",
+    "requires_factory_stage": false,
+    "guide_link": null
+  },
+  "recovery": {
+    "method": "None Known",
+    "recovery_ip": null,
+    "guide_link": null
+  },
+  "verification": {
+    "status": "UNSUPPORTED",
+    "evidence": [
+      "OpenWrt forum audit confirming lack of Intel WAV654 open-source mac80211 driver support",
+      "No device profile or kernel support present in upstream git.openwrt.org",
+      "Official OpenWrt hardware evaluation: Marked UNSUPPORTED due to proprietary Intel driver requirement"
+    ],
+    "last_verified": "2026-11-15"
+  },
+  "sources": [
+    {
+      "title": "OpenWrt Forum: TP-Link Archer AX50 Unsupported Architecture Discussion",
+      "url": "https://forum.openwrt.org/t/tp-link-archer-ax50-ax3000-support/51761",
+      "type": "OPENWRT_FORUM",
+      "date_accessed": "2026-11-15"
+    },
+    {
+      "title": "FCC Teardown: TP-Link Archer AX50 (FCC ID: 2AXJ4AX50)",
+      "url": "https://fccid.io/2AXJ4AX50",
+      "type": "FCC_FILING",
+      "date_accessed": "2026-11-15"
+    }
+  ]
+}

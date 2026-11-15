@@ -1,0 +1,19 @@
+name: "Security Advisory / Vulnerability Report"
+description: "Privately disclose a security vulnerability in documented scripts or configurations"
+title: "[Security]: "
+labels: ["security"]
+body:
+  - type: markdown
+    attributes:
+      value: "For sensitive security disclosures, please review our [Security Policy](../../SECURITY.md) before submitting."
+  - type: textarea
+    id: vulnerability_description
+    attributes:
+      label: "Vulnerability Description"
+      description: "Explain the security risk, affected component, and impact."
+    validations:
+      required: true
+  - type: textarea
+    id: remediation
+    attributes:
+      label: "Proposed Remediation / Fix"

@@ -1,0 +1,236 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/Rny0007/mt7986-openwrt-router-guide/main/data/schemas/device.schema.json",
+  "title": "OpenWrtRouterDeviceRecord",
+  "description": "Evidence-based hardware specification and OpenWrt compatibility record for network routing hardware.",
+  "type": "object",
+  "required": [
+    "id",
+    "manufacturer",
+    "model",
+    "hardware_revision",
+    "soc",
+    "architecture",
+    "ram_mb",
+    "flash",
+    "openwrt",
+    "verification",
+    "sources"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$",
+      "description": "Unique lowercase kebab-case identifier for the device (e.g. 'jio-jidu6101', 'gl-inet-gl-mt3000')."
+    },
+    "manufacturer": {
+      "type": "string",
+      "description": "Brand or primary manufacturer (e.g. 'Jio / Arcadyan', 'GL.iNet', 'ASUS')."
+    },
+    "model": {
+      "type": "string",
+      "description": "Commercial model designation (e.g. 'JIDU6101', 'GL-MT3000', 'RT-AX59U')."
+    },
+    "hardware_revision": {
+      "type": "string",
+      "description": "Specific PCB or hardware revision (e.g. '6j01', 'v1', 'A1', 'rev 1.2')."
+    },
+    "regional_variant": {
+      "type": ["string", "null"],
+      "description": "Regional target market (e.g. 'IN', 'Global', 'CN', 'US', 'EU')."
+    },
+    "internal_board_name": {
+      "type": ["string", "null"],
+      "description": "Internal ODM or factory board codename (e.g. 'arcadyan_6j01', 'mt7981-gl-mt3000')."
+    },
+    "soc": {
+      "type": "object",
+      "required": ["vendor", "model", "family"],
+      "properties": {
+        "vendor": { "type": "string", "description": "SoC silicon vendor (e.g. 'MediaTek', 'Qualcomm', 'Broadcom')." },
+        "model": { "type": "string", "description": "Exact SoC part number (e.g. 'MT7986A', 'MT7981B', 'IPQ8072A')." },
+        "family": { "type": "string", "description": "Platform family name (e.g. 'Filogic 830', 'Filogic 820', 'Hawkeye')." },
+        "cores": { "type": "integer", "minimum": 1, "description": "Number of CPU cores." },
+        "frequency_mhz": { "type": "integer", "description": "CPU clock frequency in MHz." }
+      }
+    },
+    "architecture": {
+      "type": "string",
+      "enum": ["aarch64", "arm_cortex-a7", "arm_cortex-a15", "arm_cortex-a53", "arm_cortex-a73", "mips_24kc", "mips_34kc", "mips_1004kc", "mipsel_24kc", "x86_64", "riscv64"],
+      "description": "CPU instruction set architecture."
+    },
+    "ram_mb": {
+      "type": "integer",
+      "minimum": 32,
+      "description": "System volatile memory in megabytes (MB)."
+    },
+    "flash": {
+      "type": "object",
+      "required": ["type", "capacity_mb"],
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": ["SPI-NOR", "SPI-NAND", "eMMC", "NVMe", "Raw NAND", "SATA/SSD"],
+          "description": "Primary non-volatile boot and firmware storage technology."
+        },
+        "capacity_mb": {
+          "type": "integer",
+          "minimum": 8,
+          "description": "Storage capacity in megabytes (MB)."
+        }
+      }
+    },
+    "wireless": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["radio_id", "frequency_ghz", "generation"],
+        "properties": {
+          "radio_id": { "type": "string", "description": "Internal radio designator (e.g. 'radio0', 'radio1')." },
+          "chipset": { "type": "string", "description": "Wireless MAC/PHY transceiver chipset (e.g. 'MT7976CN', 'MT7979N')." },
+          "frequency_ghz": { "type": "number", "enum": [2.4, 5.0, 6.0], "description": "Operating RF frequency band in GHz." },
+          "generation": { "type": "string", "enum": ["Wi-Fi 4", "Wi-Fi 5", "Wi-Fi 6", "Wi-Fi 6E", "Wi-Fi 7"], "description": "IEEE 802.11 generation." },
+          "spatial_streams": { "type": "string", "pattern": "^[1-8]x[1-8]$", "description": "MIMO antenna stream configuration (e.g. '2x2', '3x3', '4x4')." },
+          "max_phy_rate_mbps": { "type": "integer", "description": "Maximum theoretical physical link rate in Mbps." },
+          "channel_width_mhz": { "type": "integer", "description": "Maximum supported channel bandwidth in MHz (e.g. 20, 40, 80, 160, 320)." }
+        }
+      }
+    },
+    "ethernet": {
+      "type": "object",
+      "required": ["ports"],
+      "properties": {
+        "switch_chip": { "type": ["string", "null"], "description": "Integrated or discrete Ethernet switch IC (e.g. 'MT7531AE', 'RTL8367RB')." },
+        "ports": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["name", "type", "speed_mbps"],
+            "properties": {
+              "name": { "type": "string", "description": "Label on router casing (e.g. 'WAN', 'LAN1', 'LAN2', '2.5G WAN')." },
+              "type": { "type": "string", "enum": ["WAN", "LAN", "WAN/LAN", "SFP+", "SFP28"], "description": "Port function." },
+              "speed_mbps": { "type": "integer", "enum": [100, 1000, 2500, 5000, 10000], "description": "Maximum link speed in Mbps." },
+              "dsa_port": { "type": ["string", "null"], "description": "Linux Distributed Switch Architecture (DSA) interface label (e.g. 'lan1', 'wan')." }
+            }
+          }
+        }
+      }
+    },
+    "usb_ports": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["type", "count"],
+        "properties": {
+          "type": { "type": "string", "enum": ["USB 2.0 Type-A", "USB 3.0 Type-A", "USB 3.2 Gen 1 Type-A", "USB-C", "Micro-USB"] },
+          "count": { "type": "integer", "minimum": 1 }
+        }
+      }
+    },
+    "poe": {
+      "type": "object",
+      "properties": {
+        "supported": { "type": "boolean" },
+        "standard": { "type": ["string", "null"], "enum": ["802.3af (PoE)", "802.3at (PoE+)", "802.3bt (PoE++)", "Passive 24V", "Passive 48V", null] },
+        "type": { "type": ["string", "null"], "enum": ["PoE-In", "PoE-Out", null] }
+      }
+    },
+    "bootloader": {
+      "type": "string",
+      "description": "Primary bootloader implementation (e.g. 'U-Boot (MediaTek ATF/FIP)', 'CFE', 'RedBoot', 'Coreboot')."
+    },
+    "serial_uart": {
+      "type": "object",
+      "properties": {
+        "available": { "type": "boolean" },
+        "voltage": { "type": ["string", "null"], "enum": ["3.3V", "1.8V", "5V", null] },
+        "baudrate": { "type": ["integer", "null"] },
+        "pinout_documented": { "type": "boolean" },
+        "notes": { "type": ["string", "null"] }
+      }
+    },
+    "openwrt": {
+      "type": "object",
+      "required": ["target", "profile", "support_status"],
+      "properties": {
+        "target": { "type": "string", "description": "Upstream OpenWrt target (e.g. 'mediatek/filogic', 'ramips/mt7621', 'qualcommax/ipq807x')." },
+        "subtarget": { "type": ["string", "null"], "description": "Upstream subtarget (e.g. 'arm64', 'filogic', 'generic')." },
+        "profile": { "type": "string", "description": "Exact OpenWrt device profile string (e.g. 'jiorouter_ax6000-jidu6101', 'glinet_gl-mt3000')." },
+        "support_status": {
+          "type": "string",
+          "enum": [
+            "OFFICIALLY_SUPPORTED",
+            "COMMUNITY_VERIFIED",
+            "PARTIALLY_VERIFIED",
+            "EXPERIMENTAL",
+            "POTENTIALLY_COMPATIBLE",
+            "UNSUPPORTED",
+            "UNKNOWN"
+          ],
+          "description": "Official or community compatibility status."
+        },
+        "first_supported_version": { "type": ["string", "null"], "description": "Earliest OpenWrt version providing official support (e.g. '23.05.0', '25.12.6', 'SNAPSHOT')." },
+        "latest_tested_version": { "type": ["string", "null"], "description": "Latest verified working release (e.g. '25.12.6')." },
+        "firmware_selector_url": { "type": ["string", "null"], "format": "uri", "description": "Official OpenWrt Firmware Selector download URL." },
+        "device_tree_file": { "type": ["string", "null"], "description": "Linux kernel device tree source file basename (e.g. 'mt7986a-jiorouter-ax6000-jidu6101.dts')." },
+        "known_limitations": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Documented quirks or constraints."
+        }
+      }
+    },
+    "installation": {
+      "type": "object",
+      "required": ["method", "risk"],
+      "properties": {
+        "method": {
+          "type": "string",
+          "enum": ["OEM Web GUI Flash", "TFTP Boot / Recovery", "U-Boot Web Fail-Safe", "Automated Root SSH Exploit", "UART Serial Command", "NAND Clip / External Programmer", "Direct Image Flash (SBC / SD Card)", "OpenWrt Sysupgrade", "Vendor CLI / Telnet / SSH", "Unsupported"]
+        },
+        "risk": { "type": "string", "enum": ["LOW", "MEDIUM", "HIGH", "CRITICAL"] },
+        "requires_factory_stage": { "type": "boolean" },
+        "guide_link": { "type": ["string", "null"] }
+      }
+    },
+    "recovery": {
+      "type": "object",
+      "required": ["method"],
+      "properties": {
+        "method": { "type": "string", "enum": ["TFTP Push (Automated)", "U-Boot Recovery Webpage", "UART Serial Kernel Boot", "Hardware Programmer (SPI/eMMC)", "SD Card Re-flash (SBC)", "None Known"] },
+        "recovery_ip": { "type": ["string", "null"] },
+        "guide_link": { "type": ["string", "null"] }
+      }
+    },
+    "verification": {
+      "type": "object",
+      "required": ["status", "evidence", "last_verified"],
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": ["OFFICIALLY_SUPPORTED", "COMMUNITY_VERIFIED", "PARTIALLY_VERIFIED", "EXPERIMENTAL", "POTENTIALLY_COMPATIBLE", "UNSUPPORTED", "UNKNOWN"]
+        },
+        "evidence": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Summary of verifiable evidence (dmesg capture, upstream commit SHA, pull request number, etc.)."
+        },
+        "last_verified": { "type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}$", "description": "Date of latest verification in YYYY-MM-DD format." }
+      }
+    },
+    "sources": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["title", "url", "type", "date_accessed"],
+        "properties": {
+          "title": { "type": "string" },
+          "url": { "type": "string", "format": "uri" },
+          "type": { "type": "string", "enum": ["OPENWRT_GIT", "OPENWRT_TOH", "OPENWRT_FORUM", "FCC_FILING", "OEM_SPEC", "COMMUNITY_REPO", "TEARDOWN", "OFFICIAL_OPENWRT", "UPSTREAM_GITHUB", "MANUFACTURER", "LINUX_KERNEL", "COMMUNITY_GITHUB", "REDDIT", "FORUM", "TECHNICAL_ARTICLE", "HARDWARE_TEARDOWN", "OTHER"] },
+          "date_accessed": { "type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}$" }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,48 @@
+{
+  "$schema": "../schemas/chipset.schema.json",
+  "id": "qualcomm-ipq8065",
+  "vendor": "Qualcomm",
+  "part_number": "IPQ8065",
+  "marketing_name": "Qualcomm Atheros IPQ8065 (Akronite)",
+  "cpu": {
+    "architecture": "arm_cortex-a15",
+    "core_type": "Qualcomm Krait 300",
+    "cores": 2,
+    "max_clock_mhz": 1700
+  },
+  "process_node_nm": 28,
+  "openwrt_target": "ipq806x",
+  "openwrt_subtarget": "generic",
+  "linux_driver": {
+    "wireless_mac80211": "ath10k",
+    "ethernet_driver": "qcom-emac",
+    "switch_driver": "qca8k"
+  },
+  "wireless_subsystem": {
+    "integrated": false,
+    "accompanying_rf_chips": ["QCA9984"],
+    "wi_fi_generation": "Wi-Fi 5 (802.11ac Wave 2)",
+    "mimo_capabilities": "4x4 MU-MIMO 160MHz"
+  },
+  "hardware_acceleration": {
+    "flow_offload": "Supported (NSS / PPE)",
+    "crypto_engine": true,
+    "wireless_ethernet_dispatch": false
+  },
+  "openwrt_support_tier": "TIER_1_MAINSTREAM",
+  "notes": "Legendary dual-core Krait SoC powering the Netgear Nighthawk R7800 (X4S). Exceptional ath10k open-source Wi-Fi stability and NSS hardware offload support in OpenWrt.",
+  "sources": [
+    {
+      "title": "OpenWrt Target: Qualcomm IPQ806x",
+      "url": "https://git.openwrt.org/?p=openwrt/openwrt.git;a=tree;f=target/linux/ipq806x",
+      "type": "OPENWRT_GIT",
+      "date_accessed": "2026-11-15"
+    },
+    {
+      "title": "Netgear R7800 Hardware Overview",
+      "url": "https://openwrt.org/toh/netgear/r7800",
+      "type": "OPENWRT_TOH",
+      "date_accessed": "2026-11-15"
+    }
+  ]
+}

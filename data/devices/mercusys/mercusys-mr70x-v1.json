@@ -1,0 +1,125 @@
+{
+  "id": "mercusys-mr70x-v1",
+  "manufacturer": "Mercusys",
+  "model": "MR70X",
+  "hardware_revision": "v1.0",
+  "regional_variant": "Global",
+  "internal_board_name": "mr70x-v1",
+  "soc": {
+    "vendor": "MediaTek",
+    "model": "MT7621DAT",
+    "family": "MT7621",
+    "cores": 2,
+    "frequency_mhz": 880
+  },
+  "architecture": "mips_1004kc",
+  "ram_mb": 128,
+  "flash": {
+    "type": "SPI-NOR",
+    "capacity_mb": 16,
+    "mb": 16
+  },
+  "wireless": [
+    {
+      "radio_id": "radio0",
+      "chipset": "MT7905DAN",
+      "frequency_ghz": 2.4,
+      "generation": "Wi-Fi 6",
+      "spatial_streams": "2x2",
+      "max_phy_rate_mbps": 574,
+      "channel_width_mhz": 40
+    },
+    {
+      "radio_id": "radio1",
+      "chipset": "MT7975DN",
+      "frequency_ghz": 5.0,
+      "generation": "Wi-Fi 6",
+      "spatial_streams": "2x2",
+      "max_phy_rate_mbps": 1201,
+      "channel_width_mhz": 80
+    }
+  ],
+  "ethernet": {
+    "switch_chip": "MT7530",
+    "ports": [
+      {
+        "name": "WAN",
+        "type": "WAN",
+        "speed_mbps": 1000,
+        "dsa_port": "wan"
+      },
+      {
+        "name": "LAN1",
+        "type": "LAN",
+        "speed_mbps": 1000,
+        "dsa_port": "lan1"
+      },
+      {
+        "name": "LAN2",
+        "type": "LAN",
+        "speed_mbps": 1000,
+        "dsa_port": "lan2"
+      },
+      {
+        "name": "LAN3",
+        "type": "LAN",
+        "speed_mbps": 1000,
+        "dsa_port": "lan3"
+      }
+    ]
+  },
+  "usb_ports": [],
+  "poe": {
+    "supported": false,
+    "standard": null,
+    "type": null
+  },
+  "bootloader": "U-Boot 2014.04 (TP-Link safe boot)",
+  "serial_uart": {
+    "available": true,
+    "voltage": "3.3V",
+    "baudrate": 115200,
+    "pinout_documented": true,
+    "notes": "4-pin 3.3V header (VCC, RX, TX, GND)."
+  },
+  "openwrt": {
+    "target": "ramips/mt7621",
+    "subtarget": "generic",
+    "profile": "mercusys_mr70x-v1",
+    "support_status": "OFFICIALLY_SUPPORTED",
+    "first_supported_version": "22.03.0",
+    "latest_tested_version": "25.12.6",
+    "firmware_selector_url": "https://firmware-selector.openwrt.org/?version=25.12.6&target=ramips%2Fmt7621&id=mercusys_mr70x-v1",
+    "device_tree_file": "mt7621-mercusys-mr70x-v1.dts",
+    "known_limitations": [
+      "16MB flash capacity requires minimalist package footprint."
+    ]
+  },
+  "installation": {
+    "method": "OEM Web GUI Flash",
+    "risk": "LOW",
+    "requires_factory_stage": false,
+    "guide_link": "https://openwrt.org/toh/mercusys/mr70x_v1"
+  },
+  "recovery": {
+    "method": "TFTP Push (Automated)",
+    "recovery_ip": "192.168.1.66",
+    "guide_link": "https://openwrt.org/toh/mercusys/mr70x_v1"
+  },
+  "verification": {
+    "status": "OFFICIALLY_SUPPORTED",
+    "evidence": [
+      "OpenWrt commit: ramips: add support for Mercusys MR70X v1",
+      "Official OpenWrt firmware selector available"
+    ],
+    "last_verified": "2026-11-14"
+  },
+  "sources": [
+    {
+      "title": "OpenWrt ToH: Mercusys MR70X v1",
+      "url": "https://openwrt.org/toh/mercusys/mr70x_v1",
+      "type": "OPENWRT_TOH",
+      "date_accessed": "2026-11-14"
+    }
+  ]
+}

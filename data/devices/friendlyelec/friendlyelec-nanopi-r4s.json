@@ -1,0 +1,134 @@
+{
+  "$schema": "../../schemas/device.schema.json",
+  "id": "friendlyelec-nanopi-r4s",
+  "manufacturer": "FriendlyElec",
+  "model": "NanoPi R4S",
+  "hardware_revision": "v1 (1GB / 4GB)",
+  "regional_variant": "Global",
+  "internal_board_name": "friendlyelec_nanopi-r4s",
+  "soc": {
+    "vendor": "Rockchip",
+    "model": "RK3399",
+    "family": "RK3399",
+    "cores": 6,
+    "frequency_mhz": 1800
+  },
+  "architecture": "aarch64",
+  "ram_mb": 4096,
+  "flash": {
+    "mb": 32,
+    "type": "SPI-NOR + MicroSD / Optional eMMC",
+    "ubi_support": false,
+    "dual_boot": false,
+    "partitions": [
+      {
+        "name": "u-boot",
+        "size_kb": 4096,
+        "read_only": true
+      },
+      {
+        "name": "boot",
+        "size_kb": 65536,
+        "read_only": false
+      },
+      {
+        "name": "rootfs",
+        "size_kb": 1048576,
+        "read_only": false
+      }
+    ],
+    "capacity_mb": 32
+  },
+  "ethernet_ports": [
+    {
+      "speed_mbps": 1000,
+      "type": "WAN",
+      "label": "WAN (Native RK3399 MAC)",
+      "dsa_interface": "eth0"
+    },
+    {
+      "speed_mbps": 1000,
+      "type": "LAN",
+      "label": "LAN (PCIe Realtek RTL8111H)",
+      "dsa_interface": "eth1"
+    }
+  ],
+  "switch": {
+    "integrated": false,
+    "model": "Realtek RTL8211E (WAN) + Realtek RTL8111H (LAN)",
+    "dsa_driver": null,
+    "hardware_vlan": false
+  },
+  "wifi": [],
+  "usb_ports": [
+    {
+      "type": "USB 3.0 Type-A",
+      "count": 2
+    },
+    {
+      "type": "USB-C",
+      "count": 1
+    }
+  ],
+  "poe": {
+    "supported": false,
+    "standard": null,
+    "type": null
+  },
+  "bootloader": "U-Boot (Rockchip TPL/SPL with MicroSD boot priority)",
+  "serial_uart": {
+    "available": true,
+    "voltage": "3.3V",
+    "baudrate": 1500000,
+    "pinout_documented": true,
+    "notes": "Debug UART 4-pin header (2.54mm pitch): Pin 1 = GND, Pin 2 = VCC (do not connect), Pin 3 = TX, Pin 4 = RX. Note 1.5Mbaud rate typical for Rockchip."
+  },
+  "openwrt": {
+    "target": "rockchip/armv8",
+    "subtarget": "generic",
+    "profile": "friendlyarm_nanopi-r4s",
+    "support_status": "OFFICIALLY_SUPPORTED",
+    "first_supported_version": "21.02.0",
+    "latest_tested_version": "25.12.6",
+    "firmware_selector_url": "https://firmware-selector.openwrt.org/?target=rockchip%2Farmv8&id=friendlyarm_nanopi-r4s",
+    "device_tree_file": "rk3399-nanopi-r4s.dts",
+    "known_limitations": [
+      "No onboard Wi-Fi; designed as a compact dual-gigabit firewall gateway router.",
+      "Dual A72 + quad A53 CPU easily saturates gigabit WAN/LAN routing with full SQM CAKE and multi-client WireGuard."
+    ]
+  },
+  "installation": {
+    "method": "Direct Image Flash (SBC / SD Card)",
+    "risk": "LOW",
+    "requires_factory_stage": false,
+    "guide_link": "https://openwrt.org/toh/friendlyarm/nanopi_r4s"
+  },
+  "recovery": {
+    "method": "SD Card Re-flash (SBC)",
+    "recovery_ip": "192.168.1.1",
+    "guide_link": "https://openwrt.org/toh/friendlyarm/nanopi_r4s#recovery"
+  },
+  "verification": {
+    "status": "OFFICIALLY_SUPPORTED",
+    "evidence": [
+      "Official upstream target: target/linux/rockchip/armv8",
+      "DTS: rk3399-nanopi-r4s.dts",
+      "Official firmware selector images built for both 1GB and 4GB RAM variants"
+    ],
+    "last_verified": "2026-11-15"
+  },
+  "sources": [
+    {
+      "title": "OpenWrt Table of Hardware: NanoPi R4S",
+      "url": "https://openwrt.org/toh/friendlyarm/nanopi_r4s",
+      "type": "OPENWRT_TOH",
+      "date_accessed": "2026-11-15"
+    },
+    {
+      "title": "FriendlyElec NanoPi R4S Wiki",
+      "url": "https://wiki.friendlyelec.com/wiki/index.php/NanoPi_R4S",
+      "type": "OEM_SPEC",
+      "date_accessed": "2026-11-15"
+    }
+  ]
+}

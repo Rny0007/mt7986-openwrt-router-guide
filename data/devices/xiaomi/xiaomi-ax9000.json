@@ -1,0 +1,145 @@
+{
+  "id": "xiaomi-ax9000",
+  "manufacturer": "Xiaomi",
+  "model": "Mi Router AX9000",
+  "hardware_revision": "RA70",
+  "regional_variant": "Global",
+  "internal_board_name": "xiaomi_ax9000",
+  "soc": {
+    "vendor": "Qualcomm",
+    "model": "IPQ8072A",
+    "family": "Hawkeye",
+    "cores": 4,
+    "frequency_mhz": 2200
+  },
+  "architecture": "aarch64",
+  "ram_mb": 1024,
+  "flash": {
+    "type": "eMMC",
+    "capacity_mb": 4096,
+    "mb": 4096
+  },
+  "wireless": [
+    {
+      "radio_id": "radio0",
+      "chipset": "QCN5024",
+      "frequency_ghz": 2.4,
+      "generation": "Wi-Fi 6",
+      "spatial_streams": "4x4",
+      "max_phy_rate_mbps": 1148,
+      "channel_width_mhz": 40
+    },
+    {
+      "radio_id": "radio1",
+      "chipset": "QCN5054",
+      "frequency_ghz": 5.0,
+      "generation": "Wi-Fi 6",
+      "spatial_streams": "4x4",
+      "max_phy_rate_mbps": 4804,
+      "channel_width_mhz": 160
+    },
+    {
+      "radio_id": "radio2",
+      "chipset": "QCN5054",
+      "frequency_ghz": 5.0,
+      "generation": "Wi-Fi 6",
+      "spatial_streams": "4x4",
+      "max_phy_rate_mbps": 2402,
+      "channel_width_mhz": 80
+    }
+  ],
+  "ethernet": {
+    "switch_chip": "QCA8075",
+    "ports": [
+      {
+        "name": "2.5G Gaming Port",
+        "type": "WAN/LAN",
+        "speed_mbps": 2500,
+        "dsa_port": "eth1"
+      },
+      {
+        "name": "LAN1",
+        "type": "LAN",
+        "speed_mbps": 1000,
+        "dsa_port": "lan1"
+      },
+      {
+        "name": "LAN2",
+        "type": "LAN",
+        "speed_mbps": 1000,
+        "dsa_port": "lan2"
+      },
+      {
+        "name": "LAN3",
+        "type": "LAN",
+        "speed_mbps": 1000,
+        "dsa_port": "lan3"
+      },
+      {
+        "name": "LAN4",
+        "type": "LAN",
+        "speed_mbps": 1000,
+        "dsa_port": "lan4"
+      }
+    ]
+  },
+  "usb_ports": [
+    {
+      "type": "USB 3.0 Type-A",
+      "count": 1
+    }
+  ],
+  "poe": {
+    "supported": false,
+    "standard": null,
+    "type": null
+  },
+  "bootloader": "U-Boot 2016.01 (Qualcomm QSDK)",
+  "serial_uart": {
+    "available": true,
+    "voltage": "3.3V",
+    "baudrate": 115200,
+    "pinout_documented": true,
+    "notes": "Internal 4-pin 3.3V header."
+  },
+  "openwrt": {
+    "target": "qualcommax/ipq807x",
+    "subtarget": "generic",
+    "profile": "xiaomi_ax9000",
+    "support_status": "COMMUNITY_VERIFIED",
+    "first_supported_version": "SNAPSHOT",
+    "latest_tested_version": "SNAPSHOT",
+    "firmware_selector_url": "https://firmware-selector.openwrt.org/?version=SNAPSHOT&target=qualcommax%2Fipq807x&id=xiaomi_ax9000",
+    "device_tree_file": "ipq8072-xiaomi-ax9000.dts",
+    "known_limitations": [
+      "AIoT dedicated fourth radio requires experimental firmware blob."
+    ]
+  },
+  "installation": {
+    "method": "Automated Root SSH Exploit",
+    "risk": "HIGH",
+    "requires_factory_stage": true,
+    "guide_link": "https://openwrt.org/toh/xiaomi/ax9000"
+  },
+  "recovery": {
+    "method": "TFTP Push (Automated)",
+    "recovery_ip": "192.168.31.1",
+    "guide_link": "https://openwrt.org/toh/xiaomi/ax9000"
+  },
+  "verification": {
+    "status": "COMMUNITY_VERIFIED",
+    "evidence": [
+      "Upstream qualcommax PR and community master builds",
+      "Mainline ath11k Wi-Fi 6 tri-band operation verified"
+    ],
+    "last_verified": "2026-11-14"
+  },
+  "sources": [
+    {
+      "title": "OpenWrt Forum: Xiaomi AX9000 Porting Thread",
+      "url": "https://forum.openwrt.org/t/openwrt-support-for-xiaomi-ax9000/94821",
+      "type": "OPENWRT_FORUM",
+      "date_accessed": "2026-11-14"
+    }
+  ]
+}

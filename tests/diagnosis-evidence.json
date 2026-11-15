@@ -1,0 +1,45 @@
+{
+  "test_1_home_to_recovery_and_back": {
+    "initial_home": "https://rny0007.github.io/openwrt-router-hardware-explorer/index.html",
+    "after_click": "https://rny0007.github.io/openwrt-router-hardware-explorer/guides/recovery/index.html",
+    "after_back": "https://rny0007.github.io/openwrt-router-hardware-explorer/index.html",
+    "back_successful": true
+  },
+  "test_2_direct_recovery_and_back": {
+    "direct_url": "https://rny0007.github.io/openwrt-router-hardware-explorer/guides/recovery/index.html",
+    "after_back": "https://rny0007.github.io/openwrt-router-hardware-explorer/index.html",
+    "note": "When opened directly with no history, go_back remains on direct_url or about:blank"
+  },
+  "test_3_forward_navigation": {
+    "forward_url": "https://rny0007.github.io/openwrt-router-hardware-explorer/guides/recovery/index.html",
+    "forward_successful": true
+  },
+  "test_4_refresh": {
+    "refreshed_url": "https://rny0007.github.io/openwrt-router-hardware-explorer/guides/recovery/index.html",
+    "refresh_successful": true
+  },
+  "test_5_deep_link": {
+    "deep_link_url": "https://rny0007.github.io/openwrt-router-hardware-explorer/guides/recovery/index.html#tier-3",
+    "deep_link_successful": true
+  },
+  "test_6_trailing_slash_variants": {
+    "https://rny0007.github.io/openwrt-router-hardware-explorer/guides/recovery": {
+      "status": 200,
+      "final_url": "https://rny0007.github.io/openwrt-router-hardware-explorer/guides/recovery/"
+    },
+    "https://rny0007.github.io/openwrt-router-hardware-explorer/guides/recovery/": {
+      "status": 200,
+      "final_url": "https://rny0007.github.io/openwrt-router-hardware-explorer/guides/recovery/"
+    },
+    "https://rny0007.github.io/openwrt-router-hardware-explorer/guides/recovery/index.html": {
+      "status": 200,
+      "final_url": "https://rny0007.github.io/openwrt-router-hardware-explorer/guides/recovery/index.html"
+    }
+  },
+  "observed_issues": [],
+  "analysis": {
+    "clean_url_final": "https://rny0007.github.io/openwrt-router-hardware-explorer/guides/recovery/",
+    "slash_url_final": "https://rny0007.github.io/openwrt-router-hardware-explorer/guides/recovery/",
+    "html_url_final": "https://rny0007.github.io/openwrt-router-hardware-explorer/guides/recovery/index.html"
+  }
+}

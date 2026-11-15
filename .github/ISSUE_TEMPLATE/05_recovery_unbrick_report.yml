@@ -1,0 +1,30 @@
+name: "Recovery or Unbrick Guide Report"
+description: "Document a successful procedure for restoring an unbootable or bricked router"
+title: "[Recovery]: "
+labels: ["recovery-guide", "unbrick-verified"]
+body:
+  - type: input
+    id: router_model
+    attributes:
+      label: "Router Model & Exact Revision"
+    validations:
+      required: true
+  - type: dropdown
+    id: recovery_level
+    attributes:
+      label: "Recovery Mechanism"
+      options:
+        - "Level 1: Failsafe Mode (Reset Button)"
+        - "Level 2: Automated TFTP Client Mode"
+        - "Level 3: U-Boot Web Failsafe Interface"
+        - "Level 4: Hardware UART Serial Console"
+        - "Level 5: External Hardware Flash Programmer"
+    validations:
+      required: true
+  - type: textarea
+    id: recovery_steps
+    attributes:
+      label: "Exact Recovery Steps"
+      description: "Document IP settings, required filenames, serial commands, and terminal output."
+    validations:
+      required: true

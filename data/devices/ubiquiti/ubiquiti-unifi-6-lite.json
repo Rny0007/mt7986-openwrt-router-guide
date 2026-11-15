@@ -1,0 +1,154 @@
+{
+  "$schema": "../../schemas/device.schema.json",
+  "id": "ubiquiti-unifi-6-lite",
+  "manufacturer": "Ubiquiti",
+  "model": "UniFi 6 Lite (U6-Lite)",
+  "hardware_revision": "v1",
+  "regional_variant": "Global",
+  "internal_board_name": "ubnt_unifi-6-lite",
+  "soc": {
+    "vendor": "MediaTek",
+    "model": "MT7621AT",
+    "family": "MT7621",
+    "cores": 2,
+    "frequency_mhz": 880
+  },
+  "architecture": "mips_1004kc",
+  "ram_mb": 256,
+  "flash": {
+    "mb": 64,
+    "type": "SPI-NOR",
+    "ubi_support": false,
+    "dual_boot": true,
+    "partitions": [
+      {
+        "name": "u-boot",
+        "size_kb": 512,
+        "read_only": true
+      },
+      {
+        "name": "u-boot-env",
+        "size_kb": 256,
+        "read_only": false
+      },
+      {
+        "name": "EEPROM",
+        "size_kb": 256,
+        "read_only": true
+      },
+      {
+        "name": "kernel0",
+        "size_kb": 4096,
+        "read_only": false
+      },
+      {
+        "name": "kernel1",
+        "size_kb": 4096,
+        "read_only": false
+      },
+      {
+        "name": "bs",
+        "size_kb": 256,
+        "read_only": false
+      },
+      {
+        "name": "cfg",
+        "size_kb": 2048,
+        "read_only": false
+      }
+    ],
+    "capacity_mb": 64
+  },
+  "ethernet_ports": [
+    {
+      "speed_mbps": 1000,
+      "type": "LAN",
+      "label": "GbE PoE-In",
+      "dsa_interface": "eth0"
+    }
+  ],
+  "switch": {
+    "integrated": false,
+    "model": "MediaTek MT7530 (internal single port PHY)",
+    "dsa_driver": null,
+    "hardware_vlan": false
+  },
+  "wifi": [
+    {
+      "band": "2.4 GHz",
+      "standard": "802.11n",
+      "streams": "2x2",
+      "max_phy_mbps": 300,
+      "chipset": "MediaTek MT7603EN"
+    },
+    {
+      "band": "5 GHz",
+      "standard": "802.11ax",
+      "streams": "2x2",
+      "max_phy_mbps": 1201,
+      "chipset": "MediaTek MT7915D"
+    }
+  ],
+  "usb_ports": [],
+  "poe": {
+    "supported": true,
+    "standard": "802.3af (PoE)",
+    "type": "PoE-In"
+  },
+  "bootloader": "U-Boot (Ubiquiti U-Boot with dual-kernel failover)",
+  "serial_uart": {
+    "available": true,
+    "voltage": "3.3V",
+    "baudrate": 115200,
+    "pinout_documented": true,
+    "notes": "4 test pads under circular mounting plate: GND, TX, RX, 3.3V (do not connect 3.3V)."
+  },
+  "openwrt": {
+    "target": "ramips/mt7621",
+    "subtarget": "generic",
+    "profile": "ubnt_unifi-6-lite",
+    "support_status": "OFFICIALLY_SUPPORTED",
+    "first_supported_version": "22.03.0",
+    "latest_tested_version": "25.12.6",
+    "firmware_selector_url": "https://firmware-selector.openwrt.org/?target=ramips%2Fmt7621&id=ubnt_unifi-6-lite",
+    "device_tree_file": "mt7621_ubnt_unifi-6-lite.dts",
+    "known_limitations": [
+      "ACCESS POINT HARDWARE: Single Gigabit Ethernet port powered exclusively via 802.3af PoE (or 48V passive injector).",
+      "Flashing is executed via SSH directly on stock UniFi OS using sysupgrade or mtd write commands without disassembling the chassis."
+    ]
+  },
+  "installation": {
+    "method": "Vendor CLI / Telnet / SSH",
+    "risk": "LOW",
+    "requires_factory_stage": false,
+    "guide_link": "https://openwrt.org/toh/ubiquiti/unifi_6_lite"
+  },
+  "recovery": {
+    "method": "TFTP Push (Automated)",
+    "recovery_ip": "192.168.1.20",
+    "guide_link": "https://openwrt.org/toh/ubiquiti/unifi_6_lite#tftp_recovery"
+  },
+  "verification": {
+    "status": "OFFICIALLY_SUPPORTED",
+    "evidence": [
+      "Official upstream target: target/linux/ramips/dts/mt7621_ubnt_unifi-6-lite.dts",
+      "Native SSH installation tested across thousands of enterprise AP deployments",
+      "Full mt76 wireless driver support for MT7915D 5GHz Wi-Fi 6"
+    ],
+    "last_verified": "2026-11-15"
+  },
+  "sources": [
+    {
+      "title": "OpenWrt Table of Hardware: Ubiquiti UniFi 6 Lite",
+      "url": "https://openwrt.org/toh/ubiquiti/unifi_6_lite",
+      "type": "OPENWRT_TOH",
+      "date_accessed": "2026-11-15"
+    },
+    {
+      "title": "Ubiquiti U6-Lite Official Datasheet",
+      "url": "https://dl.ui.com/ds/u6-lite_ds.pdf",
+      "type": "OEM_SPEC",
+      "date_accessed": "2026-11-15"
+    }
+  ]
+}
