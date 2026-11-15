@@ -29,13 +29,17 @@ jobs:
           persist-credentials: false
 
       - name: "Set up Python 3.12"
-        uses: actions/setup-python@0b93645e9dc71a7c6b91c0da1d054e287a932599 # v5.1.0
+        uses: actions/setup-python@v5
         with:
           python-version: "3.12"
 
       - name: "Run Build Index & Schema Check"
         run: |
           python scripts/build-index.py
+
+      - name: "Compile Static Website"
+        run: |
+          python scripts/build-website.py
 
       - name: "Execute Unit Test Suite"
         run: |

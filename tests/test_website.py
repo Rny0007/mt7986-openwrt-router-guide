@@ -1,4 +1,5 @@
 import os
+import sys
 import unittest
 import xml.etree.ElementTree as ET
 
@@ -6,6 +7,11 @@ REPO_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 SITE_DIR = os.path.join(REPO_ROOT, "site")
 
 class TestGeneratedWebsite(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        if not os.path.exists(os.path.join(SITE_DIR, "index.html")):
+            import subprocess
+            subprocess.run([sys.executable, os.path.join(REPO_ROOT, "scripts", "build-website.py")], check=True)
     def test_core_pages_exist(self):
         core_files = [
             "index.html",
