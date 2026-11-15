@@ -1,0 +1,47 @@
+{
+  "$schema": "../schemas/chipset.schema.json",
+  "id": "marvell-armada-385",
+  "vendor": "Marvell",
+  "part_number": "88F6820 (Armada 385)",
+  "marketing_name": "Marvell Armada 385 (88F6820 / 88F6828)",
+  "cpu": {
+    "architecture": "arm_cortex-a9",
+    "core_type": "ARM Cortex-A9 MPCore (v7-A)",
+    "cores": 2,
+    "max_clock_mhz": 1600
+  },
+  "process_node_nm": 28,
+  "openwrt_target": "mvebu",
+  "openwrt_subtarget": "cortexa9",
+  "linux_driver": {
+    "wireless_mac80211": null,
+    "ethernet_driver": "mvneta",
+    "switch_driver": "mv88e6xxx"
+  },
+  "wireless_subsystem": {
+    "integrated": false,
+    "accompanying_rf_chips": [
+      "Marvell 88W8864",
+      "Qualcomm Atheros QCA9880"
+    ],
+    "wi_fi_generation": "Wi-Fi 5",
+    "mimo_capabilities": "PCIe Hosted Radio Cards"
+  },
+  "hardware_acceleration": {
+    "flow_offload": "Software Only",
+    "crypto_engine": true,
+    "wireless_ethernet_dispatch": false
+  },
+  "openwrt_support_tier": "TIER_1_MAINSTREAM",
+  "notes": "Renowned high-performance 32-bit ARM SoC powering legendary open routers including the Turris Omnia and Linksys WRT1900AC/WRT1900ACS/WRT3200ACM series. Features dedicated hardware cryptographic acceleration (Marvell CESA) and mature upstream Linux mvneta Ethernet driver.",
+  "sources": [
+    {
+      "title": "OpenWrt Wiki: Marvell Armada 385 (mvebu target)",
+      "url": "https://openwrt.org/docs/techref/targets/mvebu"
+    },
+    {
+      "title": "Linux Kernel DTS: armada-385.dtsi",
+      "url": "https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/arch/arm/boot/dts/marvell/armada-385.dtsi"
+    }
+  ]
+}

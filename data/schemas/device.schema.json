@@ -56,7 +56,7 @@
     },
     "architecture": {
       "type": "string",
-      "enum": ["aarch64", "arm_cortex-a7", "arm_cortex-a15", "arm_cortex-a53", "arm_cortex-a73", "mips_24kc", "mips_34kc", "mips_1004kc", "mipsel_24kc", "x86_64", "riscv64"],
+      "enum": ["aarch64", "arm_cortex-a7", "arm_cortex-a9", "arm_cortex-a15", "arm_cortex-a53", "arm_cortex-a73", "mips_24kc", "mips_34kc", "mips_74kc", "mips_1004kc", "mipsel_24kc", "x86_64", "riscv64"],
       "description": "CPU instruction set architecture."
     },
     "ram_mb": {
@@ -216,6 +216,21 @@
           "description": "Summary of verifiable evidence (dmesg capture, upstream commit SHA, pull request number, etc.)."
         },
         "last_verified": { "type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}$", "description": "Date of latest verification in YYYY-MM-DD format." }
+      }
+    },
+    "popularity": {
+      "type": "object",
+      "properties": {
+        "tier": {
+          "type": "string",
+          "enum": ["VERY_HIGH_INTEREST", "HIGH_INTEREST", "MODERATE_INTEREST", "NICHE_INTEREST", "HISTORICAL_COMMUNITY_INTEREST", "UNKNOWN"],
+          "description": "Evidence-based community interest and search discovery tier."
+        },
+        "signals": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Verifiable popularity signals (OpenWrt forum thread count, GitHub stars, retail volume)."
+        }
       }
     },
     "sources": {

@@ -1,0 +1,120 @@
+{
+  "$schema": "../../schemas/device.schema.json",
+  "id": "protectli-vault-fw4b",
+  "manufacturer": "Protectli",
+  "model": "Vault FW4B",
+  "hardware_revision": "v1",
+  "regional_variant": "Global",
+  "internal_board_name": "protectli_fw4b",
+  "soc": {
+    "vendor": "Intel/x86",
+    "model": "Celeron J3160",
+    "family": "Braswell",
+    "cores": 4,
+    "frequency_mhz": 2240
+  },
+  "architecture": "x86_64",
+  "ram_mb": 4096,
+  "flash": {
+    "type": "SATA/SSD",
+    "capacity_mb": 32768
+  },
+  "ethernet": {
+    "switch_chip": "Discrete Intel I210-AT Ethernet Controllers",
+    "ports": [
+      {
+        "name": "WAN",
+        "type": "WAN",
+        "speed_mbps": 1000,
+        "dsa_port": "eth0"
+      },
+      {
+        "name": "LAN1",
+        "type": "LAN",
+        "speed_mbps": 1000,
+        "dsa_port": "eth1"
+      },
+      {
+        "name": "LAN2",
+        "type": "LAN",
+        "speed_mbps": 1000,
+        "dsa_port": "eth2"
+      },
+      {
+        "name": "LAN3",
+        "type": "LAN",
+        "speed_mbps": 1000,
+        "dsa_port": "eth3"
+      }
+    ]
+  },
+  "usb_ports": [
+    {
+      "type": "USB 3.0 Type-A",
+      "count": 2
+    }
+  ],
+  "bootloader": "Coreboot (Open-Source BIOS) / AMI UEFI",
+  "serial_uart": {
+    "available": true,
+    "voltage": "3.3V",
+    "baudrate": 115200,
+    "pinout_documented": true,
+    "notes": "Standard Cisco-pinout RJ45 RS232 serial console port on front panel."
+  },
+  "openwrt": {
+    "target": "x86",
+    "subtarget": "64",
+    "profile": "generic",
+    "support_status": "OFFICIALLY_SUPPORTED",
+    "first_supported_version": "18.06.0",
+    "latest_tested_version": "23.05.5",
+    "firmware_selector_url": "https://firmware-selector.openwrt.org/?version=23.05.5&target=x86%2F64&id=generic",
+    "device_tree_file": null,
+    "known_limitations": [
+      "Wi-Fi cards must be added via internal mPCIe slot if wireless is required",
+      "Requires x86/64 combined-efi.img.gz flashed directly to mSATA SSD or USB drive"
+    ]
+  },
+  "installation": {
+    "method": "Direct Image Flash (SBC / SD Card)",
+    "risk": "LOW",
+    "requires_factory_stage": false,
+    "guide_link": "https://protectli.com/kb/openwrt-on-the-vault/"
+  },
+  "recovery": {
+    "method": "SD Card Re-flash (SBC)",
+    "recovery_ip": "192.168.1.1",
+    "guide_link": "https://protectli.com/kb/openwrt-on-the-vault/"
+  },
+  "verification": {
+    "status": "OFFICIALLY_SUPPORTED",
+    "evidence": [
+      "OpenWrt official target x86/64",
+      "Protectli official knowledge base guide for OpenWrt deployment",
+      "Verified by thousands of community users running OpenWrt as dedicated x86 router"
+    ],
+    "last_verified": "2026-11-15"
+  },
+  "popularity": {
+    "tier": "VERY_HIGH_INTEREST",
+    "signals": [
+      "Gold-standard open-source micro-firewall appliance in enterprise and cybersecurity",
+      "Over 50,000 community units deployed with Coreboot open-source firmware"
+    ]
+  },
+  "sources": [
+    {
+      "title": "Protectli Vault FW4B Technical Specifications",
+      "url": "https://protectli.com/product/fw4b/",
+      "type": "OEM_SPEC",
+      "date_accessed": "2026-11-15"
+    },
+    {
+      "title": "Protectli Knowledge Base: Installing OpenWrt on the Vault",
+      "url": "https://protectli.com/kb/openwrt-on-the-vault/",
+      "type": "TECHNICAL_ARTICLE",
+      "date_accessed": "2026-11-15"
+    }
+  ]
+}

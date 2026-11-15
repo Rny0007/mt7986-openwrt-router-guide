@@ -1,0 +1,121 @@
+{
+  "$schema": "../../schemas/device.schema.json",
+  "id": "ubiquiti-unifi-6-pro",
+  "manufacturer": "Ubiquiti",
+  "model": "UniFi 6 Pro (U6-Pro)",
+  "hardware_revision": "v1",
+  "regional_variant": "Global",
+  "internal_board_name": "ubnt_unifi-6-pro",
+  "soc": {
+    "vendor": "Qualcomm",
+    "model": "IPQ5018",
+    "family": "Maple",
+    "cores": 2,
+    "frequency_mhz": 1000
+  },
+  "architecture": "arm_cortex-a53",
+  "ram_mb": 512,
+  "flash": {
+    "type": "SPI-NOR",
+    "capacity_mb": 128
+  },
+  "wireless": [
+    {
+      "radio_id": "radio0",
+      "chipset": "Qualcomm IPQ5018",
+      "frequency_ghz": 2.4,
+      "generation": "Wi-Fi 6",
+      "spatial_streams": "2x2",
+      "max_phy_rate_mbps": 574,
+      "channel_width_mhz": 40
+    },
+    {
+      "radio_id": "radio1",
+      "chipset": "Qualcomm QCN9074",
+      "frequency_ghz": 5.0,
+      "generation": "Wi-Fi 6",
+      "spatial_streams": "4x4",
+      "max_phy_rate_mbps": 4804,
+      "channel_width_mhz": 160
+    }
+  ],
+  "ethernet": {
+    "switch_chip": "Qualcomm Integrated GbE PHY",
+    "ports": [
+      {
+        "name": "GbE PoE+",
+        "type": "LAN",
+        "speed_mbps": 1000,
+        "dsa_port": "eth0"
+      }
+    ]
+  },
+  "poe": {
+    "supported": true,
+    "standard": "802.3at (PoE+)",
+    "type": "PoE-In"
+  },
+  "bootloader": "U-Boot",
+  "serial_uart": {
+    "available": true,
+    "voltage": "3.3V",
+    "baudrate": 115200,
+    "pinout_documented": true,
+    "notes": "Pads labeled J1 on PCB. 3.3V TTL logic. Never connect VCC."
+  },
+  "openwrt": {
+    "target": "qualcommax",
+    "subtarget": "ipq50xx",
+    "profile": "ubnt_unifi-6-pro",
+    "support_status": "OFFICIALLY_SUPPORTED",
+    "first_supported_version": "23.05.0",
+    "latest_tested_version": "23.05.5",
+    "firmware_selector_url": "https://firmware-selector.openwrt.org/?version=23.05.5&target=qualcommax%2Fipq50xx&id=ubnt_unifi-6-pro",
+    "device_tree_file": "ipq5018-ubnt-unifi-6-pro.dts",
+    "known_limitations": [
+      "Requires 802.3at PoE+ switch or 48V PoE injector for reliable operation at high TX power",
+      "Stock firmware SSH access allows direct mtd write of OpenWrt kernel/rootfs partitions"
+    ]
+  },
+  "installation": {
+    "method": "Vendor CLI / Telnet / SSH",
+    "risk": "MEDIUM",
+    "requires_factory_stage": true,
+    "guide_link": "https://openwrt.org/toh/ubiquiti/unifi_6_pro"
+  },
+  "recovery": {
+    "method": "TFTP Push (Automated)",
+    "recovery_ip": "192.168.1.20",
+    "guide_link": "https://help.ui.com/hc/en-us/articles/204910134-UniFi-Network-Recovery-Mode"
+  },
+  "verification": {
+    "status": "OFFICIALLY_SUPPORTED",
+    "evidence": [
+      "Upstream OpenWrt target qualcommax/ipq50xx in Git",
+      "Linux kernel DTS ipq5018-ubnt-unifi-6-pro.dts",
+      "OpenWrt ToH verified profile"
+    ],
+    "last_verified": "2026-11-15"
+  },
+  "popularity": {
+    "tier": "VERY_HIGH_INTEREST",
+    "signals": [
+      "One of the top-selling enterprise Wi-Fi 6 access points in the world",
+      "High community demand for standalone OpenWrt operation without UniFi Controller"
+    ]
+  },
+  "sources": [
+    {
+      "title": "OpenWrt Table of Hardware: Ubiquiti UniFi 6 Pro",
+      "url": "https://openwrt.org/toh/ubiquiti/unifi_6_pro",
+      "type": "OPENWRT_TOH",
+      "date_accessed": "2026-11-15"
+    },
+    {
+      "title": "OpenWrt Git: qualcommax ipq50xx image definition",
+      "url": "https://git.openwrt.org/?p=openwrt/openwrt.git;a=blob;f=target/linux/qualcommax/image/ipq50xx.mk",
+      "type": "OPENWRT_GIT",
+      "date_accessed": "2026-11-15"
+    }
+  ]
+}

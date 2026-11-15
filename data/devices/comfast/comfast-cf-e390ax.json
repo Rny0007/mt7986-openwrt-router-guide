@@ -1,0 +1,127 @@
+{
+  "$schema": "../../schemas/device.schema.json",
+  "id": "comfast-cf-e390ax",
+  "manufacturer": "Comfast",
+  "model": "CF-E390AX",
+  "hardware_revision": "v1",
+  "regional_variant": "Global",
+  "internal_board_name": "comfast_cf-e390ax",
+  "soc": {
+    "vendor": "MediaTek",
+    "model": "MT7621AT",
+    "family": "MT7621",
+    "cores": 2,
+    "frequency_mhz": 880
+  },
+  "architecture": "mipsel_24kc",
+  "ram_mb": 256,
+  "flash": {
+    "type": "SPI-NOR",
+    "capacity_mb": 16
+  },
+  "wireless": [
+    {
+      "radio_id": "radio0",
+      "chipset": "MediaTek MT7975DN",
+      "frequency_ghz": 2.4,
+      "generation": "Wi-Fi 6",
+      "spatial_streams": "2x2",
+      "max_phy_rate_mbps": 574,
+      "channel_width_mhz": 40
+    },
+    {
+      "radio_id": "radio1",
+      "chipset": "MediaTek MT7915D",
+      "frequency_ghz": 5.0,
+      "generation": "Wi-Fi 6",
+      "spatial_streams": "2x2",
+      "max_phy_rate_mbps": 1201,
+      "channel_width_mhz": 80
+    }
+  ],
+  "ethernet": {
+    "switch_chip": "MediaTek MT7530 Integrated",
+    "ports": [
+      {
+        "name": "WAN/PoE",
+        "type": "WAN",
+        "speed_mbps": 1000,
+        "dsa_port": "wan"
+      },
+      {
+        "name": "LAN",
+        "type": "LAN",
+        "speed_mbps": 1000,
+        "dsa_port": "lan1"
+      }
+    ]
+  },
+  "poe": {
+    "supported": true,
+    "standard": "802.3at (PoE+)",
+    "type": "PoE-In"
+  },
+  "bootloader": "Breed / U-Boot",
+  "serial_uart": {
+    "available": true,
+    "voltage": "3.3V",
+    "baudrate": 115200,
+    "pinout_documented": true,
+    "notes": "3.3V UART serial pads labeled TX/RX/GND. Never connect VCC."
+  },
+  "openwrt": {
+    "target": "ramips",
+    "subtarget": "mt7621",
+    "profile": "comfast_cf-e390ax",
+    "support_status": "COMMUNITY_VERIFIED",
+    "first_supported_version": "22.03.0 (Community Git)",
+    "latest_tested_version": "23.05.5",
+    "firmware_selector_url": null,
+    "device_tree_file": "mt7621-comfast-cf-e390ax.dts",
+    "known_limitations": [
+      "16MB NOR flash limits user package installation; squashfs image recommended",
+      "Stock bootloader can be replaced with Breed bootloader for one-click web failsafe recovery"
+    ]
+  },
+  "installation": {
+    "method": "OEM Web GUI Flash",
+    "risk": "MEDIUM",
+    "requires_factory_stage": true,
+    "guide_link": "https://forum.openwrt.org/t/comfast-cf-e390ax-support/134988"
+  },
+  "recovery": {
+    "method": "U-Boot Recovery Webpage",
+    "recovery_ip": "192.168.1.1",
+    "guide_link": "https://forum.openwrt.org/t/comfast-cf-e390ax-support/134988"
+  },
+  "verification": {
+    "status": "COMMUNITY_VERIFIED",
+    "evidence": [
+      "OpenWrt community forum thread with boot log and dmesg",
+      "GitHub pull request for Comfast MT7621+MT7915 Wi-Fi 6 series",
+      "Tested and verified by multiple community wireless engineers"
+    ],
+    "last_verified": "2026-11-15"
+  },
+  "popularity": {
+    "tier": "MODERATE_INTEREST",
+    "signals": [
+      "Popular high-power enterprise ceiling AP imported globally from Shenzhen",
+      "Substantial deployment in budget hotel and warehouse Wi-Fi networks"
+    ]
+  },
+  "sources": [
+    {
+      "title": "Comfast CF-E390AX Specifications",
+      "url": "http://www.comfast.cn/index.php?m=content&c=index&a=show&catid=13&id=202",
+      "type": "OEM_SPEC",
+      "date_accessed": "2026-11-15"
+    },
+    {
+      "title": "OpenWrt Forum: Comfast CF-E390AX Hardware Port",
+      "url": "https://forum.openwrt.org/t/comfast-cf-e390ax-support/134988",
+      "type": "OPENWRT_FORUM",
+      "date_accessed": "2026-11-15"
+    }
+  ]
+}

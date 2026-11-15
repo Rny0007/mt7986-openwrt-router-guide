@@ -1,0 +1,121 @@
+{
+  "$schema": "../../schemas/device.schema.json",
+  "id": "ubiquiti-unifi-nanohd",
+  "manufacturer": "Ubiquiti",
+  "model": "UniFi nanoHD (UAP-nanoHD)",
+  "hardware_revision": "v1",
+  "regional_variant": "Global",
+  "internal_board_name": "ubnt_unifi-nanohd",
+  "soc": {
+    "vendor": "MediaTek",
+    "model": "MT7621AT",
+    "family": "MT7621",
+    "cores": 2,
+    "frequency_mhz": 880
+  },
+  "architecture": "mipsel_24kc",
+  "ram_mb": 256,
+  "flash": {
+    "type": "SPI-NOR",
+    "capacity_mb": 32
+  },
+  "wireless": [
+    {
+      "radio_id": "radio0",
+      "chipset": "MediaTek MT7603E",
+      "frequency_ghz": 2.4,
+      "generation": "Wi-Fi 4",
+      "spatial_streams": "2x2",
+      "max_phy_rate_mbps": 300,
+      "channel_width_mhz": 40
+    },
+    {
+      "radio_id": "radio1",
+      "chipset": "MediaTek MT7615N",
+      "frequency_ghz": 5.0,
+      "generation": "Wi-Fi 5",
+      "spatial_streams": "4x4",
+      "max_phy_rate_mbps": 1733,
+      "channel_width_mhz": 160
+    }
+  ],
+  "ethernet": {
+    "switch_chip": "MediaTek MT7530 Integrated",
+    "ports": [
+      {
+        "name": "GbE PoE",
+        "type": "LAN",
+        "speed_mbps": 1000,
+        "dsa_port": "eth0"
+      }
+    ]
+  },
+  "poe": {
+    "supported": true,
+    "standard": "802.3af (PoE)",
+    "type": "PoE-In"
+  },
+  "bootloader": "U-Boot",
+  "serial_uart": {
+    "available": true,
+    "voltage": "3.3V",
+    "baudrate": 115200,
+    "pinout_documented": true,
+    "notes": "UART pads on underside of mainboard. 3.3V TTL logic levels."
+  },
+  "openwrt": {
+    "target": "ramips",
+    "subtarget": "mt7621",
+    "profile": "ubnt_unifi-nanohd",
+    "support_status": "OFFICIALLY_SUPPORTED",
+    "first_supported_version": "19.07.0",
+    "latest_tested_version": "23.05.5",
+    "firmware_selector_url": "https://firmware-selector.openwrt.org/?version=23.05.5&target=ramips%2Fmt7621&id=ubnt_unifi-nanohd",
+    "device_tree_file": "mt7621-ubnt-unifi-nanohd.dts",
+    "known_limitations": [
+      "Compact dome enclosure runs warm; adequate ambient ventilation required",
+      "32MB flash accommodates standard LuCI and 802.11r/k/v fast roaming packages"
+    ]
+  },
+  "installation": {
+    "method": "Vendor CLI / Telnet / SSH",
+    "risk": "LOW",
+    "requires_factory_stage": true,
+    "guide_link": "https://openwrt.org/toh/ubiquiti/unifi_nanohd"
+  },
+  "recovery": {
+    "method": "TFTP Push (Automated)",
+    "recovery_ip": "192.168.1.20",
+    "guide_link": "https://help.ui.com/hc/en-us/articles/204910134-UniFi-Network-Recovery-Mode"
+  },
+  "verification": {
+    "status": "OFFICIALLY_SUPPORTED",
+    "evidence": [
+      "Upstream OpenWrt target ramips/mt7621 in Git",
+      "Linux kernel DTS mt7621-ubnt-unifi-nanohd.dts",
+      "OpenWrt ToH verified profile"
+    ],
+    "last_verified": "2026-11-15"
+  },
+  "popularity": {
+    "tier": "HIGH_INTEREST",
+    "signals": [
+      "Widely deployed discrete ceiling AP in offices and homes",
+      "Long-term mainline support with high stability"
+    ]
+  },
+  "sources": [
+    {
+      "title": "OpenWrt Table of Hardware: Ubiquiti UniFi nanoHD",
+      "url": "https://openwrt.org/toh/ubiquiti/unifi_nanohd",
+      "type": "OPENWRT_TOH",
+      "date_accessed": "2026-11-15"
+    },
+    {
+      "title": "OpenWrt Git: ramips mt7621 image Makefile",
+      "url": "https://git.openwrt.org/?p=openwrt/openwrt.git;a=blob;f=target/linux/ramips/image/mt7621.mk",
+      "type": "OPENWRT_GIT",
+      "date_accessed": "2026-11-15"
+    }
+  ]
+}

@@ -1,0 +1,162 @@
+{
+  "$schema": "../../schemas/device.schema.json",
+  "id": "tp-link-archer-be800-v1",
+  "manufacturer": "TP-Link",
+  "model": "Archer BE800",
+  "hardware_revision": "v1",
+  "regional_variant": "Global",
+  "internal_board_name": "tp-link_archer-be800",
+  "soc": {
+    "vendor": "Qualcomm",
+    "model": "IPQ9574",
+    "family": "Networking Pro 1620",
+    "cores": 4,
+    "frequency_mhz": 2200
+  },
+  "architecture": "arm_cortex-a73",
+  "ram_mb": 2048,
+  "flash": {
+    "type": "SPI-NAND",
+    "capacity_mb": 512
+  },
+  "wireless": [
+    {
+      "radio_id": "radio0",
+      "chipset": "Qualcomm QCN6274",
+      "frequency_ghz": 2.4,
+      "generation": "Wi-Fi 7",
+      "spatial_streams": "4x4",
+      "max_phy_rate_mbps": 1376,
+      "channel_width_mhz": 40
+    },
+    {
+      "radio_id": "radio1",
+      "chipset": "Qualcomm QCN6274",
+      "frequency_ghz": 5.0,
+      "generation": "Wi-Fi 7",
+      "spatial_streams": "4x4",
+      "max_phy_rate_mbps": 5760,
+      "channel_width_mhz": 160
+    },
+    {
+      "radio_id": "radio2",
+      "chipset": "Qualcomm QCN6274",
+      "frequency_ghz": 6.0,
+      "generation": "Wi-Fi 7",
+      "spatial_streams": "4x4",
+      "max_phy_rate_mbps": 11520,
+      "channel_width_mhz": 320
+    }
+  ],
+  "ethernet": {
+    "switch_chip": "Aquantia AQC113C + Realtek RTL8221B 2.5G PHYs",
+    "ports": [
+      {
+        "name": "10G SFP+/RJ45 Combo",
+        "type": "WAN/LAN",
+        "speed_mbps": 10000,
+        "dsa_port": "eth0"
+      },
+      {
+        "name": "10G WAN/LAN",
+        "type": "WAN/LAN",
+        "speed_mbps": 10000,
+        "dsa_port": "eth1"
+      },
+      {
+        "name": "2.5G LAN1",
+        "type": "LAN",
+        "speed_mbps": 2500,
+        "dsa_port": "lan1"
+      },
+      {
+        "name": "2.5G LAN2",
+        "type": "LAN",
+        "speed_mbps": 2500,
+        "dsa_port": "lan2"
+      },
+      {
+        "name": "2.5G LAN3",
+        "type": "LAN",
+        "speed_mbps": 2500,
+        "dsa_port": "lan3"
+      },
+      {
+        "name": "2.5G LAN4",
+        "type": "LAN",
+        "speed_mbps": 2500,
+        "dsa_port": "lan4"
+      }
+    ]
+  },
+  "usb_ports": [
+    {
+      "type": "USB 3.0 Type-A",
+      "count": 1
+    }
+  ],
+  "bootloader": "U-Boot (Secure Boot Enforced)",
+  "serial_uart": {
+    "available": true,
+    "voltage": "3.3V",
+    "baudrate": 115200,
+    "pinout_documented": true,
+    "notes": "Internal 3.3V UART header present. Cryptographic signature check halts unsigned bootloaders."
+  },
+  "openwrt": {
+    "target": "qualcommax",
+    "subtarget": "ipq95xx",
+    "profile": "tplink_archer-be800-v1",
+    "support_status": "POTENTIALLY_COMPATIBLE",
+    "first_supported_version": null,
+    "latest_tested_version": null,
+    "firmware_selector_url": null,
+    "device_tree_file": null,
+    "known_limitations": [
+      "OEM cryptographic firmware verification blocks third-party firmware flashing via Web GUI and TFTP",
+      "Hardware architecture aligns with Linux ath12k and qualcommax target, but active bootloader unlock barrier exists",
+      "No verified end-user OpenWrt flashing procedure exists at this time"
+    ]
+  },
+  "installation": {
+    "method": "Unsupported",
+    "risk": "CRITICAL",
+    "requires_factory_stage": false,
+    "guide_link": null
+  },
+  "recovery": {
+    "method": "TFTP Push (Automated)",
+    "recovery_ip": "192.168.0.1",
+    "guide_link": null
+  },
+  "verification": {
+    "status": "POTENTIALLY_COMPATIBLE",
+    "evidence": [
+      "FCC ID 2AXJ4BE800 hardware teardown confirming Qualcomm IPQ9574 + QCN6274 silicon",
+      "OpenWrt forum architectural research thread on IPQ9574 support",
+      "Qualcomm Linux SDK source drops for Networking Pro 1620"
+    ],
+    "last_verified": "2026-11-15"
+  },
+  "popularity": {
+    "tier": "VERY_HIGH_INTEREST",
+    "signals": [
+      "TP-Link flagship Wi-Fi 7 router with dual 10GbE and LED matrix display",
+      "Extensive retail availability across global markets"
+    ]
+  },
+  "sources": [
+    {
+      "title": "TP-Link Archer BE800 Official Technical Specifications",
+      "url": "https://www.tp-link.com/en/home-networking/wifi-router/archer-be800/",
+      "type": "OEM_SPEC",
+      "date_accessed": "2026-11-15"
+    },
+    {
+      "title": "FCC Filing: TP-Link Archer BE800 (FCC ID 2AXJ4BE800)",
+      "url": "https://fccid.io/2AXJ4BE800",
+      "type": "FCC_FILING",
+      "date_accessed": "2026-11-15"
+    }
+  ]
+}

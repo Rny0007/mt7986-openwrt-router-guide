@@ -1,0 +1,140 @@
+{
+  "$schema": "../../schemas/device.schema.json",
+  "id": "buffalo-wsr-2533dhpl2",
+  "manufacturer": "Buffalo",
+  "model": "WSR-2533DHPL2",
+  "hardware_revision": "v1",
+  "regional_variant": "JP",
+  "internal_board_name": "buffalo_wsr-2533dhpl2",
+  "soc": {
+    "vendor": "MediaTek",
+    "model": "MT7621AT",
+    "family": "MT7621",
+    "cores": 2,
+    "frequency_mhz": 880
+  },
+  "architecture": "mipsel_24kc",
+  "ram_mb": 128,
+  "flash": {
+    "type": "SPI-NOR",
+    "capacity_mb": 64
+  },
+  "wireless": [
+    {
+      "radio_id": "radio0",
+      "chipset": "MediaTek MT7615E",
+      "frequency_ghz": 2.4,
+      "generation": "Wi-Fi 4",
+      "spatial_streams": "4x4",
+      "max_phy_rate_mbps": 800,
+      "channel_width_mhz": 40
+    },
+    {
+      "radio_id": "radio1",
+      "chipset": "MediaTek MT7615E",
+      "frequency_ghz": 5.0,
+      "generation": "Wi-Fi 5",
+      "spatial_streams": "4x4",
+      "max_phy_rate_mbps": 1733,
+      "channel_width_mhz": 80
+    }
+  ],
+  "ethernet": {
+    "switch_chip": "MediaTek MT7530 Integrated",
+    "ports": [
+      {
+        "name": "INTERNET",
+        "type": "WAN",
+        "speed_mbps": 1000,
+        "dsa_port": "wan"
+      },
+      {
+        "name": "LAN1",
+        "type": "LAN",
+        "speed_mbps": 1000,
+        "dsa_port": "lan1"
+      },
+      {
+        "name": "LAN2",
+        "type": "LAN",
+        "speed_mbps": 1000,
+        "dsa_port": "lan2"
+      },
+      {
+        "name": "LAN3",
+        "type": "LAN",
+        "speed_mbps": 1000,
+        "dsa_port": "lan3"
+      },
+      {
+        "name": "LAN4",
+        "type": "LAN",
+        "speed_mbps": 1000,
+        "dsa_port": "lan4"
+      }
+    ]
+  },
+  "bootloader": "U-Boot",
+  "serial_uart": {
+    "available": true,
+    "voltage": "3.3V",
+    "baudrate": 115200,
+    "pinout_documented": true,
+    "notes": "3.3V UART pads: VCC (DO NOT CONNECT), TX, RX, GND."
+  },
+  "openwrt": {
+    "target": "ramips",
+    "subtarget": "mt7621",
+    "profile": "buffalo_wsr-2533dhpl2",
+    "support_status": "OFFICIALLY_SUPPORTED",
+    "first_supported_version": "21.02.0",
+    "latest_tested_version": "23.05.5",
+    "firmware_selector_url": "https://firmware-selector.openwrt.org/?version=23.05.5&target=ramips%2Fmt7621&id=buffalo_wsr-2533dhpl2",
+    "device_tree_file": "mt7621-buffalo-wsr-2533dhpl2.dts",
+    "known_limitations": [
+      "128MB RAM requires careful package selection (avoid heavy Adblock lists alongside heavy torrents)",
+      "Hardware flow offloading (PPE) recommended for full gigabit NAT throughput"
+    ]
+  },
+  "installation": {
+    "method": "TFTP Boot / Recovery",
+    "risk": "MEDIUM",
+    "requires_factory_stage": true,
+    "guide_link": "https://openwrt.org/toh/buffalo/wsr-2533dhpl2"
+  },
+  "recovery": {
+    "method": "TFTP Push (Automated)",
+    "recovery_ip": "192.168.11.1",
+    "guide_link": "https://openwrt.org/toh/buffalo/wsr-2533dhpl2#recovery"
+  },
+  "verification": {
+    "status": "OFFICIALLY_SUPPORTED",
+    "evidence": [
+      "Upstream OpenWrt target ramips/mt7621 in Git",
+      "Linux kernel tree mt7621-buffalo-wsr-2533dhpl2.dts",
+      "OpenWrt ToH verified profile"
+    ],
+    "last_verified": "2026-11-15"
+  },
+  "popularity": {
+    "tier": "HIGH_INTEREST",
+    "signals": [
+      "Extremely popular low-cost Wi-Fi 5 router in Japan",
+      "Substantial open-source enthusiast community coverage"
+    ]
+  },
+  "sources": [
+    {
+      "title": "OpenWrt Table of Hardware: Buffalo WSR-2533DHPL2",
+      "url": "https://openwrt.org/toh/buffalo/wsr-2533dhpl2",
+      "type": "OPENWRT_TOH",
+      "date_accessed": "2026-11-15"
+    },
+    {
+      "title": "OpenWrt Git: ramips image Makefile",
+      "url": "https://git.openwrt.org/?p=openwrt/openwrt.git;a=blob;f=target/linux/ramips/image/mt7621.mk",
+      "type": "OPENWRT_GIT",
+      "date_accessed": "2026-11-15"
+    }
+  ]
+}

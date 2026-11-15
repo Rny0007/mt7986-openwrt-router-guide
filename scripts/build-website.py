@@ -13,6 +13,9 @@ import shutil
 import urllib.parse
 from datetime import datetime, timezone
 
+sys.path.insert(0, os.path.dirname(__file__))
+import categories_generator
+
 REPO_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 DATA_DIR = os.path.join(REPO_ROOT, "data")
 DEVICES_DIR = os.path.join(DATA_DIR, "devices")
@@ -49,6 +52,7 @@ def get_header(title, rel_root=".", current_nav="", description=None, canonical_
         ("Explorer", f"{rel_root}/explorer/index.html", "explorer"),
         ("Devices", f"{rel_root}/devices/index.html", "devices"),
         ("Chipsets", f"{rel_root}/chipsets/index.html", "chipsets"),
+        ("Guides", f"{rel_root}/categories/index.html", "categories"),
         ("Diagrams", f"{rel_root}/diagrams/index.html", "diagrams"),
         ("Installation", f"{rel_root}/guides/installation/index.html", "installation"),
         ("Recovery", f"{rel_root}/guides/recovery/index.html", "recovery"),
@@ -189,7 +193,7 @@ def get_footer(rel_root=".", goatcounter_code=""):
         <div class="visitor-telemetry" style="margin-top: 1rem;">
           <span class="telemetry-badge" id="telemetry-badge">
             <span class="pulse-dot"></span>
-            <strong>48 Devices Cataloged</strong> &bull; 15 Silicon Platforms &bull; 100% Citations Verified
+            <strong>72 Devices Cataloged</strong> &bull; 20 Silicon Platforms &bull; 100% Citations Verified
           </span>
         </div>
       </div>
@@ -197,8 +201,9 @@ def get_footer(rel_root=".", goatcounter_code=""):
         <h4>Hardware Intelligence</h4>
         <ul>
           <li><a href="{rel_root}/explorer/index.html">Hardware Explorer</a></li>
-          <li><a href="{rel_root}/devices/index.html">Device Directory (48)</a></li>
-          <li><a href="{rel_root}/chipsets/index.html">Silicon Architectures (15)</a></li>
+          <li><a href="{rel_root}/devices/index.html">Device Directory (72)</a></li>
+          <li><a href="{rel_root}/chipsets/index.html">Silicon Architectures (20)</a></li>
+          <li><a href="{rel_root}/categories/index.html">Curated Buyer Guides (8)</a></li>
           <li><a href="{rel_root}/diagrams/index.html">Interactive Diagrams</a></li>
         </ul>
       </div>
@@ -1655,9 +1660,10 @@ def generate_homepage(devices, chipsets):
       </div>
 
       <div class="hero-cta">
-        <a href="explorer/index.html" class="btn btn-primary">⚡ Launch Hardware Explorer (48)</a>
-        <a href="diagrams/index.html" class="btn btn-outline">📊 View Architecture Diagrams</a>
-        <a href="devices/index.html" class="btn btn-outline">📁 Device Directory</a>
+        <a href="explorer/index.html" class="btn btn-primary">⚡ Launch Hardware Explorer ({len(devices)})</a>
+        <a href="categories/index.html" class="btn btn-outline">🏆 Curated Buyer Guides</a>
+        <a href="diagrams/index.html" class="btn btn-outline">📊 Architecture Diagrams</a>
+        <a href="devices/index.html" class="btn btn-outline">📁 Device Directory ({len(devices)})</a>
         <a href="guides/recovery/index.html" class="btn btn-outline">🛠 Disaster Recovery Guide</a>
       </div>
     </section>
@@ -1873,13 +1879,14 @@ def generate_homepage(devices, chipsets):
       <span class="badge badge-info">v2.1 Production Release</span>
     </div>
     <div class="card" style="margin-bottom: 3.5rem;">
-      <h3 style="color: var(--text-heading); font-size: 1.15rem; margin-bottom: 0.75rem;">Release v2.1: Multi-Vendor Database Expansion & Dedicated Guide System</h3>
+      <h3 style="color: var(--text-heading); font-size: 1.15rem; margin-bottom: 0.75rem;">Release v2.2: Global Hardware Discovery & SEO Expansion</h3>
       <ul style="margin: 0 0 1rem 1.5rem; font-size: 0.88rem; color: var(--text); line-height: 1.7;">
-        <li>Expanded catalog to <strong>48 verified hardware devices</strong> across 18 manufacturers.</li>
-        <li>Integrated <strong>15 silicon architecture profiles</strong> across MediaTek, Qualcomm, Rockchip, Broadcom, Realtek, and x86_64.</li>
-        <li>Published <strong>48 dedicated device installation guides</strong> under <code>/guides/install/&lt;slug&gt;/</code>.</li>
-        <li>Published <strong>48 dedicated disaster recovery guides</strong> under <code>/guides/recovery/&lt;slug&gt;/</code>.</li>
-        <li>Introduced responsive mobile navigation drawer, theme persistence, and global search deep-linking.</li>
+        <li>Expanded catalog to <strong>72 verified hardware devices</strong> across 31 manufacturers worldwide.</li>
+        <li>Integrated <strong>20 silicon architecture profiles</strong> across MediaTek, Qualcomm, Marvell, Rockchip, Broadcom, Realtek, and Intel x86_64.</li>
+        <li>Published <strong>8 curated search-intent category landing pages</strong> with comparison tables and evaluation criteria.</li>
+        <li>Published <strong>72 dedicated device installation guides</strong> under <code>/guides/install/&lt;slug&gt;/</code>.</li>
+        <li>Published <strong>72 dedicated disaster recovery guides</strong> with strict 3.3V TTL safety mandates under <code>/guides/recovery/&lt;slug&gt;/</code>.</li>
+        <li>Updated sitemap, JSON-LD structured data (TechArticle, ItemList), and real-time explorer deep-linking.</li>
       </ul>
       <p style="font-size: 0.85rem; color: var(--text-muted);">View full project history in <a href="https://github.com/Rny0007/mt7986-openwrt-router-guide/blob/main/CHANGELOG.md" target="_blank" rel="noopener">CHANGELOG.md &rarr;</a></p>
     </div>
@@ -1903,7 +1910,7 @@ def generate_homepage(devices, chipsets):
       </div>
     </section>
     """
-    desc = "Global OpenWrt router hardware knowledge base. Discover, verify, and compare 48 OpenWrt-compatible routers, switches, and SoCs across 18 manufacturers."
+    desc = f"Global OpenWrt router hardware knowledge base. Discover, verify, and compare {len(devices)} OpenWrt-compatible routers, switches, and SoCs across 31 manufacturers."
     return get_header("Global Hardware Intelligence", current_nav="home", description=desc, canonical_path="") + content + get_footer()
 
 def generate_device_directory(devices):
@@ -3729,6 +3736,7 @@ def generate_sitemap(devices, chipsets):
         f"{BASE_URL}/explorer/",
         f"{BASE_URL}/devices/",
         f"{BASE_URL}/chipsets/",
+        f"{BASE_URL}/categories/",
         f"{BASE_URL}/diagrams/",
         f"{BASE_URL}/guides/installation/",
         f"{BASE_URL}/guides/recovery/",
@@ -3738,6 +3746,8 @@ def generate_sitemap(devices, chipsets):
         f"{BASE_URL}/about/",
         f"{BASE_URL}/licensing/"
     ]
+    for cat in categories_generator.CATEGORIES_META:
+        urls.append(f"{BASE_URL}/categories/{cat['slug']}/")
     for d in devices:
         urls.append(f"{BASE_URL}/devices/{d['id']}/")
         urls.append(f"{BASE_URL}/guides/install/{d['id']}/")
@@ -3863,6 +3873,10 @@ def build_all():
         with open(os.path.join(chip_dir, "index.html"), "w", encoding="utf-8") as fp:
             fp.write(generate_chipset_page(c, devices))
 
+    # Curated Search-Intent Categories & Buyer Guides
+    dev_dict = {d["id"]: d for d in devices}
+    categories_generator.build_categories(SITE_DIR, dev_dict, sys.modules[__name__])
+
     # Create Repo B README in site/
     repo_b_readme = """# OpenWrt Router Hardware Explorer (Live Website)
 
@@ -3891,7 +3905,7 @@ Please submit all pull requests, hardware submissions, bug reports, and correcti
     with open(os.path.join(SITE_DIR, "README.md"), "w", encoding="utf-8") as fp:
         fp.write(repo_b_readme)
 
-    print(f"[SUCCESS] Website build complete! Generated {len(devices)} device profiles, {len(devices)} install guides, {len(devices)} recovery guides, {len(chipsets)} chipset pages, and full sitemap in site/")
+    print(f"[SUCCESS] Website build complete! Generated {len(devices)} device profiles, {len(devices)} install guides, {len(devices)} recovery guides, {len(chipsets)} chipset pages, {len(categories_generator.CATEGORIES_META)} category landing pages, and full sitemap in site/")
 
 if __name__ == "__main__":
     build_all()

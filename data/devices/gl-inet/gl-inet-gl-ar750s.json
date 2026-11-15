@@ -1,0 +1,134 @@
+{
+  "$schema": "../../schemas/device.schema.json",
+  "id": "gl-inet-gl-ar750s",
+  "manufacturer": "GL.iNet",
+  "model": "GL-AR750S (Slate)",
+  "hardware_revision": "v1 (Ext)",
+  "regional_variant": "Global",
+  "internal_board_name": "glinet_gl-ar750s",
+  "soc": {
+    "vendor": "Qualcomm",
+    "model": "QCA9563",
+    "family": "Dragonfly",
+    "cores": 1,
+    "frequency_mhz": 775
+  },
+  "architecture": "mips_74kc",
+  "ram_mb": 128,
+  "flash": {
+    "type": "SPI-NOR",
+    "capacity_mb": 16
+  },
+  "wireless": [
+    {
+      "radio_id": "radio0",
+      "chipset": "Qualcomm Atheros QCA9563",
+      "frequency_ghz": 2.4,
+      "generation": "Wi-Fi 4",
+      "spatial_streams": "3x3",
+      "max_phy_rate_mbps": 450,
+      "channel_width_mhz": 40
+    },
+    {
+      "radio_id": "radio1",
+      "chipset": "Qualcomm Atheros QCA9887",
+      "frequency_ghz": 5.0,
+      "generation": "Wi-Fi 5",
+      "spatial_streams": "1x1",
+      "max_phy_rate_mbps": 433,
+      "channel_width_mhz": 80
+    }
+  ],
+  "ethernet": {
+    "switch_chip": "Qualcomm QCA8337",
+    "ports": [
+      {
+        "name": "WAN",
+        "type": "WAN",
+        "speed_mbps": 1000,
+        "dsa_port": "wan"
+      },
+      {
+        "name": "LAN1",
+        "type": "LAN",
+        "speed_mbps": 1000,
+        "dsa_port": "lan1"
+      },
+      {
+        "name": "LAN2",
+        "type": "LAN",
+        "speed_mbps": 1000,
+        "dsa_port": "lan2"
+      }
+    ]
+  },
+  "usb_ports": [
+    {
+      "type": "USB 2.0 Type-A",
+      "count": 1
+    }
+  ],
+  "bootloader": "U-Boot",
+  "serial_uart": {
+    "available": true,
+    "voltage": "3.3V",
+    "baudrate": 115200,
+    "pinout_documented": true,
+    "notes": "Internal 3.3V UART pads: VCC (DO NOT CONNECT), TX, RX, GND."
+  },
+  "openwrt": {
+    "target": "ath79",
+    "subtarget": "nand",
+    "profile": "glinet_gl-ar750s-nor-nand",
+    "support_status": "OFFICIALLY_SUPPORTED",
+    "first_supported_version": "19.07.0",
+    "latest_tested_version": "23.05.5",
+    "firmware_selector_url": "https://firmware-selector.openwrt.org/?version=23.05.5&target=ath79%2Fnand&id=glinet_gl-ar750s-nor-nand",
+    "device_tree_file": "qca9563-glinet-gl-ar750s.dts",
+    "known_limitations": [
+      "Dual NOR (16MB) + NAND (128MB) flash architecture requires standard ath79 nand image",
+      "Single core 775MHz CPU limits WireGuard VPN throughput to ~45Mbps"
+    ]
+  },
+  "installation": {
+    "method": "OEM Web GUI Flash",
+    "risk": "LOW",
+    "requires_factory_stage": false,
+    "guide_link": "https://openwrt.org/toh/gl.inet/gl-ar750s"
+  },
+  "recovery": {
+    "method": "U-Boot Recovery Webpage",
+    "recovery_ip": "192.168.1.1",
+    "guide_link": "https://docs.gl-inet.com/router/en/3/tutorials/debrick/"
+  },
+  "verification": {
+    "status": "OFFICIALLY_SUPPORTED",
+    "evidence": [
+      "Upstream OpenWrt target ath79/nand in Git",
+      "Linux kernel DTS qca9563-glinet-gl-ar750s.dts",
+      "OpenWrt ToH verified profile"
+    ],
+    "last_verified": "2026-11-15"
+  },
+  "popularity": {
+    "tier": "VERY_HIGH_INTEREST",
+    "signals": [
+      "Legendary travel router with cult following among digital nomads and cybersecurity auditors",
+      "Thousands of active community reviews"
+    ]
+  },
+  "sources": [
+    {
+      "title": "OpenWrt Table of Hardware: GL.iNet GL-AR750S",
+      "url": "https://openwrt.org/toh/gl.inet/gl-ar750s",
+      "type": "OPENWRT_TOH",
+      "date_accessed": "2026-11-15"
+    },
+    {
+      "title": "OpenWrt Git: ath79 nand profile definition",
+      "url": "https://git.openwrt.org/?p=openwrt/openwrt.git;a=blob;f=target/linux/ath79/image/nand.mk",
+      "type": "OPENWRT_GIT",
+      "date_accessed": "2026-11-15"
+    }
+  ]
+}

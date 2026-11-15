@@ -1,0 +1,136 @@
+{
+  "$schema": "../../schemas/device.schema.json",
+  "id": "gl-inet-gl-sft1200",
+  "manufacturer": "GL.iNet",
+  "model": "GL-SFT1200 (Opal)",
+  "hardware_revision": "v1",
+  "regional_variant": "Global",
+  "internal_board_name": "glinet_gl-sft1200",
+  "soc": {
+    "vendor": "Siflower",
+    "model": "SF19A2890",
+    "family": "Siflower Full-Gigabit",
+    "cores": 2,
+    "frequency_mhz": 1000
+  },
+  "architecture": "mips_1004kc",
+  "ram_mb": 128,
+  "flash": {
+    "type": "SPI-NAND",
+    "capacity_mb": 128
+  },
+  "wireless": [
+    {
+      "radio_id": "radio0",
+      "chipset": "Integrated Siflower 2.4G",
+      "frequency_ghz": 2.4,
+      "generation": "Wi-Fi 4",
+      "spatial_streams": "2x2",
+      "max_phy_rate_mbps": 300,
+      "channel_width_mhz": 40
+    },
+    {
+      "radio_id": "radio1",
+      "chipset": "Integrated Siflower 5G",
+      "frequency_ghz": 5.0,
+      "generation": "Wi-Fi 5",
+      "spatial_streams": "2x2",
+      "max_phy_rate_mbps": 867,
+      "channel_width_mhz": 80
+    }
+  ],
+  "ethernet": {
+    "switch_chip": "Integrated Siflower Switch",
+    "ports": [
+      {
+        "name": "WAN",
+        "type": "WAN",
+        "speed_mbps": 1000,
+        "dsa_port": "wan"
+      },
+      {
+        "name": "LAN1",
+        "type": "LAN",
+        "speed_mbps": 1000,
+        "dsa_port": "lan1"
+      },
+      {
+        "name": "LAN2",
+        "type": "LAN",
+        "speed_mbps": 1000,
+        "dsa_port": "lan2"
+      }
+    ]
+  },
+  "usb_ports": [
+    {
+      "type": "USB 2.0 Type-A",
+      "count": 1
+    }
+  ],
+  "bootloader": "U-Boot",
+  "serial_uart": {
+    "available": true,
+    "voltage": "3.3V",
+    "baudrate": 115200,
+    "pinout_documented": true,
+    "notes": "UART pads on board: 3.3V, TX, RX, GND. Do NOT connect VCC."
+  },
+  "openwrt": {
+    "target": "siflower",
+    "subtarget": "sf19a2890",
+    "profile": "glinet_gl-sft1200",
+    "support_status": "COMMUNITY_VERIFIED",
+    "first_supported_version": "OpenWrt 18.06 (GL.iNet Fork)",
+    "latest_tested_version": "GL.iNet OS 4.3.17",
+    "firmware_selector_url": "https://dl.gl-inet.com/router/sft1200/",
+    "device_tree_file": "sf19a2890-gl-sft1200.dts",
+    "known_limitations": [
+      "Not merged into upstream mainline OpenWrt due to Siflower proprietary Wi-Fi kernel driver",
+      "Official GL.iNet firmware is based on customized OpenWrt 18.06 / 21.02 trees with proprietary wireless modules",
+      "Third-party upstream Linux open-source Wi-Fi driver development remains experimental"
+    ]
+  },
+  "installation": {
+    "method": "OEM Web GUI Flash",
+    "risk": "LOW",
+    "requires_factory_stage": false,
+    "guide_link": "https://docs.gl-inet.com/router/en/3/setup/gl-sft1200/first-time_setup/"
+  },
+  "recovery": {
+    "method": "U-Boot Recovery Webpage",
+    "recovery_ip": "192.168.1.1",
+    "guide_link": "https://docs.gl-inet.com/router/en/3/tutorials/debrick/"
+  },
+  "verification": {
+    "status": "COMMUNITY_VERIFIED",
+    "evidence": [
+      "GL.iNet official firmware repository based on OpenWrt",
+      "Community Siflower SDK reverse engineering repositories on GitHub",
+      "OpenWrt forum thread on Siflower SF19A2890 architecture"
+    ],
+    "last_verified": "2026-11-15"
+  },
+  "popularity": {
+    "tier": "VERY_HIGH_INTEREST",
+    "signals": [
+      "Amazon #1 bestseller portable travel router",
+      "Massive search interest from travelers seeking low-cost VPN router",
+      "Frequent OpenWrt forum queries regarding mainline support"
+    ]
+  },
+  "sources": [
+    {
+      "title": "GL.iNet Opal (GL-SFT1200) Technical Specifications",
+      "url": "https://www.gl-inet.com/products/gl-sft1200/",
+      "type": "OEM_SPEC",
+      "date_accessed": "2026-11-15"
+    },
+    {
+      "title": "OpenWrt Forum: GL-SFT1200 Siflower Mainline Support Discussion",
+      "url": "https://forum.openwrt.org/t/support-for-gl-sft1200-opal/110901",
+      "type": "OPENWRT_FORUM",
+      "date_accessed": "2026-11-15"
+    }
+  ]
+}
